@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GPD.WEB")]
+[assembly: AssemblyTitle("GPD.WEB.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GPD.WEB")]
+[assembly: AssemblyProduct("GPD.WEB.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cea861f7-2e35-46bd-913c-08f47f0d82f1")]
+[assembly: Guid("da7d5249-1265-44e4-a258-5b4abdf85bdf")]
 
 // Version information for an assembly consists of the following four values:
 //
