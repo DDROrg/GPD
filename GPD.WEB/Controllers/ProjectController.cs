@@ -13,6 +13,7 @@ namespace GPD.WEB.Controllers
     /// </summary>
     public class ProjectController : ApiController
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
         List<ProjectDTO> projectsList = new List<ProjectDTO>();
         
 
@@ -22,6 +23,7 @@ namespace GPD.WEB.Controllers
         /// <returns></returns>
         public List<ProjectDTO> Get()
         {
+            log.Debug("Test log message");
             return projectsList;
         }
 
