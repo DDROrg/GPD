@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GPD.Facade
 {
-    public class Class1
+    class Class1
     {
     }
 }
