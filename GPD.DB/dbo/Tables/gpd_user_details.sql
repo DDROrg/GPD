@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[gpd_user_details] (
+    [user_id]         INT         IDENTITY (100, 1) NOT NULL,
+    [last_name]       NCHAR (150) NULL,
+    [first_name]      NCHAR (150) NULL,
+    [full_name]       NCHAR (150) NULL,
+    [email]           NCHAR (150) NOT NULL,
+    [company]         NCHAR (150) NULL,
+    [job_title]       NCHAR (150) NULL,
+    [business_phone]  NCHAR (50)  NULL,
+    [home_phone]      NCHAR (50)  NULL,
+    [mobile_phone]    NCHAR (50)  NULL,
+    [fax_number]      NCHAR (50)  NULL,
+    [address_line_1]  NCHAR (150) NULL,
+    [address_line_2]  NCHAR (150) NULL,
+    [city]            NCHAR (150) NULL,
+    [state_province]  NCHAR (50)  NULL,
+    [zip_postal_code] NCHAR (50)  NULL,
+    [country]         NCHAR (50)  NULL,
+    [active]          BIT         NOT NULL,
+    [create_date]     DATE        NOT NULL,
+    [update_date]     DATE        NULL,
+    CONSTRAINT [PK_gpd_user_details] PRIMARY KEY CLUSTERED ([user_id] ASC),
+    CONSTRAINT [IX_gpd_user_details] UNIQUE NONCLUSTERED ([email] ASC)
+);
+
