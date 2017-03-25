@@ -73,5 +73,11 @@
     <Build Include="dbo\Tables\gpd_project_session.sql" />
     <Build Include="dbo\Tables\gpd_project_user_xref.sql" />
     <Build Include="dbo\Tables\gpd_user_details.sql" />
+    <Build Include="dbo\Tables\gpd_user_group.sql" />
+    <Build Include="dbo\Tables\gpd_client_detail.sql" />
+    <Build Include="dbo\Tables\gpd_client_user_group_xref.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="GPD.DB.refactorlog" />
   </ItemGroup>
 </Project>

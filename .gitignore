@@ -302,3 +302,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /GPD.WEB/App_Data/GPDDocument.xml
+*.jfm
