@@ -30,10 +30,10 @@ namespace GPD.DAL.SqlDB
 
             using (SqlConnection conn = new SqlConnection(this._db_connection))
             {
-                using (SqlCommand comm = new SqlCommand(sql.ToString(), conn))
+                using (SqlCommand cmd = new SqlCommand(sql.ToString(), conn))
                 {
-                    comm.CommandTimeout = 1000;
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(comm))
+                    cmd.CommandTimeout = 1000;
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
                     {
                         conn.Open();
 
@@ -43,8 +43,31 @@ namespace GPD.DAL.SqlDB
                         adapter.Fill(dataSet);
                     }
                 }
-
                 conn.Close();
+            }
+            return dataSet;
+        }
+
+        internal DataSet GetDSBasedOnStoreProcedure(string storedProdName, List<SqlParameter> parametersList)
+        {
+            DataSet dataSet = new DataSet();
+
+            using (SqlConnection conn = new SqlConnection(this._db_connection))
+            {
+                using (SqlCommand cmd = new SqlCommand(storedProdName, conn))
+                {
+                    conn.Open();
+                    cmd.CommandTimeout = 1000;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    {
+                        if (parametersList != null && parametersList.Count > 0)
+                            adapter.SelectCommand.Parameters.AddRange(parametersList.ToArray());
+
+                        adapter.Fill(dataSet);
+                    }                       
+                    conn.Close();
+                }
             }
 
             return dataSet;
@@ -62,6 +85,23 @@ namespace GPD.DAL.SqlDB
                     cmd.ExecuteNonQuery();
                 }
 
+                conn.Close();
+            }
+        }
+
+        internal void ExecuteStoreProcedure(string storedProdName, List<SqlParameter> parametersList)
+        {
+            using (SqlConnection conn = new SqlConnection(this._db_connection))
+            {
+                using (SqlCommand cmd = new SqlCommand(storedProdName, conn))
+                {
+                    conn.Open();
+                    cmd.CommandTimeout = 1000;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (parametersList != null && parametersList.Count > 0)
+                        cmd.Parameters.AddRange(parametersList.ToArray());
+                    cmd.ExecuteNonQuery();
+                }
                 conn.Close();
             }
         }
