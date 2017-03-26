@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPD.DAL", "GPD.DAL\GPD.DAL.
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GPD.DB", "GPD.DB\GPD.DB.sqlproj", "{37504673-2B96-4C2F-ABEC-4D41B6A17A43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPD.Utility", "GPD.Utility\GPD.Utility.csproj", "{EB49DD74-DA00-4757-A937-583900692BAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{37504673-2B96-4C2F-ABEC-4D41B6A17A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37504673-2B96-4C2F-ABEC-4D41B6A17A43}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37504673-2B96-4C2F-ABEC-4D41B6A17A43}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{EB49DD74-DA00-4757-A937-583900692BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB49DD74-DA00-4757-A937-583900692BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB49DD74-DA00-4757-A937-583900692BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB49DD74-DA00-4757-A937-583900692BAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

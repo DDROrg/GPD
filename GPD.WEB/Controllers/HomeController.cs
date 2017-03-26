@@ -6,13 +6,20 @@ using System.Web.Mvc;
 
 namespace GPD.WEB.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    [Authorize]
     public class HomeController : Controller
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
-
+            ViewBag.Title = "GPD - Home";
             return View();
-        }
+        }        
     }
 }

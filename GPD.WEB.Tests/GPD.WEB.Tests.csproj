@@ -34,7 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -94,6 +96,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\ProjectControllerTest.cs" />
+    <Compile Include="Utility\EncryptionHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -106,11 +109,16 @@
       <Project>{5ff2ef40-c386-49c4-aeab-40510bdd36cb}</Project>
       <Name>GPD.ServiceEntities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GPD.Utility\GPD.Utility.csproj">
+      <Project>{eb49dd74-da00-4757-a937-583900692baf}</Project>
+      <Name>GPD.Utility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GPD.WEB\GPD.WEB.csproj">
       <Project>{BA859171-9C3E-4271-931A-969104C2EBCB}</Project>
       <Name>GPD.WEB</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

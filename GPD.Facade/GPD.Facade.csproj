@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="SignInManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +55,10 @@
     <ProjectReference Include="..\GPD.ServiceEntities\GPD.ServiceEntities.csproj">
       <Project>{5ff2ef40-c386-49c4-aeab-40510bdd36cb}</Project>
       <Name>GPD.ServiceEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GPD.Utility\GPD.Utility.csproj">
+      <Project>{eb49dd74-da00-4757-a937-583900692baf}</Project>
+      <Name>GPD.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -162,6 +162,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Global.asax.cs">
@@ -200,6 +201,9 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -220,6 +224,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GPD.Facade\GPD.Facade.csproj">
@@ -229,6 +235,10 @@
     <ProjectReference Include="..\GPD.ServiceEntities\GPD.ServiceEntities.csproj">
       <Project>{5ff2ef40-c386-49c4-aeab-40510bdd36cb}</Project>
       <Name>GPD.ServiceEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GPD.Utility\GPD.Utility.csproj">
+      <Project>{eb49dd74-da00-4757-a937-583900692baf}</Project>
+      <Name>GPD.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
