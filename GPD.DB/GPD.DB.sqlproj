@@ -61,6 +61,7 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\gpd_categories.sql" />
@@ -74,7 +75,8 @@
     <Build Include="dbo\Tables\gpd_project_user_xref.sql" />
     <Build Include="dbo\Tables\gpd_user_details.sql" />
     <Build Include="dbo\Tables\gpd_user_group.sql" />
-    <Build Include="dbo\Tables\gpd_client_detail.sql" />
     <Build Include="dbo\Tables\gpd_client_user_group_xref.sql" />
+    <Build Include="dbo\Stored Procedures\uspAddProject.sql" />
+    <Build Include="dbo\Tables\gpd_client_details.sql" />
   </ItemGroup>
 </Project>
