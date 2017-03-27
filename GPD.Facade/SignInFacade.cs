@@ -12,7 +12,7 @@ namespace GPD.Facade
     /// <summary>
     /// 
     /// </summary>
-    public class SignInManager
+    public class SignInFacade
     {
         /// <summary>
         /// 

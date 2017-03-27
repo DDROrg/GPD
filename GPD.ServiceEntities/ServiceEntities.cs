@@ -19,7 +19,7 @@ namespace GPD.ServiceEntities
         public int ProjectId;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "LocationDTO")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "location")]
     public class LocationDTO
     {
         [DataMember(Name = "address1", Order = 1)]
@@ -35,7 +35,7 @@ namespace GPD.ServiceEntities
         public string Zip;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "MaterialDTO")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "material")]
     public class MaterialDTO
     {
         [DataMember(Name = "id", Order = 1)]
@@ -48,7 +48,7 @@ namespace GPD.ServiceEntities
         public MaterialTypeDTO Type { get; set; }
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "MaterialProductDTO")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "material-product")]
     public class MaterialProductDTO
     {
         [DataMember(Name = "manufacturer", Order = 1)]
@@ -61,14 +61,14 @@ namespace GPD.ServiceEntities
         public string Name;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "MaterialTypeDTO")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "material-type")]
     public class MaterialTypeDTO
     {
         [DataMember(Name = "name", Order = 1)]
         public string Name;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "LocationDTO")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "application")]
     public class ApplicationDTO
     {
         [DataMember(Name = "build", Order = 1)]
@@ -90,7 +90,7 @@ namespace GPD.ServiceEntities
         public string Version;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "ProjectDTO")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "project")]
     public class ProjectDTO
     {
         [DataMember(Name = "author", Order = 1)]
@@ -133,10 +133,10 @@ namespace GPD.ServiceEntities
         public string Status;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "SessionDTO")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "session")]
     public class SessionDTO
     {
-        [DataMember(Name = "@type", Order = 1)]
+        [DataMember(Name = "type", Order = 1)]
         public string Type;
 
         [DataMember(Name = "application", Order = 2)]
@@ -146,7 +146,7 @@ namespace GPD.ServiceEntities
         public string Platform;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "CategoryDTO")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "category")]
     public class CategoryDTO
     {
         [DataMember(Name = "taxonomy", Order = 1)]
@@ -156,7 +156,7 @@ namespace GPD.ServiceEntities
         public string Title;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "IdentifierDTO")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "identifier")]
     public class IdentifierDTO
     {
         [DataMember(Name = "identifier", Order = 1)]
@@ -166,7 +166,7 @@ namespace GPD.ServiceEntities
         public string SystemName;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "ItemProductDTO")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "item-product")]
     public class ItemProductDTO
     {
         [DataMember(Name = "id", Order = 1)]
@@ -185,7 +185,7 @@ namespace GPD.ServiceEntities
         public string URL;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "ItemDTO")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "item")]
     public class ItemDTO
     {
         [DataMember(Name = "categories", Order = 1)]

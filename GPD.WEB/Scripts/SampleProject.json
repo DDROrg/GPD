@@ -18427,7 +18427,7 @@
     "organization-description": "",
     "organization-name": "Global Product Data, LLC.",
     "session": {
-        "@type": "ApplicationSession",
+        "type": "ApplicationSession",
         "application": {
             "build": "20150714_1515(x64)",
             "name": "Autodesk Revit 2016",

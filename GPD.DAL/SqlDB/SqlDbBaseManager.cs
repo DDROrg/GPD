@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Linq;
 
 namespace GPD.DAL.SqlDB
 {
@@ -65,7 +66,7 @@ namespace GPD.DAL.SqlDB
                             adapter.SelectCommand.Parameters.AddRange(parametersList.ToArray());
 
                         adapter.Fill(dataSet);
-                    }                       
+                    }
                     conn.Close();
                 }
             }
@@ -89,8 +90,9 @@ namespace GPD.DAL.SqlDB
             }
         }
 
-        internal void ExecuteStoreProcedure(string storedProdName, List<SqlParameter> parametersList)
+        internal object ExecuteStoreProcedure(string storedProdName, List<SqlParameter> parametersList)
         {
+            object retVal = null;
             using (SqlConnection conn = new SqlConnection(this._db_connection))
             {
                 using (SqlCommand cmd = new SqlCommand(storedProdName, conn))
@@ -101,9 +103,16 @@ namespace GPD.DAL.SqlDB
                     if (parametersList != null && parametersList.Count > 0)
                         cmd.Parameters.AddRange(parametersList.ToArray());
                     cmd.ExecuteNonQuery();
+
+                    string outParam = parametersList.Where(i => i.Direction != ParameterDirection.ReturnValue).Select(i => i.ParameterName).FirstOrDefault();
+                    if (!string.IsNullOrEmpty(outParam))
+                    {
+                        retVal = cmd.Parameters["ReturnValue"].Value;
+                    }
                 }
                 conn.Close();
             }
+            return retVal;
         }
 
         internal string GetSingleValueFromQuery(StringBuilder sql, List<SqlParameter> parametersList)

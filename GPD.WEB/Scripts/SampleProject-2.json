@@ -1,0 +1,139 @@
+﻿{
+    "author": "sample string 1",
+    "building-name": "sample string 2",
+    "client": "sample string 3",
+    "filename": "sample string 4",
+    "identifiers": [
+        {
+            "identifier": "sample string 1",
+            "system": "sample string 2"
+        },
+        {
+            "identifier": "sample string 1",
+            "system": "sample string 2"
+        }
+    ],
+    "items": [
+        {
+            "categories": [
+                {
+                    "taxonomy": "sample string 1",
+                    "title": "sample string 2"
+                },
+                {
+                    "taxonomy": "sample string 1",
+                    "title": "sample string 2"
+                }
+            ],
+            "currency": "sample string 1",
+            "family": "sample string 2",
+            "id": "sample string 3",
+            "materials": [
+                {
+                    "id": "sample string 1",
+                    "product": {
+                        "manufacturer": "sample string 1",
+                        "model": "sample string 2",
+                        "name": "sample string 3"
+                    },
+                    "type": {
+                        "name": "sample string 1"
+                    }
+                },
+                {
+                    "id": "sample string 1",
+                    "product": {
+                        "manufacturer": "sample string 1",
+                        "model": "sample string 2",
+                        "name": "sample string 3"
+                    },
+                    "type": {
+                        "name": "sample string 1"
+                    }
+                }
+            ],
+            "product": {
+                "id": "sample string 1",
+                "manufacturer": "sample string 2",
+                "model": "sample string 3",
+                "name": "sample string 4",
+                "url": "sample string 5"
+            },
+            "quantity": "sample string 4",
+            "quantity-unit": "sample string 5",
+            "type": "sample string 6"
+        },
+        {
+            "categories": [
+                {
+                    "taxonomy": "sample string 1",
+                    "title": "sample string 2"
+                },
+                {
+                    "taxonomy": "sample string 1",
+                    "title": "sample string 2"
+                }
+            ],
+            "currency": "sample string 1",
+            "family": "sample string 2",
+            "id": "sample string 3",
+            "materials": [
+                {
+                    "id": "sample string 1",
+                    "product": {
+                        "manufacturer": "sample string 1",
+                        "model": "sample string 2",
+                        "name": "sample string 3"
+                    },
+                    "type": {
+                        "name": "sample string 1"
+                    }
+                },
+                {
+                    "id": "sample string 1",
+                    "product": {
+                        "manufacturer": "sample string 1",
+                        "model": "sample string 2",
+                        "name": "sample string 3"
+                    },
+                    "type": {
+                        "name": "sample string 1"
+                    }
+                }
+            ],
+            "product": {
+                "id": "sample string 1",
+                "manufacturer": "sample string 2",
+                "model": "sample string 3",
+                "name": "sample string 4",
+                "url": "sample string 5"
+            },
+            "quantity": "sample string 4",
+            "quantity-unit": "sample string 5",
+            "type": "sample string 6"
+        }
+    ],
+    "location": {
+        "address1": "sample string 1",
+        "city": "sample string 2",
+        "state": "sample string 3",
+        "zip": "sample string 4"
+    },
+    "name": "sample string 5",
+    "number": "sample string 6",
+    "organization-description": "sample string 7",
+    "organization-name": "sample string 8",
+    "session": {
+        "type": "sample string 1",
+        "application": {
+            "build": "sample string 1",
+            "name": "sample string 2",
+            "plugin-build": "sample string 3",
+            "plugin-source": "sample string 4",
+            "type": "sample string 5",
+            "version": "sample string 6"
+        },
+        "platform": "sample string 2"
+    },
+    "status": "sample string 9"
+}

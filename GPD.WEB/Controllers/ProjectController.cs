@@ -8,14 +8,15 @@ using System.Web.Http;
 namespace GPD.WEB.Controllers
 {
     using ServiceEntities;
+
     /// <summary>
     /// 
     /// </summary>
     public class ProjectController : ApiController
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
-        List<ProjectDTO> projectsList = new List<ProjectDTO>();
-        
+        static List<ProjectDTO> projectsList = new List<ProjectDTO>();
+
 
         /// <summary>
         /// Get list of all Projects
@@ -52,7 +53,7 @@ namespace GPD.WEB.Controllers
         public AddProjectResponseDTO Add(ProjectDTO projectDTO)
         {
             projectsList.Add(projectDTO);
-            return new AddProjectResponseDTO(true, projectsList.Count - 1);
+            return new Facade.ProjectFacde().Add(projectDTO); 
         }
     }
 }

@@ -49,7 +49,7 @@ namespace GPD.WEB.Controllers
                 return View(model);
             }
 
-            var result = new Facade.SignInManager().PasswordSignIn(model.Email, model.Password);
+            var result = new Facade.SignInFacade().PasswordSignIn(model.Email, model.Password);
             switch (result)
             {
                 case ENUM.SignInStatus.Success:

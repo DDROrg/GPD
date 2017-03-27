@@ -207,6 +207,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\SampleProject-2.json" />
     <None Include="Scripts\SampleProject.json" />
     <Content Include="Scripts\SampleProject.xml" />
     <Content Include="Web.config" />
