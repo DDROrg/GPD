@@ -26,6 +26,7 @@ namespace GPD.Facade
                     var serializer = new DataContractSerializer(projectDTO.GetType());
                     serializer.WriteObject(writer, projectDTO);
                 }
+
                 int projectId = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(doc.Root);
                 retVal = new AddProjectResponseDTO(true, projectId);
             }
