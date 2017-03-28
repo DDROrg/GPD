@@ -1,7 +1,6 @@
 ﻿ALTER PROCEDURE [dbo].[gpd_AddProject]
 	@P_XML XML,
-	@P_SOURCE_CLIENT NVARCHAR (30),
-	@P_Return_ProjectId INT = -1 OUT,
+	@P_SOURCE_CLIENT NVARCHAR (30),	
 	@P_Return_ErrorCode INT OUT,
 	@P_Return_Message VARCHAR(1024) = '' OUT
 AS 
@@ -11,6 +10,7 @@ BEGIN
 /******************************
 *  Variable Declarations
 *******************************/   
+ DECLARE @V_ProjectId INT;
  DECLARE @V_Inserted_Ids TABLE ([ID] INT);
  DECLARE @V_I int = 0;
  DECLARE @V_COUNT int = 0; -- length of query results
@@ -32,7 +32,8 @@ BEGIN
 /******************************
 *  Initialize Variables
 *******************************/
- SELECT P_Return_ErrorCode = @@ERROR
+ SELECT @P_Return_ErrorCode = @@ERROR;
+ SELECT @V_ProjectId = -1; 
   
  BEGIN TRY
 	BEGIN TRAN
@@ -55,12 +56,12 @@ BEGIN
 		FROM @P_XML.nodes('/project') M(M);
 
 		-- GET PROJECT ID
-		SELECT TOP(1) @P_Return_ProjectId = [ID] FROM @V_Inserted_Ids;
+		SELECT TOP(1) @V_ProjectId = [ID] FROM @V_Inserted_Ids;
 
 		-- INDENTIFIER DATA
 		INSERT INTO gpd_project_identifier
 		SELECT			
-			@P_Return_ProjectId,
+			@V_ProjectId,
 			M.value('(identifier)[1]', 'NVARCHAR(250)'),
 			M.value('(system-name)[1]', 'NVARCHAR(150)'), 
 			getdate(), null
@@ -69,7 +70,7 @@ BEGIN
 		-- LOCATION DATA
 		INSERT gpd_project_location
 		SELECT
-			@P_Return_ProjectId,
+			@V_ProjectId,
 			ISNULL(M.value('(type)[1]', 'NVARCHAR(100)'), 'N/A'),
 			M.value('(address1)[1]', 'NVARCHAR(250)'),
 			M.value('(address2)[1]', 'NVARCHAR(250)'),
@@ -83,7 +84,7 @@ BEGIN
 		-- SESSION DATA
 		INSERT INTO gpd_project_session
 		SELECT
-			@P_Return_ProjectId,
+			@V_ProjectId,
 			M.value('(type)[1]', 'NVARCHAR(100)'),
 			M.value('(platform)[1]', 'NVARCHAR(150)'),
 			M.value('(application/build)[1]', 'NVARCHAR(150)'),
@@ -119,7 +120,7 @@ BEGIN
 				INSERT INTO gpd_project_item
 				OUTPUT INSERTED.item_id INTO @V_Inserted_Ids
 				SELECT			
-					@P_Return_ProjectId, [type], [currency], [family], 
+					@V_ProjectId, [type], [currency], [family], 
 					[product_id], [product_image_url], [product_manufacturer], [product_model], [product_name], [product_url],
 					null, getdate(), null
 				FROM @TempItem
@@ -160,6 +161,6 @@ BEGIN
 
  END CATCH
 
- RETURN @P_Return_ErrorCode
+ RETURN @V_ProjectId
 
 END;
