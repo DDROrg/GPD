@@ -11,46 +11,24 @@ BEGIN
 /******************************
 *  Variable Declarations
 *******************************/  
- DECLARE @ErrorStep  varchar(200)
-
+ DECLARE @ErrorStep  varchar(200);
  DECLARE @INSERTED_IDS TABLE ([ID] INT);
- 
- DECLARE @TempProject TABLE (
-	AUTHOR NVARCHAR(250),
-	BUILDING_NAME NVARCHAR(250),
-	CLIENT NVARCHAR(250),
-	[FILENAME] NVARCHAR(250),
-	[NAME] NVARCHAR(250),
-	[NUMBER] NVARCHAR(250),
-	ORGANIZATION_DESCRIPTION NVARCHAR(250),
-	ORGANIZATION_NAME NVARCHAR(250),
-	[STATUS] NVARCHAR(250)
- );
- 
- DECLARE @TempIdentifier TABLE (
-	[identifier] NVARCHAR(250),
-	[system] NVARCHAR(150)
- );
 
- DECLARE @TempLocation TABLE (
-	[type] NVARCHAR(100),
-	[address_line_1] NVARCHAR(250),
-	[address_line_2] NVARCHAR(250),
-	[city] NVARCHAR(250),
-	[state] NVARCHAR(250),
-	[zip] NVARCHAR(150),
-	[country] NVARCHAR(150)
- );
+ DECLARE @i int = 0;
+ DECLARE @count int = 0; -- length of query results
+ DECLARE @V_Item_Id int = 0;
 
- DECLARE @TempSession TABLE (
+ DECLARE @TempItem TABLE (
+	[id] INT IDENTITY(1, 1),
 	[type] NVARCHAR(100),
-	[platform] NVARCHAR(150),
-	[application_build] NVARCHAR(150),
-	[application_name] NVARCHAR(150),
-	[application_plugin_build] NVARCHAR(150),
-	[application_plugin_source] NVARCHAR(150),
-	[application_version] NVARCHAR(150),
-	[application_type] NVARCHAR(100)
+	[currency] NVARCHAR(100),
+	[family] NVARCHAR(250),
+	[product_id] INT,
+	[product_image_url] NVARCHAR(500),
+	[product_manufacturer] NVARCHAR(250),
+	[product_model] NVARCHAR(250),
+	[product_name] NVARCHAR(250),
+	[product_url] NVARCHAR(500)
  );
 
 /******************************
@@ -62,8 +40,10 @@ BEGIN
 	BEGIN TRAN
 		
 		-- PROJECT DATA
-		INSERT @TempProject
-		SELECT
+		INSERT INTO gpd_project
+		OUTPUT INSERTED.project_id INTO @INSERTED_IDS
+		SELECT			
+			-1,
 			M.value('(author)[1]', 'NVARCHAR(250)'),
 			M.value('(building-name)[1]', 'NVARCHAR(250)'),
 			M.value('(client)[1]', 'NVARCHAR(250)'),
@@ -72,70 +52,40 @@ BEGIN
 			M.value('(number)[1]', 'NVARCHAR(250)'),
 			M.value('(organization-description)[1]', 'NVARCHAR(250)'),
 			M.value('(organization-name)[1]', 'NVARCHAR(250)'),
-			M.value('(status)[1]', 'NVARCHAR(250)')
+			M.value('(status)[1]', 'NVARCHAR(250)'),
+			null, getdate(), null
 		FROM @P_XML.nodes('/project') M(M);
 
-		BEGIN
-			INSERT INTO gpd_project
-			OUTPUT INSERTED.project_id INTO @INSERTED_IDS
-			SELECT			
-				-1,
-				AUTHOR,
-				BUILDING_NAME,
-				CLIENT,
-				[FILENAME],
-				[NAME],
-				[NUMBER],
-				ORGANIZATION_DESCRIPTION,
-				ORGANIZATION_NAME,
-				[STATUS],
-				null, getdate(), null
-			FROM
-				@TempProject
-
-			SELECT TOP(1) @P_Return_ProjectId = [ID] FROM @INSERTED_IDS;
-		END
+		-- GET PROJECT ID
+		SELECT TOP(1) @P_Return_ProjectId = [ID] FROM @INSERTED_IDS;
 
 		-- INDENTIFIER DATA
-		INSERT @TempIdentifier
-		SELECT
+		INSERT INTO gpd_project_identifier
+		SELECT			
+			@P_Return_ProjectId,
 			M.value('(identifier)[1]', 'NVARCHAR(250)'),
-			M.value('(system-name)[1]', 'NVARCHAR(150)')
+			M.value('(system-name)[1]', 'NVARCHAR(150)'), 
+			getdate(), null
 		FROM @P_XML.nodes('/project/identifiers') M(M);
 
-		BEGIN
-			INSERT INTO gpd_project_identifier
-			SELECT			
-				@P_Return_ProjectId, identifier, [system], getdate(), null
-			FROM
-				 @TempIdentifier
-		END
-
 		-- LOCATION DATA
-		INSERT @TempLocation
+		INSERT gpd_project_location
 		SELECT
-			M.value('(type)[1]', 'NVARCHAR(100)'),
+			@P_Return_ProjectId,
+			ISNULL(M.value('(type)[1]', 'NVARCHAR(100)'), 'N/A'),
 			M.value('(address1)[1]', 'NVARCHAR(250)'),
 			M.value('(address2)[1]', 'NVARCHAR(250)'),
 			M.value('(city)[1]', 'NVARCHAR(250)'),
 			M.value('(state)[1]', 'NVARCHAR(250)'),
 			M.value('(zip)[1]', 'NVARCHAR(150)'),
-			M.value('(country)[1]', 'NVARCHAR(150)')
+			M.value('(country)[1]', 'NVARCHAR(150)'),
+			getdate(), null
 		FROM @P_XML.nodes('/project/location') M(M);
-
-		BEGIN
-			INSERT INTO gpd_project_location
-			SELECT			
-				@P_Return_ProjectId, 
-				ISNULL([type], 'N/A'), 
-				[address_line_1], [address_line_2], [city], [state], [zip], [country], getdate(), null
-			FROM
-				 @TempLocation
-		END
 		
 		-- SESSION DATA
-		INSERT @TempSession
+		INSERT INTO gpd_project_session
 		SELECT
+			@P_Return_ProjectId,
 			M.value('(type)[1]', 'NVARCHAR(100)'),
 			M.value('(platform)[1]', 'NVARCHAR(150)'),
 			M.value('(application/build)[1]', 'NVARCHAR(150)'),
@@ -143,17 +93,55 @@ BEGIN
 			M.value('(application/plugin-build)[1]', 'NVARCHAR(150)'),
 			M.value('(application/plugin-source)[1]', 'NVARCHAR(150)'),
 			M.value('(application/version)[1]', 'NVARCHAR(150)'),
-			M.value('(application/type)[1]', 'NVARCHAR(100)')
+			M.value('(application/type)[1]', 'NVARCHAR(100)'),
+			getdate(), null
 		FROM @P_XML.nodes('/project/session') M(M);
 
-		BEGIN
-			INSERT INTO gpd_project_session
-			SELECT			
-				@P_Return_ProjectId, [type], [platform], [application_build], [application_name], [application_plugin_build],
-				[application_plugin_source], [application_version], [application_type], getdate(), null
-			FROM
-				 @TempSession
-		END
+		-- ITEM DATA
+		INSERT @TempItem
+		SELECT
+			M.value('(type)[1]', 'NVARCHAR(100)'),
+			M.value('(currency)[1]', 'NVARCHAR(100)'),
+			M.value('(family)[1]', 'NVARCHAR(250)'),
+			M.value('(product/id)[1]', 'INT'),
+			M.value('(product/image-url)[1]', 'NVARCHAR(500)'),
+			M.value('(product/manufacturer)[1]', 'NVARCHAR(250)'),
+			M.value('(product/model)[1]', 'NVARCHAR(250)'),
+			M.value('(product/name)[1]', 'NVARCHAR(250)'),
+			M.value('(product/url)[1]', 'NVARCHAR(500)')
+		FROM @P_XML.nodes('/project/items/item') M(M);
+
+		select @count = count(*) from @TempItem;
+
+		WHILE (@i < @count)
+			BEGIN
+				DELETE FROM @INSERTED_IDS;
+
+				INSERT INTO gpd_project_item
+				OUTPUT INSERTED.item_id INTO @INSERTED_IDS
+				SELECT			
+					@P_Return_ProjectId, [type], [currency], [family], 
+					[product_id], [product_image_url], [product_manufacturer], [product_model], [product_name], [product_url],
+					null, getdate(), null
+				FROM @TempItem
+				WHERE [id] = (@i + 1) -- row number is 1-based
+
+				SELECT TOP(1) @V_Item_Id = [ID] FROM @INSERTED_IDS;
+
+				-- MATERIAL DATA
+				INSERT gpd_materials
+				SELECT
+					M.value('(id)[1]', 'INT'),
+					@V_Item_Id,
+					M.value('(product/manufacturer)[1]', 'NVARCHAR(250)'),
+					M.value('(product/model)[1]', 'NVARCHAR(250)'),
+					M.value('(product/name)[1]', 'NVARCHAR(250)'),
+					M.value('(type/name)[1]', 'NVARCHAR(250)'),
+					null, getdate(), null
+				FROM @P_XML.nodes('/project/items/item[sql:variable("@i") + 1]/materials/material') M(M)
+
+				SET @i = @i + 1;
+			END
 
 	COMMIT TRAN
     SELECT @P_Return_ErrorCode = 0, @P_Return_Message = 'no errors'
