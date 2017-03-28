@@ -1,21 +1,19 @@
-﻿CREATE PROCEDURE [dbo].[gpd_AddProject]
+﻿ALTER PROCEDURE [dbo].[gpd_AddProject]
 	@P_XML XML,
 	@P_SOURCE_CLIENT NVARCHAR (30),
-	@P_Return_ProjectId int = -1 OUT,
-	@P_Return_ErrorCode int OUT,
-	@P_Return_Message VARCHAR(1024) = ''  OUT
+	@P_Return_ProjectId INT = -1 OUT,
+	@P_Return_ErrorCode INT OUT,
+	@P_Return_Message VARCHAR(1024) = '' OUT
 AS 
 BEGIN
  SET NOCOUNT ON;
 
 /******************************
 *  Variable Declarations
-*******************************/  
- DECLARE @ErrorStep  varchar(200);
- DECLARE @INSERTED_IDS TABLE ([ID] INT);
-
- DECLARE @i int = 0;
- DECLARE @count int = 0; -- length of query results
+*******************************/   
+ DECLARE @V_Inserted_Ids TABLE ([ID] INT);
+ DECLARE @V_I int = 0;
+ DECLARE @V_COUNT int = 0; -- length of query results
  DECLARE @V_Item_Id int = 0;
 
  DECLARE @TempItem TABLE (
@@ -41,7 +39,7 @@ BEGIN
 		
 		-- PROJECT DATA
 		INSERT INTO gpd_project
-		OUTPUT INSERTED.project_id INTO @INSERTED_IDS
+		OUTPUT INSERTED.project_id INTO @V_Inserted_Ids
 		SELECT			
 			-1,
 			M.value('(author)[1]', 'NVARCHAR(250)'),
@@ -57,7 +55,7 @@ BEGIN
 		FROM @P_XML.nodes('/project') M(M);
 
 		-- GET PROJECT ID
-		SELECT TOP(1) @P_Return_ProjectId = [ID] FROM @INSERTED_IDS;
+		SELECT TOP(1) @P_Return_ProjectId = [ID] FROM @V_Inserted_Ids;
 
 		-- INDENTIFIER DATA
 		INSERT INTO gpd_project_identifier
@@ -111,22 +109,24 @@ BEGIN
 			M.value('(product/url)[1]', 'NVARCHAR(500)')
 		FROM @P_XML.nodes('/project/items/item') M(M);
 
-		select @count = count(*) from @TempItem;
+		-- NUMBER OF "ITEMS" 
+		SELECT @V_COUNT = COUNT(*) FROM @TempItem;
 
-		WHILE (@i < @count)
+		WHILE (@V_I < @V_COUNT)
 			BEGIN
-				DELETE FROM @INSERTED_IDS;
+				DELETE FROM @V_Inserted_Ids;
 
 				INSERT INTO gpd_project_item
-				OUTPUT INSERTED.item_id INTO @INSERTED_IDS
+				OUTPUT INSERTED.item_id INTO @V_Inserted_Ids
 				SELECT			
 					@P_Return_ProjectId, [type], [currency], [family], 
 					[product_id], [product_image_url], [product_manufacturer], [product_model], [product_name], [product_url],
 					null, getdate(), null
 				FROM @TempItem
-				WHERE [id] = (@i + 1) -- row number is 1-based
+				WHERE [id] = (@V_I + 1) -- row number is 1-based
 
-				SELECT TOP(1) @V_Item_Id = [ID] FROM @INSERTED_IDS;
+				-- GET "ITEM" Id
+				SELECT TOP(1) @V_Item_Id = [ID] FROM @V_Inserted_Ids;
 
 				-- MATERIAL DATA
 				INSERT gpd_materials
@@ -138,9 +138,10 @@ BEGIN
 					M.value('(product/name)[1]', 'NVARCHAR(250)'),
 					M.value('(type/name)[1]', 'NVARCHAR(250)'),
 					null, getdate(), null
-				FROM @P_XML.nodes('/project/items/item[sql:variable("@i") + 1]/materials/material') M(M)
+				FROM @P_XML.nodes('/project/items/item[sql:variable("@V_I") + 1]/materials/material') M(M)
 
-				SET @i = @i + 1;
+				-- LOOP Index
+				SET @V_I = @V_I + 1;
 			END
 
 	COMMIT TRAN
