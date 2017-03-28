@@ -80,5 +80,6 @@
     <Build Include="dbo\Stored Procedures\uspAddProject.sql" />
     <Build Include="dbo\Tables\gpd_client_details.sql" />
     <PostDeploy Include="dbo\Script\Script.PostDeployment-SeedData.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_AddProject.sql" />
   </ItemGroup>
 </Project>
