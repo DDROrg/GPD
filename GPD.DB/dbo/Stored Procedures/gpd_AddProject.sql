@@ -1,4 +1,4 @@
-﻿ALTER PROCEDURE [dbo].[gpd_AddProject]
+﻿CREATE PROCEDURE [dbo].[gpd_AddProject]
 	@P_XML XML,
 	@P_SOURCE_CLIENT NVARCHAR (30),	
 	@P_Return_ErrorCode INT OUT,
