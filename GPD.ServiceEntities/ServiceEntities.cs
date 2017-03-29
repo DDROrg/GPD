@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.Collections.Generic;
+using System;
+using System.Xml.Serialization;
 
 namespace GPD.ServiceEntities
 {
@@ -90,45 +92,65 @@ namespace GPD.ServiceEntities
         public string Version;
     }
 
+    [Serializable]
+    [XmlRoot("project", Namespace = "http://www.gpd.com")]
     [DataContract(Namespace = "http://www.gpd.com", Name = "project")]
     public class ProjectDTO
     {
+        [XmlElement("project-id")]
+        public string ProjectId;
+
+        [XmlElement("author")]
         [DataMember(Name = "author", Order = 1)]
         public string Author;
 
+        [XmlElement("building-name")]
         [DataMember(Name = "building-name", Order = 2)]
         public string BuildingName;
 
+        [XmlElement("client")]
         [DataMember(Name = "client", Order = 3)]
         public string Client;
 
+        [XmlElement("filename")]
         [DataMember(Name = "filename", Order = 3)]
         public string Filename;
 
+        [XmlArray("identifiers")]
+        [XmlArrayItem("identifier")]
         [DataMember(Name = "identifiers", Order = 4)]
         public List<IdentifierDTO> Identifiers { get; set; }
 
+        [XmlArray("items")]
+        [XmlArrayItem("item")]
         [DataMember(Name = "items", Order = 5)]
         public List<ItemDTO> Items { get; set; }
 
+        [XmlElement("location")]
         [DataMember(Name = "location", Order = 6)]
         public LocationDTO Location { get; set; }
 
+        [XmlElement("name")]
         [DataMember(Name = "name", Order = 7)]
         public string Name;
 
+        [XmlElement("number")]
         [DataMember(Name = "number", Order = 8)]
         public string Number;
 
+        [XmlElement("organization-description")]
         [DataMember(Name = "organization-description", Order = 9)]
         public string OrganizationDescription;
 
+        [XmlElement("organization-name")]
         [DataMember(Name = "organization-name", Order = 10)]
         public string OrganizationName;
 
+        [XmlElement("session")]
         [DataMember(Name = "session", Order = 11)]
         public SessionDTO Session;
 
+        [XmlElement("status")]
         [DataMember(Name = "status", Order = 12)]
         public string Status;
     }
@@ -156,12 +178,16 @@ namespace GPD.ServiceEntities
         public string Title;
     }
 
+    [Serializable]
+    [XmlRoot("identifier", Namespace = "http://www.gpd.com")]
     [DataContract(Namespace = "http://www.gpd.com", Name = "identifier")]
     public class IdentifierDTO
     {
+        [XmlElement("identifier")]
         [DataMember(Name = "identifier", Order = 1)]
         public string Identifier;
 
+        [XmlElement("system")]
         [DataMember(Name = "system", Order = 2)]
         public string SystemName;
     }
@@ -185,33 +211,44 @@ namespace GPD.ServiceEntities
         public string URL;
     }
 
+    [Serializable]
+    [XmlRoot("item", Namespace = "http://www.gpd.com")]
     [DataContract(Namespace = "http://www.gpd.com", Name = "item")]
     public class ItemDTO
     {
+        [XmlElement("categories")]
         [DataMember(Name = "categories", Order = 1)]
         public List<CategoryDTO> Categories { get; set; }
 
+        [XmlElement("currency")]
         [DataMember(Name = "currency", Order = 2)]
         public string Currency;
 
+        [XmlElement("family")]
         [DataMember(Name = "family", Order = 3)]
         public string Family;
 
+        [XmlElement("id")]
         [DataMember(Name = "id", Order = 4)]
         public string Id;
 
+        [XmlElement("materials")]
         [DataMember(Name = "materials", Order = 5)]
         public List<MaterialDTO> Identifiers { get; set; }
 
+        [XmlElement("product")]
         [DataMember(Name = "product", Order = 6)]
         public ItemProductDTO Product { get; set; }
 
+        [XmlElement("quantity")]
         [DataMember(Name = "quantity", Order = 7)]
         public string Quantity;
 
+        [XmlElement("quantity-unit")]
         [DataMember(Name = "quantity-unit", Order = 8)]
         public string QuantityUnit;
 
+        [XmlElement("type")]
         [DataMember(Name = "type", Order = 9)]
         public string Type;
     }

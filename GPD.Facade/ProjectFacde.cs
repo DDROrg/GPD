@@ -10,6 +10,7 @@ namespace GPD.Facade
 {
     using ServiceEntities;
     using DAL.SqlDB;
+    using System.Xml;
 
     public class ProjectFacde
     {
@@ -18,16 +19,25 @@ namespace GPD.Facade
         public AddProjectResponseDTO Add(ProjectDTO projectDTO)
         {
             AddProjectResponseDTO retVal;
+            projectDTO.ProjectId = Guid.NewGuid().ToString();
+
             try
             {
-                XDocument doc = new XDocument();
-                using (var writer = doc.CreateWriter())
+                XDocument xmlDoc = new XDocument();
+
+                using (var writer = xmlDoc.CreateWriter())
                 {
-                    var serializer = new DataContractSerializer(projectDTO.GetType());
-                    serializer.WriteObject(writer, projectDTO);
+                    //var serializer = new DataContractSerializer(projectDTO.GetType());
+                    //serializer.WriteObject(writer, projectDTO);
+
+                    System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(projectDTO.GetType());
+                    x.Serialize(writer, projectDTO);
                 }
 
-                int projectId = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(doc.Root);
+                // Remove attribute from root node
+                xmlDoc.Root.Attributes().Remove();
+
+                int projectId = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(xmlDoc);
                 retVal = new AddProjectResponseDTO(true, projectId);
             }
             catch (Exception ex)

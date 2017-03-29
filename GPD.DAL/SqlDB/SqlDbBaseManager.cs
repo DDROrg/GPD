@@ -60,6 +60,7 @@ namespace GPD.DAL.SqlDB
                     conn.Open();
                     cmd.CommandTimeout = 1000;
                     cmd.CommandType = CommandType.StoredProcedure;
+
                     using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
                     {
                         if (parametersList != null && parametersList.Count > 0)
@@ -67,6 +68,7 @@ namespace GPD.DAL.SqlDB
 
                         adapter.Fill(dataSet);
                     }
+
                     conn.Close();
                 }
             }
