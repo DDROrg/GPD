@@ -25,7 +25,12 @@ var ProjectServices = function ($http, $q) {
                 "building-name": "",
                 "client": "North Development Group",
                 "filename": "Roswell Math and Science - 2016.rvt",
-                "identifiers": [],
+                "identifiers": [
+                    {
+                        "identifier": "7cacd49c-ac17-4591-ad0a-cbc9bb40015a-00012b83",
+                        "system": "REVIT"
+                    }
+                ],
                 "items": [],
                 "location": {
                     "address1": "820 Ebenezer",
@@ -87,9 +92,13 @@ var ProjectServices = function ($http, $q) {
         //_GetProjects()
         //.then(function (payload) {
         //    retVal = payload;
-        //    deferred.resolve(retVal);
-        //});
+        $.each(retVal, function (k, v) {
+            v.isExpanded = false;
+            v.hasDetail = false;
+        });
         deferred.resolve(retVal);
+        //});
+
         return deferred.promise;
     };
     return this;

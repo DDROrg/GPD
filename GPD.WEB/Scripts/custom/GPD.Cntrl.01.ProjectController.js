@@ -25,10 +25,19 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
         return retVal;
     };
 
+    $scope.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
+
+    $scope.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
+
+    $scope.OnColExpDetail = function (d) {
+        d.isExpanded =  !(d.isExpanded);
+        d.hasDetail = true;
+    };
+
     var GetAccount = function () {
         return ProjectServices.GetProjects()
         .then(function (payload) {
-            $scope.data.projects = payload;            
+            $scope.data.projects = payload;
         });
     };
 

@@ -18,6 +18,11 @@ textarea {
     max-width: 280px;
 }
 
+a.data-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .data-header-row {
     text-align: center;
     background-color: #ECEFF1;
@@ -47,7 +52,7 @@ textarea {
     }
 
         .data-container .data-row:nth-child(even) {
-            background: #ffffff;
+            background: #f3f5f6;
         }
 
         .data-container .data-row:nth-child(odd) {
@@ -57,5 +62,12 @@ textarea {
     .data-container .data-details {
         padding-top: 5px;
         padding-bottom: 5px;
-        border: 1px solid #808080;
+        border: 1px solid #FFF;
+        background-color: #f7f2f2;
+        font-size:.8em;
+    }
+    .data-container .data-details  .data-caption{
+        text-align:right;
+        font-size:1em;
+        font-weight:bold;
     }

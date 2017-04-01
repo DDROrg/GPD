@@ -4,47 +4,248 @@
 }
 
 
-<div data-ng-app="Project" class="container">
+<div data-ng-app="Project" class="container-fluid">
     <div data-ng-controller="ProjectController">
         <h2>@ViewBag.Title</h2>
         <p>{{data.projects[0].author}}</p>
         <div class="data-container">
             <div class="row data-header-row" style="">
-                <div class="col-xs-1" data-ng-click="OnChangeSorting('number')">
+                <div class="col-xs-4 col-sm-2" data-ng-click="OnChangeSorting('number')">
                     <a ng-href="">Number&nbsp;</a><i data-ng-class="ColumnSortClass('number')">
                     </i>
                 </div>
-                <div class="col-xs-3" data-ng-click="OnChangeSorting('name')">
+                <div class="col-xs-8 col-sm-2" data-ng-click="OnChangeSorting('name')">
                     <a ng-href="">Name&nbsp;</a><i data-ng-class="ColumnSortClass('name')">
                     </i>
                 </div>
-                <div class="col-xs-2" data-ng-click="OnChangeSorting('organization-name')">
+                <div class="col-sm-2 hidden-xs" data-ng-click="OnChangeSorting('organization-name')">
                     <a ng-href="">Organization&nbsp;</a><i data-ng-class="ColumnSortClass('organization-name')">
                     </i>
                 </div>
-                <div class="col-xs-2" data-ng-click="OnChangeSorting('author')">
+                <div class="col-sm-2 hidden-xs" data-ng-click="OnChangeSorting('author')">
                     <a ng-href="">Author&nbsp;</a><i data-ng-class="ColumnSortClass('author')">
                     </i>
                 </div>
-                <div class="col-xs-2" data-ng-click="OnChangeSorting('client')">
+                <div class="col-sm-2 hidden-xs" data-ng-click="OnChangeSorting('client')">
                     <a ng-href="">Client&nbsp;</a><i data-ng-class="ColumnSortClass('client')">
                     </i>
                 </div>
-                <div class="col-xs-2" data-ng-click="OnChangeSorting('status')">
+                <div class="col-sm-2 hidden-xs" data-ng-click="OnChangeSorting('status')">
                     <a ng-href="">Status&nbsp;</a><i data-ng-class="ColumnSortClass('status')">
                     </i>
                 </div>
             </div>
             <div data-ng-repeat="d in data.projects | orderBy : data.sort.column : data.sort.descending" class="row data-row">
-                <div class="col-xs-1">
-                    <a ng-href="">{{d.number}}</a>
+                <div>
+                    <div class="col-xs-4 col-sm-2" data-ng-click="OnColExpDetail(d)">
+                        <a ng-href="" class="data-link"><i data-ng-class="ColExpClass(d)"></i>&nbsp;{{d.number}}</a>
+                    </div>
+                    <div class="col-xs-8 col-sm-2">{{d.name}}</div>
+                    <div class="col-sm-2 hidden-xs">{{d["organization-name"]}}</div>
+                    <div class="col-sm-2 hidden-xs">{{d.author}}</div>
+                    <div class="col-sm-2 hidden-xs">{{d.client}}</div>
+                    <div class="col-sm-2 hidden-xs">{{d.status}}</div>
                 </div>
-                <div class="col-xs-3">{{d.name}}</div>
-                <div class="col-xs-2">{{d["organization-name"]}}</div>
-                <div class="col-xs-2">{{d.author}}</div>
-                <div class="col-xs-2">{{d.client}}</div>
-                <div class="col-xs-2">{{d.status}}</div>
-                <div class="col-xs-12 data-details">AAA BBBB</div>
+                <div ng-if="IsShowDetail(d)" class="col-xs-12 data-details">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="row">
+                                <div class="col-xs-4 data-caption">
+                                    Organization:
+                                </div>
+                                <div class="col-xs-8">
+                                    {{d["organization-name"]}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="row">
+                                <div class="col-xs-4 data-caption">
+                                    Author:
+                                </div>
+                                <div class="col-xs-8">
+                                    {{d.author}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="row">
+                                <div class="col-xs-4 data-caption">
+                                    Client:
+                                </div>
+                                <div class="col-xs-8">
+                                    {{d.client}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="row">
+                                <div class="col-xs-4 data-caption">
+                                    Building:
+                                </div>
+                                <div class="col-xs-8">
+                                    {{d["building-name"]}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="row">
+                                <div class="col-xs-4 data-caption">
+                                    File Name:
+                                </div>
+                                <div class="col-xs-8">
+                                    {{d.filename}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="row">
+                                <div class="col-xs-4 data-caption">
+                                    Identifiers:
+                                </div>
+                                <div class="col-xs-8">
+                                    <span data-ng-repeat="i in d.identifiers">{{i.system}}, </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="row">
+                                <div class="col-xs-4 data-caption">
+                                    Location:
+                                </div>
+                                <div class="col-xs-8">
+                                    <span data-ng-if="d.location.address1!=''">{{d.location.address1}},&nbsp;</span>
+                                    <span data-ng-if="d.location.city!=''">{{d.location.city}},&nbsp;</span>
+                                    <span data-ng-if="d.location.state!=''">{{d.location.state}},&nbsp;</span>
+                                    <span data-ng-if="d.location.zip!=''">zip - {{d.location.city}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="row">
+                                <div class="col-xs-4 data-caption">
+                                    Org Description:
+                                </div>
+                                <div class="col-xs-8">
+                                    {{d["organization-description"]}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="row">
+                                <div class="col-xs-4 data-caption">
+                                    Status:
+                                </div>
+                                <div class="col-xs-8">
+                                    {{d.status}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-weight:bold;font-size:1.2em;text-align:center; border-top:1px dotted #000;padding-top:5px;">Session</div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="row">
+                                    <div class="col-xs-4 data-caption">
+                                        Type:
+                                    </div>
+                                    <div class="col-xs-8">
+                                        {{d.session.type}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="row">
+                                    <div class="col-xs-4 data-caption">
+                                        Platform:
+                                    </div>
+                                    <div class="col-xs-8">
+                                        {{d.session.platform}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="row">
+                                    <div class="col-xs-4 data-caption">
+                                        App Name:
+                                    </div>
+                                    <div class="col-xs-8">
+                                        {{d.session.application.name}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="row">
+                                    <div class="col-xs-4 data-caption">
+                                        Build:
+                                    </div>
+                                    <div class="col-xs-8">
+                                        {{d.session.application.build}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="row">
+                                    <div class="col-xs-4 data-caption">
+                                        Type:
+                                    </div>
+                                    <div class="col-xs-8">
+                                        {{d.session.application.type}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="row">
+                                    <div class="col-xs-4 data-caption">
+                                        Version:
+                                    </div>
+                                    <div class="col-xs-8">
+                                        {{d.session.application.version}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="row">
+                                    <div class="col-xs-4 data-caption">
+                                        Plugin Build:
+                                    </div>
+                                    <div class="col-xs-8">
+                                        {{d.session.application["plugin-build"]}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="row">
+                                    <div class="col-xs-4 data-caption">
+                                        Plugin Source:
+                                    </div>
+                                    <div class="col-xs-8">
+                                        {{d.session.application["plugin-source"]}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="row">
+                                    <div class="col-xs-4 data-caption">
+
+                                    </div>
+                                    <div class="col-xs-8">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
