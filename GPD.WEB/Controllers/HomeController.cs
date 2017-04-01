@@ -16,10 +16,21 @@ namespace GPD.WEB.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public ActionResult Index()
         {
             ViewBag.Title = "GPD - Home";
             return View();
-        }        
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Project()
+        {
+            ViewBag.Title = "GPD - Project";
+            return View();
+        }
     }
 }
