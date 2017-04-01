@@ -1,6 +1,8 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family: Arial;
+    font-size: 1.4em;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -15,3 +17,45 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.data-header-row {
+    text-align: center;
+    background-color: #ECEFF1;
+    font-weight: bold;
+}
+
+.data-container {
+}
+
+    .data-container .data-header-row {
+        text-align: center;
+        background-color: #c4cdd3;
+        font-weight: bold;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+        .data-container .data-header-row a {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .data-container .data-row {
+        border-bottom: 1px dotted #808080;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+        .data-container .data-row:nth-child(even) {
+            background: #ffffff;
+        }
+
+        .data-container .data-row:nth-child(odd) {
+            background: #ECEFF1;
+        }
+
+    .data-container .data-details {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 1px solid #808080;
+    }

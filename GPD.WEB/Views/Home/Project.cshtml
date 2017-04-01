@@ -4,10 +4,49 @@
 }
 
 
-<div data-ng-app="Project">
+<div data-ng-app="Project" class="container">
     <div data-ng-controller="ProjectController">
         <h2>@ViewBag.Title</h2>
         <p>{{data.projects[0].author}}</p>
+        <div class="data-container">
+            <div class="row data-header-row" style="">
+                <div class="col-xs-1" data-ng-click="OnChangeSorting('number')">
+                    <a ng-href="">Number&nbsp;</a><i data-ng-class="ColumnSortClass('number')">
+                    </i>
+                </div>
+                <div class="col-xs-3" data-ng-click="OnChangeSorting('name')">
+                    <a ng-href="">Name&nbsp;</a><i data-ng-class="ColumnSortClass('name')">
+                    </i>
+                </div>
+                <div class="col-xs-2" data-ng-click="OnChangeSorting('organization-name')">
+                    <a ng-href="">Organization&nbsp;</a><i data-ng-class="ColumnSortClass('organization-name')">
+                    </i>
+                </div>
+                <div class="col-xs-2" data-ng-click="OnChangeSorting('author')">
+                    <a ng-href="">Author&nbsp;</a><i data-ng-class="ColumnSortClass('author')">
+                    </i>
+                </div>
+                <div class="col-xs-2" data-ng-click="OnChangeSorting('client')">
+                    <a ng-href="">Client&nbsp;</a><i data-ng-class="ColumnSortClass('client')">
+                    </i>
+                </div>
+                <div class="col-xs-2" data-ng-click="OnChangeSorting('status')">
+                    <a ng-href="">Status&nbsp;</a><i data-ng-class="ColumnSortClass('status')">
+                    </i>
+                </div>
+            </div>
+            <div data-ng-repeat="d in data.projects | orderBy : data.sort.column : data.sort.descending" class="row data-row">
+                <div class="col-xs-1">
+                    <a ng-href="">{{d.number}}</a>
+                </div>
+                <div class="col-xs-3">{{d.name}}</div>
+                <div class="col-xs-2">{{d["organization-name"]}}</div>
+                <div class="col-xs-2">{{d.author}}</div>
+                <div class="col-xs-2">{{d.client}}</div>
+                <div class="col-xs-2">{{d.status}}</div>
+                <div class="col-xs-12 data-details">AAA BBBB</div>
+            </div>
+        </div>
     </div>
 </div>
 
