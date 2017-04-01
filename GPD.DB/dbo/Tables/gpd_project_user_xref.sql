@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[gpd_project_user_xref] (
-    [project_id]  INT  NULL,
+    [project_id]  UNIQUEIDENTIFIER  NULL,
     [user_id]     INT  NULL,
     [create_date] DATETIME NOT NULL,
     [update_date] DATETIME NULL,

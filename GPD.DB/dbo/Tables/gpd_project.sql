@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[gpd_project] (
-    [project_id]               INT            IDENTITY (100, 1) NOT NULL,
+    [project_id]               UNIQUEIDENTIFIER  NOT NULL,
     [source_client]            NVARCHAR (30)  NULL,
     [author]                   NVARCHAR (250) NULL,
     [building_name]            NVARCHAR (250) NULL,

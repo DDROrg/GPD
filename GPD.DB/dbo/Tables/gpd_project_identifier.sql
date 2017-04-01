@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[gpd_project_identifier] (
-    [project_id]  INT         NOT NULL,
-    [identifier]  nvarchar (250) NOT NULL,
+    [project_id]  UNIQUEIDENTIFIER         NOT NULL,
+    [identifier]  UNIQUEIDENTIFIER NOT NULL,
     [system]      nvarchar (150) NULL,
     [create_date] DATETIME        NOT NULL,
     [update_date] DATETIME  NULL,

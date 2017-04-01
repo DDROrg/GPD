@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="abb03044-f8d9-4dc1-a8c7-4250ada1560a" ChangeDateTime="03/30/2017 18:20:17">
+    <Property Name="ElementName" Value="[dbo].[gpd_project_item].[project_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[gpd_project_item]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="item_id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1a8474b8-de28-4580-bd25-6cf50842103b" ChangeDateTime="03/30/2017 18:20:27">
+    <Property Name="ElementName" Value="[dbo].[gpd_project_item].[item_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[gpd_project_item]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="project_id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5f565bde-a907-4098-b83d-f1813b94d55b" ChangeDateTime="03/30/2017 19:26:50">
+    <Property Name="ElementName" Value="[dbo].[gpd_project_item_material].[project_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[gpd_project_item_material]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="project_item_id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c8c7d650-116f-4b95-81c0-7be3628ef3e5" ChangeDateTime="03/30/2017 19:29:00">
+    <Property Name="ElementName" Value="[dbo].[gpd_item_category_xref].[project_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[gpd_item_category_xref]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="project_item_id" />
+  </Operation>
+</Operations>

@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[gpd_project_item] (
-    [item_id]              INT            IDENTITY (100, 1) NOT NULL,
-    [project_id]           INT            NOT NULL,
+	[project_item_id]              UNIQUEIDENTIFIER  NOT NULL,
+    [project_id]              UNIQUEIDENTIFIER  NOT NULL,
+    [item_id]           INT            NOT NULL,
     [type]                 NVARCHAR (100) NULL,
     [currency]             NVARCHAR (100) NULL,
     [family]               NVARCHAR (250) NULL,
@@ -13,7 +14,8 @@
     [xml_item_metadata]    XML            NULL,
     [create_date]          DATETIME       NOT NULL,
     [update_date]          DATETIME       NULL,
-    CONSTRAINT [PK_gpd_project_item] PRIMARY KEY CLUSTERED ([item_id] ASC)
+    CONSTRAINT [FK_gpd_project_item_gpd_project] FOREIGN KEY ([project_id]) REFERENCES [gpd_project]([project_id]), 
+    CONSTRAINT [PK_gpd_project_item] PRIMARY KEY ([project_item_id])
 );
 
 

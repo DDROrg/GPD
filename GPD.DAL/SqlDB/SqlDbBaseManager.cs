@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
@@ -90,9 +91,9 @@ namespace GPD.DAL.SqlDB
             }
         }
 
-        internal object ExecuteStoreProcedure(string storedProdName, List<SqlParameter> parametersList)
+        internal Dictionary<string, object> ExecuteStoreProcedure(string storedProdName, List<SqlParameter> parametersList)
         {
-            object retVal = null;
+            Dictionary<string, object> retVal = null;
             using (SqlConnection conn = new SqlConnection(this._db_connection))
             {
                 using (SqlCommand cmd = new SqlCommand(storedProdName, conn))
@@ -104,10 +105,13 @@ namespace GPD.DAL.SqlDB
                         cmd.Parameters.AddRange(parametersList.ToArray());
                     cmd.ExecuteNonQuery();
 
-                    string outParam = parametersList.Where(i => i.Direction != ParameterDirection.ReturnValue).Select(i => i.ParameterName).FirstOrDefault();
-                    if (!string.IsNullOrEmpty(outParam))
+                    List<string> outParam = parametersList.Where(i => i.Direction != ParameterDirection.Input).Select(i => i.ParameterName).ToList();
+                    if (outParam.Count() > 0)
                     {
-                        retVal = cmd.Parameters["ReturnValue"].Value;
+                        retVal = new Dictionary<string, object>();
+                        outParam.ForEach(i => {
+                            retVal.Add(i, cmd.Parameters[i].Value);
+                        });
                     }
                 }
                 conn.Close();

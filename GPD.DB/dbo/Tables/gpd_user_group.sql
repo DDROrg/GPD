@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[gpd_user_group] (
-    [group_id]           INT            IDENTITY (100, 1) NOT NULL,
+    [group_id]           INT            NOT NULL,
     [name]               NVARCHAR (30)  NOT NULL,
     [description]        NVARCHAR (200) NOT NULL,
     [active]             BIT            NOT NULL,

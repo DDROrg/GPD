@@ -3,10 +3,61 @@ using System.Collections.Generic;
 
 namespace GPD.ServiceEntities
 {
+    [DataContract(Namespace = "http://www.gpd.com", Name = "project")]
+    public class ProjectDTO
+    {
+        public ProjectDTO()
+        {
+            Id = System.Guid.NewGuid().ToString();
+        }
+
+        [DataMember(Name = "id", Order = 1)]
+        public string Id;
+
+        [DataMember(Name = "author", Order = 1)]
+        public string Author;
+
+        [DataMember(Name = "building-name", Order = 2)]
+        public string BuildingName;
+
+        [DataMember(Name = "client", Order = 3)]
+        public string Client;
+
+        [DataMember(Name = "filename", Order = 3)]
+        public string Filename;
+
+        [DataMember(Name = "identifiers", Order = 4)]
+        public List<IdentifierDTO> Identifiers { get; set; }
+
+        [DataMember(Name = "items", Order = 5)]
+        public List<ItemDTO> Items { get; set; }
+
+        [DataMember(Name = "location", Order = 6)]
+        public LocationDTO Location { get; set; }
+
+        [DataMember(Name = "name", Order = 7)]
+        public string Name;
+
+        [DataMember(Name = "number", Order = 8)]
+        public string Number;
+
+        [DataMember(Name = "organization-description", Order = 9)]
+        public string OrganizationDescription;
+
+        [DataMember(Name = "organization-name", Order = 10)]
+        public string OrganizationName;
+
+        [DataMember(Name = "session", Order = 11)]
+        public SessionDTO Session;
+
+        [DataMember(Name = "status", Order = 12)]
+        public string Status;
+    }
+
     [DataContract(Namespace = "http://www.gpd.com", Name = "add-project-response")]
     public class AddProjectResponseDTO
     {
-        public AddProjectResponseDTO(bool status, int projectId)
+        public AddProjectResponseDTO(bool status, string projectId)
         {
             this.Status = status;
             this.ProjectId = projectId;
@@ -16,7 +67,7 @@ namespace GPD.ServiceEntities
         public bool Status;
 
         [DataMember(Name = "project-id", Order = 2)]
-        public int ProjectId;
+        public string ProjectId;
     }
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "location")]
@@ -90,48 +141,7 @@ namespace GPD.ServiceEntities
         public string Version;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "project")]
-    public class ProjectDTO
-    {
-        [DataMember(Name = "author", Order = 1)]
-        public string Author;
-
-        [DataMember(Name = "building-name", Order = 2)]
-        public string BuildingName;
-
-        [DataMember(Name = "client", Order = 3)]
-        public string Client;
-
-        [DataMember(Name = "filename", Order = 3)]
-        public string Filename;
-
-        [DataMember(Name = "identifiers", Order = 4)]
-        public List<IdentifierDTO> Identifiers { get; set; }
-
-        [DataMember(Name = "items", Order = 5)]
-        public List<ItemDTO> Items { get; set; }
-
-        [DataMember(Name = "location", Order = 6)]
-        public LocationDTO Location { get; set; }
-
-        [DataMember(Name = "name", Order = 7)]
-        public string Name;
-
-        [DataMember(Name = "number", Order = 8)]
-        public string Number;
-
-        [DataMember(Name = "organization-description", Order = 9)]
-        public string OrganizationDescription;
-
-        [DataMember(Name = "organization-name", Order = 10)]
-        public string OrganizationName;
-
-        [DataMember(Name = "session", Order = 11)]
-        public SessionDTO Session;
-
-        [DataMember(Name = "status", Order = 12)]
-        public string Status;
-    }
+   
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "session")]
     public class SessionDTO
@@ -188,6 +198,7 @@ namespace GPD.ServiceEntities
     [DataContract(Namespace = "http://www.gpd.com", Name = "item")]
     public class ItemDTO
     {
+
         [DataMember(Name = "categories", Order = 1)]
         public List<CategoryDTO> Categories { get; set; }
 

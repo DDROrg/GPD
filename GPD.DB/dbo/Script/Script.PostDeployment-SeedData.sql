@@ -9,11 +9,11 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-INSERT INTO [dbo].[gpd_user_group] VALUES ('Admin', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] VALUES ('Moderator', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] VALUES ('Site Client', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] VALUES ('User', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] VALUES ('Site Admin', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] VALUES ('Manufacturer', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] VALUES ('Firm', 'n/a description', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] VALUES (101, 'Admin', 'n/a description', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] VALUES (102, 'Moderator', 'n/a description', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] VALUES (103, 'Site Client', 'n/a description', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] VALUES (104, 'User', 'n/a description', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] VALUES (105, 'Site Admin', 'n/a description', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] VALUES (106, 'Manufacturer', 'n/a description', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] VALUES (107, 'Firm', 'n/a description', 1, NULL, getdate(), null);
 

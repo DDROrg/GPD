@@ -52,7 +52,6 @@ namespace GPD.WEB.Controllers
         /// <returns></returns>
         public AddProjectResponseDTO Add(ProjectDTO projectDTO)
         {
-            projectsList.Add(projectDTO);
             return new Facade.ProjectFacde().Add(projectDTO); 
         }
     }
