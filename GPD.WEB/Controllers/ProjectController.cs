@@ -25,8 +25,9 @@ namespace GPD.WEB.Controllers
         public List<ProjectDTO> Get()
         {
             log.Debug("Test log message");
-            return projectsList;
-        }
+            string userId = "";
+            return new Facade.ProjectFacde().GetAll(userId);
+        }        
 
         /// <summary>
         /// Get project by ID

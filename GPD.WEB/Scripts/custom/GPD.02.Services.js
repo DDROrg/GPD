@@ -9,15 +9,15 @@ var CommonServices = function ($http, $q) {
 
 //============================================
 var ProjectServices = function ($http, $q) {
-    //var _GetProjects = function () {
-    //    var postData = new Object();
-    //    return $http.post(__RootUrl + "/WebMethods/MarketingLeadsWebMethods.aspx/GetLeadEmailSettingsForUser", JSON.stringify(postData))
-    //    .success(function (data, status, headers, config) { })
-    //    .error(function (data, status, header, config) { });
-    //};
+    var _GetProjects = function () {
+        console.log(__RootUrl + "api/Project");
+        return $http.get(__RootUrl + "api/Project");
+    };
 
     this.GetProjects = function () {
         var deferred = $q.defer();
+        var retVal = [];
+        /*
         var retVal = [
             {
                 "id": "C5B3004E-D3D7-45BB-96EB-232D8F1723A1",
@@ -89,15 +89,16 @@ var ProjectServices = function ($http, $q) {
                 "status": "Schematic Design - Demo Project"
             }
         ];
-        //_GetProjects()
-        //.then(function (payload) {
-        //    retVal = payload;
-        $.each(retVal, function (k, v) {
-            v.isExpanded = false;
-            v.hasDetail = false;
+        */
+        _GetProjects()
+        .then(function (payload) {
+            retVal = payload.data;
+            $.each(retVal, function (k, v) {
+                v.isExpanded = false;
+                v.hasDetail = false;
+            });
+            deferred.resolve(retVal);
         });
-        deferred.resolve(retVal);
-        //});
 
         return deferred.promise;
     };

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using System.Xml;
+using System.Data;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -12,7 +14,6 @@ namespace GPD.Facade
 {
     using ServiceEntities;
     using DAL.SqlDB;
-    using System.Xml;
 
     public class ProjectFacde
     {
@@ -54,6 +55,46 @@ namespace GPD.Facade
             {
                 log.Error("Unable to add project", ex);
                 retVal = new AddProjectResponseDTO(false, "");
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<ProjectDTO> GetAll(string userId)
+        {
+            List<ProjectDTO> retVal = new List<ProjectDTO>();
+            try
+            {
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjects(userId);
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        ProjectDTO tempProjectDTO = new ProjectDTO()
+                        {
+                            Id = dr["PROJECT_ID"].ToString(),
+                            Author = dr["AUTHOR"].ToString(),
+                            BuildingName = dr["BUILDING_NAME"].ToString(),
+                            Client = dr["CLIENT"].ToString(),
+                            Filename = dr["FILENAME"].ToString(),
+                            Name = dr["NAME"].ToString(),
+                            Number = dr["NUMBER"].ToString(),
+                            OrganizationDescription = dr["ORGANIZATION_DESCRIPTION"].ToString(),
+                            OrganizationName = dr["ORGANIZATION_NAME"].ToString(),
+                            Status = dr["STATUS"].ToString()
+                        };
+                        retVal.Add(tempProjectDTO);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to get projects", ex);
             }
             return retVal;
         }

@@ -46,5 +46,15 @@ namespace GPD.DAL.SqlDB
                 throw new Exception(retVal["@P_Return_Message"].ToString());
             }
         }
+
+        public DataSet GetProjects(string userId)
+        {
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_USER", userId)
+            };
+
+            return base.GetDSBasedOnStoreProcedure("gpd_GetProjects", parametersInList);
+        }
     }
 }
