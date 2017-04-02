@@ -2,10 +2,13 @@
 angular.module('Project').controller('ProjectController', function ($scope, $http, $location, CommonServices, ProjectServices) {
     CommonServices.SetDefaultData($scope, $location);
     $scope.data.projects = [];
-    $scope.data.sort = {
-        column: 'name',
-        descending: false
-    };
+    $scope.data.sort = [{ column: 'name', descending: false }];
+    $scope.data.page = {};
+    $scope.data.page.currentPage = 1;
+    $scope.data.page.maxPage = 5;
+    $scope.data.page.itemPerPage = 2;
+    $scope.data.search = {};
+    $scope.data.search.name = "";
 
     $scope.OnChangeSorting = function (column) {
         if ($scope.data.sort.column == column) {
@@ -32,6 +35,14 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
     $scope.OnColExpDetail = function (d) {
         d.isExpanded = !(d.isExpanded);
         if (d.hasDetail == false) { GetProjectDetail(d); }
+    };
+
+    $scope.ColumnSortOrder = function () {
+        var retVal = [];
+        angular.forEach($scope.data.sort, function (v, k) {
+            retVal.push((v.descending ? "-" : "") + v.column);
+        });
+        return retVal;
     };
 
     var GetProjectDetail = function (d) {
