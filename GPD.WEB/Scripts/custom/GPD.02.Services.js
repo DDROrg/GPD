@@ -10,8 +10,11 @@ var CommonServices = function ($http, $q) {
 //============================================
 var ProjectServices = function ($http, $q) {
     var _GetProjects = function () {
-        console.log(__RootUrl + "api/Project");
         return $http.get(__RootUrl + "api/Project");
+    };
+
+    var _GetProjectDetail = function (id) {
+        return $http.get(__RootUrl + "api/Project/" + id);
     };
 
     this.GetProjects = function () {
@@ -102,6 +105,18 @@ var ProjectServices = function ($http, $q) {
 
         return deferred.promise;
     };
+
+    this.GetProjectDetail = function (id) {
+        var deferred = $q.defer();
+        var retVal = [];
+        _GetProjectDetail(id)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    }
+
     return this;
 }
 

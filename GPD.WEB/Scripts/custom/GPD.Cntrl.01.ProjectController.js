@@ -30,11 +30,22 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
     $scope.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
 
     $scope.OnColExpDetail = function (d) {
-        d.isExpanded =  !(d.isExpanded);
-        d.hasDetail = true;
+        d.isExpanded = !(d.isExpanded);
+        if (d.hasDetail == false) { GetProjectDetail(d); }
     };
 
-    var GetAccount = function () {
+    var GetProjectDetail = function (d) {
+        return ProjectServices.GetProjectDetail(d.id)
+        .then(function (payload) {
+            d.identifiers = payload.identifiers;
+            d.items = payload.items;
+            d.location = payload.location;
+            d.session = payload.session;
+            d.hasDetail = true;
+        });
+    };
+
+    var GetProjects = function () {
         return ProjectServices.GetProjects()
         .then(function (payload) {
             $scope.data.projects = payload;
@@ -42,6 +53,6 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
     };
 
     angular.element(document).ready(function () {
-        GetAccount();
+        GetProjects();
     });
 });

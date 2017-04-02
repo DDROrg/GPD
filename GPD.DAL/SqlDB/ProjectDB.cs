@@ -25,6 +25,11 @@ namespace GPD.DAL.SqlDB
         public ProjectDB(string connectionString) : base(connectionString) { }
         #endregion Constr
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectXmlData"></param>
+        /// <param name="sourceClient"></param>
         public void AddProject(XDocument projectXmlData, string sourceClient = "N/A")
         {
             List<SqlParameter> parametersInList = new List<SqlParameter>()
@@ -47,6 +52,11 @@ namespace GPD.DAL.SqlDB
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public DataSet GetProjects(string userId)
         {
             List<SqlParameter> parametersInList = new List<SqlParameter>()
@@ -55,6 +65,21 @@ namespace GPD.DAL.SqlDB
             };
 
             return base.GetDSBasedOnStoreProcedure("gpd_GetProjects", parametersInList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataSet GetProjectById(string id)
+        {
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_PROJECTID", id)
+            };
+
+            return base.GetDSBasedOnStoreProcedure("gpd_GetProjectById", parametersInList);
         }
     }
 }

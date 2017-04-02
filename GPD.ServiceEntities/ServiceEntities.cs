@@ -212,7 +212,7 @@ namespace GPD.ServiceEntities
         public string Id;
 
         [DataMember(Name = "materials", Order = 5)]
-        public List<MaterialDTO> Identifiers { get; set; }
+        public List<MaterialDTO> Materials { get; set; }
 
         [DataMember(Name = "product", Order = 6)]
         public ItemProductDTO Product { get; set; }
