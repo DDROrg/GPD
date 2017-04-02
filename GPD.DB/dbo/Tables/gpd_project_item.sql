@@ -5,6 +5,8 @@
     [type]                 NVARCHAR (100) NULL,
     [currency]             NVARCHAR (100) NULL,
     [family]               NVARCHAR (250) NULL,
+	[quantity]               NVARCHAR (50) NULL,
+	[quantity_unit]               NVARCHAR (50) NULL,
     [product_id]           INT            NULL,
     [product_image_url]    NVARCHAR (500) NULL,
     [product_manufacturer] NVARCHAR (250) NULL,

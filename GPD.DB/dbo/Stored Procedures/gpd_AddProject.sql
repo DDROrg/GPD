@@ -10,6 +10,12 @@ BEGIN
 	*  Variable Declarations
 	*******************************/   
 	DECLARE @V_ProjectId UNIQUEIDENTIFIER;
+	DECLARE @TempCategories TABLE (
+		ID UNIQUEIDENTIFIER,
+		TAXONOMY NVARCHAR(150),
+		TITLE NVARCHAR(250),
+		IS_NEW BIT
+	);
 	
 	/******************************
 	*  Initialize Variables
@@ -23,6 +29,7 @@ BEGIN
 
 	BEGIN TRY
 		BEGIN TRAN;
+			-- PROJECT DATA
 			WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com',
 				'http://www.w3.org/2001/XMLSchema-instance' AS i)
 			INSERT INTO gpd_project 
@@ -136,6 +143,8 @@ BEGIN
 				[type],
 				currency,
 				family,
+				quantity,
+				quantity_unit,
 				product_id,
 				product_image_url,
 				product_manufacturer,
@@ -152,6 +161,8 @@ BEGIN
 				M.value('(type)[1]', 'NVARCHAR(100)'),
 				M.value('(currency)[1]', 'NVARCHAR(100)'),
 				M.value('(family)[1]', 'NVARCHAR(250)'),
+				M.value('(quantity)[1]', 'NVARCHAR(50)'),
+				M.value('(quantity-unit)[1]', 'NVARCHAR(50)'),
 				M.value('(product/id)[1]', 'INT'),
 				M.value('(product/image-url)[1]', 'NVARCHAR(500)'),
 				M.value('(product/manufacturer)[1]', 'NVARCHAR(250)'),
@@ -183,6 +194,61 @@ BEGIN
 				M.value('(type/name)[1]', 'NVARCHAR(250)'),
 				null, getdate(), null
 			FROM @P_XML.nodes('/project/items/item/materials/material') M(M);
+
+			-- CATEGORIES DATA
+			WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com',
+				'http://www.w3.org/2001/XMLSchema-instance' AS i)
+			INSERT INTO @TempCategories 
+					(TAXONOMY, 
+					 TITLE,
+					 IS_NEW) 
+			SELECT DISTINCT	
+					m.value('(taxonomy)[1]', 'NVARCHAR(150)'), 
+					m.value('(title)[1]', 'NVARCHAR(250)'),
+					1
+			FROM   @P_XML.nodes('/project/items/item/categories/category') M(m);
+			
+			UPDATE @TempCategories
+			SET ID = C.CATEGORY_ID, IS_NEW = 0
+			FROM @TempCategories TEMP
+			INNER JOIN GPD_CATEGORY C 
+				ON TEMP.TAXONOMY = C.TAXONOMY
+				AND TEMP.TITLE = C.TITLE;
+
+			UPDATE @TempCategories
+			SET ID = NEWID()
+			WHERE IS_NEW = 1;
+
+			INSERT INTO gpd_category
+			   (category_id,
+			   taxonomy,
+			   title,
+			   active,
+			   xml_taxonomy_metadata,
+			   create_date,
+			   update_date)
+			SELECT ID, TAXONOMY, TITLE, 1, NULL, GETDATE(), NULL
+			FROM @TempCategories
+			WHERE IS_NEW = 1;
+
+			-- ITEM-CATEGORIES XREF DATA
+			WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com',
+				'http://www.w3.org/2001/XMLSchema-instance' AS i)
+			INSERT INTO gpd_item_category_xref
+			   (project_item_id,
+			   category_id,
+			   create_date,
+			   update_date)
+			SELECT I.PROJECT_ITEM_ID, C.ID, GETDATE(), NULL
+			FROM @TempCategories C
+			JOIN (
+				SELECT DISTINCT	
+					m.value('(../../project_item_id)[1]', 'NVARCHAR(150)') AS PROJECT_ITEM_ID, 
+					m.value('(taxonomy)[1]', 'NVARCHAR(150)') AS TAXONOMY, 
+					m.value('(title)[1]', 'NVARCHAR(250)') AS TITLE
+				FROM   @P_XML.nodes('/project/items/item/categories/category') M(m)) I
+			ON C.TAXONOMY = I.TAXONOMY
+				AND C.TITLE = I.TITLE;
 
 	COMMIT TRAN;
     SELECT @P_Return_ErrorCode = 0, @P_Return_Message = '';

@@ -138,8 +138,8 @@ namespace GPD.Facade
                                 Type = dr["TYPE"].ToString(),
                                 Currency = dr["CURRENCY"].ToString(),
                                 Family = dr["FAMILY"].ToString(),
-                                Quantity = "",
-                                QuantityUnit = ""
+                                Quantity = dr["QUANTITY"].ToString(),
+                                QuantityUnit = dr["QUANTITY_UNIT"].ToString()
                             };
                             #endregion
 
