@@ -28,7 +28,8 @@ namespace GPD.WEB
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
-                      "~/Scripts/angular.js"));
+                      "~/Scripts/angular.js",
+                      "~/Scripts/angular-ui/ui-bootstrap-tpls.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/custom/script").Include(
                      "~/Scripts/custom/GPD.*"));

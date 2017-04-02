@@ -6,7 +6,7 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
     $scope.data.page = {};
     $scope.data.page.currentPage = 1;
     $scope.data.page.maxPage = 5;
-    $scope.data.page.itemPerPage = 2;
+    $scope.data.page.itemPerPage = 10;
     $scope.data.search = {};
     $scope.data.search.name = "";
 
