@@ -236,13 +236,11 @@ BEGIN
 				'http://www.w3.org/2001/XMLSchema-instance' AS i)
 			INSERT INTO gpd_item_category_xref
 			   (project_item_id,
-			   category_id,
-			   create_date,
-			   update_date)
-			SELECT I.PROJECT_ITEM_ID, C.ID, GETDATE(), NULL
+			   category_id)
+			SELECT DISTINCT I.PROJECT_ITEM_ID, C.ID
 			FROM @TempCategories C
 			JOIN (
-				SELECT DISTINCT	
+				SELECT 	
 					m.value('(../../project_item_id)[1]', 'NVARCHAR(150)') AS PROJECT_ITEM_ID, 
 					m.value('(taxonomy)[1]', 'NVARCHAR(150)') AS TAXONOMY, 
 					m.value('(title)[1]', 'NVARCHAR(250)') AS TITLE
