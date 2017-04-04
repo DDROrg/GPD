@@ -36,8 +36,8 @@ namespace GPD.DAL.SqlDB
             {
                  new SqlParameter("@P_XML", projectXmlData.ToString()),
                  new SqlParameter("@P_SOURCE_CLIENT", sourceClient),                 
-                 new SqlParameter("@P_Return_ErrorCode", SqlDbType.Int) {Direction = ParameterDirection.Output },
-                 new SqlParameter("@P_Return_Message", SqlDbType.VarChar, 1024) {Direction = ParameterDirection.Output }
+                 new SqlParameter("@P_Return_ErrorCode", SqlDbType.Int) { Direction = ParameterDirection.Output },
+                 new SqlParameter("@P_Return_Message", SqlDbType.VarChar, 1024) { Direction = ParameterDirection.Output }
             };
 
             Dictionary<string, object> retVal = base.ExecuteStoreProcedure("gpd_AddProject", parametersInList);

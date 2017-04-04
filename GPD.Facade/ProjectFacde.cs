@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.Serialization;
-using System.Xml;
 using System.Data;
+using System.Linq;
+using System.Runtime.Serialization;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-
 namespace GPD.Facade
 {
-    using ServiceEntities;
     using DAL.SqlDB;
+    using ServiceEntities;
 
     public class ProjectFacde
     {
@@ -21,34 +17,33 @@ namespace GPD.Facade
 
         public AddProjectResponseDTO Add(ProjectDTO projectDTO)
         {
-            AddProjectResponseDTO retVal;
+            AddProjectResponseDTO retVal = null;
+            XDocument doc = new XDocument();
+
             try
             {
-                XDocument doc = new XDocument();
+                // set project ID
+                projectDTO.Id = System.Guid.NewGuid().ToString();
 
+                // get XML based on ProjectDTO object
                 using (var writer = doc.CreateWriter())
                 {
                     var serializer = new DataContractSerializer(projectDTO.GetType());
                     serializer.WriteObject(writer, projectDTO);
                 }
 
-                //XmlNameTable nameTable = doc.CreateReader().NameTable;
-                //XmlNamespaceManager names = new XmlNamespaceManager(nameTable);
-
-                XmlNamespaceManager nameSpace = new XmlNamespaceManager(new NameTable());
-                XNamespace def = "http://www.gpd.com";
-                nameSpace.AddNamespace("def", "http://www.gpd.com");
-                nameSpace.AddNamespace("i", "http://www.w3.org/2001/XMLSchema-instance");
-
-                doc.Root.XPathSelectElements("def:items/def:item", nameSpace)
+                doc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']")
                     .ToList()
-                    .ForEach(i =>
-                    {
-                        i.Add(new XElement(def + "project_item_id", System.Guid.NewGuid().ToString()));
-                    });
+                    .ForEach(T => T.Add(new XAttribute("guid", System.Guid.NewGuid().ToString())));
 
-                //string projectId = doc.Root.XPathSelectElement("def:id", nameSpace).Value;
+                doc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']/*[local-name()='categories']/*[local-name()='category']")
+                    .ToList()
+                    .ForEach(T => T.Add(new XAttribute("guid", System.Guid.NewGuid().ToString())));
+
+                // send the project to DB 
                 new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(doc);
+
+                // project content inserted successful
                 retVal = new AddProjectResponseDTO(true, projectDTO.Id);
             }
             catch (Exception ex)
@@ -56,6 +51,7 @@ namespace GPD.Facade
                 log.Error("Unable to add project", ex);
                 retVal = new AddProjectResponseDTO(false, "");
             }
+
             return retVal;
         }
 

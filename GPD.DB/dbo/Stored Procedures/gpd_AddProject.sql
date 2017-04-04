@@ -132,7 +132,7 @@ BEGIN
 				M.value('(application/type)[1]', 'NVARCHAR(100)'),
 				getdate(), null
 			FROM @P_XML.nodes('/project/session') M(M);
-
+			
 			--Item
 			WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com',
 				'http://www.w3.org/2001/XMLSchema-instance' AS i)
@@ -155,7 +155,7 @@ BEGIN
 				create_date,
 				update_date)
 			SELECT			
-				M.value('(project_item_id)[1]', 'UNIQUEIDENTIFIER'),
+				M.value('(./@guid)[1]', 'UNIQUEIDENTIFIER'),
 				@V_ProjectId, 
 				M.value('(id)[1]', 'INT'),
 				M.value('(type)[1]', 'NVARCHAR(100)'),
@@ -186,7 +186,7 @@ BEGIN
 				create_date,
 				update_date)
 			SELECT
-				M.value('(../../project_item_id)[1]', 'UNIQUEIDENTIFIER'),
+				M.value('(../../@guid)[1]', 'UNIQUEIDENTIFIER'),
 				M.value('(id)[1]', 'INT'),
 				M.value('(product/manufacturer)[1]', 'NVARCHAR(250)'),
 				M.value('(product/model)[1]', 'NVARCHAR(250)'),
@@ -198,11 +198,9 @@ BEGIN
 			-- CATEGORIES DATA
 			WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com',
 				'http://www.w3.org/2001/XMLSchema-instance' AS i)
-			INSERT INTO @TempCategories 
-					(TAXONOMY, 
-					 TITLE,
-					 IS_NEW) 
+			INSERT INTO @TempCategories
 			SELECT DISTINCT	
+					m.value('(@guid)[1]', 'UNIQUEIDENTIFIER'),
 					m.value('(taxonomy)[1]', 'NVARCHAR(150)'), 
 					m.value('(title)[1]', 'NVARCHAR(250)'),
 					1
@@ -214,10 +212,6 @@ BEGIN
 			INNER JOIN GPD_CATEGORY C 
 				ON TEMP.TAXONOMY = C.TAXONOMY
 				AND TEMP.TITLE = C.TITLE;
-
-			UPDATE @TempCategories
-			SET ID = NEWID()
-			WHERE IS_NEW = 1;
 
 			INSERT INTO gpd_category
 			   (category_id,
@@ -241,7 +235,7 @@ BEGIN
 			FROM @TempCategories C
 			JOIN (
 				SELECT 	
-					m.value('(../../project_item_id)[1]', 'NVARCHAR(150)') AS PROJECT_ITEM_ID, 
+					m.value('(../../@guid)[1]', 'NVARCHAR(150)') AS PROJECT_ITEM_ID, 
 					m.value('(taxonomy)[1]', 'NVARCHAR(150)') AS TAXONOMY, 
 					m.value('(title)[1]', 'NVARCHAR(250)') AS TITLE
 				FROM   @P_XML.nodes('/project/items/item/categories/category') M(m)) I

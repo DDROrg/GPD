@@ -6,9 +6,10 @@ namespace GPD.ServiceEntities
     [DataContract(Namespace = "http://www.gpd.com", Name = "project")]
     public class ProjectDTO
     {
-        public ProjectDTO()
-        {
-            Id = System.Guid.NewGuid().ToString();
+        public ProjectDTO() { }
+
+        public ProjectDTO(string id) {
+            this.Id = id;
         }
 
         [DataMember(Name = "id", Order = 1)]
@@ -139,9 +140,7 @@ namespace GPD.ServiceEntities
 
         [DataMember(Name = "version", Order = 6)]
         public string Version;
-    }
-
-   
+    }   
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "session")]
     public class SessionDTO
@@ -198,7 +197,6 @@ namespace GPD.ServiceEntities
     [DataContract(Namespace = "http://www.gpd.com", Name = "item")]
     public class ItemDTO
     {
-
         [DataMember(Name = "categories", Order = 1)]
         public List<CategoryDTO> Categories { get; set; }
 
