@@ -185,7 +185,7 @@ BEGIN
 				xml_material_metadata,
 				create_date,
 				update_date)
-			SELECT
+			SELECT DISTINCT
 				M.value('(../../@guid)[1]', 'UNIQUEIDENTIFIER'),
 				M.value('(id)[1]', 'INT'),
 				M.value('(product/manufacturer)[1]', 'NVARCHAR(250)'),

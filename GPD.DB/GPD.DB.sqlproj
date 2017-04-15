@@ -82,6 +82,7 @@
     <Build Include="dbo\Stored Procedures\gpd_AddProject.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetProjects.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetProjectById.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_GetProjectItems.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="GPD.DB.refactorlog" />
