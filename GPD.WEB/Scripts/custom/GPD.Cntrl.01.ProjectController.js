@@ -1,73 +1,82 @@
 ﻿//=================================================
-angular.module('Project').controller('ProjectController', function ($scope, $http, $location, $uibModal, CommonServices, ProjectServices) {
-    CommonServices.SetDefaultData($scope, $location);
-    $scope.data.projects = [];
-    $scope.data.sort = [{ column: 'name', descending: false }];
-    $scope.data.page = {};
-    $scope.data.page.currentPage = 1;
-    $scope.data.page.maxPage = 5;
-    $scope.data.page.itemPerPage = 10;
-    $scope.data.search = {};
-    $scope.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
+angular.module('Project').controller('ProjectController', function ($scope, $http, $location, $uibModal, $log, CommonServices, ProjectServices) {
+    var $ctrl = this;
+    CommonServices.SetDefaultData($ctrl, $location);
+    $ctrl.data.projects = [];
+    $ctrl.data.sort = [{ column: 'name', descending: false }];
+    $ctrl.data.page = {};
+    $ctrl.data.page.currentPage = 1;
+    $ctrl.data.page.maxPage = 5;
+    $ctrl.data.page.itemPerPage = 10;
+    $ctrl.data.search = {};
+    $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
 
-    $scope.OnChangeSorting = function (column) {
+    $ctrl.OnChangeSorting = function (column) {
         var t = { column: column, descending: true };
-        if ($scope.data.sort.length > 0) {
-            if ($scope.data.sort[0].column == column) {
-                t.descending = !$scope.data.sort[0].descending;
+        if ($ctrl.data.sort.length > 0) {
+            if ($ctrl.data.sort[0].column == column) {
+                t.descending = !$ctrl.data.sort[0].descending;
             } else {
                 t.descending = true;
             }
         }
-        $scope.data.sort = [t];
+        $ctrl.data.sort = [t];
     };
 
-    $scope.ColumnSortClass = function (column) {
+    $ctrl.ColumnSortClass = function (column) {
         var retVal = "fa fa-sort";
-        if ($scope.data.sort && $scope.data.sort.column && column == $scope.data.sort.column) {
-            if ($scope.data.sort.descending) { retVal = "fa fa-sort-down"; }
+        if ($ctrl.data.sort && $ctrl.data.sort.column && column == $ctrl.data.sort.column) {
+            if ($ctrl.data.sort.descending) { retVal = "fa fa-sort-down"; }
             else { retVal = "fa fa-sort-up"; }
         }
         return retVal;
     };
 
-    $scope.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
+    $ctrl.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
 
-    $scope.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
+    $ctrl.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
 
-    $scope.OnOpenItem = function (d) {
+    $ctrl.OnOpenItem = function (d) {
         var parentElem = angular.element('div[data-id="Project"]');
         var modalInstance = $uibModal.open({
+            animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
             templateUrl: 'myModalContent.html',
-            controller: 'ProjectController',
+            controller: 'ModalInstanceCtrl',
+            controllerAs: '$ctrl',
             size: 'lg',
             appendTo: parentElem,
             resolve: {
-                //items: function () {
-                //    return $ctrl.items;
-                //}
+                project: function () {
+                    return d;
+                }
             }
+        });
+
+        modalInstance.result.then(function (btnClicked) {
+            $log.info('Button Clicked: ' + btnClicked);
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
         });
     };
 
-    $scope.OnModalOk = function () {
+    $ctrl.OnModalOk = function () {
         alert("TODO: OnModalOk");
     };
 
-    $scope.OnModalCancel = function (d) {
+    $ctrl.OnModalCancel = function (d) {
         alert("TODO: OnModalCancel");
     };
 
-    $scope.OnColExpDetail = function (d) {
+    $ctrl.OnColExpDetail = function (d) {
         d.isExpanded = !(d.isExpanded);
         if (d.hasDetail == false) { GetProjectDetail(d); }
     };
 
-    $scope.ColumnSortOrder = function () {
+    $ctrl.ColumnSortOrder = function () {
         var retVal = [];
-        angular.forEach($scope.data.sort, function (v, k) {
+        angular.forEach($ctrl.data.sort, function (v, k) {
             retVal.push((v.descending ? "-" : "") + v.column);
         });
         return retVal;
@@ -87,11 +96,27 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
     var GetProjects = function () {
         return ProjectServices.GetProjects()
         .then(function (payload) {
-            $scope.data.projects = payload;
+            $ctrl.data.projects = payload;
         });
     };
 
     angular.element(document).ready(function () {
         GetProjects();
     });
+});
+
+//=================================================
+angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalInstance, project) {
+    var $ctrl = this;
+    $ctrl.data = {};
+    $ctrl.data.project = project;
+
+    $ctrl.Ok = function () {
+        //$uibModalInstance.close($ctrl.selected.item);
+        $uibModalInstance.close("OK");
+    };
+
+    $ctrl.Cancel = function () {
+        $uibModalInstance.dismiss('CANCEL');
+    };
 });

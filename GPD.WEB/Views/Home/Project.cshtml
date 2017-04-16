@@ -5,13 +5,13 @@
 
 
 <div data-ng-app="Project" class="container-fluid" data-id="Project">
-    <div data-ng-controller="ProjectController">
+    <div data-ng-controller="ProjectController as $ctrl">
         <h2>@ViewBag.Title</h2>
         <div class="data-container">
-            <div data-ng-if="filterData.length > data.page.itemPerPage" style="text-align: center;">
+            <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: center;">
                 <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
-                     ng-model="data.page.currentPage" ng-change="pageChanged()" previous-text="&lsaquo;"
-                     next-text="&rsaquo;" items-per-page="data.page.itemPerPage" max-size="data.page.maxPage"
+                     ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.pageChanged()" previous-text="&lsaquo;"
+                     next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
                      boundary-link-numbers="true">
                 </div>
             </div>
@@ -20,39 +20,39 @@
                 <div class="col-xs-11">
                     <div class="row" style="">
                         <div class="col-xs-4 col-sm-2">
-                            <a ng-href="" data-ng-click="OnChangeSorting('number')">Number&nbsp;</a><i data-ng-class="ColumnSortClass('number')">
+                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('number')">Number&nbsp;</a><i data-ng-class="ColumnSortClass('number')">
                             </i><br />
-                            <input data-ng-model="data.search.number" placeholder="Search by Number ..."
+                            <input data-ng-model="$ctrl.data.search.number" placeholder="Search by Number ..."
                                    style="width: 100%; height: 25px; margin-top: 4px;" />
                         </div>
                         <div class="col-xs-8 col-sm-2">
-                            <a ng-href="" data-ng-click="OnChangeSorting('name')">Name&nbsp;</a><i data-ng-class="ColumnSortClass('name')">
+                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')">Name&nbsp;</a><i data-ng-class="ColumnSortClass('name')">
                             </i><br />
-                            <input data-ng-model="data.search.name" placeholder="Search by Name ..."
+                            <input data-ng-model="$ctrl.data.search.name" placeholder="Search by Name ..."
                                    style="width: 100%; height: 25px; margin-top: 4px;" />
                         </div>
                         <div class="col-sm-2 hidden-xs">
-                            <a ng-href="" data-ng-click="OnChangeSorting('organization-name')">Organization&nbsp;</a><i data-ng-class="ColumnSortClass('organization-name')">
+                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('organization-name')">Organization&nbsp;</a><i data-ng-class="ColumnSortClass('organization-name')">
                             </i><br />
-                            <input data-ng-model="data.search['organization-name']" placeholder="Search by Organization ..."
+                            <input data-ng-model="$ctrl.data.search['organization-name']" placeholder="Search by Organization ..."
                                    style="width: 100%; height: 25px; margin-top: 4px;" />
                         </div>
                         <div class="col-sm-2 hidden-xs">
-                            <a ng-href="" data-ng-click="OnChangeSorting('author')">Author&nbsp;</a><i data-ng-class="ColumnSortClass('author')">
+                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('author')">Author&nbsp;</a><i data-ng-class="ColumnSortClass('author')">
                             </i><br />
-                            <input data-ng-model="data.search.author" placeholder="Search by Author ..."
+                            <input data-ng-model="$ctrl.data.search.author" placeholder="Search by Author ..."
                                    style="width: 100%; height: 25px; margin-top: 4px;" />
                         </div>
                         <div class="col-sm-2 hidden-xs">
-                            <a ng-href="" data-ng-click="OnChangeSorting('client')">Client&nbsp;</a><i data-ng-class="ColumnSortClass('client')">
+                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('client')">Client&nbsp;</a><i data-ng-class="ColumnSortClass('client')">
                             </i><br />
-                            <input data-ng-model="data.search.client" placeholder="Search by Client ..."
+                            <input data-ng-model="$ctrl.data.search.client" placeholder="Search by Client ..."
                                    style="width: 100%; height: 25px; margin-top: 4px;" />
                         </div>
                         <div class="col-sm-2 hidden-xs">
-                            <a ng-href="" data-ng-click="OnChangeSorting('status')">Status&nbsp;</a><i data-ng-class="ColumnSortClass('status')">
+                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('status')">Status&nbsp;</a><i data-ng-class="ColumnSortClass('status')">
                             </i><br />
-                            <input data-ng-model="data.search.status" placeholder="Search by Status ..."
+                            <input data-ng-model="$ctrl.data.search.status" placeholder="Search by Status ..."
                                    style="width: 100%; height: 25px; margin-top: 4px;" />
                         </div>
                     </div>
@@ -62,13 +62,13 @@
             </div>
 
 
-            <div data-ng-repeat="d in filterData = (data.projects | filter:data.search | orderBy : ColumnSortOrder()) | limitTo : data.page.itemPerPage : data.page.itemPerPage * (data.page.currentPage - 1)"
+            <div data-ng-repeat="d in filterData = ($ctrl.data.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)"
                  class="row data-row">
                 <div class="col-xs-11">
                     <div class="row">
                         <div>
-                            <div class="col-xs-4 col-sm-2" data-ng-click="OnColExpDetail(d)">
-                                <a ng-href="" class="data-link"><i data-ng-class="ColExpClass(d)"></i>&nbsp;{{d.number}}</a>
+                            <div class="col-xs-4 col-sm-2" data-ng-click="$ctrl.OnColExpDetail(d)">
+                                <a ng-href="" class="data-link"><i data-ng-class="$ctrl.ColExpClass(d)"></i>&nbsp;{{d.number}}</a>
                             </div>
                             <div class="col-xs-8 col-sm-2">{{d.name}}</div>
                             <div class="col-sm-2 hidden-xs">{{d["organization-name"]}}</div>
@@ -79,9 +79,9 @@
                     </div>
                 </div>
                 <div class="col-xs-1">
-                    <a ng-href="" class="data-link" data-ng-click="OnOpenItem(d)"><i class="fa fa-list-ul"></i></a>
+                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul"></i></a>
                 </div>
-                <div ng-if="IsShowDetail(d)" class="col-xs-12 data-details">
+                <div ng-if="$ctrl.IsShowDetail(d)" class="col-xs-12 data-details">
                     <div style="font-weight:bold;font-size:1.2em;text-align:center; border-top:1px dotted #000;padding-top:5px;">Detail</div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-4">
@@ -290,16 +290,49 @@
                 <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
             </div>
             <div class="modal-body" id="modal-body">
-                @*<ul>
-                    <li ng-repeat="item in $ctrl.items">
-                        <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
-                    </li>
-                </ul>
-                Selected: <b>{{ $ctrl.selected.item }}</b>*@
+                <div class="container-fluid">
+                    <div class="data-container">
+                        <div class="row data-header-row">
+                            <div class="col-xs-2">Name</div>
+                            <div class="col-xs-2">Manufacturer</div>
+                            <div class="col-xs-3"></div>
+                            <div class="col-xs-2">Categories</div>
+                            <div class="col-xs-3">materials</div>         
+                        </div>
+                        <div data-ng-repeat="d in $ctrl.data.project.items"
+                             class="row data-row">
+                            <div class="col-xs-2">{{d.product.name}}</div>
+                            <div class="col-xs-2">{{d.product.manufacturer}}</div>
+                            <div class="col-xs-3">
+                                <div>Quantity: {{d.quantity}}</div>
+                                <div>Quantity Unit: {{d["quantity-unit"]}}</div>
+                                <div>Currency: {{d.currency}}</div>
+                                <div>Type: {{d.type}}</div>
+                                <div>family: {{d.family}}</div>
+                                <div>Model: {{d.product.model}}</div>
+                                <div>URL: {{d.product.url}}</div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div data-ng-repeat="dc in d.categories">
+                                    {{dc.taxonomy}} : {{dc.title}}
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div data-ng-repeat="dm in d.materials">
+                                    <div>Name: {{dm.product.name}}</div>
+                                    <div>Model: {{dm.product.model}}</div>
+                                    <div>Manufacturer: {{dm.product.manufacturer}}</div>
+                                    <div>Name: {{dm.product.name}}</div>
+                                    <div>Type: {{dm.type.name}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" type="button" ng-click="OnModalOk()">OK</button>
-                <button class="btn btn-warning" type="button" ng-click="OnModalCancel()">Cancel</button>
+                <button class="btn btn-primary" type="button" ng-click="$ctrl.Ok()">OK</button>
+                <button class="btn btn-warning" type="button" ng-click="$ctrl.Cancel()">Cancel</button>
             </div>
         </script>
     </div>
