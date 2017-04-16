@@ -4,7 +4,7 @@
 }
 
 
-<div data-ng-app="Project" class="container-fluid">
+<div data-ng-app="Project" class="container-fluid" data-id="Project">
     <div data-ng-controller="ProjectController">
         <h2>@ViewBag.Title</h2>
         <div class="data-container">
@@ -16,45 +16,73 @@
                 </div>
             </div>
 
-            <div class="row data-header-row" style="">
-                <div class="col-xs-4 col-sm-2" data-ng-click="OnChangeSorting('number')">
-                    <a ng-href="">Number&nbsp;</a><i data-ng-class="ColumnSortClass('number')">
-                    </i>
+            <div class="row data-header-row">
+                <div class="col-xs-11">
+                    <div class="row" style="">
+                        <div class="col-xs-4 col-sm-2">
+                            <a ng-href="" data-ng-click="OnChangeSorting('number')">Number&nbsp;</a><i data-ng-class="ColumnSortClass('number')">
+                            </i><br />
+                            <input data-ng-model="data.search.number" placeholder="Search by Number ..."
+                                   style="width: 100%; height: 25px; margin-top: 4px;" />
+                        </div>
+                        <div class="col-xs-8 col-sm-2">
+                            <a ng-href="" data-ng-click="OnChangeSorting('name')">Name&nbsp;</a><i data-ng-class="ColumnSortClass('name')">
+                            </i><br />
+                            <input data-ng-model="data.search.name" placeholder="Search by Name ..."
+                                   style="width: 100%; height: 25px; margin-top: 4px;" />
+                        </div>
+                        <div class="col-sm-2 hidden-xs">
+                            <a ng-href="" data-ng-click="OnChangeSorting('organization-name')">Organization&nbsp;</a><i data-ng-class="ColumnSortClass('organization-name')">
+                            </i><br />
+                            <input data-ng-model="data.search['organization-name']" placeholder="Search by Organization ..."
+                                   style="width: 100%; height: 25px; margin-top: 4px;" />
+                        </div>
+                        <div class="col-sm-2 hidden-xs">
+                            <a ng-href="" data-ng-click="OnChangeSorting('author')">Author&nbsp;</a><i data-ng-class="ColumnSortClass('author')">
+                            </i><br />
+                            <input data-ng-model="data.search.author" placeholder="Search by Author ..."
+                                   style="width: 100%; height: 25px; margin-top: 4px;" />
+                        </div>
+                        <div class="col-sm-2 hidden-xs">
+                            <a ng-href="" data-ng-click="OnChangeSorting('client')">Client&nbsp;</a><i data-ng-class="ColumnSortClass('client')">
+                            </i><br />
+                            <input data-ng-model="data.search.client" placeholder="Search by Client ..."
+                                   style="width: 100%; height: 25px; margin-top: 4px;" />
+                        </div>
+                        <div class="col-sm-2 hidden-xs">
+                            <a ng-href="" data-ng-click="OnChangeSorting('status')">Status&nbsp;</a><i data-ng-class="ColumnSortClass('status')">
+                            </i><br />
+                            <input data-ng-model="data.search.status" placeholder="Search by Status ..."
+                                   style="width: 100%; height: 25px; margin-top: 4px;" />
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xs-8 col-sm-2" data-ng-click="OnChangeSorting('name')">
-                    <a ng-href="">Name&nbsp;</a><i data-ng-class="ColumnSortClass('name')">
-                    </i>
-                </div>
-                <div class="col-sm-2 hidden-xs" data-ng-click="OnChangeSorting('organization-name')">
-                    <a ng-href="">Organization&nbsp;</a><i data-ng-class="ColumnSortClass('organization-name')">
-                    </i>
-                </div>
-                <div class="col-sm-2 hidden-xs" data-ng-click="OnChangeSorting('author')">
-                    <a ng-href="">Author&nbsp;</a><i data-ng-class="ColumnSortClass('author')">
-                    </i>
-                </div>
-                <div class="col-sm-2 hidden-xs" data-ng-click="OnChangeSorting('client')">
-                    <a ng-href="">Client&nbsp;</a><i data-ng-class="ColumnSortClass('client')">
-                    </i>
-                </div>
-                <div class="col-sm-2 hidden-xs" data-ng-click="OnChangeSorting('status')">
-                    <a ng-href="">Status&nbsp;</a><i data-ng-class="ColumnSortClass('status')">
-                    </i>
+                <div class="col-xs-1">
                 </div>
             </div>
+
+
             <div data-ng-repeat="d in filterData = (data.projects | filter:data.search | orderBy : ColumnSortOrder()) | limitTo : data.page.itemPerPage : data.page.itemPerPage * (data.page.currentPage - 1)"
                  class="row data-row">
-                <div>
-                    <div class="col-xs-4 col-sm-2" data-ng-click="OnColExpDetail(d)">
-                        <a ng-href="" class="data-link"><i data-ng-class="ColExpClass(d)"></i>&nbsp;{{d.number}}</a>
+                <div class="col-xs-11">
+                    <div class="row">
+                        <div>
+                            <div class="col-xs-4 col-sm-2" data-ng-click="OnColExpDetail(d)">
+                                <a ng-href="" class="data-link"><i data-ng-class="ColExpClass(d)"></i>&nbsp;{{d.number}}</a>
+                            </div>
+                            <div class="col-xs-8 col-sm-2">{{d.name}}</div>
+                            <div class="col-sm-2 hidden-xs">{{d["organization-name"]}}</div>
+                            <div class="col-sm-2 hidden-xs">{{d.author}}</div>
+                            <div class="col-sm-2 hidden-xs">{{d.client}}</div>
+                            <div class="col-sm-2 hidden-xs">{{d.status}}</div>
+                        </div>
                     </div>
-                    <div class="col-xs-8 col-sm-2">{{d.name}}</div>
-                    <div class="col-sm-2 hidden-xs">{{d["organization-name"]}}</div>
-                    <div class="col-sm-2 hidden-xs">{{d.author}}</div>
-                    <div class="col-sm-2 hidden-xs">{{d.client}}</div>
-                    <div class="col-sm-2 hidden-xs">{{d.status}}</div>
+                </div>
+                <div class="col-xs-1">
+                    <a ng-href="" class="data-link" data-ng-click="OnOpenItem(d)"><i class="fa fa-list-ul"></i></a>
                 </div>
                 <div ng-if="IsShowDetail(d)" class="col-xs-12 data-details">
+                    <div style="font-weight:bold;font-size:1.2em;text-align:center; border-top:1px dotted #000;padding-top:5px;">Detail</div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-4">
                             <div class="row">
@@ -256,6 +284,24 @@
                 </div>
             </div>
         </div>
+
+        <script type="text/ng-template" id="myModalContent.html">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+            </div>
+            <div class="modal-body" id="modal-body">
+                @*<ul>
+                    <li ng-repeat="item in $ctrl.items">
+                        <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
+                    </li>
+                </ul>
+                Selected: <b>{{ $ctrl.selected.item }}</b>*@
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="OnModalOk()">OK</button>
+                <button class="btn btn-warning" type="button" ng-click="OnModalCancel()">Cancel</button>
+            </div>
+        </script>
     </div>
 </div>
 

@@ -154,7 +154,7 @@ namespace GPD.Facade
                             if (ds.Tables[3].Rows.Count > 0)
                             {
                                 var drMaterials = ds.Tables[3].AsEnumerable()
-                                    .Where(i => i.Field<string>("ITEM_ID").Equals(tempItemDTO.Id));
+                                    .Where(i => i["ITEM_ID"].ToString().Equals(tempItemDTO.Id));
                                 if (drMaterials.Count() > 0)
                                 {
                                     tempItemDTO.Materials = new List<MaterialDTO>();
@@ -179,7 +179,7 @@ namespace GPD.Facade
                             if (ds.Tables[4].Rows.Count > 0)
                             {
                                 var drCategories = ds.Tables[4].AsEnumerable()
-                                   .Where(i => i.Field<string>("ITEM_ID").Equals(tempItemDTO.Id));
+                                   .Where(i => i["ITEM_ID"].ToString().Equals(tempItemDTO.Id));
                                 if (drCategories.Count() > 0)
                                 {
                                     tempItemDTO.Categories = new List<CategoryDTO>();

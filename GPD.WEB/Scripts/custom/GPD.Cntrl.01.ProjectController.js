@@ -1,5 +1,5 @@
 ﻿//=================================================
-angular.module('Project').controller('ProjectController', function ($scope, $http, $location, CommonServices, ProjectServices) {
+angular.module('Project').controller('ProjectController', function ($scope, $http, $location, $uibModal, CommonServices, ProjectServices) {
     CommonServices.SetDefaultData($scope, $location);
     $scope.data.projects = [];
     $scope.data.sort = [{ column: 'name', descending: false }];
@@ -8,15 +8,18 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
     $scope.data.page.maxPage = 5;
     $scope.data.page.itemPerPage = 10;
     $scope.data.search = {};
-    $scope.data.search.name = "";
+    $scope.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
 
     $scope.OnChangeSorting = function (column) {
-        if ($scope.data.sort.column == column) {
-            $scope.data.sort.descending = !$scope.data.sort.descending;
-        } else {
-            $scope.data.sort.column = column;
-            $scope.data.sort.descending = true;
+        var t = { column: column, descending: true };
+        if ($scope.data.sort.length > 0) {
+            if ($scope.data.sort[0].column == column) {
+                t.descending = !$scope.data.sort[0].descending;
+            } else {
+                t.descending = true;
+            }
         }
+        $scope.data.sort = [t];
     };
 
     $scope.ColumnSortClass = function (column) {
@@ -31,6 +34,31 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
     $scope.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
 
     $scope.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
+
+    $scope.OnOpenItem = function (d) {
+        var parentElem = angular.element('div[data-id="Project"]');
+        var modalInstance = $uibModal.open({
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'myModalContent.html',
+            controller: 'ProjectController',
+            size: 'lg',
+            appendTo: parentElem,
+            resolve: {
+                //items: function () {
+                //    return $ctrl.items;
+                //}
+            }
+        });
+    };
+
+    $scope.OnModalOk = function () {
+        alert("TODO: OnModalOk");
+    };
+
+    $scope.OnModalCancel = function (d) {
+        alert("TODO: OnModalCancel");
+    };
 
     $scope.OnColExpDetail = function (d) {
         d.isExpanded = !(d.isExpanded);
