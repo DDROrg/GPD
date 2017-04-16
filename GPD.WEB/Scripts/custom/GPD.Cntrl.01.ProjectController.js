@@ -49,6 +49,7 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
             appendTo: parentElem,
             resolve: {
                 project: function () {
+                    GetProjectDetail(d);
                     return d;
                 }
             }
@@ -60,15 +61,7 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
-
-    $ctrl.OnModalOk = function () {
-        alert("TODO: OnModalOk");
-    };
-
-    $ctrl.OnModalCancel = function (d) {
-        alert("TODO: OnModalCancel");
-    };
-
+    
     $ctrl.OnColExpDetail = function (d) {
         d.isExpanded = !(d.isExpanded);
         if (d.hasDetail == false) { GetProjectDetail(d); }
@@ -85,6 +78,8 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
     var GetProjectDetail = function (d) {
         return ProjectServices.GetProjectDetail(d.id)
         .then(function (payload) {
+            $log.info(payload);
+
             d.identifiers = payload.identifiers;
             d.items = payload.items;
             d.location = payload.location;
