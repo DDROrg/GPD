@@ -56,7 +56,7 @@
                                 <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.state)">{{d.location.state}},&nbsp;</ng-container>
                                 <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.zip)">zip - {{d.location.city}}</ng-container>
                             </td>
-                            <td></td>
+                            <td>{{d["create-timestamp-formatted"]}}</td>
                         </tr>
                     </tbody>
                 </table>

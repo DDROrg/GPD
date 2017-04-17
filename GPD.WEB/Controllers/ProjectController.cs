@@ -20,7 +20,7 @@ namespace GPD.WEB.Controllers
         /// Get list of all Projects
         /// </summary>
         /// <returns></returns>
-        public List<ProjectDTO> Get()
+        public List<ProjectDTO_Extended> Get()
         {
             string userId = "";
             return new Facade.ProjectFacde().GetAll(userId);

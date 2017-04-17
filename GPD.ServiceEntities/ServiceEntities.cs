@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using System.Collections.Generic;
+using System;
 
 namespace GPD.ServiceEntities
 {
@@ -223,5 +224,13 @@ namespace GPD.ServiceEntities
 
         [DataMember(Name = "type", Order = 9)]
         public string Type;
+    }
+
+    public class ProjectDTO_Extended : ProjectDTO
+    {
+        public ProjectDTO_Extended(string id) : base(id) { }
+
+        [DataMember(Name = "create-timestamp-formatted", Order = 13)]
+        public string CreateTimestamp;
     }
 }

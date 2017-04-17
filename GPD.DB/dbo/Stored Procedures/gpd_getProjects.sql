@@ -12,6 +12,7 @@ BEGIN
 		p.number,
 		p.organization_description,
 		p.organization_name,
-		p.[status]
+		p.[status],
+		p.create_date
 	FROM gpd_project p;
 END

@@ -213,9 +213,10 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<ProjectDTO> GetAll(string userId)
+        public List<ProjectDTO_Extended> GetAll(string userId)
         {
-            List<ProjectDTO> retVal = new List<ProjectDTO>();
+            List<ProjectDTO_Extended> retVal = new List<ProjectDTO_Extended>();
+
             try
             {
                 DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjects(userId);
@@ -224,9 +225,8 @@ namespace GPD.Facade
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        ProjectDTO tempProjectDTO = new ProjectDTO()
+                        ProjectDTO_Extended tempProjectDTO = new ProjectDTO_Extended(dr["PROJECT_ID"].ToString())
                         {
-                            Id = dr["PROJECT_ID"].ToString(),
                             Author = dr["AUTHOR"].ToString(),
                             BuildingName = dr["BUILDING_NAME"].ToString(),
                             Client = dr["CLIENT"].ToString(),
@@ -235,8 +235,10 @@ namespace GPD.Facade
                             Number = dr["NUMBER"].ToString(),
                             OrganizationDescription = dr["ORGANIZATION_DESCRIPTION"].ToString(),
                             OrganizationName = dr["ORGANIZATION_NAME"].ToString(),
-                            Status = dr["STATUS"].ToString()
+                            Status = dr["STATUS"].ToString(),
+                            CreateTimestamp = ((DateTime)dr["CREATE_DATE"]).ToString() + " EDT"
                         };
+
                         retVal.Add(tempProjectDTO);
                     }
                 }
@@ -245,6 +247,7 @@ namespace GPD.Facade
             {
                 log.Error("Unable to get all projects for user: " + userId, ex);
             }
+
             return retVal;
         }
     }
