@@ -15,273 +15,51 @@
                      boundary-link-numbers="true">
                 </div>
             </div>
-
-            <div class="row data-header-row">
-                <div class="col-xs-11">
-                    <div class="row" style="">
-                        <div class="col-xs-4 col-sm-2">
-                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('number')">Number&nbsp;</a><i data-ng-class="ColumnSortClass('number')">
-                            </i><br />
-                            <input data-ng-model="$ctrl.data.search.number" placeholder="Search by Number ..."
-                                   style="width: 100%; height: 25px; margin-top: 4px;" />
-                        </div>
-                        <div class="col-xs-8 col-sm-2">
-                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')">Name&nbsp;</a><i data-ng-class="ColumnSortClass('name')">
-                            </i><br />
-                            <input data-ng-model="$ctrl.data.search.name" placeholder="Search by Name ..."
-                                   style="width: 100%; height: 25px; margin-top: 4px;" />
-                        </div>
-                        <div class="col-sm-2 hidden-xs">
-                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('organization-name')">Organization&nbsp;</a><i data-ng-class="ColumnSortClass('organization-name')">
-                            </i><br />
-                            <input data-ng-model="$ctrl.data.search['organization-name']" placeholder="Search by Organization ..."
-                                   style="width: 100%; height: 25px; margin-top: 4px;" />
-                        </div>
-                        <div class="col-sm-2 hidden-xs">
-                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('author')">Author&nbsp;</a><i data-ng-class="ColumnSortClass('author')">
-                            </i><br />
-                            <input data-ng-model="$ctrl.data.search.author" placeholder="Search by Author ..."
-                                   style="width: 100%; height: 25px; margin-top: 4px;" />
-                        </div>
-                        <div class="col-sm-2 hidden-xs">
-                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('client')">Client&nbsp;</a><i data-ng-class="ColumnSortClass('client')">
-                            </i><br />
-                            <input data-ng-model="$ctrl.data.search.client" placeholder="Search by Client ..."
-                                   style="width: 100%; height: 25px; margin-top: 4px;" />
-                        </div>
-                        <div class="col-sm-2 hidden-xs">
-                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('status')">Status&nbsp;</a><i data-ng-class="ColumnSortClass('status')">
-                            </i><br />
-                            <input data-ng-model="$ctrl.data.search.status" placeholder="Search by Status ..."
-                                   style="width: 100%; height: 25px; margin-top: 4px;" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-1">
-                </div>
-            </div>
-
-
-            <div data-ng-repeat="d in filterData = ($ctrl.data.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)"
-                 class="row data-row">
-                <div class="col-xs-11">
-                    <div class="row">
-                        <div>
-                            <div class="col-xs-4 col-sm-2" data-ng-click="$ctrl.OnColExpDetail(d)">
-                                <a ng-href="" class="data-link"><i data-ng-class="$ctrl.ColExpClass(d)"></i>&nbsp;{{d.number}}</a>
-                            </div>
-                            <div class="col-xs-8 col-sm-2">{{d.name}}</div>
-                            <div class="col-sm-2 hidden-xs">{{d["organization-name"]}}</div>
-                            <div class="col-sm-2 hidden-xs">{{d.author}}</div>
-                            <div class="col-sm-2 hidden-xs">{{d.client}}</div>
-                            <div class="col-sm-2 hidden-xs">{{d.status}}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-1">
-                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul"></i></a>
-                </div>
-                <div ng-if="$ctrl.IsShowDetail(d)" class="col-xs-12 data-details">
-                    <div style="font-weight:bold;font-size:1.2em;text-align:center; border-top:1px dotted #000;padding-top:5px;">Detail</div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="row">
-                                <div class="col-xs-4 data-caption">
-                                    Organization:
-                                </div>
-                                <div class="col-xs-8">
-                                    {{d["organization-name"]}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="row">
-                                <div class="col-xs-4 data-caption">
-                                    Author:
-                                </div>
-                                <div class="col-xs-8">
-                                    {{d.author}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="row">
-                                <div class="col-xs-4 data-caption">
-                                    Client:
-                                </div>
-                                <div class="col-xs-8">
-                                    {{d.client}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="row">
-                                <div class="col-xs-4 data-caption">
-                                    Building:
-                                </div>
-                                <div class="col-xs-8">
-                                    {{d["building-name"]}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="row">
-                                <div class="col-xs-4 data-caption">
-                                    File Name:
-                                </div>
-                                <div class="col-xs-8">
-                                    {{d.filename}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="row">
-                                <div class="col-xs-4 data-caption">
-                                    Identifiers:
-                                </div>
-                                <div class="col-xs-8">
-                                    <span data-ng-repeat="i in d.identifiers">{{i.system}}, </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="row">
-                                <div class="col-xs-4 data-caption">
-                                    Location:
-                                </div>
-                                <div class="col-xs-8">
-                                    <span data-ng-if="d.location.address1!=''">{{d.location.address1}},&nbsp;</span>
-                                    <span data-ng-if="d.location.city!=''">{{d.location.city}},&nbsp;</span>
-                                    <span data-ng-if="d.location.state!=''">{{d.location.state}},&nbsp;</span>
-                                    <span data-ng-if="d.location.zip!=''">zip - {{d.location.city}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="row">
-                                <div class="col-xs-4 data-caption">
-                                    Org Description:
-                                </div>
-                                <div class="col-xs-8">
-                                    {{d["organization-description"]}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="row">
-                                <div class="col-xs-4 data-caption">
-                                    Status:
-                                </div>
-                                <div class="col-xs-8">
-                                    {{d.status}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div style="font-weight:bold;font-size:1.2em;text-align:center; border-top:1px dotted #000;padding-top:5px;">Session</div>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-4">
-                                <div class="row">
-                                    <div class="col-xs-4 data-caption">
-                                        Type:
-                                    </div>
-                                    <div class="col-xs-8">
-                                        {{d.session.type}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-4">
-                                <div class="row">
-                                    <div class="col-xs-4 data-caption">
-                                        Platform:
-                                    </div>
-                                    <div class="col-xs-8">
-                                        {{d.session.platform}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-4">
-                                <div class="row">
-                                    <div class="col-xs-4 data-caption">
-                                        App Name:
-                                    </div>
-                                    <div class="col-xs-8">
-                                        {{d.session.application.name}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-4">
-                                <div class="row">
-                                    <div class="col-xs-4 data-caption">
-                                        Build:
-                                    </div>
-                                    <div class="col-xs-8">
-                                        {{d.session.application.build}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-4">
-                                <div class="row">
-                                    <div class="col-xs-4 data-caption">
-                                        Type:
-                                    </div>
-                                    <div class="col-xs-8">
-                                        {{d.session.application.type}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-4">
-                                <div class="row">
-                                    <div class="col-xs-4 data-caption">
-                                        Version:
-                                    </div>
-                                    <div class="col-xs-8">
-                                        {{d.session.application.version}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-4">
-                                <div class="row">
-                                    <div class="col-xs-4 data-caption">
-                                        Plugin Build:
-                                    </div>
-                                    <div class="col-xs-8">
-                                        {{d.session.application["plugin-build"]}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-4">
-                                <div class="row">
-                                    <div class="col-xs-4 data-caption">
-                                        Plugin Source:
-                                    </div>
-                                    <div class="col-xs-8">
-                                        {{d.session.application["plugin-source"]}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-4">
-                                <div class="row">
-                                    <div class="col-xs-4 data-caption">
-
-                                    </div>
-                                    <div class="col-xs-8">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-condensed table-hover">
+                    <thead style="background-color:#E9E9E9;">
+                        <tr>
+                            <th></th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
+                                </i><br />
+                                <input data-ng-model="$ctrl.data.search.name" placeholder="Search by Name ..."
+                                       style="width: 100%; height: 25px; margin-top: 4px;" />
+                            </th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('client')">Client&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('client')">
+                                </i><br />
+                                <input data-ng-model="$ctrl.data.search.client" placeholder="Search by Client ..."
+                                       style="width: 100%; height: 25px; margin-top: 4px;" />
+                            </th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('status')">Status&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('status')">
+                                </i><br />
+                                <input data-ng-model="$ctrl.data.search.status" placeholder="Search by Status ..."
+                                       style="width: 100%; height: 25px; margin-top: 4px;" />
+                            </th>
+                            <th>Location</th>
+                            <th>Added On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="d in filterData = ($ctrl.data.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
+                            <td>
+                                <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul"></i></a>
+                            </td>
+                            <td> {{d.name}}</td>
+                            <td>{{d.client}}</td>
+                            <td>{{d.status}}</td>
+                            <td>
+                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.address1)">{{d.location.address1}},&nbsp;</ng-container>
+                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.city)">{{d.location.city}},&nbsp;</ng-container>
+                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.state)">{{d.location.state}},&nbsp;</ng-container>
+                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.zip)">zip - {{d.location.city}}</ng-container>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -292,40 +70,63 @@
             <div class="modal-body" id="modal-body">
                 <div class="container-fluid">
                     <div class="data-container">
-                        <div class="row data-header-row">
-                            <div class="col-xs-2">Name</div>
-                            <div class="col-xs-2">Manufacturer</div>
-                            <div class="col-xs-3"></div>
-                            <div class="col-xs-2">Categories</div>
-                            <div class="col-xs-3">materials</div>         
+                        <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: center;">
+                            <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
+                                 ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.pageChanged()" previous-text="&lsaquo;"
+                                 next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
+                                 boundary-link-numbers="true">
+                            </div>
                         </div>
-                        <div data-ng-repeat="d in $ctrl.data.project.items"
-                             class="row data-row">
-                            <div class="col-xs-2">{{d.product.name}}</div>
-                            <div class="col-xs-2">{{d.product.manufacturer}}</div>
-                            <div class="col-xs-3">
-                                <div>Quantity: {{d.quantity}}</div>
-                                <div>Quantity Unit: {{d["quantity-unit"]}}</div>
-                                <div>Currency: {{d.currency}}</div>
-                                <div>Type: {{d.type}}</div>
-                                <div>family: {{d.family}}</div>
-                                <div>Model: {{d.product.model}}</div>
-                                <div>URL: {{d.product.url}}</div>
-                            </div>
-                            <div class="col-xs-2">
-                                <div data-ng-repeat="dc in d.categories">
-                                    {{dc.taxonomy}} : {{dc.title}}
-                                </div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div data-ng-repeat="dm in d.materials">
-                                    <div>Name: {{dm.product.name}}</div>
-                                    <div>Model: {{dm.product.model}}</div>
-                                    <div>Manufacturer: {{dm.product.manufacturer}}</div>
-                                    <div>Name: {{dm.product.name}}</div>
-                                    <div>Type: {{dm.type.name}}</div>
-                                </div>
-                            </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-condensed table-hover">
+                                <thead style="background-color:#E9E9E9;">
+                                    <tr>
+                                        <th></th>
+                                        <th>
+                                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.name')">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.name')">
+                                            </i>
+                                        </th>
+                                        <th>
+                                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.manufacturer')">Manufacturer&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.manufacturer')">
+                                            </i>
+                                        </th>
+                                        <th>
+                                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('family')">Family&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('family')">
+                                            </i>
+                                        </th>
+                                        <th>
+                                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('type')">Type&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('type')">
+                                            </i>
+                                        </th>
+                                        <th>
+                                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('quantity')">Quantity&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('quantity')">
+                                            </i>
+                                        </th>
+                                        <th>
+                                            Categories
+                                        </th>
+                                        <th>Price</th>
+                                        <th>Materials</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="d in filterData = ($ctrl.data.project.items | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
+                                        <td><a href="{{d.product.url}}" target="PRODUCT"><i class="fa fa-tags"></i></a></td>
+                                        <td>{{d.product.name}}</td>
+                                        <td>{{d.product.manufacturer}}</td>
+                                        <td>{{d.family}}</td>
+                                        <td>{{d.type}}</td>
+                                        <td>{{d.quantity}}</td>
+                                        <td>
+                                            <div data-ng-repeat="dc in d.categories">
+                                                {{dc.taxonomy}} : {{dc.title}}
+                                            </div>
+                                        </td>
+                                        <td>$0.00</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

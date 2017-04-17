@@ -25,16 +25,26 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
 
     $ctrl.ColumnSortClass = function (column) {
         var retVal = "fa fa-sort";
-        if ($ctrl.data.sort && $ctrl.data.sort.column && column == $ctrl.data.sort.column) {
-            if ($ctrl.data.sort.descending) { retVal = "fa fa-sort-down"; }
-            else { retVal = "fa fa-sort-up"; }
+        if ($ctrl.data.sort && $ctrl.data.sort[0].column && column == $ctrl.data.sort[0].column) {
+            if ($ctrl.data.sort[0].descending) { retVal = "fa fa-caret-down"; }
+            else { retVal = "fa fa-caret-up"; }
         }
         return retVal;
     };
+    
+    $ctrl.ColumnSortOrder = function () {
+        var retVal = [];
+        angular.forEach($ctrl.data.sort, function (v, k) {
+            retVal.push((v.descending ? "-" : "") + v.column);
+        });
+        return retVal;
+    };
 
-    $ctrl.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
+    $ctrl.CheckEmpty = function (d) { return d && d != "" ? true : false; };
 
-    $ctrl.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
+    //$ctrl.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
+    //$ctrl.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
+    //$ctrl.OnColExpDetail = function (d) { d.isExpanded = !(d.isExpanded); if (d.hasDetail == false) { GetProjectDetail(d); } };
 
     $ctrl.OnOpenItem = function (d) {
         var parentElem = angular.element('div[data-id="Project"]');
@@ -61,19 +71,7 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
-    
-    $ctrl.OnColExpDetail = function (d) {
-        d.isExpanded = !(d.isExpanded);
-        if (d.hasDetail == false) { GetProjectDetail(d); }
-    };
 
-    $ctrl.ColumnSortOrder = function () {
-        var retVal = [];
-        angular.forEach($ctrl.data.sort, function (v, k) {
-            retVal.push((v.descending ? "-" : "") + v.column);
-        });
-        return retVal;
-    };
 
     var GetProjectDetail = function (d) {
         return ProjectServices.GetProjectDetail(d.id)
@@ -105,6 +103,43 @@ angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalIns
     var $ctrl = this;
     $ctrl.data = {};
     $ctrl.data.project = project;
+
+    $ctrl.data.sort = [{ column: 'name', descending: false }];
+    $ctrl.data.page = {};
+    $ctrl.data.page.currentPage = 1;
+    $ctrl.data.page.maxPage = 5;
+    $ctrl.data.page.itemPerPage = 10;
+    $ctrl.data.search = {};
+    //$ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
+
+    $ctrl.OnChangeSorting = function (column) {
+        var t = { column: column, descending: true };
+        if ($ctrl.data.sort.length > 0) {
+            if ($ctrl.data.sort[0].column == column) {
+                t.descending = !$ctrl.data.sort[0].descending;
+            } else {
+                t.descending = true;
+            }
+        }
+        $ctrl.data.sort = [t];
+    };
+
+    $ctrl.ColumnSortClass = function (column) {
+        var retVal = "fa fa-sort";
+        if ($ctrl.data.sort && $ctrl.data.sort[0].column && column == $ctrl.data.sort[0].column) {
+            if ($ctrl.data.sort[0].descending) { retVal = "fa fa-caret-down"; }
+            else { retVal = "fa fa-caret-up"; }
+        }
+        return retVal;
+    };
+
+    $ctrl.ColumnSortOrder = function () {
+        var retVal = [];
+        angular.forEach($ctrl.data.sort, function (v, k) {
+            retVal.push((v.descending ? "-" : "") + v.column);
+        });
+        return retVal;
+    };
 
     $ctrl.Ok = function () {
         //$uibModalInstance.close($ctrl.selected.item);

@@ -7,8 +7,8 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    /*padding-left: 15px;
+    padding-right: 15px;*/
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -32,42 +32,32 @@ a.data-link {
 .data-container {
 }
 
-    .data-container .data-header-row {
-        text-align: center;
-        background-color: #c4cdd3;
-        font-weight: bold;
-        padding-top: 5px;
-        padding-bottom: 5px;
+
+
+.container {
+    width: 95%;
+}
+
+.modal-dialog {
+    width: 95%;
+}
+
+    .modal-dialog .modal-lg {
+        width: 95%;
     }
 
-        .data-container .data-header-row a {
-            text-decoration: none;
-            cursor: pointer;
-        }
 
-    .data-container .data-row {
-        border-bottom: 1px dotted #808080;
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
+@media only screen and (min-width : 321px) and (max-width : 480px) {
+}
 
-        .data-container .data-row:nth-child(even) {
-            background: #f3f5f6;
-        }
+@media only screen and (min-width : 481px) and (max-width : 768px) {
+}
 
-        .data-container .data-row:nth-child(odd) {
-            background: #ECEFF1;
-        }
+@media only screen and (min-width : 769px) and (max-width : 992px) {
+}
 
-    .data-container .data-details {
-        padding-top: 5px;
-        padding-bottom: 5px;
-        border: 1px solid #FFF;
-        background-color: #f7f2f2;
-        font-size:.8em;
-    }
-    .data-container .data-details  .data-caption{
-        text-align:right;
-        font-size:1em;
-        font-weight:bold;
-    }
+@media only screen and (min-width : 993px) and (max-width : 1200px) {
+}
+
+@media only screen and (min-width : 1200px) and (max-width : 1200px) {
+}
