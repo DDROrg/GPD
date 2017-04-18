@@ -36,9 +36,17 @@ namespace GPD.Facade
                     .ToList()
                     .ForEach(T => T.Add(new XAttribute("guid", System.Guid.NewGuid().ToString())));
 
+                Dictionary<string, string> categoriesList = 
                 doc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']/*[local-name()='categories']/*[local-name()='category']")
                     .ToList()
-                    .ForEach(T => T.Add(new XAttribute("guid", System.Guid.NewGuid().ToString())));
+                    .GroupBy(g => g.XPathSelectElement("*[local-name()='taxonomy']").Value + "::" + g.XPathSelectElement("*[local-name()='title']").Value)
+                    .ToDictionary(g => g.Key, g => System.Guid.NewGuid().ToString());
+
+                doc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']/*[local-name()='categories']/*[local-name()='category']")
+                    .ToList()
+                    .ForEach(T => T.Add(new XAttribute("guid", categoriesList[
+                        T.XPathSelectElement("*[local-name()='taxonomy']").Value + "::" + T.XPathSelectElement("*[local-name()='title']").Value
+                    ])));
 
                 // send the project to DB 
                 new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(doc);
