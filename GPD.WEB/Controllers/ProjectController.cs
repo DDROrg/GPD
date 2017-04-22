@@ -31,7 +31,7 @@ namespace GPD.WEB.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ProjectDTO Get(string id)
+        public ProjectDTO_Extended Get(string id)
         {
             return new Facade.ProjectFacde().GetProjectById(id);
         }

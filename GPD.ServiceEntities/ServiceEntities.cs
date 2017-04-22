@@ -226,8 +226,10 @@ namespace GPD.ServiceEntities
         public string Type;
     }
 
+    [DataContract(Namespace = "http://www.gpd.com", Name = "project")]
     public class ProjectDTO_Extended : ProjectDTO
     {
+        public ProjectDTO_Extended() : base() { }
         public ProjectDTO_Extended(string id) : base(id) { }
 
         [DataMember(Name = "create-timestamp-formatted", Order = 13)]

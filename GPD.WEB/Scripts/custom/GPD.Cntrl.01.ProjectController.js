@@ -42,9 +42,9 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
 
     $ctrl.CheckEmpty = function (d) { return d && d != "" ? true : false; };
 
-    //$ctrl.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
-    //$ctrl.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
-    //$ctrl.OnColExpDetail = function (d) { d.isExpanded = !(d.isExpanded); if (d.hasDetail == false) { GetProjectDetail(d); } };
+    $ctrl.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
+    $ctrl.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
+    $ctrl.OnColExpDetail = function (d) { d.isExpanded = !(d.isExpanded); if (d.hasDetail == false) { GetProjectDetail(d); } };
 
     $ctrl.OnOpenItem = function (d) {
         var parentElem = angular.element('div[data-id="Project"]');
@@ -104,14 +104,15 @@ angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalIns
     $ctrl.data = {};
     $ctrl.data.project = project;
 
-    $ctrl.data.sort = [{ column: 'name', descending: false }];
+    $ctrl.data.sort = [{ column: 'product.name', descending: false }];
     $ctrl.data.page = {};
     $ctrl.data.page.currentPage = 1;
     $ctrl.data.page.maxPage = 5;
     $ctrl.data.page.itemPerPage = 10;
     $ctrl.data.search = {};
     //$ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
-
+    $ctrl.data.search = "";
+    
     $ctrl.OnChangeSorting = function (column) {
         var t = { column: column, descending: true };
         if ($ctrl.data.sort.length > 0) {

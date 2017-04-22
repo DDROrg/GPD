@@ -68,12 +68,12 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ProjectDTO GetProjectById(string id)
+        public ProjectDTO_Extended GetProjectById(string id)
         {
-            ProjectDTO retVal = null;
+            ProjectDTO_Extended retVal = null;
             try
             {
-                retVal = new ProjectDTO();
+                retVal = new ProjectDTO_Extended();
                 DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectById(id);
                 if (ds != null && ds.Tables.Count > 4 && ds.Tables[0].Rows.Count > 0)
                 {
