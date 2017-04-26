@@ -111,13 +111,15 @@ BEGIN
 			INSERT INTO gpd_project_session(
 				project_id,
 				[type],
-				[platform],
+				[platform],				
 				application_build,
+				application_client_ip,
 				application_name,
 				application_plugin_build,
 				application_plugin_source,
-				application_version,
 				application_type,
+				application_username,
+				application_version,				
 				create_date,
 				update_date)
 			SELECT
@@ -125,11 +127,13 @@ BEGIN
 				M.value('(type)[1]', 'NVARCHAR(100)'),
 				M.value('(platform)[1]', 'NVARCHAR(150)'),
 				M.value('(application/build)[1]', 'NVARCHAR(150)'),
+				M.value('(application/client-ip)[1]', 'NVARCHAR(50)'),
 				M.value('(application/name)[1]', 'NVARCHAR(150)'),
 				M.value('(application/plugin-build)[1]', 'NVARCHAR(150)'),
 				M.value('(application/plugin-source)[1]', 'NVARCHAR(150)'),
-				M.value('(application/version)[1]', 'NVARCHAR(150)'),
 				M.value('(application/type)[1]', 'NVARCHAR(100)'),
+				M.value('(application/username)[1]', 'NVARCHAR(250)'),
+				M.value('(application/version)[1]', 'NVARCHAR(150)'),
 				getdate(), null
 			FROM @P_XML.nodes('/project/session') M(M);
 			
