@@ -22,7 +22,6 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
         }
         $ctrl.data.sort = [t];
     };
-
     $ctrl.ColumnSortClass = function (column) {
         var retVal = "fa fa-sort";
         if ($ctrl.data.sort && $ctrl.data.sort[0].column && column == $ctrl.data.sort[0].column) {
@@ -30,8 +29,7 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
             else { retVal = "fa fa-caret-up"; }
         }
         return retVal;
-    };
-    
+    };    
     $ctrl.ColumnSortOrder = function () {
         var retVal = [];
         angular.forEach($ctrl.data.sort, function (v, k) {
@@ -39,13 +37,10 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
         });
         return retVal;
     };
-
     $ctrl.CheckEmpty = function (d) { return d && d != "" ? true : false; };
-
     $ctrl.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
     $ctrl.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
     $ctrl.OnColExpDetail = function (d) { d.isExpanded = !(d.isExpanded); if (d.hasDetail == false) { GetProjectDetail(d); } };
-
     $ctrl.OnOpenItem = function (d) {
         var parentElem = angular.element('div[data-id="Project"]');
         var modalInstance = $uibModal.open({
@@ -72,27 +67,26 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
         });
     };
 
-
     var GetProjectDetail = function (d) {
         return ProjectServices.GetProjectDetail(d.id)
         .then(function (payload) {
-            $log.info(payload);
-
             d.identifiers = payload.identifiers;
             d.items = payload.items;
             d.location = payload.location;
             d.session = payload.session;
+
+            angular.forEach(d.items, function (v, k) {
+                v.isMaterialExpanded = false;
+            });
             d.hasDetail = true;
         });
     };
-
     var GetProjects = function () {
         return ProjectServices.GetProjects()
         .then(function (payload) {
             $ctrl.data.projects = payload;
         });
     };
-
     angular.element(document).ready(function () {
         GetProjects();
     });
@@ -124,7 +118,6 @@ angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalIns
         }
         $ctrl.data.sort = [t];
     };
-
     $ctrl.ColumnSortClass = function (column) {
         var retVal = "fa fa-sort";
         if ($ctrl.data.sort && $ctrl.data.sort[0].column && column == $ctrl.data.sort[0].column) {
@@ -133,7 +126,6 @@ angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalIns
         }
         return retVal;
     };
-
     $ctrl.ColumnSortOrder = function () {
         var retVal = [];
         angular.forEach($ctrl.data.sort, function (v, k) {
@@ -141,12 +133,12 @@ angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalIns
         });
         return retVal;
     };
-
+    $ctrl.OnColExpMaterial = function (d) { d.isMaterialExpanded = !(d.isMaterialExpanded); };
+    $ctrl.IsShowMaterial = function (d) { return d.isMaterialExpanded == true};
     $ctrl.Ok = function () {
         //$uibModalInstance.close($ctrl.selected.item);
         $uibModalInstance.close("OK");
     };
-
     $ctrl.Cancel = function () {
         $uibModalInstance.dismiss('CANCEL');
     };
