@@ -1,6 +1,5 @@
 ﻿using System.Runtime.Serialization;
 using System.Collections.Generic;
-using System;
 
 namespace GPD.ServiceEntities
 {
@@ -70,6 +69,26 @@ namespace GPD.ServiceEntities
 
         [DataMember(Name = "project-id", Order = 2)]
         public string ProjectId;
+    }
+
+    [DataContract(Namespace = "http://www.gpd.com", Name = "projects-list-response")]
+    public class ProjectsListResponseDTO
+    {
+        public ProjectsListResponseDTO(int pageSize, int pageIndex)
+        {
+            this.PageSize = pageSize;
+            this.PageIndex = pageIndex;
+            this.ProjectsList = new List<ProjectDTO_Extended>();
+        }
+
+        [DataMember(Name = "page-size", Order = 1)]
+        public int PageSize;
+
+        [DataMember(Name = "page-index", Order = 2)]
+        public int PageIndex;
+
+        [DataMember(Name = "projects-list", Order = 3)]
+        public List<ProjectDTO_Extended> ProjectsList;
     }
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "location")]

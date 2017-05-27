@@ -13,9 +13,9 @@ namespace GPD.Facade
 
     public class ProjectFacde
     {
-        private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(ProjectFacde));
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public AddProjectResponseDTO Add(ProjectDTO projectDTO)
+        public AddProjectResponseDTO Add(string clientName, ProjectDTO projectDTO)
         {
             AddProjectResponseDTO retVal = null;
             XDocument doc = new XDocument();
@@ -68,13 +68,13 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ProjectDTO_Extended GetProjectById(string id)
+        public ProjectDTO_Extended GetProjectById(string partnerName, string projectId)
         {
             ProjectDTO_Extended retVal = null;
             try
             {
                 retVal = new ProjectDTO_Extended();
-                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectById(id);
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectById(projectId);
                 if (ds != null && ds.Tables.Count > 4 && ds.Tables[0].Rows.Count > 0)
                 {
                     //=====================================
@@ -211,7 +211,7 @@ namespace GPD.Facade
             }
             catch (Exception ex)
             {
-                log.Error("Unable to get project by id: " + id, ex);
+                log.Error("Unable to get project by id: " + projectId, ex);
             }
             return retVal;
         }
@@ -221,13 +221,14 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<ProjectDTO_Extended> GetAll(string userId)
+        public List<ProjectDTO_Extended> GetProjectsList(string partnerName, int pageSize, int pageIndex)
         {
             List<ProjectDTO_Extended> retVal = new List<ProjectDTO_Extended>();
 
             try
             {
-                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjects(userId);
+                // get projects dataset from database
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsList(partnerName, pageSize, pageIndex);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -251,9 +252,9 @@ namespace GPD.Facade
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception exc)
             {
-                log.Error("Unable to get all projects for user: " + userId, ex);
+                log.Error("Unable to get all projects. ERROR: " + exc.ToString());
             }
 
             return retVal;

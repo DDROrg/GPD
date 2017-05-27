@@ -57,11 +57,13 @@ namespace GPD.DAL.SqlDB
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public DataSet GetProjects(string userId)
+        public DataSet GetProjectsList(string partnerName, int pageSize, int pageIndex)
         {
+            // TODO: implement partnerName, pageSize, pageIndex
+
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
-                 new SqlParameter("@P_USER", userId)
+                 new SqlParameter("@P_USER", "")
             };
 
             return base.GetDSBasedOnStoreProcedure("gpd_GetProjects", parametersInList);

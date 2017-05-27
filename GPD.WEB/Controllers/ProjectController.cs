@@ -14,36 +14,47 @@ namespace GPD.WEB.Controllers
     /// </summary>
     public class ProjectController : ApiController
     {
-        private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
-        /// Get list of all Projects
+        /// Get Projects List
         /// </summary>
+        /// <param name="partnerName">Partner Name</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="pageIndex">Page Index</param>
         /// <returns></returns>
-        public List<ProjectDTO_Extended> Get()
+        public ProjectsListResponseDTO GetProjectsList(string partnerName, int pageSize = -1, int pageIndex = -1)
         {
-            string userId = "";
-            return new Facade.ProjectFacde().GetAll(userId);
+            pageSize = (pageSize == -1 || pageSize > 100) ? 100 : pageSize;
+            pageIndex = (pageIndex < 1) ? 1 : pageIndex;
+
+            List<ProjectDTO_Extended> projectsList = new Facade.ProjectFacde().GetProjectsList(partnerName, pageSize, pageIndex);
+            ProjectsListResponseDTO responseDTO = new ProjectsListResponseDTO(pageSize, pageIndex);
+            if(projectsList != null || projectsList.Count > 0) { responseDTO.ProjectsList = projectsList; }
+
+            return responseDTO;
         }
 
         /// <summary>
-        /// Get project by ID
+        /// Get Project Details
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="partnerName">Partner Name</param>
+        /// <param name="projectId">Project Id</param>
         /// <returns></returns>
-        public ProjectDTO_Extended Get(string id)
+        public ProjectDTO_Extended GetProjectDetails(string partnerName, string projectId)
         {
-            return new Facade.ProjectFacde().GetProjectById(id);
+            return new Facade.ProjectFacde().GetProjectById(partnerName, projectId);
         }
 
         /// <summary>
-        /// 
+        /// Add Poject
         /// </summary>
-        /// <param name="projectDTO"></param>
+        /// <param name="partnerName">Partner Name</param>
+        /// <param name="projectData">Project Details</param>
         /// <returns></returns>
-        public AddProjectResponseDTO Add(ProjectDTO projectDTO)
+        public AddProjectResponseDTO AddProject(string partnerName, ProjectDTO projectData)
         {
-            return new Facade.ProjectFacde().Add(projectDTO);
+            return new Facade.ProjectFacde().Add(partnerName, projectData);
         }
     }
 }
