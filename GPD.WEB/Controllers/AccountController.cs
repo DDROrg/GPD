@@ -53,7 +53,8 @@ namespace GPD.WEB.Controllers
             switch (result)
             {
                 case ENUM.SignInStatus.Success:
-                    FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);                    
+                    FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
+                    SessionManager.PartnarName = "TEST";                  
                     return RedirectToLocal(returnUrl);
                 case ENUM.SignInStatus.LockedOut:
                     return View("Lockout");
@@ -74,6 +75,7 @@ namespace GPD.WEB.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            SessionManager.ClearSession();
             return RedirectToAction("Index", "Home");
         }
         #endregion

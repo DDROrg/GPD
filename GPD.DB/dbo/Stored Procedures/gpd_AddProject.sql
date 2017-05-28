@@ -211,11 +211,11 @@ BEGIN
 			FROM   @P_XML.nodes('/project/items/item/categories/category') M(m);
 			
 			UPDATE @TempCategories
-			SET ID = C.CATEGORY_ID, IS_NEW = 0
+			SET ID = C.category_id, IS_NEW = 0
 			FROM @TempCategories TEMP
-			INNER JOIN GPD_CATEGORY C 
-				ON TEMP.TAXONOMY = C.TAXONOMY
-				AND TEMP.TITLE = C.TITLE;
+			INNER JOIN gpd_category C 
+				ON TEMP.TAXONOMY = C.taxonomy
+				AND TEMP.TITLE = C.title;
 
 			INSERT INTO gpd_category
 			   (category_id,

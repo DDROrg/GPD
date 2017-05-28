@@ -13,11 +13,18 @@ namespace GPD.WEB.Areas.HelpPage.Controllers
     {
         private const string ErrorViewName = "Error";
 
+        /// <summary>
+        /// 
+        /// </summary>
         public HelpController()
             : this(GlobalConfiguration.Configuration)
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="config"></param>
         public HelpController(HttpConfiguration config)
         {
             Configuration = config;

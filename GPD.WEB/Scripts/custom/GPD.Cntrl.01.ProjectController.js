@@ -84,7 +84,8 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
     var GetProjects = function () {
         return ProjectServices.GetProjects()
         .then(function (payload) {
-            $ctrl.data.projects = payload;
+            $ctrl.data.projectListResponse = payload;
+            $log.log($ctrl.data.projectListResponse );
         });
     };
     angular.element(document).ready(function () {

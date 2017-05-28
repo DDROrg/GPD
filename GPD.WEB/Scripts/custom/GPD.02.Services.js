@@ -10,11 +10,11 @@ var CommonServices = function ($http, $q) {
 //============================================
 var ProjectServices = function ($http, $q) {
     var _GetProjects = function () {
-        return $http.get(__RootUrl + "api/Project");
+        return $http.get(__RootUrl + "api/" + __PartnarName + "/Project/List/-1/-1");
     };
 
     var _GetProjectDetail = function (id) {
-        return $http.get(__RootUrl + "api/Project/" + id);
+        return $http.get(__RootUrl + "api/" + __PartnarName + "/Project/" + id);
     };
 
     this.GetProjects = function () {
@@ -96,7 +96,7 @@ var ProjectServices = function ($http, $q) {
         _GetProjects()
         .then(function (payload) {
             retVal = payload.data;
-            $.each(retVal, function (k, v) {
+            $.each(retVal.projectList, function (k, v) {
                 v.isExpanded = false;
                 v.hasDetail = false;
             });

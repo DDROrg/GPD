@@ -43,7 +43,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-ng-repeat-start="d in filterData = ($ctrl.data.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
+                        <tr data-ng-repeat-start="d in filterData = ($ctrl.data.projectListResponse.projectList | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
                             <td>
                                 <i data-ng-class="$ctrl.ColExpClass(d)"></i>&nbsp;
                                 <a data-ng-href="" data-ng-click="$ctrl.OnColExpDetail(d)">

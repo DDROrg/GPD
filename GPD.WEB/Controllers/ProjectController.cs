@@ -23,6 +23,8 @@ namespace GPD.WEB.Controllers
         /// <param name="pageSize">Page Size</param>
         /// <param name="pageIndex">Page Index</param>
         /// <returns></returns>
+        [Route("api/{partnerName}/Project/List/{pageSize:int}/{pageIndex:int}")]
+        [HttpGet]
         public ProjectsListResponseDTO GetProjectsList(string partnerName, int pageSize = -1, int pageIndex = -1)
         {
             pageSize = (pageSize == -1 || pageSize > 100) ? 100 : pageSize;
@@ -30,7 +32,7 @@ namespace GPD.WEB.Controllers
 
             List<ProjectDTO_Extended> projectsList = new Facade.ProjectFacde().GetProjectsList(partnerName, pageSize, pageIndex);
             ProjectsListResponseDTO responseDTO = new ProjectsListResponseDTO(pageSize, pageIndex);
-            if(projectsList != null || projectsList.Count > 0) { responseDTO.ProjectsList = projectsList; }
+            if (projectsList != null || projectsList.Count > 0) { responseDTO.ProjectList = projectsList; }
 
             return responseDTO;
         }
@@ -41,6 +43,8 @@ namespace GPD.WEB.Controllers
         /// <param name="partnerName">Partner Name</param>
         /// <param name="projectId">Project Id</param>
         /// <returns></returns>
+        [Route("api/{partnerName}/Project/{projectId}")]
+        [HttpGet]
         public ProjectDTO_Extended GetProjectDetails(string partnerName, string projectId)
         {
             return new Facade.ProjectFacde().GetProjectById(partnerName, projectId);
@@ -52,6 +56,8 @@ namespace GPD.WEB.Controllers
         /// <param name="partnerName">Partner Name</param>
         /// <param name="projectData">Project Details</param>
         /// <returns></returns>
+        [Route("api/{partnerName}/Project")]
+        [HttpPost]
         public AddProjectResponseDTO AddProject(string partnerName, ProjectDTO projectData)
         {
             return new Facade.ProjectFacde().Add(partnerName, projectData);

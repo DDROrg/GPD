@@ -71,24 +71,24 @@ namespace GPD.ServiceEntities
         public string ProjectId;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "projects-list-response")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "projectsListResponse")]
     public class ProjectsListResponseDTO
     {
         public ProjectsListResponseDTO(int pageSize, int pageIndex)
         {
             this.PageSize = pageSize;
             this.PageIndex = pageIndex;
-            this.ProjectsList = new List<ProjectDTO_Extended>();
+            this.ProjectList = new List<ProjectDTO_Extended>();
         }
 
-        [DataMember(Name = "page-size", Order = 1)]
+        [DataMember(Name = "pageSize", Order = 1)]
         public int PageSize;
 
-        [DataMember(Name = "page-index", Order = 2)]
+        [DataMember(Name = "pageIndex", Order = 2)]
         public int PageIndex;
 
-        [DataMember(Name = "projects-list", Order = 3)]
-        public List<ProjectDTO_Extended> ProjectsList;
+        [DataMember(Name = "projectList", Order = 3)]
+        public List<ProjectDTO_Extended> ProjectList;
     }
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "location")]
