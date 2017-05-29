@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE GetProjectsLIstPaginated
+﻿CREATE PROCEDURE [dbo].[GetProjectsLIstPaginated]
        @P_PartnerName nvarchar(30),
 	   @P_StartRowIndex int,
        @P_PageSize int,
@@ -23,10 +23,12 @@ BEGIN
 			  P.[STATUS],
 			  P.CREATE_DATE
        FROM GPD_PROJECT P
+	   WHERE P.PARTNER_NAME = @P_PartnerName
 	   ORDER BY P.create_date DESC
 	   OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY
 
        -- get the total count of the records
-       SELECT @P_TotalCount = COUNT(project_id) FROM GPD_PROJECT;
-
+       SELECT @P_TotalCount = COUNT(project_id)
+	   FROM GPD_PROJECT
+	   WHERE PARTNER_NAME = @P_PartnerName;
 END;
