@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[gpd_AddProject]
 	@P_XML XML,
-	@P_SOURCE_CLIENT NVARCHAR (30) = 'N/A',	
+	@P_PARTNER_NAME NVARCHAR (30) = 'N/A',	
 	@P_Return_ErrorCode INT OUT,
 	@P_Return_Message VARCHAR(1024) = '' OUT
 AS 
@@ -34,7 +34,7 @@ BEGIN
 				'http://www.w3.org/2001/XMLSchema-instance' AS i)
 			INSERT INTO gpd_project 
 					(project_id, 
-					 source_client, 
+					 partner_name, 
 					 author, 
 					 building_name, 
 					 client, 
@@ -48,7 +48,7 @@ BEGIN
 					 create_date, 
 					 update_date) 
 			SELECT @V_ProjectId, 
-					@P_SOURCE_CLIENT,
+					@P_PARTNER_NAME,
 					m.value('(author)[1]', 'NVARCHAR(250)'), 
 					m.value('(building-name)[1]', 'NVARCHAR(250)'), 
 					m.value('(client)[1]', 'NVARCHAR(250)'), 
@@ -211,11 +211,11 @@ BEGIN
 			FROM   @P_XML.nodes('/project/items/item/categories/category') M(m);
 			
 			UPDATE @TempCategories
-			SET ID = C.category_id, IS_NEW = 0
+			SET ID = C.CATEGORY_ID, IS_NEW = 0
 			FROM @TempCategories TEMP
-			INNER JOIN gpd_category C 
-				ON TEMP.TAXONOMY = C.taxonomy
-				AND TEMP.TITLE = C.title;
+			INNER JOIN GPD_CATEGORY C 
+				ON TEMP.TAXONOMY = C.TAXONOMY
+				AND TEMP.TITLE = C.TITLE;
 
 			INSERT INTO gpd_category
 			   (category_id,

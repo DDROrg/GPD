@@ -3,7 +3,7 @@
 AS
 BEGIN
 	SELECT p.project_id,
-		p.source_client,
+		p.partner_name,
 		p.author,
 		p.building_name,
 		p.client,
@@ -14,5 +14,6 @@ BEGIN
 		p.organization_name,
 		p.[status],
 		p.create_date
-	FROM gpd_project p;
+	FROM gpd_project p
+	ORDER BY P.create_date DESC;
 END
