@@ -11,7 +11,7 @@ namespace GPD.Facade
     using DAL.SqlDB;
     using ServiceEntities;
 
-    public class ProjectFacde
+    public class ProjectFacade
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -36,7 +36,7 @@ namespace GPD.Facade
                     .ToList()
                     .ForEach(T => T.Add(new XAttribute("guid", System.Guid.NewGuid().ToString())));
 
-                Dictionary<string, string> categoriesList = 
+                Dictionary<string, string> categoriesList =
                 doc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']/*[local-name()='categories']/*[local-name()='category']")
                     .ToList()
                     .GroupBy(g => g.XPathSelectElement("*[local-name()='taxonomy']").Value + "::" + g.XPathSelectElement("*[local-name()='title']").Value)
@@ -193,7 +193,8 @@ namespace GPD.Facade
                                     tempItemDTO.Categories = new List<CategoryDTO>();
                                     foreach (DataRow drC in drCategories)
                                     {
-                                        CategoryDTO tempCategoryDTO = new CategoryDTO() {
+                                        CategoryDTO tempCategoryDTO = new CategoryDTO()
+                                        {
                                             Taxonomy = drC["TAXONOMY"].ToString(),
                                             Title = drC["TITLE"].ToString()
                                         };

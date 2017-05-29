@@ -30,7 +30,7 @@ namespace GPD.WEB.Controllers
             pageSize = (pageSize == -1 || pageSize > 100) ? 100 : pageSize;
             pageIndex = (pageIndex < 1) ? 1 : pageIndex;
 
-            List<ProjectDTO_Extended> projectsList = new Facade.ProjectFacde().GetProjectsList(partnerName, pageSize, pageIndex);
+            List<ProjectDTO_Extended> projectsList = new Facade.ProjectFacade().GetProjectsList(partnerName, pageSize, pageIndex);
             ProjectsListResponseDTO responseDTO = new ProjectsListResponseDTO(pageSize, pageIndex);
             if (projectsList != null || projectsList.Count > 0) { responseDTO.ProjectList = projectsList; }
 
@@ -47,7 +47,7 @@ namespace GPD.WEB.Controllers
         [HttpGet]
         public ProjectDTO_Extended GetProjectDetails(string partnerName, string projectId)
         {
-            return new Facade.ProjectFacde().GetProjectById(partnerName, projectId);
+            return new Facade.ProjectFacade().GetProjectById(partnerName, projectId);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace GPD.WEB.Controllers
         [HttpPost]
         public AddProjectResponseDTO AddProject(string partnerName, ProjectDTO projectData)
         {
-            return new Facade.ProjectFacde().Add(partnerName, projectData);
+            return new Facade.ProjectFacade().Add(partnerName, projectData);
         }
     }
 }
