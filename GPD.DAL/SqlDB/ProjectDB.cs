@@ -30,14 +30,14 @@ namespace GPD.DAL.SqlDB
         /// </summary>
         /// <param name="projectXmlData"></param>
         /// <param name="sourceClient"></param>
-        public void AddProject(XDocument projectXmlData, string sourceClient = "N/A")
+        public void AddProject(string partnerName, XDocument projectXmlData)
         {
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
-                 new SqlParameter("@P_XML", projectXmlData.ToString()),
-                 new SqlParameter("@P_SOURCE_CLIENT", sourceClient),                 
-                 new SqlParameter("@P_Return_ErrorCode", SqlDbType.Int) { Direction = ParameterDirection.Output },
-                 new SqlParameter("@P_Return_Message", SqlDbType.VarChar, 1024) { Direction = ParameterDirection.Output }
+                new SqlParameter("@P_PartnerName", partnerName),
+                new SqlParameter("@P_XML", projectXmlData.ToString()),
+                new SqlParameter("@P_Return_ErrorCode", SqlDbType.Int) { Direction = ParameterDirection.Output },
+                new SqlParameter("@P_Return_Message", SqlDbType.VarChar, 1024) { Direction = ParameterDirection.Output }
             };
 
             Dictionary<string, object> retVal = base.ExecuteStoreProcedure("gpd_AddProject", parametersInList);

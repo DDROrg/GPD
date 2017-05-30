@@ -15,10 +15,10 @@ namespace GPD.Facade
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public AddProjectResponseDTO Add(string clientName, ProjectDTO projectDTO)
+        public AddProjectResponseDTO Add(string partnerName, ProjectDTO projectDTO)
         {
             AddProjectResponseDTO retVal = null;
-            XDocument doc = new XDocument();
+            XDocument xDoc = new XDocument();
 
             try
             {
@@ -26,30 +26,30 @@ namespace GPD.Facade
                 projectDTO.Id = System.Guid.NewGuid().ToString();
 
                 // get XML based on ProjectDTO object
-                using (var writer = doc.CreateWriter())
+                using (var writer = xDoc.CreateWriter())
                 {
                     var serializer = new DataContractSerializer(projectDTO.GetType());
                     serializer.WriteObject(writer, projectDTO);
                 }
 
-                doc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']")
+                xDoc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']")
                     .ToList()
                     .ForEach(T => T.Add(new XAttribute("guid", System.Guid.NewGuid().ToString())));
 
                 Dictionary<string, string> categoriesList =
-                doc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']/*[local-name()='categories']/*[local-name()='category']")
+                xDoc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']/*[local-name()='categories']/*[local-name()='category']")
                     .ToList()
                     .GroupBy(g => g.XPathSelectElement("*[local-name()='taxonomy']").Value + "::" + g.XPathSelectElement("*[local-name()='title']").Value)
                     .ToDictionary(g => g.Key, g => System.Guid.NewGuid().ToString());
 
-                doc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']/*[local-name()='categories']/*[local-name()='category']")
+                xDoc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']/*[local-name()='categories']/*[local-name()='category']")
                     .ToList()
                     .ForEach(T => T.Add(new XAttribute("guid", categoriesList[
                         T.XPathSelectElement("*[local-name()='taxonomy']").Value + "::" + T.XPathSelectElement("*[local-name()='title']").Value
                     ])));
 
                 // send the project to DB 
-                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(doc);
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(partnerName, xDoc);
 
                 // project content inserted successful
                 retVal = new AddProjectResponseDTO(true, projectDTO.Id);

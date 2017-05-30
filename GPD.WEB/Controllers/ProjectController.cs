@@ -27,7 +27,8 @@ namespace GPD.WEB.Controllers
         [HttpGet]
         public ProjectsListResponseDTO GetProjectsList(string partnerName, int pageSize = -1, int pageIndex = -1)
         {
-            pageSize = (pageSize == -1 || pageSize > 100) ? 100 : pageSize;
+            pageSize = (pageSize == -1 || pageSize > Utility.ConfigurationHelper.API_ProjectsListPageMaxSize) ? 
+                Utility.ConfigurationHelper.API_ProjectsListPageSize : pageSize;
             pageIndex = (pageIndex < 1) ? 1 : pageIndex;
 
             List<ProjectDTO_Extended> projectsList = new Facade.ProjectFacade().GetProjectsList(partnerName, pageSize, pageIndex);
