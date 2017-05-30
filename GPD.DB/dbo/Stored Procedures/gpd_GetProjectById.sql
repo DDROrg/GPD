@@ -4,7 +4,7 @@ AS
 BEGIN	
 	SELECT 
 		P.PROJECT_ID,
-		P.SOURCE_CLIENT,
+		P.partner_name,
 		P.AUTHOR,
 		P.BUILDING_NAME,
 		P.CLIENT,

@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[gpd_AddProject]
-	@P_XML XML,
-	@P_PARTNER_NAME NVARCHAR (30) = 'N/A',	
+	@P_PartnerName nvarchar(30),
+	@P_XML XML,	
 	@P_Return_ErrorCode INT OUT,
 	@P_Return_Message VARCHAR(1024) = '' OUT
 AS 
@@ -48,7 +48,7 @@ BEGIN
 					 create_date, 
 					 update_date) 
 			SELECT @V_ProjectId, 
-					@P_PARTNER_NAME,
+					@P_PartnerName,
 					m.value('(author)[1]', 'NVARCHAR(250)'), 
 					m.value('(building-name)[1]', 'NVARCHAR(250)'), 
 					m.value('(client)[1]', 'NVARCHAR(250)'), 
