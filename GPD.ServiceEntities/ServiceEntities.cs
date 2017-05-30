@@ -4,11 +4,11 @@ using System.Collections.Generic;
 namespace GPD.ServiceEntities
 {
     [DataContract(Namespace = "http://www.gpd.com", Name = "project")]
-    public class ProjectDTO
+    public class ProjectBaseDTO
     {
-        public ProjectDTO() { }
+        public ProjectBaseDTO() { }
 
-        public ProjectDTO(string id) {
+        public ProjectBaseDTO(string id) {
             this.Id = id;
         }
 
@@ -58,11 +58,14 @@ namespace GPD.ServiceEntities
     [DataContract(Namespace = "http://www.gpd.com", Name = "add-project-response")]
     public class AddProjectResponseDTO
     {
+        #region Constr
+        public AddProjectResponseDTO() : this(false, "-1") { }
         public AddProjectResponseDTO(bool status, string projectId)
         {
             this.Status = status;
             this.ProjectId = projectId;
         }
+        #endregion Constr
 
         [DataMember(Name = "status", Order = 1)]
         public bool Status;
@@ -71,15 +74,18 @@ namespace GPD.ServiceEntities
         public string ProjectId;
     }
 
-    [DataContract(Namespace = "http://www.gpd.com", Name = "projectsListResponse")]
+    [DataContract(Namespace = "http://www.gpd.com", Name = "projects-list-response")]
     public class ProjectsListResponseDTO
     {
+        #region Constr
+        public ProjectsListResponseDTO() : this(-1, -1) { }
         public ProjectsListResponseDTO(int pageSize, int pageIndex)
         {
             this.PageSize = pageSize;
             this.PageIndex = pageIndex;
-            this.ProjectList = new List<ProjectDTO_Extended>();
+            this.ProjectList = new List<ProjectDTO>();
         }
+        #endregion Constr
 
         [DataMember(Name = "pageSize", Order = 1)]
         public int PageSize;
@@ -87,8 +93,8 @@ namespace GPD.ServiceEntities
         [DataMember(Name = "pageIndex", Order = 2)]
         public int PageIndex;
 
-        [DataMember(Name = "projectList", Order = 3)]
-        public List<ProjectDTO_Extended> ProjectList;
+        [DataMember(Name = "projects", Order = 3)]
+        public List<ProjectDTO> ProjectList { get; set; }
     }
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "location")]
@@ -252,10 +258,10 @@ namespace GPD.ServiceEntities
     }
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "project")]
-    public class ProjectDTO_Extended : ProjectDTO
+    public class ProjectDTO : ProjectBaseDTO
     {
-        public ProjectDTO_Extended() : base() { }
-        public ProjectDTO_Extended(string id) : base(id) { }
+        public ProjectDTO() : base() { }
+        public ProjectDTO(string id) : base(id) { }
 
         [DataMember(Name = "create-timestamp-formatted", Order = 13)]
         public string CreateTimestamp;

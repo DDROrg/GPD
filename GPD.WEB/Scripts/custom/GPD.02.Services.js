@@ -96,7 +96,7 @@ var ProjectServices = function ($http, $q) {
         _GetProjects()
         .then(function (payload) {
             retVal = payload.data;
-            $.each(retVal.projectList, function (k, v) {
+            $.each(retVal.projects, function (k, v) {
                 v.isExpanded = false;
                 v.hasDetail = false;
             });

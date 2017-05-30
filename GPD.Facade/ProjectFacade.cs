@@ -15,7 +15,7 @@ namespace GPD.Facade
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public AddProjectResponseDTO Add(string partnerName, ProjectDTO projectDTO)
+        public AddProjectResponseDTO Add(string partnerName, ProjectBaseDTO projectBaseDTO)
         {
             AddProjectResponseDTO retVal = null;
             XDocument xDoc = new XDocument();
@@ -23,13 +23,13 @@ namespace GPD.Facade
             try
             {
                 // set project ID
-                projectDTO.Id = System.Guid.NewGuid().ToString();
+                projectBaseDTO.Id = System.Guid.NewGuid().ToString();
 
                 // get XML based on ProjectDTO object
                 using (var writer = xDoc.CreateWriter())
                 {
-                    var serializer = new DataContractSerializer(projectDTO.GetType());
-                    serializer.WriteObject(writer, projectDTO);
+                    var serializer = new DataContractSerializer(projectBaseDTO.GetType());
+                    serializer.WriteObject(writer, projectBaseDTO);
                 }
 
                 xDoc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']")
@@ -52,7 +52,7 @@ namespace GPD.Facade
                 new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(partnerName, xDoc);
 
                 // project content inserted successful
-                retVal = new AddProjectResponseDTO(true, projectDTO.Id);
+                retVal = new AddProjectResponseDTO(true, projectBaseDTO.Id);
             }
             catch (Exception ex)
             {
@@ -68,13 +68,15 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ProjectDTO_Extended GetProjectById(string partnerName, string projectId)
+        public ProjectDTO GetProjectById(string partnerName, string projectId)
         {
-            ProjectDTO_Extended retVal = null;
+            ProjectDTO retVal = new ProjectDTO();
+
             try
             {
-                retVal = new ProjectDTO_Extended();
+                // gete project data
                 DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectById(projectId);
+
                 if (ds != null && ds.Tables.Count > 4 && ds.Tables[0].Rows.Count > 0)
                 {
                     //=====================================
@@ -222,9 +224,9 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<ProjectDTO_Extended> GetProjectsList(string partnerName, int pageSize, int pageIndex)
+        public List<ProjectDTO> GetProjectsList(string partnerName, int pageSize, int pageIndex)
         {
-            List<ProjectDTO_Extended> retVal = new List<ProjectDTO_Extended>();
+            List<ProjectDTO> retVal = new List<ProjectDTO>();
 
             try
             {
@@ -235,7 +237,7 @@ namespace GPD.Facade
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        ProjectDTO_Extended tempProjectDTO = new ProjectDTO_Extended(dr["PROJECT_ID"].ToString())
+                        ProjectDTO tempProjectDTO = new ProjectDTO(dr["PROJECT_ID"].ToString())
                         {
                             Author = dr["AUTHOR"].ToString(),
                             BuildingName = dr["BUILDING_NAME"].ToString(),

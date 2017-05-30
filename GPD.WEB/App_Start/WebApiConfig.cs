@@ -23,9 +23,9 @@ namespace GPD.WEB
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                name: "Project APIs",
+                routeTemplate: "api/{partnerName}/{controller}/{projectId}",
+                defaults: new { projectId = RouteParameter.Optional }
             );
         }
     }

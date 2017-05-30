@@ -28,8 +28,8 @@ namespace GPD.DAL.SqlDB
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="partnerName"></param>
         /// <param name="projectXmlData"></param>
-        /// <param name="sourceClient"></param>
         public void AddProject(string partnerName, XDocument projectXmlData)
         {
             List<SqlParameter> parametersInList = new List<SqlParameter>()
