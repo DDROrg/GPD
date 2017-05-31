@@ -9,27 +9,27 @@ using System.Xml.XPath;
 namespace GPD.Facade
 {
     using DAL.SqlDB;
-    using ServiceEntities;
+    using ServiceEntities.BaseEntities;
 
     public class ProjectFacade
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public AddProjectResponseDTO Add(string partnerName, ProjectBaseDTO projectBaseDTO)
+        public ServiceEntities.ResponseEntities.AddProject.ResponseDTO AddProject(string partnerName, ProjectDTO projectDTO)
         {
-            AddProjectResponseDTO retVal = null;
+            ServiceEntities.ResponseEntities.AddProject.ResponseDTO responseDTO = new ServiceEntities.ResponseEntities.AddProject.ResponseDTO();
             XDocument xDoc = new XDocument();
 
             try
             {
                 // set project ID
-                projectBaseDTO.Id = System.Guid.NewGuid().ToString();
+                string projectId = System.Guid.NewGuid().ToString();
 
                 // get XML based on ProjectDTO object
                 using (var writer = xDoc.CreateWriter())
                 {
-                    var serializer = new DataContractSerializer(projectBaseDTO.GetType());
-                    serializer.WriteObject(writer, projectBaseDTO);
+                    var serializer = new DataContractSerializer(projectDTO.GetType());
+                    serializer.WriteObject(writer, projectDTO);
                 }
 
                 xDoc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']")
@@ -37,7 +37,7 @@ namespace GPD.Facade
                     .ForEach(T => T.Add(new XAttribute("guid", System.Guid.NewGuid().ToString())));
 
                 Dictionary<string, string> categoriesList =
-                xDoc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']/*[local-name()='categories']/*[local-name()='category']")
+                    xDoc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']/*[local-name()='categories']/*[local-name()='category']")
                     .ToList()
                     .GroupBy(g => g.XPathSelectElement("*[local-name()='taxonomy']").Value + "::" + g.XPathSelectElement("*[local-name()='title']").Value)
                     .ToDictionary(g => g.Key, g => System.Guid.NewGuid().ToString());
@@ -49,18 +49,18 @@ namespace GPD.Facade
                     ])));
 
                 // send the project to DB 
-                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(partnerName, xDoc);
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(partnerName, projectId, xDoc);
 
                 // project content inserted successful
-                retVal = new AddProjectResponseDTO(true, projectBaseDTO.Id);
+                responseDTO = new ServiceEntities.ResponseEntities.AddProject.ResponseDTO(true, projectId);
             }
             catch (Exception ex)
             {
                 log.Error("Unable to add project", ex);
-                retVal = new AddProjectResponseDTO(false, "");
+                responseDTO = new ServiceEntities.ResponseEntities.AddProject.ResponseDTO();
             }
 
-            return retVal;
+            return responseDTO;
         }
 
         /// <summary>
@@ -83,7 +83,6 @@ namespace GPD.Facade
                     #region Project
                     {
                         DataRow dr = ds.Tables[0].Rows[0];
-                        retVal.Id = dr["PROJECT_ID"].ToString();
                         retVal.Author = dr["AUTHOR"].ToString();
                         retVal.BuildingName = dr["BUILDING_NAME"].ToString();
                         retVal.Client = dr["CLIENT"].ToString();
@@ -138,7 +137,7 @@ namespace GPD.Facade
                         foreach (DataRow dr in ds.Tables[2].Rows)
                         {
                             #region Item 
-                            ItemDTO tempItemDTO = new ItemDTO()
+                            ItemDTO itemDTO = new ItemDTO()
                             {
                                 Id = dr["ITEM_ID"].ToString(),
                                 Type = dr["TYPE"].ToString(),
@@ -150,7 +149,7 @@ namespace GPD.Facade
                             #endregion
 
                             #region Item-Product
-                            tempItemDTO.Product = new ItemProductDTO()
+                            itemDTO.Product = new ItemProductDTO()
                             {
                                 Id = dr["PRODUCT_ID"].ToString(),
                                 URL = dr["PRODUCT_URL"].ToString(),
@@ -164,10 +163,11 @@ namespace GPD.Facade
                             if (ds.Tables[3].Rows.Count > 0)
                             {
                                 var drMaterials = ds.Tables[3].AsEnumerable()
-                                    .Where(i => i["ITEM_ID"].ToString().Equals(tempItemDTO.Id));
+                                    .Where(i => i["ITEM_ID"].ToString().Equals(itemDTO.Id));
+
                                 if (drMaterials.Count() > 0)
                                 {
-                                    tempItemDTO.Materials = new List<MaterialDTO>();
+                                    itemDTO.Materials = new List<MaterialDTO>();
                                     foreach (DataRow drM in drMaterials)
                                     {
                                         MaterialDTO tempMaterialDTO = new MaterialDTO() { Id = drM["MATERIAL_ID"].ToString() };
@@ -179,7 +179,7 @@ namespace GPD.Facade
                                             Model = drM["PRODUCT_MODEL"].ToString()
                                         };
 
-                                        tempItemDTO.Materials.Add(tempMaterialDTO);
+                                        itemDTO.Materials.Add(tempMaterialDTO);
                                     }
                                 }
                             }
@@ -189,10 +189,12 @@ namespace GPD.Facade
                             if (ds.Tables[4].Rows.Count > 0)
                             {
                                 var drCategories = ds.Tables[4].AsEnumerable()
-                                   .Where(i => i["ITEM_ID"].ToString().Equals(tempItemDTO.Id));
+                                   .Where(i => i["ITEM_ID"].ToString().Equals(itemDTO.Id));
+
                                 if (drCategories.Count() > 0)
                                 {
-                                    tempItemDTO.Categories = new List<CategoryDTO>();
+                                    itemDTO.Categories = new List<CategoryDTO>();
+
                                     foreach (DataRow drC in drCategories)
                                     {
                                         CategoryDTO tempCategoryDTO = new CategoryDTO()
@@ -200,13 +202,14 @@ namespace GPD.Facade
                                             Taxonomy = drC["TAXONOMY"].ToString(),
                                             Title = drC["TITLE"].ToString()
                                         };
-                                        tempItemDTO.Categories.Add(tempCategoryDTO);
+
+                                        itemDTO.Categories.Add(tempCategoryDTO);
                                     }
                                 }
                             }
                             #endregion
 
-                            retVal.Items.Add(tempItemDTO);
+                            retVal.Items.Add(itemDTO);
                         }
                     }
                     #endregion
@@ -224,9 +227,9 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<ProjectDTO> GetProjectsList(string partnerName, int pageSize, int pageIndex)
+        public List<ServiceEntities.ResponseEntities.ProjectsList.ProjectDTO> GetProjectsList(string partnerName, int pageSize, int pageIndex)
         {
-            List<ProjectDTO> retVal = new List<ProjectDTO>();
+            List<ServiceEntities.ResponseEntities.ProjectsList.ProjectDTO> retVal = new List<ServiceEntities.ResponseEntities.ProjectsList.ProjectDTO>();
 
             try
             {
@@ -237,7 +240,7 @@ namespace GPD.Facade
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        ProjectDTO tempProjectDTO = new ProjectDTO(dr["PROJECT_ID"].ToString())
+                        ServiceEntities.ResponseEntities.ProjectsList.ProjectDTO projectDTO = new ServiceEntities.ResponseEntities.ProjectsList.ProjectDTO(dr["PROJECT_ID"].ToString())
                         {
                             Author = dr["AUTHOR"].ToString(),
                             BuildingName = dr["BUILDING_NAME"].ToString(),
@@ -251,7 +254,7 @@ namespace GPD.Facade
                             CreateTimestamp = ((DateTime)dr["CREATE_DATE"]).ToString() + " EDT"
                         };
 
-                        retVal.Add(tempProjectDTO);
+                        retVal.Add(projectDTO);
                     }
                 }
             }

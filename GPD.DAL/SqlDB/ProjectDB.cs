@@ -30,11 +30,12 @@ namespace GPD.DAL.SqlDB
         /// </summary>
         /// <param name="partnerName"></param>
         /// <param name="projectXmlData"></param>
-        public void AddProject(string partnerName, XDocument projectXmlData)
+        public void AddProject(string partnerName, string projectId, XDocument projectXmlData)
         {
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
                 new SqlParameter("@P_PartnerName", partnerName),
+                new SqlParameter("@P_ProjectId", projectId),
                 new SqlParameter("@P_XML", projectXmlData.ToString()),
                 new SqlParameter("@P_Return_ErrorCode", SqlDbType.Int) { Direction = ParameterDirection.Output },
                 new SqlParameter("@P_Return_Message", SqlDbType.VarChar, 1024) { Direction = ParameterDirection.Output }

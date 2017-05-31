@@ -43,8 +43,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountEntities.cs" />
-    <Compile Include="ServiceEntities.cs" />
+    <Compile Include="BaseEntities\ApplicationDTO.cs" />
+    <Compile Include="BaseEntities\BaseDTO.cs" />
+    <Compile Include="BaseEntities\CategoryDTO.cs" />
+    <Compile Include="BaseEntities\IdentifierDTO.cs" />
+    <Compile Include="BaseEntities\ItemDTO.cs" />
+    <Compile Include="BaseEntities\ItemProductDTO.cs" />
+    <Compile Include="BaseEntities\LocationDTO.cs" />
+    <Compile Include="BaseEntities\MaterialDTO.cs" />
+    <Compile Include="BaseEntities\MaterialProductDTO.cs" />
+    <Compile Include="BaseEntities\MaterialTypeDTO.cs" />
+    <Compile Include="BaseEntities\ProjectDTO.cs" />
+    <Compile Include="BaseEntities\SessionDTO.cs" />
+    <Compile Include="ResponseEntities\AddProject.cs" />
+    <Compile Include="ResponseEntities\ProjectsList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RequestEntities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
