@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[gpd_AddProject]
 	@P_PartnerName nvarchar(30),
+	@P_ProjectId UNIQUEIDENTIFIER,
 	@P_XML XML,	
 	@P_Return_ErrorCode INT OUT,
 	@P_Return_Message VARCHAR(1024) = '' OUT
@@ -9,7 +10,7 @@ BEGIN
  	/******************************
 	*  Variable Declarations
 	*******************************/   
-	DECLARE @V_ProjectId UNIQUEIDENTIFIER;
+	--DECLARE @V_ProjectId UNIQUEIDENTIFIER;
 	DECLARE @TempCategories TABLE (
 		ID UNIQUEIDENTIFIER,
 		TAXONOMY NVARCHAR(150),
@@ -22,10 +23,10 @@ BEGIN
 	*******************************/
 	SET @P_Return_ErrorCode = @@ERROR;
 
-	WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com',
-		'http://www.w3.org/2001/XMLSchema-instance' AS i)
-	SELECT @V_ProjectId = m.value('(id)[1]', 'UNIQUEIDENTIFIER')
-		FROM   @P_XML.nodes('/project') M(m);
+	--WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com',
+	--	'http://www.w3.org/2001/XMLSchema-instance' AS i)
+	--SELECT @V_ProjectId = m.value('(id)[1]', 'UNIQUEIDENTIFIER')
+	--	FROM   @P_XML.nodes('/project') M(m);
 
 	BEGIN TRY
 		BEGIN TRAN;
@@ -47,7 +48,7 @@ BEGIN
 					 xml_project_metadata, 
 					 create_date, 
 					 update_date) 
-			SELECT @V_ProjectId, 
+			SELECT @P_ProjectId, 
 					@P_PartnerName,
 					m.value('(author)[1]', 'NVARCHAR(250)'), 
 					m.value('(building-name)[1]', 'NVARCHAR(250)'), 
@@ -73,7 +74,7 @@ BEGIN
 				create_date,
 				update_date)
 			SELECT			
-				@V_ProjectId,
+				@P_ProjectId,
 				M.value('(identifier)[1]', 'NVARCHAR(50)'),
 				M.value('(system-name)[1]', 'NVARCHAR(150)'), 
 				getdate(), null
@@ -94,7 +95,7 @@ BEGIN
 				create_date,
 				update_date)
 			SELECT
-				@V_ProjectId,
+				@P_ProjectId,
 				ISNULL(M.value('(type)[1]', 'NVARCHAR(100)'), 'N/A'),
 				M.value('(address1)[1]', 'NVARCHAR(250)'),
 				M.value('(address2)[1]', 'NVARCHAR(250)'),
@@ -123,7 +124,7 @@ BEGIN
 				create_date,
 				update_date)
 			SELECT
-				@V_ProjectId,
+				@P_ProjectId,
 				M.value('(type)[1]', 'NVARCHAR(100)'),
 				M.value('(platform)[1]', 'NVARCHAR(150)'),
 				M.value('(application/build)[1]', 'NVARCHAR(150)'),
@@ -160,7 +161,7 @@ BEGIN
 				update_date)
 			SELECT			
 				M.value('(./@guid)[1]', 'UNIQUEIDENTIFIER'),
-				@V_ProjectId, 
+				@P_ProjectId, 
 				M.value('(id)[1]', 'INT'),
 				M.value('(type)[1]', 'NVARCHAR(100)'),
 				M.value('(currency)[1]', 'NVARCHAR(100)'),

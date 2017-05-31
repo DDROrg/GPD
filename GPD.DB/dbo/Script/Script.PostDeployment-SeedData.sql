@@ -23,13 +23,15 @@ DELETE FROM gpd_client_details;
 DELETE FROM gpd_user_details;
 DELETE FROM gpd_user_group;
 
-
-
-INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) VALUES (101, 'Admin', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) VALUES (102, 'Moderator', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) VALUES (103, 'Site Client', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) VALUES (104, 'User', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) VALUES (105, 'Site Admin', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) VALUES (106, 'Manufacturer', 'n/a description', 1, NULL, getdate(), null);
-INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date)VALUES (107, 'Firm', 'n/a description', 1, NULL, getdate(), null);
-
+INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) 
+VALUES (100, 'USER', 'Can publish projects; can view published projects; can export project details by complete or by category', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) 
+VALUES (101, 'FIRMS ADMINISTRATOR', 'Can create/edit firm; add/remove user to firm; can control access to firm project information', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) 
+VALUES (102, 'CLIENT USER', 'Can view project data based on access assign by the Client_Administrator and categories linked to the Client account', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) 
+VALUES (103, 'CLIENT ADMINISTATOR', 'Admin client information and User access to data by region, state or zip code; can export project list and individual project details to xls, pdf or csv', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) 
+VALUES (104, 'ADMINISTRATORS', 'Site Admin Modirators - Can edit/delete all Clients, Client_admins, Firms_Admins and User information and access to specific data, Can edit project data', 1, NULL, getdate(), null);
+INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) 
+VALUES (105, 'ADMINISTRATOR', 'Site	Main Site Admins - Can edit everything', 1, NULL, getdate(), null);
