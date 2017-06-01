@@ -32,18 +32,17 @@ namespace GPD.Facade
             {
                 // gete project data
                 DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).PasswordSignIn(email, password);
+
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    retVal.UserId = dr["user_id"].ToString();
-                    retVal.FirstName = dr["first_name"].ToString();
-                    retVal.LastName = dr["last_name"].ToString();
-                    retVal.GroupName = dr["GroupName"].ToString();
+                    retVal.UserId = ds.Tables[0].Rows[0]["user_id"].ToString();
+                    retVal.FirstName = ds.Tables[0].Rows[0]["first_name"].ToString();
+                    retVal.LastName = ds.Tables[0].Rows[0]["last_name"].ToString();
+                    retVal.GroupName = ds.Tables[0].Rows[0]["partner_name"].ToString();
                     retVal.SignInStatus = CNST.SignInStatus.Success;
-                    foreach (DataRow dr2 in ds.Tables[0].Rows)
-                    {
-                        retVal.PartnerNames.Add(dr2["PartnerName"].ToString());
-                    }
+
+                    // Partner Names
+                    ds.Tables[0].Rows.Cast<DataRow>().ToList().ForEach(T => retVal.PartnerNames.Add(T["partner_name"].ToString()));
                 }
             }
             catch (Exception ex)

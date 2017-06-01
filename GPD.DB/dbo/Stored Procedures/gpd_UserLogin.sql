@@ -7,21 +7,12 @@ BEGIN
     -- interfering with SELECT statements. 
     SET NOCOUNT ON;
 
-	SELECT distinct 
-		u.user_id, 
-		u.first_name, 
-		u.last_name, 
-		p.name as PartnerName,
-		g.name as GroupName
-	FROM gpd_user_details u
-	INNER JOIN gpd_partner_user_group_xref x
-		ON u.user_id = x.user_id
-			AND LOWER(u.email) = LOWER(@P_EMAIL)
-			AND u.password = @P_PASSWORD
-			AND u.active = 1	
-	INNER JOIN gpd_partner_details p
-		ON x.partner_id = p.partner_id
-	INNER JOIN gpd_user_group g
-		ON x.group_id = g.group_id
-	ORDER BY p.name;
+	SELECT distinct u.user_id, u.first_name, u.last_name, p.name partner_name
+	FROM [gpd_user_details] u, [gpd_partner_user_group_xref] x, [gpd_partner_details] p
+	WHERE LOWER(u.email) = LOWER(@P_EMAIL)
+	AND u.password = @P_PASSWORD
+	AND u.active = 1
+	AND x.user_id = u.user_id
+	AND p.partner_id = x.partner_id
+	ORDER BY p.name
 END;

@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[gpd_AddProject]
 	@P_PartnerName nvarchar(30),
-	@P_ProjectId UNIQUEIDENTIFIER,
+	@P_ProjectId uniqueidentifier,
 	@P_XML XML,	
 	@P_Return_ErrorCode INT OUT,
 	@P_Return_Message VARCHAR(1024) = '' OUT
@@ -10,7 +10,6 @@ BEGIN
  	/******************************
 	*  Variable Declarations
 	*******************************/   
-	--DECLARE @V_ProjectId UNIQUEIDENTIFIER;
 	DECLARE @TempCategories TABLE (
 		ID UNIQUEIDENTIFIER,
 		TAXONOMY NVARCHAR(150),
@@ -21,12 +20,7 @@ BEGIN
 	/******************************
 	*  Initialize Variables
 	*******************************/
-	SET @P_Return_ErrorCode = @@ERROR;
-
-	--WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com',
-	--	'http://www.w3.org/2001/XMLSchema-instance' AS i)
-	--SELECT @V_ProjectId = m.value('(id)[1]', 'UNIQUEIDENTIFIER')
-	--	FROM   @P_XML.nodes('/project') M(m);
+	SET @P_Return_ErrorCode = @@ERROR;	
 
 	BEGIN TRY
 		BEGIN TRAN;
@@ -214,9 +208,9 @@ BEGIN
 			UPDATE @TempCategories
 			SET ID = C.CATEGORY_ID, IS_NEW = 0
 			FROM @TempCategories TEMP
-			INNER JOIN gpd_category C 
-				ON TEMP.TAXONOMY = C.taxonomy
-				AND TEMP.TITLE = C.title;
+			INNER JOIN GPD_CATEGORY C 
+				ON TEMP.TAXONOMY = C.TAXONOMY
+				AND TEMP.TITLE = C.TITLE;
 
 			INSERT INTO gpd_category
 			   (category_id,
