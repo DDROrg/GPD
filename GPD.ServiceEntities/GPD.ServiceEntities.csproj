@@ -54,6 +54,7 @@
     <Compile Include="BaseEntities\MaterialProductDTO.cs" />
     <Compile Include="BaseEntities\MaterialTypeDTO.cs" />
     <Compile Include="BaseEntities\ProjectDTO.cs" />
+    <Compile Include="BaseEntities\SignInResponseDTO.cs" />
     <Compile Include="BaseEntities\SessionDTO.cs" />
     <Compile Include="ResponseEntities\AddProject.cs" />
     <Compile Include="ResponseEntities\ProjectsList.cs" />

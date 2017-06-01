@@ -12,7 +12,7 @@ using System.Web.Security;
 namespace GPD.WEB.Controllers
 {
     using ServiceEntities;
-    using ENUM = Utility.EnumHelper;
+    using CNST = Utility.ConstantHelper;
 
     /// <summary>
     /// 
@@ -50,17 +50,17 @@ namespace GPD.WEB.Controllers
             }
 
             var result = new Facade.SignInFacade().PasswordSignIn(model.Email, model.Password);
-            switch (result)
+            switch (result.SignInStatus)
             {
-                case ENUM.SignInStatus.Success:
+                case CNST.SignInStatus.Success:
                     FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
-                    SessionManager.PartnarName = "TEST";                  
+                    SessionManager.PartnarName = result.PartnerNames.FirstOrDefault();                  
                     return RedirectToLocal(returnUrl);
-                case ENUM.SignInStatus.LockedOut:
+                case CNST.SignInStatus.LockedOut:
                     return View("Lockout");
-                case ENUM.SignInStatus.RequiresVerification:
+                case CNST.SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case ENUM.SignInStatus.Failure:
+                case CNST.SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);

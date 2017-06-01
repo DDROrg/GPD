@@ -56,6 +56,24 @@ namespace GPD.DAL.SqlDB
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public DataSet PasswordSignIn(string email, string password)
+        {
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_EMAIL", email),
+                 new SqlParameter("@P_PASSWORD", password)
+            };
+
+
+            return base.GetDSBasedOnStoreProcedure("gpd_UserLogin", parametersInList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         public DataSet GetProjectsList(string partnerName, int pageSize, int pageIndex)
