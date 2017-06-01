@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[gpd_user_details] (
-    [user_id]           INT            IDENTITY (100, 1) NOT NULL,
+    [user_id]           UNIQUEIDENTIFIER NOT NULL,
     [last_name]         NVARCHAR (150) NULL,
     [first_name]        NVARCHAR (150) NULL,
     [full_name]         NVARCHAR (150) NULL,
