@@ -49,12 +49,14 @@ namespace GPD.WEB.Controllers
                 return View(model);
             }
 
-            var result = new Facade.SignInFacade().PasswordSignIn(model.Email, model.Password);
-            switch (result.SignInStatus)
+            var result = new Facade.SignInFacade().AuthenticateUser(model.Email, model.Password);
+
+            switch (result)
             {
                 case CNST.SignInStatus.Success:
                     FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
-                    SessionManager.PartnarName = result.PartnerNames.FirstOrDefault();                  
+                    //var userProfile = new Facade.SignInFacade().GetUserRole(model.Email);
+                    //SessionManager.GetInstance().SetPartnarName(userProfile.PartnerNames.FirstOrDefault());
                     return RedirectToLocal(returnUrl);
                 case CNST.SignInStatus.LockedOut:
                     return View("Lockout");
@@ -75,7 +77,7 @@ namespace GPD.WEB.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            SessionManager.ClearSession();
+            SessionManager.GetInstance().ClearSession();
             return RedirectToAction("Index", "Home");
         }
         #endregion

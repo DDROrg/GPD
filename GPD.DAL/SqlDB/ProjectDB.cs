@@ -59,7 +59,7 @@ namespace GPD.DAL.SqlDB
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public DataSet PasswordSignIn(string email, string password)
+        public DataSet AuthenticateUser(string email, string password)
         {
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
@@ -68,7 +68,18 @@ namespace GPD.DAL.SqlDB
             };
 
 
-            return base.GetDSBasedOnStoreProcedure("gpd_UserLogin", parametersInList);
+            return base.GetDSBasedOnStoreProcedure("gpd_UserAuthenticate", parametersInList);
+        }
+
+        public DataSet GetUserRole(string email)
+        {
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_EMAIL", email)
+            };
+
+
+            return base.GetDSBasedOnStoreProcedure("gpd_GetUserRole", parametersInList);
         }
 
         /// <summary>

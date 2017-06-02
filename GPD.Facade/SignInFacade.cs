@@ -25,13 +25,38 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        public SignInResponseDTO PasswordSignIn(string email, string password)
+        public int AuthenticateUser(string email, string password)
+        {
+            int retVal = CNST.SignInStatus.Failure;
+            try
+            {
+                // gete project data
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AuthenticateUser(email, password);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    retVal = CNST.SignInStatus.Success;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to sign in id: " + email, ex);
+            }
+            return retVal;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        public SignInResponseDTO GetUserRole(string email)
         {
             SignInResponseDTO retVal = new SignInResponseDTO() { SignInStatus = CNST.SignInStatus.Failure };
             try
             {
                 // gete project data
-                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).PasswordSignIn(email, password);
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUserRole(email);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
