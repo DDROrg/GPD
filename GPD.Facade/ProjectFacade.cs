@@ -10,14 +10,16 @@ namespace GPD.Facade
 {
     using DAL.SqlDB;
     using ServiceEntities.BaseEntities;
+    using ServiceEntities.ResponseEntities.AddProject;
+    using ServiceEntities.ResponseEntities.ProjectsList;
 
     public class ProjectFacade
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public ServiceEntities.ResponseEntities.AddProject.ResponseDTO AddProject(string partnerName, ProjectDTO projectDTO)
+        public AddProjectResponse AddProject(string partnerName, ProjectDTO projectDTO)
         {
-            ServiceEntities.ResponseEntities.AddProject.ResponseDTO responseDTO = new ServiceEntities.ResponseEntities.AddProject.ResponseDTO();
+            AddProjectResponse responseDTO = new AddProjectResponse();
             XDocument xDoc = new XDocument();
 
             try
@@ -52,12 +54,12 @@ namespace GPD.Facade
                 new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(partnerName, projectId, xDoc);
 
                 // project content inserted successful
-                responseDTO = new ServiceEntities.ResponseEntities.AddProject.ResponseDTO(true, projectId);
+                responseDTO = new AddProjectResponse(true, projectId);
             }
             catch (Exception ex)
             {
                 log.Error("Unable to add project", ex);
-                responseDTO = new ServiceEntities.ResponseEntities.AddProject.ResponseDTO();
+                responseDTO = new AddProjectResponse();
             }
 
             return responseDTO;
@@ -227,9 +229,9 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<ServiceEntities.ResponseEntities.ProjectsList.ProjectDTO> GetProjectsList(string partnerName, int pageSize, int pageIndex)
+        public List<ProjectItem> GetProjectsList(string partnerName, int pageSize, int pageIndex)
         {
-            List<ServiceEntities.ResponseEntities.ProjectsList.ProjectDTO> retVal = new List<ServiceEntities.ResponseEntities.ProjectsList.ProjectDTO>();
+            List<ProjectItem> retVal = new List<ProjectItem>();
 
             try
             {
@@ -240,7 +242,7 @@ namespace GPD.Facade
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        ServiceEntities.ResponseEntities.ProjectsList.ProjectDTO projectDTO = new ServiceEntities.ResponseEntities.ProjectsList.ProjectDTO(dr["PROJECT_ID"].ToString())
+                        ProjectItem projectDTO = new ProjectItem(dr["PROJECT_ID"].ToString())
                         {
                             Author = dr["AUTHOR"].ToString(),
                             BuildingName = dr["BUILDING_NAME"].ToString(),

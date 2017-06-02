@@ -4,6 +4,8 @@ using System.Web.Http;
 namespace GPD.WEB.Controllers
 {
     using ServiceEntities.BaseEntities;
+    using ServiceEntities.ResponseEntities.AddProject;
+    using ServiceEntities.ResponseEntities.ProjectsList;
 
     /// <summary>
     /// 
@@ -21,14 +23,14 @@ namespace GPD.WEB.Controllers
         /// <returns></returns>
         [Route("api/{partnerName}/Project/List/{pageSize:int}/{pageIndex:int}")]
         [HttpGet]
-        public ServiceEntities.ResponseEntities.ProjectsList.ResponseDTO GetProjectsList(string partnerName, int pageSize = -1, int pageIndex = -1)
+        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize = -1, int pageIndex = -1)
         {
             pageSize = (pageSize == -1 || pageSize > Utility.ConfigurationHelper.API_ProjectsListPageMaxSize) ?
                 Utility.ConfigurationHelper.API_ProjectsListPageSize : pageSize;
             pageIndex = (pageIndex < 1) ? 1 : pageIndex;
 
-            List<ServiceEntities.ResponseEntities.ProjectsList.ProjectDTO> projectsList = new Facade.ProjectFacade().GetProjectsList(partnerName, pageSize, pageIndex);
-            ServiceEntities.ResponseEntities.ProjectsList.ResponseDTO responseDTO = new ServiceEntities.ResponseEntities.ProjectsList.ResponseDTO(pageSize, pageIndex);
+            List<ProjectItem> projectsList = new Facade.ProjectFacade().GetProjectsList(partnerName, pageSize, pageIndex);
+            ProjectsListResponse responseDTO = new ProjectsListResponse(pageSize, pageIndex);
             if (projectsList != null || projectsList.Count > 0) { responseDTO.ProjectList = projectsList; }
 
             return responseDTO;
@@ -42,7 +44,7 @@ namespace GPD.WEB.Controllers
         /// <returns></returns>
         [Route("api/{partnerName}/Project/{projectId}")]
         [HttpGet]
-        public ServiceEntities.BaseEntities.ProjectDTO GetProjectDetails(string partnerName, string projectId)
+        public ProjectDTO GetProjectDetails(string partnerName, string projectId)
         {
             return new Facade.ProjectFacade().GetProjectById(partnerName, projectId);
         }
@@ -55,7 +57,7 @@ namespace GPD.WEB.Controllers
         /// <returns></returns>
         [Route("api/{partnerName}/Project")]
         [HttpPost]
-        public ServiceEntities.ResponseEntities.AddProject.ResponseDTO AddProject(string partnerName, ProjectDTO projectDTO)
+        public AddProjectResponse AddProject(string partnerName, ProjectDTO projectDTO)
         {
             return new Facade.ProjectFacade().AddProject(partnerName, projectDTO);
         }
