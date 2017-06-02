@@ -15,5 +15,6 @@ BEGIN
 		p.[status],
 		p.create_date
 	FROM gpd_project p
+	WHERE p.[active] = 1
 	ORDER BY P.create_date DESC;
 END

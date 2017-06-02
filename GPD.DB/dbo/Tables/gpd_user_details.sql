@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[gpd_user_details] (
-    [user_id]           UNIQUEIDENTIFIER NOT NULL,
+    [user_id]           INT            IDENTITY (100, 1) NOT NULL,
     [last_name]         NVARCHAR (150) NULL,
     [first_name]        NVARCHAR (150) NULL,
     [full_name]         NVARCHAR (150) NULL,
@@ -25,6 +25,8 @@
     CONSTRAINT [PK_gpd_user_details] PRIMARY KEY CLUSTERED ([user_id] ASC),
     CONSTRAINT [IX_gpd_user_details] UNIQUE NONCLUSTERED ([email] ASC)
 );
+
+
 
 
 

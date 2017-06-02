@@ -4,15 +4,15 @@ using System.Runtime.Serialization;
 namespace GPD.ServiceEntities.ResponseEntities.ProjectsList
 {
     [DataContract(Namespace = "http://www.gpd.com", Name = "projects-list-response")]
-    public class ResponseDTO
+    public class ProjectsListResponse
     {
         #region Constr
-        public ResponseDTO() { }
-        public ResponseDTO(int pageSize, int pageIndex)
+        public ProjectsListResponse() { }
+        public ProjectsListResponse(int pageSize, int pageIndex)
         {
             this.PageSize = pageSize;
             this.PageIndex = pageIndex;
-            this.ProjectList = new List<ProjectDTO>();
+            this.ProjectList = new List<ProjectItem>();
         }
         #endregion Constr
 
@@ -23,14 +23,14 @@ namespace GPD.ServiceEntities.ResponseEntities.ProjectsList
         public int PageIndex;
 
         [DataMember(Name = "projects", Order = 3)]
-        public List<ProjectDTO> ProjectList { get; set; }
+        public List<ProjectItem> ProjectList { get; set; }
     }
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "project")]
-    public class ProjectDTO : BaseEntities.BaseDTO
+    public class ProjectItem : BaseEntities.BaseDTO
     {
-        public ProjectDTO() : base() { }
-        public ProjectDTO(string id) : base(id) { }
+        public ProjectItem() : base() { }
+        public ProjectItem(string id) : base(id) { }
 
         [DataMember(Name = "author", Order = 2)]
         public string Author;
