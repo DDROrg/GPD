@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE gpd_GetUserRole
+﻿/****** Object:  StoredProcedure [dbo].[gpd_GetUserRole]    Script Date: 6/2/2017 11:55:32 PM ******/
+CREATE PROCEDURE [dbo].[gpd_GetUserRole]
        @P_EMAIL nvarchar(150)
 AS
 BEGIN

@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE gpd_UserAuthenticate
+﻿CREATE PROCEDURE [dbo].[gpd_UserAuthenticate]
        @P_EMAIL nvarchar(150),
 	   @P_PASSWORD nvarchar(150)
 AS
