@@ -1,0 +1,9 @@
+﻿===================================
+get-help Enable-Migrations
+get-help update-database
+===================================
+Enable-Migrations -ContextTypeName "GpdDbContext" -EnableAutomaticMigrations -ProjectName "GPD.Facade"
+Add-Migration -Name "S001"
+update-database
+Update-Database –TargetMigration: $InitialDatabase
+Update-Database –TargetMigration: "S001"

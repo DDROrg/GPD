@@ -16,9 +16,11 @@ namespace GPD.Facade
     /// <summary>
     /// 
     /// </summary>
-    public class SignInFacade
+    public class SignInFacade : BaseFacade
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        public SignInFacade() : base() { }
 
         /// <summary>
         /// 

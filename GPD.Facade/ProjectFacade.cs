@@ -13,9 +13,11 @@ namespace GPD.Facade
     using ServiceEntities.ResponseEntities.AddProject;
     using ServiceEntities.ResponseEntities.ProjectsList;
 
-    public class ProjectFacade
+    public class ProjectFacade : BaseFacade
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        public ProjectFacade() : base() { }
 
         public AddProjectResponse AddProject(string partnerName, ProjectDTO projectDTO)
         {
