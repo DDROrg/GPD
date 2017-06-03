@@ -36,10 +36,10 @@ VALUES (104, 'ADMINISTRATORS', 'Site Admin Modirators - Can edit/delete all Clie
 INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) 
 VALUES (105, 'ADMINISTRATOR', 'Site	Main Site Admins - Can edit everything', 1, NULL, getdate(), null);
 
-INSERT INTO gpd_user_details (user_id, last_name, first_name, full_name, email, password, company, job_title, 
+INSERT INTO gpd_user_details (last_name, first_name, full_name, email, password, company, job_title, 
 	business_phone, home_phone, mobile_phone, fax_number, address_line_1, address_line_2, city, state_province, 
 	zip_postal_code, country, ip_address, active, xml_user_metadata, create_date, update_date)
-VALUES(100, 'Admin', 'Site', 'Site Admin', 'gpd@noemail.com', 'Pass@1234', 
+VALUES('Admin', 'Site', 'Site Admin', 'gpd@noemail.com', 'Pass@1234', 
 	'GPD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, getdate(),  NULL);
 
 INSERT INTO gpd_partner_details (partner_id, name, site_url, short_description, description, active, xml_partner_metadata, create_date, update_date)
