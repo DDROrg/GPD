@@ -1,33 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
 
 namespace GPD.WEB
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class SessionManager
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static SessionManager _instance;
         private const string SESSION_PARTNARNAME = "SESSION_PARTNARNAME";
         private const string SESSION_USERNAME = "SESSION_USERNAME";
-        private SessionManager() { }
 
+        #region Constr
+        private SessionManager() { }
+        #endregion Constr
 
         /// <summary>
-        /// 
+        /// GetInstance
         /// </summary>
         /// <returns></returns>
         public static SessionManager GetInstance()
         {
-            if (_instance == null)
-            {
-                _instance = new SessionManager();
-            }
+            if (_instance == null) { _instance = new SessionManager(); }
             return _instance;
         }
 
@@ -38,7 +33,7 @@ namespace GPD.WEB
         public string GetPartnarName()
         {
             if (HttpContext.Current.Session[SESSION_PARTNARNAME] == null) { loadProfile(); }
-            return HttpContext.Current.Session[SESSION_PARTNARNAME].ToString();
+            return (HttpContext.Current.Session[SESSION_PARTNARNAME] == null) ? string.Empty : HttpContext.Current.Session[SESSION_PARTNARNAME].ToString();
         }
 
         /// <summary>
@@ -51,7 +46,7 @@ namespace GPD.WEB
         }
 
         /// <summary>
-        /// 
+        /// GetUserName
         /// </summary>
         /// <returns></returns>
         public string GetUserName()
@@ -69,8 +64,6 @@ namespace GPD.WEB
             HttpContext.Current.Session.Add(SESSION_USERNAME, userName);
         }
 
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -78,7 +71,6 @@ namespace GPD.WEB
         {
             HttpContext.Current.Session.Clear();
         }
-
 
         /// <summary>
         /// 
@@ -92,6 +84,7 @@ namespace GPD.WEB
                     try
                     {
                         string encryptedName = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
+
                         if (encryptedName != null)
                         {
                             string userEmail = FormsAuthentication.Decrypt(encryptedName).Name;

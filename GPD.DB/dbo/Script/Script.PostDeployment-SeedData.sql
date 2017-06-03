@@ -39,7 +39,7 @@ VALUES (105, 'ADMINISTRATOR', 'Site	Main Site Admins - Can edit everything', 1, 
 INSERT INTO gpd_user_details (user_id, last_name, first_name, full_name, email, password, company, job_title, 
 	business_phone, home_phone, mobile_phone, fax_number, address_line_1, address_line_2, city, state_province, 
 	zip_postal_code, country, ip_address, active, xml_user_metadata, create_date, update_date)
-VALUES('C0C9E96E-6796-4BB1-9E44-60229165C0E2', 'Admin', 'Site', 'Site Admin', 'gpd@noemail.com', 'Pass@1234', 
+VALUES(100, 'Admin', 'Site', 'Site Admin', 'gpd@noemail.com', 'Pass@1234', 
 	'GPD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, getdate(),  NULL);
 
 INSERT INTO gpd_partner_details (partner_id, name, site_url, short_description, description, active, xml_partner_metadata, create_date, update_date)
@@ -51,7 +51,7 @@ VALUES('484330C5-1B83-4D37-93EA-D2049BFD3DD5', 'ALL', 'N/A', 'N/A', 'N/A', 1, NU
 
 
 INSERT INTO gpd_partner_user_group_xref (partner_id, user_id, group_id, description, active, create_date, update_date)
-VALUES ('484330C5-1B83-4D37-93EA-D2049BFD3DD5', 'C0C9E96E-6796-4BB1-9E44-60229165C0E2', 105, 'Site Admin', 1, getdate(), NULL);
+VALUES ('484330C5-1B83-4D37-93EA-D2049BFD3DD5', 100, 105, 'Site Admin', 1, getdate(), NULL);
 
 
 
