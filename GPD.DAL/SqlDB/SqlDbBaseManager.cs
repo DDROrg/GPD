@@ -74,7 +74,7 @@ namespace GPD.DAL.SqlDB
 
             return dataSet;
         }
-
+        
         internal void ExecuteStatement(StringBuilder sql, List<SqlParameter> parametersList)
         {
             using (SqlConnection conn = new SqlConnection(this._db_connection))

@@ -709,8 +709,7 @@ GO
 CREATE PROCEDURE [dbo].[gpd_GetProjectsListPaginated]
        @P_PartnerName nvarchar(30),
 	   @P_StartRowIndex int,
-       @P_PageSize int,
-       @P_TotalCount int OUT
+       @P_PageSize int
 AS
 BEGIN
        -- SET NOCOUNT ON added to prevent extra result sets from
@@ -737,8 +736,7 @@ BEGIN
 				OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY;
 				
 				-- get the total count of the records
-				SELECT @P_TotalCount = COUNT(project_id)
-				FROM GPD_PROJECT;
+				SELECT COUNT(project_id) AS TotalCount  FROM GPD_PROJECT;
 	   	   END
 	   ELSE
 	   	   BEGIN
@@ -761,7 +759,7 @@ BEGIN
 				OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY
 				
 				-- get the total count of the records
-				SELECT @P_TotalCount = COUNT(project_id)
+				SELECT COUNT(project_id) AS TotalCount  
 				FROM GPD_PROJECT
 				WHERE PARTNER_NAME = @P_PartnerName;
 	   	   END

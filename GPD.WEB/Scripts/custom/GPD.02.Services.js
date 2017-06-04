@@ -25,6 +25,7 @@ var CommonServices = function ($http, $q, BroadcastService) {
         _GetLogedinUserProfile()
         .then(function (payload) {
             this.LogedinUserProfile = payload.data;
+            retVal = payload.data;
             deferred.resolve(retVal);
         });
         return deferred.promise;

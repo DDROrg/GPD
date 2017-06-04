@@ -29,9 +29,7 @@ namespace GPD.WEB.Controllers
                 Utility.ConfigurationHelper.API_ProjectsListPageSize : pageSize;
             pageIndex = (pageIndex < 1) ? 1 : pageIndex;
 
-            List<ProjectItem> projectsList = new Facade.ProjectFacade().GetProjectsList(partnerName, pageSize, pageIndex);
-            ProjectsListResponse responseDTO = new ProjectsListResponse(pageSize, pageIndex);
-            if (projectsList != null || projectsList.Count > 0) { responseDTO.ProjectList = projectsList; }
+            ProjectsListResponse responseDTO = new Facade.ProjectFacade().GetProjectsList(partnerName, pageSize, pageIndex);
 
             return responseDTO;
         }

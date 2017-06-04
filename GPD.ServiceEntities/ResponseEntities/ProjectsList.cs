@@ -7,13 +7,14 @@ namespace GPD.ServiceEntities.ResponseEntities.ProjectsList
     public class ProjectsListResponse
     {
         #region Constr
-        public ProjectsListResponse() { }
-        public ProjectsListResponse(int pageSize, int pageIndex)
-        {
-            this.PageSize = pageSize;
-            this.PageIndex = pageIndex;
-            this.ProjectList = new List<ProjectItem>();
-        }
+        public ProjectsListResponse() { this.ProjectList = new List<ProjectItem>(); }
+        //public ProjectsListResponse(int pageSize, int pageIndex)
+        //{
+        //    this.PageSize = pageSize;
+        //    this.PageIndex = pageIndex;
+        //    this.TotalRecordCount = 0;
+        //    this.ProjectList = new List<ProjectItem>();
+        //}
         #endregion Constr
 
         [DataMember(Name = "pageSize", Order = 1)]
@@ -22,7 +23,10 @@ namespace GPD.ServiceEntities.ResponseEntities.ProjectsList
         [DataMember(Name = "pageIndex", Order = 2)]
         public int PageIndex;
 
-        [DataMember(Name = "projects", Order = 3)]
+        [DataMember(Name = "totalRecordCount", Order = 3)]
+        public int TotalRecordCount;
+
+        [DataMember(Name = "projects", Order = 4)]
         public List<ProjectItem> ProjectList { get; set; }
     }
 

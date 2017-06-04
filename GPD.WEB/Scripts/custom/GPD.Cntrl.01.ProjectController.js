@@ -6,13 +6,15 @@ angular.module('Project').controller("PartnerCtrl", function ($scope, $http, $lo
 
     $ctrl.SelectPartner = function (d) {
         $ctrl.data.LogedinUserProfile.selectedPartner = d;
-        CommonServices.ChangePartner("XXXX DATA");
+        CommonServices.ChangePartner(d);
     };
 
 
     var GetLogedinUserProfile = function () {
         CommonServices.GetLogedinUserProfile()
         .then(function (payload) {
+            $ctrl.data.LogedinUserProfile = payload;
+            $log.log(payload);
             CommonServices.LogedinUserProfileLoaded();
         });
     };
@@ -34,7 +36,7 @@ angular.module('Project').controller('ProjectController', function ($scope, $roo
     $ctrl.data.page = {};
     $ctrl.data.page.currentPage = 1;
     $ctrl.data.page.maxPage = 5;
-    $ctrl.data.page.itemPerPage = 10;
+    $ctrl.data.page.itemPerPage = 2;
     $ctrl.data.search = {};
     $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
 
@@ -93,6 +95,9 @@ angular.module('Project').controller('ProjectController', function ($scope, $roo
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
+    $ctrl.pageChanged = function () {
+        GetProjects();
+    };
 
     var GetProjectDetail = function (d) {
         return ProjectServices.GetProjectDetail($ctrl.data.LogedinUserProfile.selectedPartner, d.id)
@@ -109,9 +114,9 @@ angular.module('Project').controller('ProjectController', function ($scope, $roo
         });
     };
     var GetProjects = function () {
-        $log.log($ctrl.data.LogedinUserProfile.selectedPartner);
         return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
         .then(function (payload) {
+            $log.log(payload);
             $ctrl.data.projectListResponse = payload;
         });
     };    
@@ -122,12 +127,16 @@ angular.module('Project').controller('ProjectController', function ($scope, $roo
         GetProjects();
     });
 
+    $rootScope.$on('EVENT-ChangePartner', function (event, data) {
+        GetProjects();
+    });
+
     angular.element(document).ready(function () {
     });
 });
 
 //=================================================
-angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalInstance, project) {
+angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalInstance, $log, project) {
     var $ctrl = this;
     $ctrl.data = {};
     $ctrl.data.project = project;
@@ -169,6 +178,9 @@ angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalIns
     };
     $ctrl.OnColExpMaterial = function (d) { d.isMaterialExpanded = !(d.isMaterialExpanded); };
     $ctrl.IsShowMaterial = function (d) { return d.isMaterialExpanded == true };
+    $ctrl.pageChanged = function () {
+        $log.log("Index = " + $ctrl.data.page.currentPage);
+    };
     $ctrl.Ok = function () {
         //$uibModalInstance.close($ctrl.selected.item);
         $uibModalInstance.close("OK");

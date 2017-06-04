@@ -231,16 +231,16 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<ProjectItem> GetProjectsList(string partnerName, int pageSize, int pageIndex)
+        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize, int pageIndex)
         {
-            List<ProjectItem> retVal = new List<ProjectItem>();
-
+            ProjectsListResponse retVal = new ProjectsListResponse() { PageIndex = pageIndex, PageSize = pageSize, TotalRecordCount = 0 };
             try
             {
                 // get projects dataset from database
-                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsList(partnerName, pageSize, pageIndex);
 
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsList(partnerName, pageSize, pageIndex);
+                
+                if (ds != null && ds.Tables.Count == 2 && ds.Tables[0].Rows.Count > 0 && ds.Tables[1].Rows.Count > 0)
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
@@ -258,7 +258,13 @@ namespace GPD.Facade
                             CreateTimestamp = ((DateTime)dr["CREATE_DATE"]).ToString() + " EDT"
                         };
 
-                        retVal.Add(projectDTO);
+                        retVal.ProjectList.Add(projectDTO);
+                        //retVal.TotalRecordCount = (int)result["@P_TotalCount"];
+                    }
+
+                    {
+                        DataRow dr = ds.Tables[1].Rows[0];
+                        retVal.TotalRecordCount = Convert.ToInt32(dr["TotalCount"].ToString());
                     }
                 }
             }

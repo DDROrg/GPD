@@ -8,8 +8,9 @@
     <div data-ng-controller="ProjectController as $ctrl">
         <h2>@ViewBag.Title</h2>
         <div class="data-container">
-            <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: center;">
-                <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
+            @*{pageSize: 10, pageIndex: 1, totalRecordCount: 3, projects: Array(3)}*@
+            <div data-ng-if="$ctrl.data.projectListResponse.totalRecordCount > $ctrl.data.page.itemPerPage" style="text-align: center;">
+                <div uib-pagination class="pagination-sm pagination" total-items="$ctrl.data.projectListResponse.totalRecordCount"
                      ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.pageChanged()" previous-text="&lsaquo;"
                      next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
                      boundary-link-numbers="true">
@@ -43,7 +44,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-ng-repeat-start="d in filterData = ($ctrl.data.projectListResponse.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
+                        <tr data-ng-repeat-start="d in filterData = ($ctrl.data.projectListResponse.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder())">
                             <td>
                                 <i data-ng-class="$ctrl.ColExpClass(d)"></i>&nbsp;
                                 <a data-ng-href="" data-ng-click="$ctrl.OnColExpDetail(d)">
@@ -391,28 +392,5 @@
             <button class="btn btn-primary" type="button" ng-click="$ctrl.Ok()">OK</button>
             <button class="btn btn-warning" type="button" ng-click="$ctrl.Cancel()">Cancel</button>
         </div>
-    </script>
-
-    @*<div ng-controller="DataController1 as $ctrl">
-        <h2>
-            In Controller 1
-        </h2>
-        <input type="text" ng-model="$ctrl.data.Product.name" /> 
-        <input type="text" ng-model="$ctrl.data.Product.price" />
-        <button ng-click="$ctrl.broadcastEvent()">broadcast event from ParentController</button>
-        <h3>
-            Product {{$ctrl.data.Product.name}} costs {{$ctrl.data.Product.price}}
-        </h3>
-    </div>
-    <hr />
-    <div ng-controller="DataController2 as $ctrl">
-        <h2>
-            In Controller 2
-        </h2>
-        <input type="text" ng-model="$ctrl.data.Product.name" />
-        <input type="text" ng-model="$ctrl.data.Product.price" />
-        <h3>
-            Product {{$ctrl.data.Product.name}} costs {{$ctrl.data.Product.price}}
-        </h3>
-    </div>*@
+    </script>   
 </div>
