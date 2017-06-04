@@ -61,5 +61,17 @@ namespace GPD.WEB.Controllers
         {
             return new Facade.ProjectFacade().AddProject(partnerName, projectDTO);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <returns></returns>
+        [Route("api/GetUserProfile")]
+        [HttpPost]
+        public SignInResponseDTO GetUserProfile(string userEmail)
+        {
+            return new Facade.SignInFacade().GetUserRole(userEmail);
+        }
     }
 }

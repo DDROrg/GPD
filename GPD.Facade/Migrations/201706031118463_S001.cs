@@ -833,12 +833,14 @@ INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_gro
 VALUES (104, 'ADMINISTRATORS', 'Site Admin Modirators - Can edit/delete all Clients, Client_admins, Firms_Admins and User information and access to specific data, Can edit project data', 1, NULL, getdate(), null);
 INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) 
 VALUES (105, 'ADMINISTRATOR', 'Site	Main Site Admins - Can edit everything', 1, NULL, getdate(), null);
+GO
 
 INSERT INTO gpd_user_details (last_name, first_name, full_name, email, password, company, job_title, 
 	business_phone, home_phone, mobile_phone, fax_number, address_line_1, address_line_2, city, state_province, 
 	zip_postal_code, country, ip_address, active, xml_user_metadata, create_date, update_date)
 VALUES('Admin', 'Site', 'Site Admin', 'gpd@noemail.com', 'Pass@1234', 
 	'GPD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, getdate(),  NULL);
+GO
 
 INSERT INTO gpd_partner_details (partner_id, name, site_url, short_description, description, active, xml_partner_metadata, create_date, update_date)
 VALUES('029882E7-FFFB-4FC3-92AE-323799525099', 'sweets', 'http://sweets.cnstruction.com', 'N/A', 'N/A', 1, NULL, getdate(), NULL);
@@ -846,10 +848,13 @@ INSERT INTO gpd_partner_details (partner_id, name, site_url, short_description, 
 VALUES('60F47B0E-6DEA-474B-9882-A93DCC6A59D1', 'TEST', 'N/A', 'N/A', 'N/A', 1, NULL, getdate(), NULL);
 INSERT INTO gpd_partner_details (partner_id, name, site_url, short_description, description, active, xml_partner_metadata, create_date, update_date)
 VALUES('484330C5-1B83-4D37-93EA-D2049BFD3DD5', 'ALL', 'N/A', 'N/A', 'N/A', 1, NULL, getdate(), NULL);
-
+GO
 
 INSERT INTO gpd_partner_user_group_xref (partner_id, user_id, group_id, description, active, create_date, update_date)
 VALUES ('484330C5-1B83-4D37-93EA-D2049BFD3DD5', 100, 105, 'Site Admin', 1, getdate(), NULL);
+INSERT INTO gpd_partner_user_group_xref (partner_id, user_id, group_id, description, active, create_date, update_date)
+VALUES ('60F47B0E-6DEA-474B-9882-A93DCC6A59D1', 100, 105, 'Site Admin', 1, getdate(), NULL);
+GO
 ");
             #endregion
 

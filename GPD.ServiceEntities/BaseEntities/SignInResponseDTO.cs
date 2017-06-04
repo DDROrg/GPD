@@ -21,13 +21,16 @@ namespace GPD.ServiceEntities.BaseEntities
         [DataMember(Name = "lastName", Order = 3)]
         public string LastName;
 
-        [DataMember(Name = "partnerNames", Order = 4)]
+        [DataMember(Name = "email", Order = 4)]
+        public string Email;
+
+        [DataMember(Name = "partnerNames", Order = 5)]
         public List<string> PartnerNames;
 
-        [DataMember(Name = "groupName", Order = 5)]
+        [DataMember(Name = "groupName", Order = 6)]
         public string GroupName;
 
-        [DataMember(Name = "signInStatus", Order = 6)]
-        public int SignInStatus;
+        [DataMember(Name = "selectedPartner", Order = 6)]
+        public string SelectedPartner;
     }
 }

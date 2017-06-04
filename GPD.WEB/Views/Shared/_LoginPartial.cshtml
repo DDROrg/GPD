@@ -1,4 +1,7 @@
-﻿@if (Request.IsAuthenticated)
+﻿@{
+    var up = GPD.WEB.SessionManager.GetInstance().GetUserProfile();
+}
+@if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
@@ -7,7 +10,7 @@
             @*<li>
                 @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>*@
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Off: @GPD.WEB.SessionManager.GetInstance().GetUserName()</a></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Off: @(up.FirstName + " "+ up.LastName)</a></li>
         </ul>
     }
 } 

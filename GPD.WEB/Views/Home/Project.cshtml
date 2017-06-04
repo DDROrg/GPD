@@ -4,7 +4,7 @@
 }
 
 
-<div data-ng-app="Project" class="container-fluid" data-id="Project">
+<div class="container-fluid" data-id="Project">
     <div data-ng-controller="ProjectController as $ctrl">
         <h2>@ViewBag.Title</h2>
         <div class="data-container">
@@ -275,123 +275,144 @@
                 </table>
             </div>
         </div>
-
-        <script type="text/ng-template" id="myModalContent.html">
-            <div class="modal-header">
-                <h3 class="modal-title" id="modal-title">Item Details</h3>
-            </div>
-            <div class="modal-body" id="modal-body">
-                <div class="container-fluid">
-                    <div class="data-container">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div style="margin:20px 0px;">
-                                    <input data-ng-model="$ctrl.data.search" placeholder="Search by ..."
-                                           style="width: 100%; height: 25px; margin-top: 4px;" />
-                                </div>
+    </div>
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Item Details</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="container-fluid">
+                <div class="data-container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div style="margin:20px 0px;">
+                                <input data-ng-model="$ctrl.data.search" placeholder="Search by ..."
+                                       style="width: 100%; height: 25px; margin-top: 4px;" />
                             </div>
-                            <div class="col-sm-3">
-                                @*<select data-ng-change="$ctrl.OnChangeSorting1(this)">
+                        </div>
+                        <div class="col-sm-3">
+                            @*<select data-ng-change="$ctrl.OnChangeSorting1(this)">
                                     <option value="product.name" selected="selected">Name</option>
                                     <option value="product.manufacturer" selected="selected">Manufacturer</option>
                                 </select>*@
-                            </div>
-                            <div class="col-sm-6">
-                                <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
-                                    <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
-                                         ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.pageChanged()" previous-text="&lsaquo;"
-                                         next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
-                                         boundary-link-numbers="true">
-                                    </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
+                                <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
+                                     ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.pageChanged()" previous-text="&lsaquo;"
+                                     next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
+                                     boundary-link-numbers="true">
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-striped table-condensed table-hover">
-                                <thead style="background-color:#E9E9E9;">
-                                    <tr>
-                                        <th></th>
-                                        <th>
-                                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.name')">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.name')">
-                                            </i>
-                                        </th>
-                                        <th>
-                                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.manufacturer')">Manufacturer&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.manufacturer')">
-                                            </i>
-                                        </th>
-                                        <th>
-                                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('family')">Family&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('family')">
-                                            </i>
-                                        </th>
-                                        <th>
-                                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('type')">Type&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('type')">
-                                            </i>
-                                        </th>
-                                        <th>
-                                            <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('quantity')">Quantity&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('quantity')">
-                                            </i>
-                                        </th>
-                                        <th>
-                                            Categories
-                                        </th>
-                                        <th>Price</th>
-                                        <th>Materials</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr data-ng-repeat-start="d in filterData = ($ctrl.data.project.items | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
-                                        <td><a data-ng-if="d.product.url" href="{{d.product.url}}" target="PRODUCT"><i class="fa fa-tags"></i></a></td>
-                                        <td>{{d.product.name}}</td>
-                                        <td>{{d.product.manufacturer}}</td>
-                                        <td>{{d.family}}</td>
-                                        <td>{{d.type}}</td>
-                                        <td>{{d.quantity}}</td>
-                                        <td>
-                                            <div data-ng-repeat="dc in d.categories">
-                                                {{dc.taxonomy}} : {{dc.title}}
-                                            </div>
-                                        </td>
-                                        <td>$0.00</td>
-                                        <td style="text-align:center;">
-                                            <a ng-href="" class="data-link" data-ng-click="$ctrl.OnColExpMaterial(d)"><i class="fa fa-list-ul"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowMaterial(d)">
-                                        <td colspan="3"></td>
-                                        <td colspan="6">
-                                            <table class="table table-striped table-condensed table-hover">
-                                                <thead style="background-color:#E9E9E9;">
-                                                    <tr><th colspan="4" style="text-align:center;">Materials</th></tr>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Manufacturer</th>
-                                                        <th>Model</th>
-                                                        <th>Type</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr data-ng-repeat="dm in d.materials">
-                                                        <td>{{dm.product.name}}</td>
-                                                        <td>{{dm.product.manufacturer}}</td>
-                                                        <td>{{dm.product.model}}</td>
-                                                        <td>{{dm.type.name}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-condensed table-hover">
+                            <thead style="background-color:#E9E9E9;">
+                                <tr>
+                                    <th></th>
+                                    <th>
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.name')">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.name')">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.manufacturer')">Manufacturer&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.manufacturer')">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('family')">Family&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('family')">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('type')">Type&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('type')">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('quantity')">Quantity&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('quantity')">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        Categories
+                                    </th>
+                                    <th>Price</th>
+                                    <th>Materials</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat-start="d in filterData = ($ctrl.data.project.items | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
+                                    <td><a data-ng-if="d.product.url" href="{{d.product.url}}" target="PRODUCT"><i class="fa fa-tags"></i></a></td>
+                                    <td>{{d.product.name}}</td>
+                                    <td>{{d.product.manufacturer}}</td>
+                                    <td>{{d.family}}</td>
+                                    <td>{{d.type}}</td>
+                                    <td>{{d.quantity}}</td>
+                                    <td>
+                                        <div data-ng-repeat="dc in d.categories">
+                                            {{dc.taxonomy}} : {{dc.title}}
+                                        </div>
+                                    </td>
+                                    <td>$0.00</td>
+                                    <td style="text-align:center;">
+                                        <a ng-href="" class="data-link" data-ng-click="$ctrl.OnColExpMaterial(d)"><i class="fa fa-list-ul"></i></a>
+                                    </td>
+                                </tr>
+                                <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowMaterial(d)">
+                                    <td colspan="3"></td>
+                                    <td colspan="6">
+                                        <table class="table table-striped table-condensed table-hover">
+                                            <thead style="background-color:#E9E9E9;">
+                                                <tr><th colspan="4" style="text-align:center;">Materials</th></tr>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Manufacturer</th>
+                                                    <th>Model</th>
+                                                    <th>Type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-ng-repeat="dm in d.materials">
+                                                    <td>{{dm.product.name}}</td>
+                                                    <td>{{dm.product.manufacturer}}</td>
+                                                    <td>{{dm.product.model}}</td>
+                                                    <td>{{dm.type.name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" type="button" ng-click="$ctrl.Ok()">OK</button>
-                <button class="btn btn-warning" type="button" ng-click="$ctrl.Cancel()">Cancel</button>
-            </div>
-        </script>
-    </div>
-</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.Ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.Cancel()">Cancel</button>
+        </div>
+    </script>
 
+    @*<div ng-controller="DataController1 as $ctrl">
+        <h2>
+            In Controller 1
+        </h2>
+        <input type="text" ng-model="$ctrl.data.Product.name" /> 
+        <input type="text" ng-model="$ctrl.data.Product.price" />
+        <button ng-click="$ctrl.broadcastEvent()">broadcast event from ParentController</button>
+        <h3>
+            Product {{$ctrl.data.Product.name}} costs {{$ctrl.data.Product.price}}
+        </h3>
+    </div>
+    <hr />
+    <div ng-controller="DataController2 as $ctrl">
+        <h2>
+            In Controller 2
+        </h2>
+        <input type="text" ng-model="$ctrl.data.Product.name" />
+        <input type="text" ng-model="$ctrl.data.Product.price" />
+        <h3>
+            Product {{$ctrl.data.Product.name}} costs {{$ctrl.data.Product.price}}
+        </h3>
+    </div>*@
+</div>

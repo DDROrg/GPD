@@ -54,7 +54,7 @@ namespace GPD.Facade
         /// <param name="password"></param>
         public SignInResponseDTO GetUserRole(string email)
         {
-            SignInResponseDTO retVal = new SignInResponseDTO() { SignInStatus = CNST.SignInStatus.Failure };
+            SignInResponseDTO retVal = new SignInResponseDTO();
             try
             {
                 // gete project data
@@ -66,11 +66,13 @@ namespace GPD.Facade
                     retVal.FirstName = dr["first_name"].ToString();
                     retVal.LastName = dr["last_name"].ToString();
                     retVal.GroupName = dr["GroupName"].ToString();
-                    retVal.SignInStatus = CNST.SignInStatus.Success;
+                     retVal.Email = email.ToLower();
                     foreach (DataRow dr2 in ds.Tables[0].Rows)
                     {
                         retVal.PartnerNames.Add(dr2["PartnerName"].ToString());
                     }
+                    retVal.SelectedPartner = retVal.PartnerNames.FirstOrDefault();
+
                 }
             }
             catch (Exception ex)

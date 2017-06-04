@@ -5,12 +5,14 @@ using System.Web.Security;
 
 namespace GPD.WEB
 {
+    using ServiceEntities.BaseEntities;
     public class SessionManager
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static SessionManager _instance;
         private const string SESSION_PARTNARNAME = "SESSION_PARTNARNAME";
         private const string SESSION_USERNAME = "SESSION_USERNAME";
+        private const string SESSION_USERPROFILE = "SESSION_USERPROFILE";
 
         #region Constr
         private SessionManager() { }
@@ -30,38 +32,19 @@ namespace GPD.WEB
         /// 
         /// </summary>
         /// <returns></returns>
-        public string GetPartnarName()
+        public SignInResponseDTO GetUserProfile()
         {
             if (HttpContext.Current.Session[SESSION_PARTNARNAME] == null) { loadProfile(); }
-            return (HttpContext.Current.Session[SESSION_PARTNARNAME] == null) ? string.Empty : HttpContext.Current.Session[SESSION_PARTNARNAME].ToString();
+            return (HttpContext.Current.Session[SESSION_PARTNARNAME] == null) ? null : (SignInResponseDTO)HttpContext.Current.Session[SESSION_PARTNARNAME];
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="partnarName"></param>
-        public void SetPartnarName(string partnarName)
+        /// <param name="userProfile"></param>
+        public void SetUserProfile(SignInResponseDTO userProfile)
         {
-            HttpContext.Current.Session.Add(SESSION_PARTNARNAME, partnarName);
-        }
-
-        /// <summary>
-        /// GetUserName
-        /// </summary>
-        /// <returns></returns>
-        public string GetUserName()
-        {
-            if (HttpContext.Current.Session[SESSION_USERNAME] == null) { loadProfile(); }
-            return HttpContext.Current.Session[SESSION_USERNAME].ToString();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userName"></param>
-        public void SetUserName(string userName)
-        {
-            HttpContext.Current.Session.Add(SESSION_USERNAME, userName);
+            HttpContext.Current.Session.Add(SESSION_PARTNARNAME, userProfile);
         }
 
         /// <summary>
@@ -88,9 +71,8 @@ namespace GPD.WEB
                         if (encryptedName != null)
                         {
                             string userEmail = FormsAuthentication.Decrypt(encryptedName).Name;
-                            var result = new Facade.SignInFacade().GetUserRole(userEmail);
-                            SetPartnarName(result.PartnerNames.FirstOrDefault());
-                            SetUserName(result.FirstName + " " + result.LastName);
+                            SignInResponseDTO result = new Facade.SignInFacade().GetUserRole(userEmail);
+                            SetUserProfile(result);
                         }
                     }
                     catch (Exception ex)

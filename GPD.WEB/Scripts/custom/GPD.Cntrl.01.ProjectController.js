@@ -1,7 +1,36 @@
 ﻿//=================================================
-angular.module('Project').controller('ProjectController', function ($scope, $http, $location, $uibModal, $log, CommonServices, ProjectServices) {
+
+angular.module('Project').controller("PartnerCtrl", function ($scope, $http, $location, $log, CommonServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
+    $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
+
+    $ctrl.SelectPartner = function (d) {
+        $ctrl.data.LogedinUserProfile.selectedPartner = d;
+        CommonServices.ChangePartner("XXXX DATA");
+    };
+
+
+    var GetLogedinUserProfile = function () {
+        CommonServices.GetLogedinUserProfile()
+        .then(function (payload) {
+            $ctrl.data.LogedinUserProfile = payload;
+            CommonServices.LogedinUserProfileLoaded();
+        });
+    };
+
+    angular.element(document).ready(function () {
+        if (__UserEmail != "") {
+            GetLogedinUserProfile();
+        }
+    });
+});
+
+//=================================================
+angular.module('Project').controller('ProjectController', function ($scope, $rootScope, $http, $location, $uibModal, $log, CommonServices, ProjectServices) {
+    var $ctrl = this;
+    CommonServices.SetDefaultData($ctrl, $location);
+    $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
     $ctrl.data.projects = [];
     $ctrl.data.sort = [{ column: 'name', descending: false }];
     $ctrl.data.page = {};
@@ -29,7 +58,7 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
             else { retVal = "fa fa-caret-up"; }
         }
         return retVal;
-    };    
+    };
     $ctrl.ColumnSortOrder = function () {
         var retVal = [];
         angular.forEach($ctrl.data.sort, function (v, k) {
@@ -68,7 +97,7 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
     };
 
     var GetProjectDetail = function (d) {
-        return ProjectServices.GetProjectDetail(d.id)
+        return ProjectServices.GetProjectDetail($ctrl.data.LogedinUserProfile.selectedPartner, d.id)
         .then(function (payload) {
             d.identifiers = payload.identifiers;
             d.items = payload.items;
@@ -82,14 +111,17 @@ angular.module('Project').controller('ProjectController', function ($scope, $htt
         });
     };
     var GetProjects = function () {
-        return ProjectServices.GetProjects()
+        return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner)
         .then(function (payload) {
             $ctrl.data.projectListResponse = payload;
-            $log.log($ctrl.data.projectListResponse );
         });
-    };
-    angular.element(document).ready(function () {
+    };    
+
+    $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
         GetProjects();
+    });
+
+    angular.element(document).ready(function () {
     });
 });
 
@@ -107,7 +139,7 @@ angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalIns
     $ctrl.data.search = {};
     //$ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
     $ctrl.data.search = "";
-    
+
     $ctrl.OnChangeSorting = function (column) {
         var t = { column: column, descending: true };
         if ($ctrl.data.sort.length > 0) {
@@ -135,7 +167,7 @@ angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalIns
         return retVal;
     };
     $ctrl.OnColExpMaterial = function (d) { d.isMaterialExpanded = !(d.isMaterialExpanded); };
-    $ctrl.IsShowMaterial = function (d) { return d.isMaterialExpanded == true};
+    $ctrl.IsShowMaterial = function (d) { return d.isMaterialExpanded == true };
     $ctrl.Ok = function () {
         //$uibModalInstance.close($ctrl.selected.item);
         $uibModalInstance.close("OK");
