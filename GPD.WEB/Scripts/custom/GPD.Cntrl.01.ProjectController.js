@@ -14,7 +14,6 @@ angular.module('Project').controller("PartnerCtrl", function ($scope, $http, $lo
         CommonServices.GetLogedinUserProfile()
         .then(function (payload) {
             $ctrl.data.LogedinUserProfile = payload;
-            $log.log(payload);
             CommonServices.LogedinUserProfileLoaded();
         });
     };
@@ -116,18 +115,17 @@ angular.module('Project').controller('ProjectController', function ($scope, $roo
     var GetProjects = function () {
         return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
         .then(function (payload) {
-            $log.log(payload);
             $ctrl.data.projectListResponse = payload;
         });
     };    
 
     $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
-        //TODO: Need to be fixed
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         GetProjects();
     });
 
     $rootScope.$on('EVENT-ChangePartner', function (event, data) {
+        $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         GetProjects();
     });
 

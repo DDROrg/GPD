@@ -5,13 +5,14 @@ var CommonServices = function ($http, $q, BroadcastService) {
         return $http.post(__RootUrl + "api/GetUserProfile?userEmail=" + encodeURI(__UserEmail));
     };
 
-    this.LogedinUserProfile = {};
+    this.LogedinUserProfile = { userId: "", firstName: "", lastName: "", email: "", partnerNames: [], selectedPartner: "" };
 
     this.SetDefaultData = function (myScope, myLocation) {
         myScope.data = {};
     };
 
     this.ChangePartner = function (partner) {
+        this.LogedinUserProfile.selectedPartner = partner;
         BroadcastService.send('EVENT-ChangePartner', partner);
     };
 
