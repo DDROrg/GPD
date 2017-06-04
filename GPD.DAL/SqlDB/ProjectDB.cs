@@ -89,14 +89,16 @@ namespace GPD.DAL.SqlDB
         /// <returns></returns>
         public DataSet GetProjectsList(string partnerName, int pageSize, int pageIndex)
         {
-            // TODO: implement partnerName, pageSize, pageIndex
-
+            int startRowIndex = (pageIndex - 1) * pageSize + 1;
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
-                 new SqlParameter("@P_USER", "")
+                new SqlParameter("@P_PartnerName", partnerName),
+                new SqlParameter("@P_StartRowIndex", startRowIndex),
+                new SqlParameter("@P_PageSize", pageSize),
+                new SqlParameter("@P_TotalCount", SqlDbType.Int) { Direction = ParameterDirection.Output }
             };
-
-            return base.GetDSBasedOnStoreProcedure("gpd_GetProjects", parametersInList);
+            
+            return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListPaginated", parametersInList);
         }
 
         /// <summary>

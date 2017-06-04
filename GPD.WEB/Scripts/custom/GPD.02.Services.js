@@ -1,6 +1,6 @@
 ﻿//============================================
 var CommonServices = function ($http, $q, BroadcastService) {
-    
+
     var _GetLogedinUserProfile = function () {
         return $http.post(__RootUrl + "api/GetUserProfile?userEmail=" + encodeURI(__UserEmail));
     };
@@ -24,7 +24,7 @@ var CommonServices = function ($http, $q, BroadcastService) {
         var retVal = {};
         _GetLogedinUserProfile()
         .then(function (payload) {
-            retVal = payload.data;
+            this.LogedinUserProfile = payload.data;
             deferred.resolve(retVal);
         });
         return deferred.promise;
@@ -42,18 +42,18 @@ var BroadcastService = function ($rootScope) {
 };
 //============================================
 var ProjectServices = function ($http, $q) {
-    var _GetProjects = function (PartnarName) {
-        return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/-1/-1");
+    var _GetProjects = function (PartnarName, PageIndex, PageSize) {
+        return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex);
     };
 
     var _GetProjectDetail = function (PartnarName, id) {
         return $http.get(__RootUrl + "api/" + PartnarName + "/Project/" + id);
     };
 
-    this.GetProjects = function (PartnarName) {
+    this.GetProjects = function (PartnarName, PageIndex, PageSize) {
         var deferred = $q.defer();
-        var retVal = [];        
-        _GetProjects(PartnarName)
+        var retVal = [];
+        _GetProjects(PartnarName, PageIndex, PageSize)
         .then(function (payload) {
             retVal = payload.data;
             $.each(retVal.projects, function (k, v) {
