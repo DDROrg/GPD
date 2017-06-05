@@ -50,7 +50,7 @@ var BroadcastService = function ($rootScope) {
 //============================================
 var ProjectServices = function ($http, $q) {
     var _GetProjects = function (PartnarName, GlobalSearchParam, PageIndex, PageSize) {
-        return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex);
+        return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex + "/" + encodeURI(GlobalSearchParam) + "/");
     };
 
     var _GetProjectDetail = function (PartnarName, id) {
@@ -58,6 +58,7 @@ var ProjectServices = function ($http, $q) {
     };
 
     this.GetProjects = function (PartnarName, GlobalSearchParam, PageIndex, PageSize) {
+        GlobalSearchParam = GlobalSearchParam == "" ? " " : GlobalSearchParam;
         var deferred = $q.defer();
         var retVal = [];
         _GetProjects(PartnarName, GlobalSearchParam, PageIndex, PageSize)

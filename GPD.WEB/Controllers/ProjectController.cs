@@ -20,10 +20,11 @@ namespace GPD.WEB.Controllers
         /// <param name="partnerName">Partner Name</param>
         /// <param name="pageSize">Page Size</param>
         /// <param name="pageIndex">Page Index</param>
+        /// <param name="searchTerm">Search Term</param>
         /// <returns></returns>
-        [Route("api/{partnerName}/Project/List/{pageSize:int}/{pageIndex:int}")]
+        [Route("api/{partnerName}/Project/List/{pageSize:int}/{pageIndex:int}/{searchTerm}")]
         [HttpGet]
-        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize = -1, int pageIndex = -1)
+        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize = -1, int pageIndex = -1 , string searchTerm = "")
         {
             pageSize = (pageSize == -1 || pageSize > Utility.ConfigurationHelper.API_ProjectsListPageMaxSize) ?
                 Utility.ConfigurationHelper.API_ProjectsListPageSize : pageSize;
