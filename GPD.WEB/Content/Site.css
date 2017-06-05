@@ -32,8 +32,6 @@ a.data-link {
 .data-container {
 }
 
-
-
 .container {
     width: 95%;
 }
@@ -45,6 +43,15 @@ a.data-link {
     .modal-dialog .modal-lg {
         width: 95%;
     }
+
+.search-wrapper {
+    margin: 20px 0px;
+}
+
+.search-box {
+    height: 28px;
+    width: 100%;
+}
 
 
 @media only screen and (min-width : 321px) and (max-width : 480px) {

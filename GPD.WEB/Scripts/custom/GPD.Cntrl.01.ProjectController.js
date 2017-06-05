@@ -13,7 +13,7 @@ angular.module('Project').controller("PartnerCtrl", function ($scope, $http, $lo
     var GetLogedinUserProfile = function () {
         CommonServices.GetLogedinUserProfile()
         .then(function (payload) {
-            $ctrl.data.LogedinUserProfile = payload;
+            //$ctrl.data.LogedinUserProfile = payload;
             CommonServices.LogedinUserProfileLoaded();
         });
     };
@@ -36,6 +36,7 @@ angular.module('Project').controller('ProjectController', function ($scope, $roo
     $ctrl.data.page.currentPage = 1;
     $ctrl.data.page.maxPage = 5;
     $ctrl.data.page.itemPerPage = 2;
+    $ctrl.data.globalSearchParam = "";
     $ctrl.data.search = {};
     $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
 
@@ -94,9 +95,8 @@ angular.module('Project').controller('ProjectController', function ($scope, $roo
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
-    $ctrl.pageChanged = function () {
-        GetProjects();
-    };
+    $ctrl.OnGlobalSearch = function () { GetProjects(); };
+    $ctrl.pageChanged = function () { GetProjects(); };
 
     var GetProjectDetail = function (d) {
         return ProjectServices.GetProjectDetail($ctrl.data.LogedinUserProfile.selectedPartner, d.id)
@@ -113,19 +113,17 @@ angular.module('Project').controller('ProjectController', function ($scope, $roo
         });
     };
     var GetProjects = function () {
-        return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
+        return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.globalSearchParam, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
         .then(function (payload) {
             $ctrl.data.projectListResponse = payload;
         });
-    };    
+    };
 
     $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
-        $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         GetProjects();
     });
 
     $rootScope.$on('EVENT-ChangePartner', function (event, data) {
-        $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         GetProjects();
     });
 

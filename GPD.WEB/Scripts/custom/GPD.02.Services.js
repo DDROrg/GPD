@@ -25,7 +25,12 @@ var CommonServices = function ($http, $q, BroadcastService) {
         var retVal = {};
         _GetLogedinUserProfile()
         .then(function (payload) {
-            this.LogedinUserProfile = payload.data;
+            this.LogedinUserProfile.userId = payload.data.userId;
+            this.LogedinUserProfile.firstName = payload.data.firstName;
+            this.LogedinUserProfile.lastName = payload.data.lastName;
+            this.LogedinUserProfile.email = payload.data.email;
+            this.LogedinUserProfile.partnerNames = payload.data.partnerNames;
+            this.LogedinUserProfile.selectedPartner = payload.data.selectedPartner;
             retVal = payload.data;
             deferred.resolve(retVal);
         });
@@ -44,7 +49,7 @@ var BroadcastService = function ($rootScope) {
 };
 //============================================
 var ProjectServices = function ($http, $q) {
-    var _GetProjects = function (PartnarName, PageIndex, PageSize) {
+    var _GetProjects = function (PartnarName, GlobalSearchParam, PageIndex, PageSize) {
         return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex);
     };
 
@@ -52,10 +57,10 @@ var ProjectServices = function ($http, $q) {
         return $http.get(__RootUrl + "api/" + PartnarName + "/Project/" + id);
     };
 
-    this.GetProjects = function (PartnarName, PageIndex, PageSize) {
+    this.GetProjects = function (PartnarName, GlobalSearchParam, PageIndex, PageSize) {
         var deferred = $q.defer();
         var retVal = [];
-        _GetProjects(PartnarName, PageIndex, PageSize)
+        _GetProjects(PartnarName, GlobalSearchParam, PageIndex, PageSize)
         .then(function (payload) {
             retVal = payload.data;
             $.each(retVal.projects, function (k, v) {
