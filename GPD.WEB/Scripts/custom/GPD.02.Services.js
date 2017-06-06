@@ -1,6 +1,5 @@
 ﻿//============================================
-var CommonServices = function ($http, $q, BroadcastService) {
-
+var CommonServices = function ($http, $q, $log, BroadcastService) {
     var _GetLogedinUserProfile = function () {
         return $http.post(__RootUrl + "api/GetUserProfile?userEmail=" + encodeURI(__UserEmail));
     };
@@ -40,7 +39,7 @@ var CommonServices = function ($http, $q, BroadcastService) {
     return this;
 };
 //============================================
-var BroadcastService = function ($rootScope) {
+var BroadcastService = function ($rootScope, $log) {
     return {
         send: function (msg, data) {
             $rootScope.$broadcast(msg, data);
@@ -48,9 +47,10 @@ var BroadcastService = function ($rootScope) {
     }
 };
 //============================================
-var ProjectServices = function ($http, $q) {
+var ProjectServices = function ($http, $q, $log) {
     var _GetProjects = function (PartnarName, GlobalSearchParam, PageIndex, PageSize) {
-        return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex + "/" + encodeURI(GlobalSearchParam) + "/");
+        GlobalSearchParam = GlobalSearchParam == "" ? encodeURIComponent(" ") : encodeURIComponent(GlobalSearchParam);
+        return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex + "/" + GlobalSearchParam + "/");
     };
 
     var _GetProjectDetail = function (PartnarName, id) {
@@ -58,7 +58,6 @@ var ProjectServices = function ($http, $q) {
     };
 
     this.GetProjects = function (PartnarName, GlobalSearchParam, PageIndex, PageSize) {
-        GlobalSearchParam = GlobalSearchParam == "" ? " " : GlobalSearchParam;
         var deferred = $q.defer();
         var retVal = [];
         _GetProjects(PartnarName, GlobalSearchParam, PageIndex, PageSize)
@@ -90,6 +89,6 @@ var ProjectServices = function ($http, $q) {
 
 //============================================
 angular.module('Project')
-.factory('BroadcastService', function ($rootScope) { return BroadcastService($rootScope); })
-.service('CommonServices', function ($http, $q, BroadcastService) { return CommonServices($http, $q, BroadcastService); })
-.service('ProjectServices', function ($http, $q) { return ProjectServices($http, $q); });
+.factory('BroadcastService', function ($rootScope, $log) { return BroadcastService($rootScope, $log); })
+.service('CommonServices', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); })
+.service('ProjectServices', function ($http, $q, $log) { return ProjectServices($http, $q, $log); });
