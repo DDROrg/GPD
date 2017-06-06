@@ -35,7 +35,7 @@ angular.module('Project').controller('ProjectController', function ($scope, $roo
     $ctrl.data.page = {};
     $ctrl.data.page.currentPage = 1;
     $ctrl.data.page.maxPage = 5;
-    $ctrl.data.page.itemPerPage = 2;
+    $ctrl.data.page.itemPerPage = __ItemPerPage;
     $ctrl.data.globalSearchParam = "";
     $ctrl.data.search = {};
     $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };

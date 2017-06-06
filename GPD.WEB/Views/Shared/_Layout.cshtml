@@ -2,7 +2,8 @@
 <html>
 <head>
     @{
-        var up = GPD.WEB.SessionManager.GetInstance().GetUserProfile();
+        var up = SessionManager.GetInstance().GetUserProfile();
+        int pageSize = GPD.Utility.ConfigurationHelper.API_ProjectsListPageSize;
     }
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -12,7 +13,8 @@
     @Scripts.Render("~/bundles/modernizr")
     <script type="text/javascript">
         var __RootUrl = '@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))';
-        var __UserEmail = '@(up == null? "": up.Email)';
+        var __UserEmail = '@(up == null ? "": up.Email)';
+        var __ItemPerPage = @(pageSize);
     </script>
 </head>
 <body data-ng-app="Project">
