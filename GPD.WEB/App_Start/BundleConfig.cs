@@ -29,13 +29,15 @@ namespace GPD.WEB
 
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
                       "~/Scripts/angular.js",
-                      "~/Scripts/angular-ui/ui-bootstrap-tpls.js"));
+                      "~/Scripts/angular-ui/ui-bootstrap-tpls.js",
+                      "~/Scripts/loading-bar.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/custom/script").Include(
                      "~/Scripts/custom/GPD.*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/loading-bar.min.css",
                       "~/Content/site.css"));
         }
     }
