@@ -31,6 +31,7 @@ namespace GPD.WEB.Controllers
             pageIndex = (pageIndex < 1) ? 1 : pageIndex;
 
             ProjectsListResponse responseDTO = new Facade.ProjectFacade().GetProjectsList(partnerName, pageSize, pageIndex);
+            log.Debug("ProjectsListResponse items-count: " + responseDTO.ProjectList.Count);
 
             return responseDTO;
         }

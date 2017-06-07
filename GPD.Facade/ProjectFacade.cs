@@ -233,11 +233,15 @@ namespace GPD.Facade
         /// <returns></returns>
         public ProjectsListResponse GetProjectsList(string partnerName, int pageSize, int pageIndex)
         {
-            ProjectsListResponse retVal = new ProjectsListResponse() { PageIndex = pageIndex, PageSize = pageSize, TotalRecordCount = 0 };
+            ProjectsListResponse retVal = new ProjectsListResponse() {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalRecordCount = 0
+            };
+
             try
             {
                 // get projects dataset from database
-
                 DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsList(partnerName, pageSize, pageIndex);
                 
                 if (ds != null && ds.Tables.Count == 2 && ds.Tables[0].Rows.Count > 0 && ds.Tables[1].Rows.Count > 0)

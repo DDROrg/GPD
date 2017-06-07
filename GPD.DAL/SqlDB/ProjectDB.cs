@@ -78,7 +78,6 @@ namespace GPD.DAL.SqlDB
                  new SqlParameter("@P_EMAIL", email)
             };
 
-
             return base.GetDSBasedOnStoreProcedure("gpd_GetUserRole", parametersInList);
         }
 
@@ -89,7 +88,9 @@ namespace GPD.DAL.SqlDB
         /// <returns></returns>
         public DataSet GetProjectsList(string partnerName, int pageSize, int pageIndex)
         {
-            int startRowIndex = (pageIndex - 1) * pageSize;
+            // start row index logic
+            int startRowIndex = (pageIndex == 1) ? 0 : ((pageIndex - 1) * pageSize);
+
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
                 new SqlParameter("@P_PartnerName", partnerName),
