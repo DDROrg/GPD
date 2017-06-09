@@ -1033,6 +1033,8 @@
     <Content Include="Web-DEV.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Shared\_LayoutProject.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GPD.Facade\GPD.Facade.csproj">

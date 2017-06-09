@@ -73,6 +73,39 @@ namespace GPD.WEB.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(UserRegistrationDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            //TODO: Facade
+
+            //if success 
+            //return RedirectToAction("Login")
+            //else
+            //ModelState.AddModelError("", "Invalid");
+            return View(model);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public ActionResult Logout()
         {
