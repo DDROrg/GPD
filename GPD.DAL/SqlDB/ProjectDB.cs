@@ -115,5 +115,35 @@ namespace GPD.DAL.SqlDB
 
             return base.GetDSBasedOnStoreProcedure("gpd_GetProjectById", parametersInList);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partnerName"></param>
+        /// <param name="projectXmlData"></param>
+        public int AddUserDetails(XDocument projectXmlData, string requestIpAddress, out int errorCode, out string errorMsg)
+        {
+            int userId = -1;
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                new SqlParameter("@P_XML", projectXmlData.ToString()),
+                new SqlParameter("@P_IpAddress", requestIpAddress),
+                new SqlParameter("@P_Return_UserId", SqlDbType.Int) { Direction = ParameterDirection.Output },
+                new SqlParameter("@P_Return_ErrorCode", SqlDbType.Int) { Direction = ParameterDirection.Output },
+                new SqlParameter("@P_Return_Message", SqlDbType.VarChar, 1024) { Direction = ParameterDirection.Output }
+            };
+
+            Dictionary<string, object> retVal = base.ExecuteStoreProcedure("gpd_AddUserDetails", parametersInList);
+
+            if (retVal == null)
+                throw new Exception("Unhandled Exception");
+
+            userId = (int)retVal["@P_Return_UserId"];
+            errorCode = (int)retVal["@P_Return_ErrorCode"];
+            errorMsg = retVal["@P_Return_Message"].ToString();
+
+            return userId;
+        }
     }
 }

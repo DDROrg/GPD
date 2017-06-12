@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GPD.ServiceEntities
 {
@@ -32,14 +27,12 @@ namespace GPD.ServiceEntities
     public class UserRegistrationStatusDTO
     {
         public int UserId { get; set; }
-
         public bool Status { get; set; }
-
         public string Message { get; set; }
     }
-    
+
     /// <summary>
-    /// 
+    /// User Registration form object
     /// </summary>
     public class UserRegistrationDTO
     {        
@@ -74,15 +67,19 @@ namespace GPD.ServiceEntities
         public string JobTitle { get; set; }
 
         [Display(Name = "Business Phone")]
+        [Phone]
         public string BusinessPhone { get; set; }
 
         [Display(Name = "Home Phone")]
+        [Phone]
         public string HomePhone { get; set; }
 
         [Display(Name = "Mobile Phone")]
+        [Phone]
         public string MobilePhone { get; set; }
         
         [Display(Name = "Fax")]
+        [Phone]
         public string Fax { get; set; }
 
         [Display(Name = "Address Line 1")]
