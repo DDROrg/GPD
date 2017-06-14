@@ -5,6 +5,9 @@ namespace GPD.ServiceEntities.BaseEntities
     [DataContract(Namespace = "http://www.gpd.com", Name = "item-product")]
     public class ItemProductDTO : BaseDTO
     {
+        [DataMember(Name = "image-url", Order = 1)]
+        public string ImageUrl;
+
         [DataMember(Name = "manufacturer", Order = 2)]
         public string Manufacturer;
 
