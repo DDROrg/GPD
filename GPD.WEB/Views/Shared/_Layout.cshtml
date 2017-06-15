@@ -29,7 +29,20 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Project", "Project", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>                    
+                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                    @if (Request.IsAuthenticated && up.GroupName == "ADMINISTRATOR")
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Manage
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("User", "ManageUser", "Account", routeValues: null, htmlAttributes: new { id = "aManageUaer" })</li>
+                                <li>@Html.ActionLink("Partner", "ManagePartner", "Account", routeValues: null, htmlAttributes: new { id = "aManageUaer" })</li>
+                            </ul>
+                        </li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

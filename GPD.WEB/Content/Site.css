@@ -49,8 +49,10 @@ a.data-link {
 }
 
 .search-box {
-    height: 28px;
+    min-height: 30px;
     width: 100%;
+    max-width: 100%;
+    line-height:2;
 }
 
 

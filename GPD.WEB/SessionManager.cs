@@ -6,12 +6,13 @@ using System.Web.Security;
 namespace GPD.WEB
 {
     using ServiceEntities.BaseEntities;
+    /// <summary>
+    /// 
+    /// </summary>
     public class SessionManager
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static SessionManager _instance;
-        private const string SESSION_PARTNARNAME = "SESSION_PARTNARNAME";
-        private const string SESSION_USERNAME = "SESSION_USERNAME";
         private const string SESSION_USERPROFILE = "SESSION_USERPROFILE";
 
         #region Constr
@@ -34,8 +35,8 @@ namespace GPD.WEB
         /// <returns></returns>
         public SignInResponseDTO GetUserProfile()
         {
-            if (HttpContext.Current.Session[SESSION_PARTNARNAME] == null) { loadProfile(); }
-            return (HttpContext.Current.Session[SESSION_PARTNARNAME] == null) ? null : (SignInResponseDTO)HttpContext.Current.Session[SESSION_PARTNARNAME];
+            if (HttpContext.Current.Session[SESSION_USERPROFILE] == null) { loadProfile(); }
+            return (HttpContext.Current.Session[SESSION_USERPROFILE] == null) ? null : (SignInResponseDTO)HttpContext.Current.Session[SESSION_USERPROFILE];
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace GPD.WEB
         /// <param name="userProfile"></param>
         public void SetUserProfile(SignInResponseDTO userProfile)
         {
-            HttpContext.Current.Session.Add(SESSION_PARTNARNAME, userProfile);
+            HttpContext.Current.Session.Add(SESSION_USERPROFILE, userProfile);
         }
 
         /// <summary>

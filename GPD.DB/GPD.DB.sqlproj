@@ -89,7 +89,4 @@
     <Build Include="dbo\Tables\__MigrationHistory.sql" />
     <Build Include="dbo\Stored Procedures\gpd_AddUserDetails.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <RefactorLog Include="GPD.DB.refactorlog" />
-  </ItemGroup>
 </Project>

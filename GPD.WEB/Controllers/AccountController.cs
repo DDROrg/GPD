@@ -138,6 +138,27 @@ namespace GPD.WEB.Controllers
             SessionManager.GetInstance().ClearSession();
             return RedirectToAction("Index", "Home");
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult ManageUser()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult ManagePartner()
+        {
+            return View();
+        }
+
         #endregion
 
         #region Private Method
