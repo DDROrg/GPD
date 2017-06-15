@@ -134,7 +134,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +179,7 @@
     <Compile Include="SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\GPDDocument.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -263,6 +263,7 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <None Include="Properties\PublishProfiles\GPD-Default.pubxml" />
+    <None Include="Properties\PublishProfiles\GPD-DEV.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\i18n\angular-locale_af-za.js" />
