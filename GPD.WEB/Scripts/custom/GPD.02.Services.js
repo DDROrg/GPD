@@ -86,9 +86,51 @@ var ProjectServices = function ($http, $q, $log) {
 
     return this;
 }
+//============================================
+var GpdManageServices = function ($http, $q, $log) {
+    var _GetPartners = function () {
+        return $http.post(__RootUrl + "api/GetPartners");
+    };
+    var _GetUsers = function (searchTerm) {
+        return $http.post(__RootUrl + "api/GetUsers?searchTerm=" + encodeURI(searchTerm));
+    };
 
+    this.GetPartners = function () {
+        var deferred = $q.defer();
+        var retVal = {};
+        _GetPartners()
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    }
+
+    this.GetUsers = function (searchTerm) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _GetUsers(searchTerm)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    }
+
+    return this;
+}
 //============================================
 angular.module('Project')
 .factory('BroadcastService', function ($rootScope, $log) { return BroadcastService($rootScope, $log); })
 .service('CommonServices', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); })
 .service('ProjectServices', function ($http, $q, $log) { return ProjectServices($http, $q, $log); });
+
+angular.module('ManageUser')
+.factory('BroadcastService', function ($rootScope, $log) { return BroadcastService($rootScope, $log); })
+.service('CommonServices', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); })
+.service('GpdManageServices', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); });
+
+angular.module('ManagePartner')
+.factory('BroadcastService', function ($rootScope, $log) { return BroadcastService($rootScope, $log); })
+.service('CommonServices', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); })
+.service('GpdManageServices', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); });

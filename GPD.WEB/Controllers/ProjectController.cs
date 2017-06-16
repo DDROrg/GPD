@@ -91,6 +91,11 @@ namespace GPD.WEB.Controllers
             return new Facade.SignInFacade().GetPartners();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
         [Route("api/GetUsers")]
         [HttpPost]
         [Authorize]

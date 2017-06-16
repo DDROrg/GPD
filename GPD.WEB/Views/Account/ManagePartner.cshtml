@@ -4,5 +4,65 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Manage Partner</h2>
-
+<div data-ng-app="ManagePartner">
+    <h2>Manage Partner</h2>
+    <div data-ng-controller="ManagePartnerController as $ctrl">
+        <div class="container-fluid">
+            <div class="data-container">
+                <div class="row">                    
+                    <div class="col-sm-12">
+                        <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
+                            <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
+                                 ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.pageChanged()" previous-text="&lsaquo;"
+                                 next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
+                                 boundary-link-numbers="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped table-condensed table-hover">
+                        <thead style="background-color:#E9E9E9;">
+                            <tr>
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
+                                    </i>
+                                </th>
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('shortDescription')">Short Description&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('shortDescription')">
+                                    </i>
+                                </th>
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('description')">Description&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('description')">
+                                    </i>
+                                </th>
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('isActive')">Is Active&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('isActive')">
+                                    </i>
+                                </th>  
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('url')">Is Active&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('url')">
+                                    </i>
+                                </th>  
+                                <th></th>                             
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="d in filterData = ($ctrl.data.partners | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
+                                <td>{{d.name}}</td>
+                                <td>{{d.shortDescription}}</td>
+                                <td>{{d.description}}</td>
+                                <td>{{d.isActive}}</td>
+                                <td>{{d.url}}</td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
