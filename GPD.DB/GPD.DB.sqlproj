@@ -88,5 +88,7 @@
     <Build Include="dbo\Stored Procedures\gpd_GetUserRole.sql" />
     <Build Include="dbo\Tables\__MigrationHistory.sql" />
     <Build Include="dbo\Stored Procedures\gpd_AddUserDetails.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_GetPartners.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_GetUsers.sql" />
   </ItemGroup>
 </Project>
