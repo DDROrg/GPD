@@ -189,10 +189,49 @@ angular.module('ManageUser').controller('ManageUserController', function ($scope
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
     $ctrl.data.users = [];
-    $ctrl.data.searchTerm = "";
+    $ctrl.data.globalSearchParam = "";
+    $ctrl.data.sort = [{ column: 'firstName', descending: false }];
+    $ctrl.data.page = {};
+    $ctrl.data.page.currentPage = 1;
+    $ctrl.data.page.maxPage = 5;
+    $ctrl.data.page.itemPerPage = 10;
+    $ctrl.data.search = {};
+    $ctrl.data.search = { firstName: "", lastName: "", email: "", company: "" };
+
+    $ctrl.OnChangeSorting = function (column) {
+        var t = { column: column, descending: true };
+        if ($ctrl.data.sort.length > 0) {
+            if ($ctrl.data.sort[0].column == column) {
+                t.descending = !$ctrl.data.sort[0].descending;
+            } else {
+                t.descending = true;
+            }
+        }
+        $ctrl.data.sort = [t];
+    };
+    $ctrl.ColumnSortClass = function (column) {
+        var retVal = "fa fa-sort";
+        if ($ctrl.data.sort && $ctrl.data.sort[0].column && column == $ctrl.data.sort[0].column) {
+            if ($ctrl.data.sort[0].descending) { retVal = "fa fa-caret-down"; }
+            else { retVal = "fa fa-caret-up"; }
+        }
+        return retVal;
+    };
+    $ctrl.ColumnSortOrder = function () {
+        var retVal = [];
+        angular.forEach($ctrl.data.sort, function (v, k) {
+            retVal.push((v.descending ? "-" : "") + v.column);
+        });
+        return retVal;
+    };
+    $ctrl.OnGlobalSearch = function () { GetUsers(); };
+    $ctrl.OnEditItem = function (d) {
+        $log.log("TODO:EDIT");
+        $log.log(d);
+    };
 
     var GetUsers = function () {
-        return GpdManageServices.GetUsers($ctrl.data.searchTerm)
+        return GpdManageServices.GetUsers($ctrl.data.globalSearchParam)
         .then(function (payload) {
             $ctrl.data.users = payload;
             $log.log(payload);
@@ -200,7 +239,6 @@ angular.module('ManageUser').controller('ManageUserController', function ($scope
     };
 
     angular.element(document).ready(function () {
-        GetUsers();
     });
 });
 
@@ -243,12 +281,16 @@ angular.module('ManagePartner').controller('ManagePartnerController', function (
         });
         return retVal;
     };
+    $ctrl.OnEditItem = function (d) {
+        $log.log("TODO:EDIT");
+        $log.log(d);
+    };
 
     var GetPartners = function () {
         return GpdManageServices.GetPartners()
         .then(function (payload) {
             $ctrl.data.partners = payload;
-            $log.log(payload);
+            //$log.log(payload);
         });
     };
 
