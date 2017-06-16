@@ -30,7 +30,7 @@ namespace GPD.ServiceEntities.BaseEntities
         [DataMember(Name = "groupName", Order = 6)]
         public string GroupName;
 
-        [DataMember(Name = "selectedPartner", Order = 6)]
+        [DataMember(Name = "selectedPartner", Order = 7)]
         public string SelectedPartner;
     }
 }

@@ -38,9 +38,18 @@ GO
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_AddProject]') AND TYPE IN (N'P'))
 DROP PROCEDURE [dbo].[gpd_AddProject];
+GO
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_AddUserDetails]') AND TYPE IN (N'P'))
 DROP PROCEDURE [dbo].[gpd_AddUserDetails];
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetUsers]') AND TYPE IN (N'P'))
+DROP PROCEDURE [dbo].[gpd_GetUsers];
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetPartners]') AND TYPE IN (N'P'))
+DROP PROCEDURE [dbo].[gpd_GetPartners];
 GO
 ");
             #endregion
@@ -923,6 +932,59 @@ GO
 ");
             #endregion
 
+            #region Create SP - gpd_GetPartners
+            sb.AppendLine(@"
+CREATE PROCEDURE [dbo].[gpd_GetPartners]
+AS
+BEGIN	
+	SELECT 
+		p.partner_id,
+		p.name,
+		p.site_url,
+		p.short_description,
+		p.description,
+		p.active
+	FROM gpd_partner_details p;
+END;
+GO
+");
+            #endregion
+
+            #region Create SP - gpd_GetUsers
+            sb.AppendLine(@"
+CREATE PROCEDURE [dbo].[gpd_GetUsers]
+	@P_SEARCH nvarchar(150)
+AS
+BEGIN	
+	SELECT 
+		u.user_id,
+		u.last_name,
+		u.first_name,
+		u.full_name,
+		u.email,
+		u.company,
+		u.job_title,
+		u.business_phone,
+		u.home_phone,
+		u.mobile_phone,
+		u.fax_number,
+		u.address_line_1,
+		u.address_line_2,
+		u.city,
+		u.state_province,
+		u.zip_postal_code,
+		u.country,
+		u.active      
+	FROM gpd_user_details U
+	WHERE @P_SEARCH = '' 
+		OR UPPER(u.last_name) LIKE @P_SEARCH 
+		OR UPPER(u.first_name) LIKE @P_SEARCH 
+		OR UPPER(u.email) LIKE @P_SEARCH;
+END;
+GO
+");
+            #endregion
+
             #region Insert Script - Master Data
             sb.AppendLine(@"
 INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) 
@@ -996,6 +1058,18 @@ GO
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_AddProject]') AND TYPE IN (N'P'))
 DROP PROCEDURE [dbo].[gpd_AddProject];
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_AddUserDetails]') AND TYPE IN (N'P'))
+DROP PROCEDURE [dbo].[gpd_AddUserDetails];
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetUsers]') AND TYPE IN (N'P'))
+DROP PROCEDURE [dbo].[gpd_GetUsers];
+GO
+
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetPartners]') AND TYPE IN (N'P'))
+DROP PROCEDURE [dbo].[gpd_GetPartners];
 GO
 ");
             #endregion

@@ -71,16 +71,6 @@ namespace GPD.DAL.SqlDB
             return base.GetDSBasedOnStoreProcedure("gpd_UserAuthenticate", parametersInList);
         }
 
-        public DataSet GetUserRole(string email)
-        {
-            List<SqlParameter> parametersInList = new List<SqlParameter>()
-            {
-                 new SqlParameter("@P_EMAIL", email)
-            };
-
-            return base.GetDSBasedOnStoreProcedure("gpd_GetUserRole", parametersInList);
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -100,7 +90,7 @@ namespace GPD.DAL.SqlDB
             
             return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListPaginated", parametersInList);
         }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -145,5 +135,44 @@ namespace GPD.DAL.SqlDB
 
             return userId;
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public DataSet GetUserRole(string email)
+        {
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_EMAIL", email)
+            };
+
+            return base.GetDSBasedOnStoreProcedure("gpd_GetUserRole", parametersInList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public DataSet GetPartners()
+        {
+            List<SqlParameter> parametersInList = new List<SqlParameter>() { };
+
+            return base.GetDSBasedOnStoreProcedure("gpd_GetPartners", parametersInList);
+        }
+
+
+        public DataSet GetUsers(string searchTerm)
+        {
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_SEARCH", searchTerm)
+            };
+
+            return base.GetDSBasedOnStoreProcedure("gpd_GetUsers", parametersInList);
+        }
+
     }
 }

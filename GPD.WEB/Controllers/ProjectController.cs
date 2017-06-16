@@ -10,6 +10,7 @@ namespace GPD.WEB.Controllers
     /// <summary>
     /// 
     /// </summary>
+    [Authorize]
     public class ProjectController : ApiController
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -24,6 +25,7 @@ namespace GPD.WEB.Controllers
         /// <returns></returns>
         [Route("api/{partnerName}/Project/List/{pageSize:int}/{pageIndex:int}/{searchTerm}")]
         [HttpGet]
+        [AllowAnonymous]
         public ProjectsListResponse GetProjectsList(string partnerName, int pageSize = -1, int pageIndex = -1 , string searchTerm = "")
         {
             pageSize = (pageSize == -1 || pageSize > Utility.ConfigurationHelper.API_ProjectsListPageMaxSize) ?
@@ -44,6 +46,7 @@ namespace GPD.WEB.Controllers
         /// <returns></returns>
         [Route("api/{partnerName}/Project/{projectId}")]
         [HttpGet]
+        [AllowAnonymous]
         public ProjectDTO GetProjectDetails(string partnerName, string projectId)
         {
             return new Facade.ProjectFacade().GetProjectById(partnerName, projectId);
@@ -57,6 +60,7 @@ namespace GPD.WEB.Controllers
         /// <returns></returns>
         [Route("api/{partnerName}/Project")]
         [HttpPost]
+        [AllowAnonymous]
         public AddProjectResponse AddProject(string partnerName, ProjectDTO projectDTO)
         {
             return new Facade.ProjectFacade().AddProject(partnerName, projectDTO);
@@ -69,9 +73,30 @@ namespace GPD.WEB.Controllers
         /// <returns></returns>
         [Route("api/GetUserProfile")]
         [HttpPost]
+        [Authorize]
         public SignInResponseDTO GetUserProfile(string userEmail)
         {
             return new Facade.SignInFacade().GetUserRole(userEmail);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/GetPartners")]
+        [HttpPost]
+        [Authorize]
+        public List<PartnerDTO> GetPartners()
+        {
+            return new Facade.SignInFacade().GetPartners();
+        }
+
+        [Route("api/GetUsers")]
+        [HttpPost]
+        [Authorize]
+        public List<UserDTO> GetUsers(string searchTerm)
+        {
+            return new Facade.SignInFacade().GetUsers(searchTerm);
         }
     }
 }
