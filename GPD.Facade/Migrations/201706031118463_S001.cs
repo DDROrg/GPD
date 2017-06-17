@@ -12,20 +12,8 @@ namespace GPD.Facade.Migrations
             StringBuilder sb = new StringBuilder("");
             #region Drop SP
             sb.AppendLine(@"
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_UserAuthenticate]') AND TYPE IN (N'P'))
-DROP PROCEDURE [dbo].[gpd_UserAuthenticate];
-GO
-
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetUserRole]') AND TYPE IN (N'P'))
-DROP PROCEDURE [dbo].[gpd_GetUserRole];
-GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetProjectsListPaginated]') AND TYPE IN (N'P'))
 DROP PROCEDURE [dbo].[gpd_GetProjectsListPaginated];
-GO
-
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetProjects]') AND TYPE IN (N'P'))
-DROP PROCEDURE [dbo].[gpd_GetProjects];
 GO
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetProjectItems]') AND TYPE IN (N'P'))
@@ -42,14 +30,6 @@ GO
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_AddUserDetails]') AND TYPE IN (N'P'))
 DROP PROCEDURE [dbo].[gpd_AddUserDetails];
-GO
-
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetUsers]') AND TYPE IN (N'P'))
-DROP PROCEDURE [dbo].[gpd_GetUsers];
-GO
-
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetPartners]') AND TYPE IN (N'P'))
-DROP PROCEDURE [dbo].[gpd_GetPartners];
 GO
 ");
             #endregion
@@ -690,32 +670,6 @@ GO
 ");
             #endregion
 
-            #region Create SP - gpd_GetProjects
-            sb.AppendLine(@"
-CREATE PROCEDURE [dbo].[gpd_GetProjects]
-	@P_USER VARCHAR(100)
-AS
-BEGIN
-	SELECT p.project_id,
-		p.partner_name,
-		p.author,
-		p.building_name,
-		p.client,
-		p.[filename],
-		p.name,
-		p.number,
-		p.organization_description,
-		p.organization_name,
-		p.[status],
-		p.create_date
-	FROM gpd_project p
-	WHERE p.[active] = 1
-	ORDER BY P.create_date DESC;
-END;
-GO
-");
-            #endregion
-
             #region Create SP - gpd_GetProjectsListPaginated
             sb.AppendLine(@"
 CREATE PROCEDURE [dbo].[gpd_GetProjectsListPaginated]
@@ -779,56 +733,7 @@ END;
 GO
 ");
             #endregion
-
-            #region Create SP - gpd_GetUserRole
-            sb.AppendLine(@"
-CREATE PROCEDURE [dbo].[gpd_GetUserRole]
-       @P_EMAIL nvarchar(150)
-AS
-BEGIN
-	SET NOCOUNT ON;
-
-	SELECT distinct 
-		u.user_id, 
-		u.first_name, 
-		u.last_name, 
-		p.name as PartnerName,
-		g.name as GroupName
-	FROM gpd_user_details u
-	INNER JOIN gpd_partner_user_group_xref x
-		ON u.user_id = x.user_id
-			AND LOWER(u.email) = LOWER(@P_EMAIL)
-			AND u.active = 1	
-	INNER JOIN gpd_partner_details p
-		ON x.partner_id = p.partner_id
-	INNER JOIN gpd_user_group g
-		ON x.group_id = g.group_id
-	ORDER BY p.name;
-END;
-GO
-");
-            #endregion
-
-            #region Create SP - gpd_UserAuthenticate
-            sb.AppendLine(@"
-CREATE PROCEDURE [dbo].[gpd_UserAuthenticate]
-       @P_EMAIL nvarchar(150),
-	   @P_PASSWORD nvarchar(150)
-AS
-BEGIN
-	SET NOCOUNT ON;
-
-	SELECT distinct 
-		u.user_id
-	FROM gpd_user_details u
-	WHERE LOWER(u.email) = LOWER(@P_EMAIL)
-		AND u.password = @P_PASSWORD
-		AND u.active = 1;
-END;
-GO
-");
-            #endregion
-
+          
             #region Create SP - gpd_AddUserDetails
             sb.AppendLine(@"
 CREATE PROCEDURE gpd_AddUserDetails
@@ -932,59 +837,6 @@ GO
 ");
             #endregion
 
-            #region Create SP - gpd_GetPartners
-            sb.AppendLine(@"
-CREATE PROCEDURE [dbo].[gpd_GetPartners]
-AS
-BEGIN	
-	SELECT 
-		p.partner_id,
-		p.name,
-		p.site_url,
-		p.short_description,
-		p.description,
-		p.active
-	FROM gpd_partner_details p;
-END;
-GO
-");
-            #endregion
-
-            #region Create SP - gpd_GetUsers
-            sb.AppendLine(@"
-CREATE PROCEDURE [dbo].[gpd_GetUsers]
-	@P_SEARCH nvarchar(150)
-AS
-BEGIN	
-	SELECT 
-		u.user_id,
-		u.last_name,
-		u.first_name,
-		u.full_name,
-		u.email,
-		u.company,
-		u.job_title,
-		u.business_phone,
-		u.home_phone,
-		u.mobile_phone,
-		u.fax_number,
-		u.address_line_1,
-		u.address_line_2,
-		u.city,
-		u.state_province,
-		u.zip_postal_code,
-		u.country,
-		u.active      
-	FROM gpd_user_details U
-	WHERE @P_SEARCH = '' 
-		OR UPPER(u.last_name) LIKE @P_SEARCH 
-		OR UPPER(u.first_name) LIKE @P_SEARCH 
-		OR UPPER(u.email) LIKE @P_SEARCH;
-END;
-GO
-");
-            #endregion
-
             #region Insert Script - Master Data
             sb.AppendLine(@"
 INSERT INTO [dbo].[gpd_user_group] (group_id, name, description, active, xml_group_metadata, create_date, update_date) 
@@ -1032,20 +884,8 @@ GO
             StringBuilder sb = new StringBuilder("");
             #region Drop SP
             sb.AppendLine(@"
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_UserAuthenticate]') AND TYPE IN (N'P'))
-DROP PROCEDURE [dbo].[gpd_UserAuthenticate];
-GO
-
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetUserRole]') AND TYPE IN (N'P'))
-DROP PROCEDURE [dbo].[gpd_GetUserRole];
-GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetProjectsListPaginated]') AND TYPE IN (N'P'))
 DROP PROCEDURE [dbo].[gpd_GetProjectsListPaginated];
-GO
-
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetProjects]') AND TYPE IN (N'P'))
-DROP PROCEDURE [dbo].[gpd_GetProjects];
 GO
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetProjectItems]') AND TYPE IN (N'P'))
@@ -1062,14 +902,6 @@ GO
 
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_AddUserDetails]') AND TYPE IN (N'P'))
 DROP PROCEDURE [dbo].[gpd_AddUserDetails];
-GO
-
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetUsers]') AND TYPE IN (N'P'))
-DROP PROCEDURE [dbo].[gpd_GetUsers];
-GO
-
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[gpd_GetPartners]') AND TYPE IN (N'P'))
-DROP PROCEDURE [dbo].[gpd_GetPartners];
 GO
 ");
             #endregion

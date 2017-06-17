@@ -78,17 +78,12 @@
     <Build Include="dbo\Tables\gpd_user_details.sql" />
     <Build Include="dbo\Tables\gpd_user_group.sql" />
     <Build Include="dbo\Stored Procedures\gpd_AddProject.sql" />
-    <Build Include="dbo\Stored Procedures\gpd_GetProjects.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetProjectById.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetProjectItems.sql" />
     <Build Include="dbo\Tables\gpd_partner_user_group_xref.sql" />
     <Build Include="dbo\Tables\gpd_partner_details.sql" />
-    <Build Include="dbo\Stored Procedures\gpd_UserAuthenticate.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetProjectsListPaginated.sql" />
-    <Build Include="dbo\Stored Procedures\gpd_GetUserRole.sql" />
     <Build Include="dbo\Tables\__MigrationHistory.sql" />
     <Build Include="dbo\Stored Procedures\gpd_AddUserDetails.sql" />
-    <Build Include="dbo\Stored Procedures\gpd_GetPartners.sql" />
-    <Build Include="dbo\Stored Procedures\gpd_GetUsers.sql" />
   </ItemGroup>
 </Project>

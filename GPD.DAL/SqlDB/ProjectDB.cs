@@ -53,25 +53,7 @@ namespace GPD.DAL.SqlDB
                 throw new Exception(retVal["@P_Return_Message"].ToString());
             }
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public DataSet AuthenticateUser(string email, string password)
-        {
-            List<SqlParameter> parametersInList = new List<SqlParameter>()
-            {
-                 new SqlParameter("@P_EMAIL", email),
-                 new SqlParameter("@P_PASSWORD", password)
-            };
-
-
-            return base.GetDSBasedOnStoreProcedure("gpd_UserAuthenticate", parametersInList);
-        }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -137,6 +119,40 @@ namespace GPD.DAL.SqlDB
             return userId;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public DataSet AuthenticateUser(string email, string password)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_EMAIL nvarchar(150), @M_PASSWORD nvarchar(150);
+
+	SET @M_EMAIL = @P_EMAIL;
+	SET @M_PASSWORD = @P_PASSWORD;
+
+	SELECT distinct 
+		u.user_id
+	FROM gpd_user_details u
+	WHERE LOWER(u.email) = LOWER(@M_EMAIL)
+		AND u.password = @M_PASSWORD
+		AND u.active = 1;
+END;
+");
+            #endregion 
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_EMAIL", email),
+                 new SqlParameter("@P_PASSWORD", password)
+            };
+
+            return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
 
         /// <summary>
         /// 
@@ -145,12 +161,40 @@ namespace GPD.DAL.SqlDB
         /// <returns></returns>
         public DataSet GetUserRole(string email)
         {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_EMAIL NVARCHAR(150);
+
+	SET @M_EMAIL = @P_EMAIL;
+
+	SELECT distinct 
+		u.user_id, 
+		u.first_name, 
+		u.last_name, 
+		p.name as PartnerName,
+		g.name as GroupName
+	FROM gpd_user_details u
+	INNER JOIN gpd_partner_user_group_xref x
+		ON u.user_id = x.user_id
+			AND LOWER(u.email) = LOWER(@M_EMAIL)
+			AND u.active = 1	
+	INNER JOIN gpd_partner_details p
+		ON x.partner_id = p.partner_id
+	INNER JOIN gpd_user_group g
+		ON x.group_id = g.group_id
+	ORDER BY p.name;
+END;
+");
+            #endregion 
+
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
                  new SqlParameter("@P_EMAIL", email)
             };
 
-            return base.GetDSBasedOnStoreProcedure("gpd_GetUserRole", parametersInList);
+            return base.GetDSBasedOnStatement(sb, parametersInList);
         }
 
         /// <summary>
@@ -159,12 +203,25 @@ namespace GPD.DAL.SqlDB
         /// <returns></returns>
         public DataSet GetPartners()
         {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN	
+	SELECT 
+		p.partner_id,
+		p.name,
+		p.site_url,
+		p.short_description,
+		p.description,
+		p.active
+	FROM gpd_partner_details p;
+END;
+");
+            #endregion 
             List<SqlParameter> parametersInList = new List<SqlParameter>() { };
-
-            return base.GetDSBasedOnStoreProcedure("gpd_GetPartners", parametersInList);
+            return base.GetDSBasedOnStatement(sb, parametersInList);
         }
-
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -172,12 +229,45 @@ namespace GPD.DAL.SqlDB
         /// <returns></returns>
         public DataSet GetUsers(string searchTerm)
         {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_SEARCH nvarchar(150);
+	SET @M_SEARCH = @P_SEARCH;
+	SELECT 
+		u.user_id,
+		u.last_name,
+		u.first_name,
+		u.full_name,
+		u.email,
+		u.company,
+		u.job_title,
+		u.business_phone,
+		u.home_phone,
+		u.mobile_phone,
+		u.fax_number,
+		u.address_line_1,
+		u.address_line_2,
+		u.city,
+		u.state_province,
+		u.zip_postal_code,
+		u.country,
+		u.active      
+	FROM gpd_user_details U
+	WHERE @M_SEARCH = '' 
+		OR UPPER(u.last_name) LIKE @M_SEARCH 
+		OR UPPER(u.first_name) LIKE @M_SEARCH 
+		OR UPPER(u.email) LIKE @M_SEARCH;
+END;
+");
+            #endregion 
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
                  new SqlParameter("@P_SEARCH", searchTerm)
             };
 
-            return base.GetDSBasedOnStoreProcedure("gpd_GetUsers", parametersInList);
+            return base.GetDSBasedOnStatement(sb, parametersInList);
         }
 
         /// <summary>
