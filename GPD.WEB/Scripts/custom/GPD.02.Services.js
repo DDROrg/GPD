@@ -94,6 +94,12 @@ var GpdManageServices = function ($http, $q, $log) {
     var _GetUsers = function (searchTerm) {
         return $http.post(__RootUrl + "api/GetUsers?searchTerm=" + encodeURI(searchTerm));
     };
+    var _ActDactPartner = function (partnerId, isActive) {
+        return $http.post(__RootUrl + "api/ActDactPartner?partnerId=" + encodeURI(partnerId) + "&isActive=" + encodeURI(isActive));
+    };
+    var _SavePartner = function (partner) {
+        return $http.post(__RootUrl + "api/SavePartner", partner);
+    };
 
     this.GetPartners = function () {
         var deferred = $q.defer();
@@ -116,6 +122,28 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     }
+
+    this.SavePartner = function (partner) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _SavePartner(partner)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+
+    this.ActDactPartner = function (partnerId, isActive) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _ActDactPartner(partnerId, isActive)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
 
     return this;
 }

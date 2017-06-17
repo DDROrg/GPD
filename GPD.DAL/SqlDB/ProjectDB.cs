@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.Data.SqlTypes;
 using System.IO;
 using System.Xml;
+using GPD.ServiceEntities.BaseEntities;
 
 namespace GPD.DAL.SqlDB
 {
@@ -87,10 +88,10 @@ namespace GPD.DAL.SqlDB
                 new SqlParameter("@P_StartRowIndex", startRowIndex),
                 new SqlParameter("@P_PageSize", pageSize)
             };
-            
+
             return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListPaginated", parametersInList);
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -164,6 +165,11 @@ namespace GPD.DAL.SqlDB
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
         public DataSet GetUsers(string searchTerm)
         {
             List<SqlParameter> parametersInList = new List<SqlParameter>()
@@ -174,5 +180,116 @@ namespace GPD.DAL.SqlDB
             return base.GetDSBasedOnStoreProcedure("gpd_GetUsers", parametersInList);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
+        public void ActDactPartner(string partnerId, bool isActive)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_PartnerId VARCHAR(50), @M_IsActive BIT;
+
+	SET @M_PartnerId = @P_PartnerId;
+	SET @M_IsActive = @P_IsActive;
+
+	UPDATE gpd_partner_details
+	SET active = @M_IsActive,        
+		update_date = GETDATE()
+	WHERE partner_id = @M_PartnerId;
+END;
+");
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_PartnerId", partnerId),
+                 new SqlParameter("@P_IsActive", isActive)
+            };
+            base.ExecuteStatement(sb, parametersInList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        public void SavePartner(PartnerDTO partner)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            if (!string.IsNullOrWhiteSpace(partner.partnerId))
+            {
+                #region Update
+                sb.AppendLine(@"
+BEGIN
+	DECLARE @M_PartnerId VARCHAR(50),
+	    @M_Name NVARCHAR(30),
+		@M_URL NVARCHAR(300), 
+		@M_ShortDescription NVARCHAR(150), 
+		@M_Description NVARCHAR(1000), 
+		@M_IsActive BIT;
+
+	SET @M_PartnerId = @P_PartnerId;
+	SET @M_Name = @P_Name;
+	SET @M_URL = @P_URL;
+	SET @M_ShortDescription = @P_ShortDescription;
+	SET @M_Description = @P_Description;
+	SET @M_IsActive = @P_IsActive;
+	
+
+	UPDATE gpd_partner_details
+	SET name = @M_Name,
+		site_url = @M_URL,
+		short_description = @M_ShortDescription,
+		description = @M_Description,
+		active = @M_IsActive,
+		update_date = GETDATE()		
+	WHERE partner_id = @M_PartnerId;
+END;
+");
+                #endregion
+            }
+            else
+            {
+                #region Insert
+                sb.AppendLine(@"
+BEGIN
+	DECLARE @M_PartnerId VARCHAR(50),
+	    @M_Name NVARCHAR(30),
+		@M_URL NVARCHAR(300), 
+		@M_ShortDescription NVARCHAR(150), 
+		@M_Description NVARCHAR(1000), 
+		@M_IsActive BIT;
+
+	SET @M_PartnerId = @P_PartnerId;
+	SET @M_Name = @P_Name;
+	SET @M_URL = @P_URL;
+	SET @M_ShortDescription = @P_ShortDescription;
+	SET @M_Description = @P_Description;
+	SET @M_IsActive = @P_IsActive;
+	
+    INSERT INTO gpd_partner_details (partner_id, name, site_url, short_description, description, active, xml_partner_metadata, create_date, update_date)
+	VALUES(NEWID(), @M_Name,  @M_URL, @M_ShortDescription, @M_Description, 1, NULL, getdate(), NULL);
+END;
+");
+                #endregion
+            }
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_PartnerId", partner.partnerId),
+                 new SqlParameter("@P_Name", partner.Name),
+                 new SqlParameter("@P_URL", partner.URL),
+                 new SqlParameter("@P_ShortDescription", partner.ShortDescription),
+                 new SqlParameter("@P_Description", partner.Description),
+                 new SqlParameter("@P_IsActive", partner.IsActive)
+            };
+            base.ExecuteStatement(sb, parametersInList);
+        }
     }
 }

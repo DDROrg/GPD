@@ -1,14 +1,12 @@
 ﻿@model GPD.ServiceEntities.UserRegistrationDTO
 
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Self Registration";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container-fluid">
-
-    <h2>Registration</h2>
-    <h4>Self User Registration</h4>
+<div>
+    <h2>@ViewBag.Title</h2>
     <hr />
 
     @using (Html.BeginForm())

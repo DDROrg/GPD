@@ -52,10 +52,21 @@ a.data-link {
     min-height: 30px;
     width: 100%;
     max-width: 100%;
-    line-height:2;
+    line-height: 2;
 }
 
+.mandatory {
+    color: #ff0000;
+    padding: 0px 5px;
+}
 
+/*====== Bootstrap Override Start ===================*/
+.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+/*====== Bootstrap Override End ===================*/
 @media only screen and (min-width : 321px) and (max-width : 480px) {
 }
 

@@ -255,6 +255,10 @@ angular.module('ManagePartner').controller('ManagePartnerController', function (
     $ctrl.data.search = {};
     $ctrl.data.search = { name: "", shortDescription: "", description: "" };
 
+    $ctrl.data.onEditing = false;
+    $ctrl.data.onAdding = false;
+    $ctrl.data.tempPartner = {};
+
     $ctrl.OnChangeSorting = function (column) {
         var t = { column: column, descending: true };
         if ($ctrl.data.sort.length > 0) {
@@ -281,16 +285,93 @@ angular.module('ManagePartner').controller('ManagePartnerController', function (
         });
         return retVal;
     };
+
     $ctrl.OnEditItem = function (d) {
-        $log.log("TODO:EDIT");
-        $log.log(d);
+        $ctrl.data.onEditing = true;
+        $ctrl.data.onAdding = false;
+        $ctrl.data.tempPartner.partnerId = d.partnerId;
+        $ctrl.data.tempPartner.name = d.name;
+        $ctrl.data.tempPartner.url = d.url;
+        $ctrl.data.tempPartner.shortDescription = d.shortDescription;
+        $ctrl.data.tempPartner.description = d.description;
+        $ctrl.data.tempPartner.isActive = d.isActive;
+    };
+
+    $ctrl.OnAddItem = function () {
+        $ctrl.data.onEditing = false;
+        $ctrl.data.onAdding = true;
+        $ctrl.data.tempPartner = {
+            partnerId: "",
+            name: "sweets",
+            url: "http://sweets.cnstruction.com",
+            shortDescription: "N/A",
+            description: "N/A",
+            isActive: true
+        };
+    };
+
+    $ctrl.OnCancelEditItem = function () {
+        $ctrl.data.onEditing = false;
+        $ctrl.data.tempPartner = {};
+    };
+
+    $ctrl.OnSaveEditItem = function () {
+        if (IsValidPartner($ctrl.data.tempPartner)) {
+            GpdManageServices.SavePartner($ctrl.data.tempPartner)
+            .then(function (payload) {
+                if (payload == "SUCCESS") {
+                    GetPartners();
+                    $ctrl.data.onEditing = false;
+                    $ctrl.data.tempPartner = {};
+                }
+            });
+        }
+    };
+
+    $ctrl.OnCancelAddItem = function () {
+        $ctrl.data.onAdding = false;
+        $ctrl.data.tempPartner = {};
+    };
+
+    $ctrl.OnSaveAddItem = function () {
+        if (IsValidPartner($ctrl.data.tempPartner)) {
+            GpdManageServices.SavePartner($ctrl.data.tempPartner)
+            .then(function (payload) {
+                if (payload == "SUCCESS") {
+                    GetPartners();
+                    $ctrl.data.onAdding = false;
+                    $ctrl.data.tempPartner = {};
+                }
+            });
+        }
+    };
+
+    $ctrl.OnActDeactItem = function (d) {
+        GpdManageServices.ActDactPartner(d.partnerId, d.isActive)
+        .then(function (payload) {
+        });
+    };
+
+
+    var IsValidPartner = function (d) {
+        if ($ctrl.data.tempPartner
+            && $ctrl.data.tempPartner.name
+            && $ctrl.data.tempPartner.name != ''
+            && $ctrl.data.tempPartner.url
+            && $ctrl.data.tempPartner.url != ''
+            && $ctrl.data.tempPartner.description
+            && $ctrl.data.tempPartner.description != '') {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
 
     var GetPartners = function () {
         return GpdManageServices.GetPartners()
         .then(function (payload) {
             $ctrl.data.partners = payload;
-            //$log.log(payload);
         });
     };
 

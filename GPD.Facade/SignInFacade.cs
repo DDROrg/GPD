@@ -148,5 +148,50 @@ namespace GPD.Facade
             }
             return retVal;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
+        public string ActDactPartner(string partnerId, bool isActive)
+        {
+            string retVal = "";
+
+            try
+            {
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).ActDactPartner(partnerId, isActive);
+                retVal = "SUCCESS";
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to Actctivate/Dactivate Partner for partnerId: " + partnerId, ex);
+                retVal = "ERROR";
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        public string SavePartner(PartnerDTO partner)
+        {
+            string retVal = "";
+
+            try
+            {
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).SavePartner(partner);
+                retVal = "SUCCESS";
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to Save Partner for partnerId: " + partner.partnerId, ex);
+                retVal = "ERROR";
+            }
+            return retVal;
+        }
     }
 }

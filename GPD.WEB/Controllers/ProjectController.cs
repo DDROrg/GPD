@@ -103,5 +103,34 @@ namespace GPD.WEB.Controllers
         {
             return new Facade.SignInFacade().GetUsers(searchTerm);
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partnerId"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
+        [Route("api/ActDactPartner")]
+        [HttpPost]
+        [Authorize]
+        public string ActDactPartner(string partnerId, bool isActive)
+        {
+            return new Facade.SignInFacade().ActDactPartner(partnerId, isActive);            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        [Route("api/SavePartner")]
+        [HttpPost]
+        [Authorize]
+        public string SavePartner(PartnerDTO partner)
+        {
+            return new Facade.SignInFacade().SavePartner(partner);
+        }
+
     }
 }

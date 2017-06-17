@@ -75,8 +75,9 @@ namespace GPD.DAL.SqlDB
             return dataSet;
         }
         
-        internal void ExecuteStatement(StringBuilder sql, List<SqlParameter> parametersList)
+        internal Dictionary<string, object> ExecuteStatement(StringBuilder sql, List<SqlParameter> parametersList)
         {
+            Dictionary<string, object> retVal = null;
             using (SqlConnection conn = new SqlConnection(this._db_connection))
             {
                 using (SqlCommand cmd = new SqlCommand(sql.ToString(), conn))
@@ -85,10 +86,20 @@ namespace GPD.DAL.SqlDB
                     if (parametersList != null && parametersList.Count > 0)
                         cmd.Parameters.AddRange(parametersList.ToArray());
                     cmd.ExecuteNonQuery();
+
+                    List<string> outParam = parametersList.Where(i => i.Direction != ParameterDirection.Input).Select(i => i.ParameterName).ToList();
+                    if (outParam.Count() > 0)
+                    {
+                        retVal = new Dictionary<string, object>();
+                        outParam.ForEach(i => {
+                            retVal.Add(i, cmd.Parameters[i].Value);
+                        });
+                    }
                 }
 
                 conn.Close();
             }
+            return retVal;
         }
 
         internal Dictionary<string, object> ExecuteStoreProcedure(string storedProdName, List<SqlParameter> parametersList)
