@@ -5,10 +5,9 @@
 }
 
 <div data-ng-app="ManagePartner">
-    <div data-ng-controller="ManagePartnerController as $ctrl">
+    <div data-ng-controller="ManagePartnerController as $ctrl" ng-cloak>
         <h2>@ViewBag.Title</h2>
         <hr />
-
         <div data-ng-if="!($ctrl.data.onEditing || $ctrl.data.onAdding)" class="data-container">
             <div class="row">
                 <div class="col-sm-12">

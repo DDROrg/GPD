@@ -258,6 +258,7 @@ angular.module('ManagePartner').controller('ManagePartnerController', function (
     $ctrl.data.onEditing = false;
     $ctrl.data.onAdding = false;
     $ctrl.data.tempPartner = {};
+    $log.log("ManagePartner " + $ctrl.data.IsLoading);
 
     $ctrl.OnChangeSorting = function (column) {
         var t = { column: column, descending: true };

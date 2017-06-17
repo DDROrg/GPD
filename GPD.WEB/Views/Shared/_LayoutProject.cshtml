@@ -34,7 +34,7 @@
                     <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
                     @if (Request.IsAuthenticated)
                     {
-                        <li class="dropdown" data-ng-controller="PartnerCtrl as $ctrl">
+                        <li class="dropdown" data-ng-controller="PartnerCtrl as $ctrl" ng-cloak>
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Partner: {{$ctrl.data.LogedinUserProfile.selectedPartner}}
                                 <span class="caret"></span>
