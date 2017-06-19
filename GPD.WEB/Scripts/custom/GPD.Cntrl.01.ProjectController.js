@@ -1,5 +1,5 @@
 ﻿//=================================================
-angular.module('Project').controller("PartnerCtrl", function ($scope, $http, $location, $log, CommonServices) {
+angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$location', '$log', 'CommonServices', function ($scope, $http, $location, $log, CommonServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
     $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
@@ -23,10 +23,10 @@ angular.module('Project').controller("PartnerCtrl", function ($scope, $http, $lo
             GetLogedinUserProfile();
         }
     });
-});
+}]);
 
 //=================================================
-angular.module('Project').controller('ProjectController', function ($scope, $rootScope, $http, $location, $uibModal, $log, CommonServices, ProjectServices) {
+angular.module('Project').controller('ProjectController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'CommonServices', 'ProjectServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, CommonServices, ProjectServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
     $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
@@ -129,10 +129,10 @@ angular.module('Project').controller('ProjectController', function ($scope, $roo
 
     angular.element(document).ready(function () {
     });
-});
+}]);
 
 //=================================================
-angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalInstance, $log, project) {
+angular.module('Project').controller('ModalInstanceCtrl', ['$uibModalInstance', '$log', 'project', function ($uibModalInstance, $log, project) {
     var $ctrl = this;
     $ctrl.data = {};
     $ctrl.data.project = project;
@@ -173,7 +173,7 @@ angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalIns
     $ctrl.OnColExpMaterial = function (d) { d.isMaterialExpanded = !(d.isMaterialExpanded); };
     $ctrl.IsShowMaterial = function (d) { return d.isMaterialExpanded == true };
     $ctrl.pageChanged = function () {
-        $log.log("Index = " + $ctrl.data.page.currentPage);
+        $log.log("TODO::");
     };
     $ctrl.Ok = function () {
         //$uibModalInstance.close($ctrl.selected.item);
@@ -182,10 +182,10 @@ angular.module('Project').controller('ModalInstanceCtrl', function ($uibModalIns
     $ctrl.Cancel = function () {
         $uibModalInstance.dismiss('CANCEL');
     };
-});
+}]);
 
 //=================================================
-angular.module('ManageUser').controller('ManageUserController', function ($scope, $rootScope, $http, $location, $uibModal, $log, CommonServices, GpdManageServices) {
+angular.module('ManageUser').controller('ManageUserController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'CommonServices', 'GpdManageServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, CommonServices, GpdManageServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
     $ctrl.data.users = [];
@@ -234,16 +234,15 @@ angular.module('ManageUser').controller('ManageUserController', function ($scope
         return GpdManageServices.GetUsers($ctrl.data.globalSearchParam)
         .then(function (payload) {
             $ctrl.data.users = payload;
-            $log.log(payload);
         });
     };
 
     angular.element(document).ready(function () {
     });
-});
+}]);
 
 //=================================================
-angular.module('ManagePartner').controller('ManagePartnerController', function ($scope, $rootScope, $http, $location, $uibModal, $log, CommonServices, GpdManageServices) {
+angular.module('ManagePartner').controller('ManagePartnerController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'CommonServices', 'GpdManageServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, CommonServices, GpdManageServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
     $ctrl.data.partners = [];
@@ -258,7 +257,6 @@ angular.module('ManagePartner').controller('ManagePartnerController', function (
     $ctrl.data.onEditing = false;
     $ctrl.data.onAdding = false;
     $ctrl.data.tempPartner = {};
-    $log.log("ManagePartner " + $ctrl.data.IsLoading);
 
     $ctrl.OnChangeSorting = function (column) {
         var t = { column: column, descending: true };
@@ -379,4 +377,4 @@ angular.module('ManagePartner').controller('ManagePartnerController', function (
     angular.element(document).ready(function () {
         GetPartners();
     });
-});
+}]);

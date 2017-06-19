@@ -159,7 +159,9 @@ namespace GPD.Facade
                                 URL = dr["PRODUCT_URL"].ToString(),
                                 Manufacturer = dr["PRODUCT_MANUFACTURER"].ToString(),
                                 Model = dr["PRODUCT_MODEL"].ToString(),
-                                Name = dr["PRODUCT_NAME"].ToString()
+                                Name = dr["PRODUCT_NAME"].ToString(),
+                                ImageUrl = dr["product_image_url"].ToString()
+
                             };
                             #endregion
 

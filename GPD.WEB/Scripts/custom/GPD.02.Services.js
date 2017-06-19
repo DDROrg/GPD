@@ -149,16 +149,16 @@ var GpdManageServices = function ($http, $q, $log) {
 }
 //============================================
 angular.module('Project')
-.factory('BroadcastService', function ($rootScope, $log) { return BroadcastService($rootScope, $log); })
-.service('CommonServices', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); })
-.service('ProjectServices', function ($http, $q, $log) { return ProjectServices($http, $q, $log); });
+.factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])
+.service('CommonServices', ['$http', '$q', '$log', 'BroadcastService', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); }])
+.service('ProjectServices', ['$http', '$q', '$log', function ($http, $q, $log) { return ProjectServices($http, $q, $log); }]);
 
 angular.module('ManageUser')
-.factory('BroadcastService', function ($rootScope, $log) { return BroadcastService($rootScope, $log); })
-.service('CommonServices', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); })
-.service('GpdManageServices', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); });
+.factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])
+.service('CommonServices', ['$http', '$q', '$log', 'BroadcastService', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); }])
+.service('GpdManageServices', ['$http', '$q', '$log', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); }]);
 
 angular.module('ManagePartner')
-.factory('BroadcastService', function ($rootScope, $log) { return BroadcastService($rootScope, $log); })
-.service('CommonServices', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); })
-.service('GpdManageServices', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); });
+.factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])
+.service('CommonServices', ['$http', '$q', '$log', 'BroadcastService', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); }])
+.service('GpdManageServices', ['$http', '$q', '$log', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); }]);
