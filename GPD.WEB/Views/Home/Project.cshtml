@@ -358,9 +358,9 @@
                             <tbody>
                                 <tr data-ng-repeat-start="d in filterData = ($ctrl.data.project.items | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
                                     <td>
-                                        <a data-ng-if="d.product.url"  href="{{d.product.url}}" target="PRODUCT" class="cusTooltip ">
+                                        <a data-ng-if="d.product.url || d.product['image-url']"  href="{{d.product.url}}" target="PRODUCT" class="cusTooltip ">
                                         <i class="fa fa-tags"></i>
-                                            <span class="container">
+                                            <span data-ng-if="d.product['image-url']" class="container">
                                                 <img class="callout img-responsive" ng-src="{{d.product['image-url']}}" />
                                             </span>
                                         </a>
@@ -410,9 +410,9 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="$ctrl.Ok()">OK</button>
+        <div class="modal-footer">            
             <button class="btn btn-warning" type="button" ng-click="$ctrl.Cancel()">Cancel</button>
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.Ok()">OK</button>
         </div>
     </script>
 </div>

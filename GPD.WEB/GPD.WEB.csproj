@@ -247,24 +247,6 @@
     <Content Include="Scripts\custom\GPD.02.Services.js" />
     <Content Include="Scripts\custom\GPD.Cntrl.01.ProjectController.js" />
     <Content Include="Scripts\custom\GPD.01.App.js" />
-    <Content Include="Scripts\errors.json" />
-    <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="Scripts\angular-touch.min.js.map" />
-    <Content Include="Scripts\angular-sanitize.min.js.map" />
-    <Content Include="Scripts\angular-route.min.js.map" />
-    <Content Include="Scripts\angular-resource.min.js.map" />
-    <Content Include="Scripts\angular-parse-ext.min.js.map" />
-    <Content Include="Scripts\angular-messages.min.js.map" />
-    <Content Include="Scripts\angular-message-format.min.js.map" />
-    <Content Include="Scripts\angular-loader.min.js.map" />
-    <Content Include="Scripts\angular-cookies.min.js.map" />
-    <Content Include="Scripts\angular-aria.min.js.map" />
-    <Content Include="Scripts\angular-animate.min.js.map" />
-    <Content Include="Scripts\jquery-3.1.1.min.map" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
-    <None Include="Properties\PublishProfiles\GPD-Default.pubxml" />
-    <None Include="Properties\PublishProfiles\GPD-DEV.pubxml" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\i18n\angular-locale_af-za.js" />
     <Content Include="Scripts\i18n\angular-locale_af.js" />
@@ -994,6 +976,24 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <None Include="Properties\PublishProfiles\GPD-Default.pubxml" />
+    <None Include="Properties\PublishProfiles\GPD-DEV.pubxml" />
+    <Content Include="Scripts\errors.json" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-touch.min.js.map" />
+    <Content Include="Scripts\angular-sanitize.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Scripts\angular-parse-ext.min.js.map" />
+    <Content Include="Scripts\angular-messages.min.js.map" />
+    <Content Include="Scripts\angular-message-format.min.js.map" />
+    <Content Include="Scripts\angular-loader.min.js.map" />
+    <Content Include="Scripts\angular-cookies.min.js.map" />
+    <Content Include="Scripts\angular-aria.min.js.map" />
+    <Content Include="Scripts\angular-animate.min.js.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-3.1.1-vsdoc.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -1029,7 +1029,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Scripts\version.json" />
     <Content Include="Views\Home\Project.cshtml" />
     <Content Include="Web-DEV.config">
       <SubType>Designer</SubType>
@@ -1038,6 +1037,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ManageUser.cshtml" />
     <Content Include="Views\Account\ManagePartner.cshtml" />
+    <Content Include="Scripts\version.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GPD.Facade\GPD.Facade.csproj">
