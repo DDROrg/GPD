@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[gpd_GetProjectsListPaginated]
+﻿CREATE PROCEDURE gpd_GetProjectsListPaginated
        @P_PartnerName nvarchar(30),
 	   @P_StartRowIndex int,
        @P_PageSize int
