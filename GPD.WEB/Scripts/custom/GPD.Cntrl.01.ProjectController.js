@@ -1,5 +1,5 @@
 ﻿//=================================================
-angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$location', '$log', 'CommonServices', function ($scope, $http, $location, $log, CommonServices) {
+angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$location', '$log', 'toastr', 'CommonServices', function ($scope, $http, $location, $log, toastr, CommonServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
     $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
@@ -26,7 +26,7 @@ angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$locati
 }]);
 
 //=================================================
-angular.module('Project').controller('ProjectController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'CommonServices', 'ProjectServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, CommonServices, ProjectServices) {
+angular.module('Project').controller('ProjectController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'ProjectServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, toastr, CommonServices, ProjectServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
     $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
@@ -132,7 +132,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
 }]);
 
 //=================================================
-angular.module('Project').controller('ModalInstanceCtrl', ['$uibModalInstance', '$log', 'project', function ($uibModalInstance, $log, project) {
+angular.module('Project').controller('ModalInstanceCtrl', ['$uibModalInstance', '$log', 'toastr', 'project', function ($uibModalInstance, $log, toastr, project) {
     var $ctrl = this;
     $ctrl.data = {};
     $ctrl.data.project = project;
@@ -185,7 +185,7 @@ angular.module('Project').controller('ModalInstanceCtrl', ['$uibModalInstance', 
 }]);
 
 //=================================================
-angular.module('ManageUser').controller('ManageUserController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'CommonServices', 'GpdManageServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, CommonServices, GpdManageServices) {
+angular.module('ManageUser').controller('ManageUserController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, toastr, CommonServices, GpdManageServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
     $ctrl.data.users = [];
@@ -242,7 +242,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
 }]);
 
 //=================================================
-angular.module('ManagePartner').controller('ManagePartnerController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'CommonServices', 'GpdManageServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, CommonServices, GpdManageServices) {
+angular.module('ManagePartner').controller('ManagePartnerController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, toastr, CommonServices, GpdManageServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
     $ctrl.data.partners = [];
@@ -301,10 +301,10 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
         $ctrl.data.onAdding = true;
         $ctrl.data.tempPartner = {
             partnerId: "",
-            name: "sweets",
-            url: "http://sweets.cnstruction.com",
-            shortDescription: "N/A",
-            description: "N/A",
+            name: "",
+            url: "",
+            shortDescription: "",
+            description: "",
             isActive: true
         };
     };
@@ -342,12 +342,17 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
                     $ctrl.data.tempPartner = {};
                 }
             });
+        } else {
+            toastr.error("Mandatory information missing");
         }
     };
 
     $ctrl.OnActDeactItem = function (d) {
         GpdManageServices.ActDactPartner(d.partnerId, d.isActive)
         .then(function (payload) {
+            if (payload == "SUCCESS") {
+                toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");                
+            }
         });
     };
 
