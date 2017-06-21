@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE gpd_AddProject
+﻿CREATE PROCEDURE [dbo].[gpd_AddProject]
 	@P_PartnerName nvarchar(30),
 	@P_ProjectId uniqueidentifier,
 	@P_XML XML,	

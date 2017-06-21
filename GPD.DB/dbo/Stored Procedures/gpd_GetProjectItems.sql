@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE gpd_GetProjectItems
+﻿CREATE PROCEDURE [dbo].[gpd_GetProjectItems]
 	@P_PROJECT_ID uniqueidentifier
 AS
 BEGIN

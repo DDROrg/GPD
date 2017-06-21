@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE gpd_AddUserDetails
+﻿CREATE PROCEDURE [dbo].[gpd_AddUserDetails]
 	@P_XML XML,
 	@P_IpAddress VARCHAR(50),
 	@P_Return_UserId INT OUT,
