@@ -125,30 +125,28 @@ namespace GPD.DAL.SqlDB
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public DataSet AuthenticateUser(string email, string password)
+        public DataSet AuthenticateUser(string email)
         {
-            StringBuilder sb = new StringBuilder("");
+            StringBuilder sb = new StringBuilder();
+
             #region SQL
             sb.AppendLine(@"
 BEGIN
-	DECLARE @M_EMAIL nvarchar(150), @M_PASSWORD nvarchar(150);
+	DECLARE @M_EMAIL nvarchar(150);
 
 	SET @M_EMAIL = @P_EMAIL;
-	SET @M_PASSWORD = @P_PASSWORD;
 
 	SELECT distinct 
-		u.user_id
+		u.user_id, u.password
 	FROM gpd_user_details u
 	WHERE LOWER(u.email) = LOWER(@M_EMAIL)
-		AND u.password = @M_PASSWORD
 		AND u.active = 1;
 END;
 ");
             #endregion 
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
-                 new SqlParameter("@P_EMAIL", email),
-                 new SqlParameter("@P_PASSWORD", password)
+                 new SqlParameter("@P_EMAIL", email)
             };
 
             return base.GetDSBasedOnStatement(sb, parametersInList);

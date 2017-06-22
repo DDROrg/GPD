@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GPD.Utility;
 
 namespace GPD.WEB.Tests.Utility
 {
+    using GPD.Utility.CommonUtils;
+
     [TestClass]
     public class EncryptionHelperTest
     {

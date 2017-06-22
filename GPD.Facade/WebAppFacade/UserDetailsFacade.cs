@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace GPD.Facade.WebAppFacade
 {
-    using DAL.SqlDB;
+    using DAL.SqlDB;    
+    using Utility.CommonUtils;
+    using CNST = Utility.ConstantHelper;
 
     public class UserDetailsFacade
     {
@@ -18,6 +21,10 @@ namespace GPD.Facade.WebAppFacade
 
             try
             {
+                // hash user password
+                userDetails.XPathSelectElement("//*[local-name()='Password']").Value =
+                    ValueHashUtil.CreateHash(userDetails.XPathSelectElement("//*[local-name()='Password']").Value);
+
                 // add user details
                 userId = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection)
                     .AddUserDetails(userDetails, requestIpAddress, out errorCode, out errorMsg);
@@ -28,6 +35,36 @@ namespace GPD.Facade.WebAppFacade
             }
 
             return userId;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        public static int AuthenticateUser(string userEmail, string userPassword)
+        {
+            int retVal = CNST.SignInStatus.Failure;
+
+            try
+            {
+                // gete project data
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AuthenticateUser(userEmail);
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count == 1)
+                {
+                    string passwordHash = ds.Tables[0].Rows[0]["password"].ToString();
+
+                    if (ValueHashUtil.ValidateHash(userPassword, passwordHash))
+                        retVal = CNST.SignInStatus.Success;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to sign in id: " + userEmail ?? "n/a", ex);
+            }
+
+            return retVal;
         }
     }
 }

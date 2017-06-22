@@ -11,7 +11,7 @@ namespace GPD.Facade
 {
     using DAL.SqlDB;
     using ServiceEntities.BaseEntities;
-    using CNST = GPD.Utility.ConstantHelper;
+    using CNST = Utility.ConstantHelper;
 
     /// <summary>
     /// 
@@ -20,31 +20,7 @@ namespace GPD.Facade
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public SignInFacade() : base() { }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
-        public int AuthenticateUser(string email, string password)
-        {
-            int retVal = CNST.SignInStatus.Failure;
-            try
-            {
-                // gete project data
-                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AuthenticateUser(email, password);
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    retVal = CNST.SignInStatus.Success;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error("Unable to sign in id: " + email, ex);
-            }
-            return retVal;
-        }
+        public SignInFacade() : base() { }       
 
 
         /// <summary>
@@ -55,6 +31,7 @@ namespace GPD.Facade
         public SignInResponseDTO GetUserRole(string email)
         {
             SignInResponseDTO retVal = new SignInResponseDTO();
+
             try
             {
                 DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUserRole(email);
@@ -79,6 +56,11 @@ namespace GPD.Facade
                 log.Error("Unable to get user profile for id: " + email, ex);
             }
             return retVal;
+        }
+
+        public object AuthenticateUser(string email, string password)
+        {
+            throw new NotImplementedException();
         }
 
         public List<PartnerDTO> GetPartners()

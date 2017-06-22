@@ -41,12 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonUtils\EncryptionHelper.cs" />
+    <Compile Include="CommonUtils\ValueHashUtil.cs" />
     <Compile Include="ConfigurationHelper.cs" />
-    <Compile Include="EncryptionHelper.cs" />
     <Compile Include="ConstantHelper.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

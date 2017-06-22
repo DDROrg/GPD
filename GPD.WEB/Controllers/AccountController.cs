@@ -47,7 +47,7 @@ namespace GPD.WEB.Controllers
                 return View(model);
             }
 
-            var result = new Facade.SignInFacade().AuthenticateUser(model.Email, model.Password);
+            var result = UserDetailsFacade.AuthenticateUser(model.Email, model.Password);
 
             switch (result)
             {
@@ -56,11 +56,15 @@ namespace GPD.WEB.Controllers
                     //var userProfile = new Facade.SignInFacade().GetUserRole(model.Email);
                     //SessionManager.GetInstance().SetPartnarName(userProfile.PartnerNames.FirstOrDefault());
                     return RedirectToLocal(returnUrl);
+
                 case CNST.SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case CNST.SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+
                 case CNST.SignInStatus.Failure:
+
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
