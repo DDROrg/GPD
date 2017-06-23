@@ -97,6 +97,7 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\ProjectControllerTest.cs" />
     <Compile Include="Utility\EncryptionHelperTest.cs" />
+    <Compile Include="Utility\ValueHashUtilTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

@@ -4,7 +4,7 @@
     [first_name]        NVARCHAR (150) NULL,
     [full_name]         NVARCHAR (150) NULL,
     [email]             NVARCHAR (150) NOT NULL,
-    [password]          NVARCHAR (150) NULL,
+    [password]          NVARCHAR (300) NULL,
     [company]           NVARCHAR (150) NULL,
     [job_title]         NVARCHAR (150) NULL,
     [business_phone]    NVARCHAR (50)  NULL,

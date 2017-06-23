@@ -110,7 +110,7 @@ CREATE TABLE [dbo].[gpd_user_details] (
     [first_name]        NVARCHAR (150) NULL,
     [full_name]         NVARCHAR (150) NULL,
     [email]             NVARCHAR (150) NOT NULL,
-    [password]          NVARCHAR (150) NULL,
+    [password]          NVARCHAR (300) NULL,
     [company]           NVARCHAR (150) NULL,
     [job_title]         NVARCHAR (150) NULL,
     [business_phone]    NVARCHAR (50)  NULL,
@@ -697,8 +697,13 @@ BEGIN
 					P.ORGANIZATION_DESCRIPTION,
 					P.ORGANIZATION_NAME,
 					P.[STATUS],
-					P.CREATE_DATE
+					P.CREATE_DATE,
+					L.ADDRESS_LINE_1,
+					L.CITY,
+					L.STATE,
+					L.ZIP
 				FROM GPD_PROJECT P
+				LEFT OUTER JOIN GPD_PROJECT_LOCATION L ON P.PROJECT_ID = L.PROJECT_ID
 				ORDER BY P.create_date DESC
 				OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY;
 				
@@ -719,8 +724,13 @@ BEGIN
 					P.ORGANIZATION_DESCRIPTION,
 					P.ORGANIZATION_NAME,
 					P.[STATUS],
-					P.CREATE_DATE
+					P.CREATE_DATE,
+					L.ADDRESS_LINE_1,
+					L.CITY,
+					L.STATE,
+					L.ZIP
 				FROM GPD_PROJECT P
+				LEFT OUTER JOIN GPD_PROJECT_LOCATION L ON P.PROJECT_ID = L.PROJECT_ID
 				WHERE P.PARTNER_NAME = @P_PartnerName
 				ORDER BY P.create_date DESC
 				OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY
@@ -737,7 +747,7 @@ GO
           
             #region Create SP - gpd_AddUserDetails
             sb.AppendLine(@"
-CREATE PROCEDURE gpd_AddUserDetails
+CREATE PROCEDURE [dbo].[gpd_AddUserDetails]
 	@P_XML XML,
 	@P_IpAddress VARCHAR(50),
 	@P_Return_UserId INT OUT,
@@ -857,7 +867,7 @@ GO
 INSERT INTO gpd_user_details (last_name, first_name, full_name, email, password, company, job_title, 
 	business_phone, home_phone, mobile_phone, fax_number, address_line_1, address_line_2, city, state_province, 
 	zip_postal_code, country, ip_address, active, xml_user_metadata, create_date, update_date)
-VALUES('Admin', 'Site', 'Site Admin', 'gpd@noemail.com', 'Pass@1234', 
+VALUES('Admin', 'Site', 'Site Admin', 'gpd@noemail.com', '1000:4b4KyKmPV7fY0+UdqZ4csi+kVhpoPTCkTresMBFR:D/cgfZDTh0xuwFJVvQd1RtTvyFl9vH+mN55+IVp919LNrOX7k0xTaQ==', 
 	'GPD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, getdate(),  NULL);
 GO
 
