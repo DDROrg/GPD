@@ -33,8 +33,14 @@ namespace GPD.ServiceEntities.ResponseEntities.ProjectsList
     [DataContract(Namespace = "http://www.gpd.com", Name = "project")]
     public class ProjectItem : BaseEntities.BaseDTO
     {
-        public ProjectItem() : base() { }
-        public ProjectItem(string id) : base(id) { }
+        public ProjectItem() : base()
+        {
+            this.Location = new LocationItem();
+        }
+
+        public ProjectItem(string id) : base(id) {
+            this.Location = new LocationItem();
+        }
 
         [DataMember(Name = "author", Order = 2)]
         public string Author;
@@ -65,5 +71,26 @@ namespace GPD.ServiceEntities.ResponseEntities.ProjectsList
 
         [DataMember(Name = "create-timestamp-formatted", Order = 14)]
         public string CreateTimestamp;
+
+        [DataMember(Name = "location", Order = 15)]
+        public LocationItem Location;
+    }
+
+    [DataContract(Namespace = "http://www.gpd.com", Name = "location")]
+    public class LocationItem
+    {
+        public LocationItem() { }
+
+        [DataMember(Name = "address1", Order = 1)]
+        public string Address1;
+
+        [DataMember(Name = "city", Order = 2)]
+        public string City;
+
+        [DataMember(Name = "state", Order = 3)]
+        public string State;
+
+        [DataMember(Name = "zip", Order = 4)]
+        public string ZipCode;
     }
 }

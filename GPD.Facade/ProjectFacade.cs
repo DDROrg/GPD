@@ -261,11 +261,17 @@ namespace GPD.Facade
                             OrganizationDescription = dr["ORGANIZATION_DESCRIPTION"].ToString(),
                             OrganizationName = dr["ORGANIZATION_NAME"].ToString(),
                             Status = dr["STATUS"].ToString(),
-                            CreateTimestamp = ((DateTime)dr["CREATE_DATE"]).ToString() + " EDT"
+                            CreateTimestamp = ((DateTime)dr["CREATE_DATE"]).ToString() + " EDT",
+                            Location = new LocationItem()
+                            {
+                                Address1 = dr["ADDRESS_LINE_1"].ToString(),
+                                City = dr["CITY"].ToString(),
+                                State = dr["STATE"].ToString(),
+                                ZipCode = dr["ZIP"].ToString()
+                            }
                         };
 
                         retVal.ProjectList.Add(projectDTO);
-                        //retVal.TotalRecordCount = (int)result["@P_TotalCount"];
                     }
 
                     {
