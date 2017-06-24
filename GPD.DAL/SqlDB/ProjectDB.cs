@@ -379,5 +379,37 @@ END;
             };
             base.ExecuteStatement(sb, parametersInList);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="isActive"></param>
+        public void ActDactUser(int userId, bool isActive)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_UserId int, @M_IsActive BIT;
+
+	SET @M_UserId = @P_UserId;
+	SET @M_IsActive = @P_IsActive;
+
+	UPDATE gpd_user_details
+	SET active = @M_IsActive,        
+		update_date = GETDATE()
+	WHERE user_id = @M_UserId;
+END;
+");
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_UserId", userId),
+                 new SqlParameter("@P_IsActive", isActive)
+            };
+            base.ExecuteStatement(sb, parametersInList);
+        }
     }
 }

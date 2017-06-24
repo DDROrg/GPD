@@ -733,6 +733,14 @@
             <param name="partner"></param>
             <returns></returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.ProjectController.ActDactUser(System.Int32,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="userId"></param>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
         <member name="T:GPD.WEB.WebApiApplication">
             <summary>
             

@@ -132,5 +132,19 @@ namespace GPD.WEB.Controllers
             return new Facade.SignInFacade().SavePartner(partner);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
+        [Route("api/ActDactUser")]
+        [HttpPost]
+        [Authorize]
+        public string ActDactUser(int userId, bool isActive)
+        {
+            return new Facade.SignInFacade().ActDactUser(userId, isActive);
+        }
+
     }
 }

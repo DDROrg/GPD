@@ -96,7 +96,7 @@ namespace GPD.WEB.Controllers
             try
             {
                 XDocument xDoc = new XDocument();
-                
+
                 // get XML based on UserRegistrationDTO object
                 using (var writer = xDoc.CreateWriter())
                 {
@@ -109,7 +109,7 @@ namespace GPD.WEB.Controllers
 
                 string requestIpAddress = string.Empty;
                 try { requestIpAddress = System.Web.HttpContext.Current.Request.UserHostAddress; }
-                catch {}
+                catch { }
 
                 // add a user to repository
                 int userId = UserDetailsFacade.AddUserDetails(xDoc, requestIpAddress, out errorCode, out errorMsg);
@@ -178,7 +178,7 @@ namespace GPD.WEB.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
-        } 
+        }
         #endregion
     }
 }

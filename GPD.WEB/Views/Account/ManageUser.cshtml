@@ -90,7 +90,9 @@
                             <td>{{d.lastName}}</td>
                             <td>{{d.email}}</td>
                             <td>{{d.company}}</td>
-                            <td>{{d.isActive}}</td>
+                            <td style="text-align:center;">
+                                <label title="Activat/Deactivate Partner"><input type="checkbox" data-ng-model="d.isActive" data-ng-click="$ctrl.OnActDeactItem(d)" /></label>
+                            </td>
                             <td><a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o"></i></a></td>
                         </tr>
                     </tbody>

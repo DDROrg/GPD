@@ -131,6 +131,7 @@ namespace GPD.Facade
             return retVal;
         }
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -171,6 +172,29 @@ namespace GPD.Facade
             catch (Exception ex)
             {
                 log.Error("Unable to Save Partner for partnerId: " + partner.partnerId, ex);
+                retVal = "ERROR";
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
+        public string ActDactUser(int userId, bool isActive)
+        {
+            string retVal = "";
+
+            try
+            {
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).ActDactUser(userId, isActive);
+                retVal = "SUCCESS";
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to Actctivate/Dactivate user for userId: " + userId, ex);
                 retVal = "ERROR";
             }
             return retVal;

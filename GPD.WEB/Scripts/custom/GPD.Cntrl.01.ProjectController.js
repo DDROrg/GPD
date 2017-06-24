@@ -230,6 +230,15 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         $log.log(d);
     };
 
+    $ctrl.OnActDeactItem = function (d) {
+        GpdManageServices.ActDactUser(d.userId, d.isActive)
+        .then(function (payload) {
+            if (payload == "SUCCESS") {
+                toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");                
+            }
+        });
+    };
+
     var GetUsers = function () {
         return GpdManageServices.GetUsers($ctrl.data.globalSearchParam)
         .then(function (payload) {
@@ -238,6 +247,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
     };
 
     angular.element(document).ready(function () {
+        GetUsers();
     });
 }]);
 

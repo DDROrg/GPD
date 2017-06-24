@@ -32,6 +32,8 @@ namespace GPD.WEB
                        "~/Scripts/angular-animate.js",
                       "~/Scripts/angular-toastr.tpls.min.js",
                       "~/Scripts/angular-ui/ui-bootstrap-tpls.js",
+                      "~/Scripts/angular-ui-router.min.js",
+                      "~/Scripts/angular-ui-router-title.js",
                       "~/Scripts/loading-bar.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/custom/script").Include(
