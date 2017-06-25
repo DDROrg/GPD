@@ -3,6 +3,7 @@
 <head>
     @{
         var up = SessionManager.GetInstance().GetUserProfile();
+        var isAdmin = SessionManager.GetInstance().HasRolesForPartner("ADMINISTRATOR", "ALL");
         int pageSize = GPD.Utility.ConfigurationHelper.API_ProjectsListPageSize;
     }
     <meta charset="utf-8" />
@@ -43,7 +44,7 @@
                                 <li data-ng-repeat="d in $ctrl.data.LogedinUserProfile.partnerNames"><a data-ng-href="" data-ng-click="$ctrl.SelectPartner(d)">{{d}}</a></li>
                             </ul>
                         </li>
-                        if (up.GroupName == "ADMINISTRATOR")
+                        if (isAdmin == true)
                         {
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">

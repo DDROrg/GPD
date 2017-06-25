@@ -9,7 +9,11 @@ namespace GPD.ServiceEntities.BaseEntities
     public class SignInResponseDTO
     {
         #region Constr
-        public SignInResponseDTO() : base() { PartnerNames = new List<string>(); }
+        public SignInResponseDTO() : base()
+        {
+            Roles = new List<UserRoleDTO>();
+            PartnerNames = new List<string>();
+        }
         #endregion Constr
 
         [DataMember(Name = "userId", Order = 1)]
@@ -24,13 +28,33 @@ namespace GPD.ServiceEntities.BaseEntities
         [DataMember(Name = "email", Order = 4)]
         public string Email;
 
-        [DataMember(Name = "partnerNames", Order = 5)]
-        public List<string> PartnerNames;
+        [DataMember(Name = "roles", Order = 5)]
+        public List<UserRoleDTO> Roles;
 
-        [DataMember(Name = "groupName", Order = 6)]
-        public string GroupName;
+        [DataMember(Name = "partnerNames", Order = 6)]
+        public List<string> PartnerNames;
 
         [DataMember(Name = "selectedPartner", Order = 7)]
         public string SelectedPartner;
+    }
+
+    [DataContract(Namespace = "http://www.gpd.com", Name = "userRole")]
+    public class UserRoleDTO
+    {
+
+        [DataMember(Name = "userId", Order = 1)]
+        public int UserId;
+
+        [DataMember(Name = "PartnerId", Order = 2)]
+        public string PartnerId;
+
+        [DataMember(Name = "partnerNames", Order = 3)]
+        public string PartnerName;
+
+        [DataMember(Name = "groupId", Order = 4)]
+        public int GroupId;
+
+        [DataMember(Name = "groupName", Order = 5)]
+        public string GroupName;
     }
 }

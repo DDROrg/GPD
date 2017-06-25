@@ -103,6 +103,9 @@ var GpdManageServices = function ($http, $q, $log) {
     var _ActDactUser = function (userId, isActive) {
         return $http.post(__RootUrl + "api/ActDactUser?userId=" + encodeURI(userId) + "&isActive=" + encodeURI(isActive));
     };
+    var _GetUserRoles = function (userId) {
+        return $http.post(__RootUrl + "api/GetUserRoles?userId=" + encodeURI(userId));
+    };
 
     this.GetPartners = function () {
         var deferred = $q.defer();
@@ -121,6 +124,10 @@ var GpdManageServices = function ($http, $q, $log) {
         _GetUsers(searchTerm)
         .then(function (payload) {
             retVal = payload.data;
+            $.each(retVal, function (k, v) {
+                v.isRoleExpanded = false;
+                v.hasRole = false;
+            });
             deferred.resolve(retVal);
         });
         return deferred.promise;
@@ -158,7 +165,16 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
-    
+    this.GetUserRoles = function (userId) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _GetUserRoles(userId)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
 
     return this;
 }

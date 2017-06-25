@@ -741,6 +741,13 @@
             <param name="isActive"></param>
             <returns></returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.ProjectController.GetUserRoles(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
         <member name="T:GPD.WEB.WebApiApplication">
             <summary>
             
@@ -766,6 +773,14 @@
             <summary>
             
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GPD.WEB.SessionManager.HasRolesForPartner(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="role"></param>
+            <param name="partner"></param>
             <returns></returns>
         </member>
         <member name="M:GPD.WEB.SessionManager.SetUserProfile(GPD.ServiceEntities.BaseEntities.SignInResponseDTO)">

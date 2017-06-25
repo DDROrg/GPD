@@ -28,27 +28,6 @@
                     </div>
                 </div>
             </div>
-
-            @*{
-                "userId": "100",
-                "firstName": "Site",
-                "lastName": "Admin",
-                "email": "gpd@noemail.com",
-                "company": "GPD",
-                "jobTitle": "",
-                "businessPhone": "",
-                "homePhone": "",
-                "mobilePhone": "",
-                "fax": "",
-                "addressLine1": "",
-                "addressLine2": "",
-                "city": "",
-                "state": "",
-                "zip": "",
-                "country": "",
-                "isActive": true
-                }*@
-
             <div class="table-responsive">
                 <table class="table table-striped table-condensed table-hover">
                     <thead style="background-color:#E9E9E9;">
@@ -85,7 +64,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-ng-repeat="d in filterData = ($ctrl.data.users | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
+                        <tr data-ng-repeat-start="d in filterData = ($ctrl.data.users | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
                             <td>{{d.firstName}}</td>
                             <td>{{d.lastName}}</td>
                             <td>{{d.email}}</td>
@@ -93,7 +72,38 @@
                             <td style="text-align:center;">
                                 <label title="Activat/Deactivate Partner"><input type="checkbox" data-ng-model="d.isActive" data-ng-click="$ctrl.OnActDeactItem(d)" /></label>
                             </td>
-                            <td><a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o"></i></a></td>
+                            <td style="text-align:center;">
+                                <a ng-href="" class="data-link" data-ng-click="$ctrl.OnColExpRole(d)"><i class="fa fa-list-ul"></i></a>
+                            </td>
+                        </tr>
+                        <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowRole(d)">
+                            <td colspan="2"></td>
+                            <td colspan="3">
+                                <table class="table table-striped table-condensed table-hover">
+                                    <thead style="background-color:#E9E9E9;">
+                                        <tr>
+                                            <th>Partner</th>
+                                            <th>Role</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="dr in d.roles">
+                                            <td>{{dr.partnerNames}}</td>
+                                            <td>{{dr.groupName}}</td>
+                                            <td style="text-align:center;">
+                                                <a ng-href="" class="data-link" data-ng-click="$ctrl.OnDeleteRole(dr)" title="Remove Role"><i class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
+                                        @*<tr>
+                                            <td>
+                                                <a data-ng-href="" data-ng-click="$ctrl.OnAddRole()" class="btn btn-primary" title="Add Partner"><i class="fa fa-plus-circle"></i>&nbsp;Add</a>
+                                            </td>
+                                        </tr>*@
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>

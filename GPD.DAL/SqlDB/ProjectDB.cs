@@ -171,7 +171,9 @@ BEGIN
 		u.user_id, 
 		u.first_name, 
 		u.last_name, 
+		p.partner_id,
 		p.name as PartnerName,
+		g.group_id,
 		g.name as GroupName
 	FROM gpd_user_details u
 	INNER JOIN gpd_partner_user_group_xref x
@@ -411,5 +413,47 @@ END;
             };
             base.ExecuteStatement(sb, parametersInList);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public DataSet GetUserRoles(int userId)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_USERID INT;
+
+	SET @M_USERID = @P_USERID;
+
+	SELECT distinct 
+		u.user_id, 
+		p.partner_id,
+		p.name as PartnerName,
+		g.group_id,
+		g.name as GroupName
+	FROM gpd_user_details u
+	INNER JOIN gpd_partner_user_group_xref x
+		ON u.user_id = x.user_id
+			AND u.user_id = @M_USERID
+	INNER JOIN gpd_partner_details p
+		ON x.partner_id = p.partner_id
+	INNER JOIN gpd_user_group g
+		ON x.group_id = g.group_id;
+END;
+");
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_USERID", userId)
+            };
+
+            return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
+
     }
 }

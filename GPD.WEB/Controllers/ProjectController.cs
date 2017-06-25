@@ -146,5 +146,20 @@ namespace GPD.WEB.Controllers
             return new Facade.SignInFacade().ActDactUser(userId, isActive);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Route("api/GetUserRoles")]
+        [HttpPost]
+        [Authorize]
+        public List<UserRoleDTO> GetUserRoles(int userId)
+        {
+            return new Facade.SignInFacade().GetUserRoles(userId);
+        }
+
+        
+
     }
 }

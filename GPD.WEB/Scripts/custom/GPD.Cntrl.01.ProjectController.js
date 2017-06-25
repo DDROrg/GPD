@@ -225,17 +225,34 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         return retVal;
     };
     $ctrl.OnGlobalSearch = function () { GetUsers(); };
-    $ctrl.OnEditItem = function (d) {
-        $log.log("TODO:EDIT");
-        $log.log(d);
+    $ctrl.OnColExpRole = function (d) {
+        
+        d.isRoleExpanded = !(d.isRoleExpanded);
+        if (d.hasRole == false) { GetUserRoles(d); }
+        //$log.log("TODO:OnColExpRole");
+        //$log.log(d);
     };
+    $ctrl.IsShowRole = function (d) { return d.isRoleExpanded == true && d.hasRole == true; };
 
     $ctrl.OnActDeactItem = function (d) {
         GpdManageServices.ActDactUser(d.userId, d.isActive)
         .then(function (payload) {
             if (payload == "SUCCESS") {
-                toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");                
+                toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");
             }
+        });
+    };
+
+    $ctrl.OnDeleteRole = function (d) {
+        $log.log("TODO:OnDeleteRole");
+        $log.log(d);
+    };
+
+     var GetUserRoles = function (d) {
+         return GpdManageServices.GetUserRoles(d.userId)
+        .then(function (payload) {
+            d.hasRole = true;
+            d.roles = payload;
         });
     };
 
@@ -361,7 +378,7 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
         GpdManageServices.ActDactPartner(d.partnerId, d.isActive)
         .then(function (payload) {
             if (payload == "SUCCESS") {
-                toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");                
+                toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");
             }
         });
     };

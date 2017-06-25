@@ -42,6 +42,20 @@ namespace GPD.WEB
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="role"></param>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        public bool HasRolesForPartner(string role, string partner)
+        {
+            bool retVal = false;
+            SignInResponseDTO userProfile = GetUserProfile();
+            retVal = userProfile != null ? userProfile.Roles.Exists(i => i.PartnerName == partner && i.GroupName == role) : false;
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="userProfile"></param>
         public void SetUserProfile(SignInResponseDTO userProfile)
         {

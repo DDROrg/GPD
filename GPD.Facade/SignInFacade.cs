@@ -41,14 +41,23 @@ namespace GPD.Facade
                     retVal.UserId = dr["user_id"].ToString();
                     retVal.FirstName = dr["first_name"].ToString();
                     retVal.LastName = dr["last_name"].ToString();
-                    retVal.GroupName = dr["GroupName"].ToString();
                     retVal.Email = email.ToLower();
                     foreach (DataRow dr2 in ds.Tables[0].Rows)
                     {
-                        retVal.PartnerNames.Add(dr2["PartnerName"].ToString());
+                        UserRoleDTO tempUserRole = new UserRoleDTO();
+                        //tempUserRole.UserId = 0;
+                        tempUserRole.GroupId = Convert.ToInt32(dr2["group_id"].ToString());
+                        tempUserRole.GroupName = dr2["GroupName"].ToString();
+                        tempUserRole.PartnerId =  dr2["partner_id"].ToString();
+                        tempUserRole.PartnerName = dr2["PartnerName"].ToString();
+                        retVal.Roles.Add(tempUserRole);
                     }
-                    retVal.SelectedPartner = retVal.PartnerNames.FirstOrDefault();
-
+                    
+                    if (retVal.Roles.Count > 0)
+                    {
+                        retVal.PartnerNames = retVal.Roles.Select(i => i.PartnerName).Distinct().ToList();
+                        retVal.SelectedPartner = retVal.PartnerNames.FirstOrDefault();
+                    }
                 }
             }
             catch (Exception ex)
@@ -63,6 +72,10 @@ namespace GPD.Facade
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<PartnerDTO> GetPartners()
         {
             List<PartnerDTO> retVal = new List<PartnerDTO>();
@@ -91,6 +104,11 @@ namespace GPD.Facade
             return retVal;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
         public List<UserDTO> GetUsers(string searchTerm)
         {
             List<UserDTO> retVal = new List<UserDTO>();
@@ -196,6 +214,34 @@ namespace GPD.Facade
             {
                 log.Error("Unable to Actctivate/Dactivate user for userId: " + userId, ex);
                 retVal = "ERROR";
+            }
+            return retVal;
+        }
+
+
+        public List<UserRoleDTO> GetUserRoles(int userId)
+        {
+            List<UserRoleDTO> retVal = new List<UserRoleDTO>();
+            try
+            {
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUserRoles(userId);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        UserRoleDTO tempUserRole = new UserRoleDTO();
+                        tempUserRole.UserId = userId;
+                        tempUserRole.GroupId = Convert.ToInt32(dr["group_id"].ToString());
+                        tempUserRole.GroupName = dr["GroupName"].ToString();
+                        tempUserRole.PartnerId = dr["partner_id"].ToString();
+                        tempUserRole.PartnerName = dr["PartnerName"].ToString();
+                        retVal.Add(tempUserRole);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to Actctivate/Dactivate user for userId: " + userId, ex);
             }
             return retVal;
         }
