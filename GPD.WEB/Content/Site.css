@@ -36,13 +36,6 @@ a.data-link {
     width: 95%;
 }
 
-.modal-dialog {
-    width: 95%;
-}
-
-    .modal-dialog .modal-lg {
-        width: 95%;
-    }
 
 .search-wrapper {
     margin: 20px 0px;
@@ -63,34 +56,34 @@ a.data-link {
 a.cusTooltip {
 }
 
-a.cusTooltip span.container {
-    z-index: 10;
-    display: none;
-    padding: 14px 20px;
-    margin-top: -30px;
-    margin-left: 28px;
-    width: 300px;
-    line-height: 16px;
-    border-radius: 4px;
-    box-shadow: 5px 5px 8px #CCC;
-}
+    a.cusTooltip span.container {
+        z-index: 10;
+        display: none;
+        padding: 14px 20px;
+        margin-top: -30px;
+        margin-left: 28px;
+        width: 300px;
+        line-height: 16px;
+        border-radius: 4px;
+        box-shadow: 5px 5px 8px #CCC;
+    }
 
 
-a.cusTooltip:hover span.container {
-    display: inline-block;
-    position: absolute;
-    color: #111;
-    border: 1px solid #DCA;
-    background: #fffAF0;
-    width: 200px;
-}
+    a.cusTooltip:hover span.container {
+        display: inline-block;
+        position: absolute;
+        color: #111;
+        border: 1px solid #DCA;
+        background: #fffAF0;
+        width: 200px;
+    }
 
-a.cusTooltip span.container img.callout {
-    z-index: 20;
-    top: 30px;
-    border: 0;
-    left: -12px;
-}
+    a.cusTooltip span.container img.callout {
+        z-index: 20;
+        top: 30px;
+        border: 0;
+        left: -12px;
+    }
 
 
 
@@ -102,6 +95,9 @@ a.cusTooltip span.container img.callout {
     border-color: #2e6da4;
 }
 
+.modal-lg {
+}
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x- ng-cloak {
     display: none !important;
 }
@@ -110,12 +106,21 @@ a.cusTooltip span.container img.callout {
 }
 
 @media only screen and (min-width : 481px) and (max-width : 768px) {
+    .modal-lg {
+        width: 95%;
+    }
 }
 
 @media only screen and (min-width : 769px) and (max-width : 992px) {
+    .modal-lg {
+        width: 95%;
+    }
 }
 
 @media only screen and (min-width : 993px) and (max-width : 1200px) {
+    .modal-lg {
+        width: 95%;
+    }
 }
 
 @media only screen and (min-width : 1200px) and (max-width : 1200px) {

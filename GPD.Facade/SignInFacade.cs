@@ -20,7 +20,7 @@ namespace GPD.Facade
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public SignInFacade() : base() { }       
+        public SignInFacade() : base() { }
 
 
         /// <summary>
@@ -48,11 +48,11 @@ namespace GPD.Facade
                         //tempUserRole.UserId = 0;
                         tempUserRole.GroupId = Convert.ToInt32(dr2["group_id"].ToString());
                         tempUserRole.GroupName = dr2["GroupName"].ToString();
-                        tempUserRole.PartnerId =  dr2["partner_id"].ToString();
+                        tempUserRole.PartnerId = dr2["partner_id"].ToString();
                         tempUserRole.PartnerName = dr2["PartnerName"].ToString();
                         retVal.Roles.Add(tempUserRole);
                     }
-                    
+
                     if (retVal.Roles.Count > 0)
                     {
                         retVal.PartnerNames = retVal.Roles.Select(i => i.PartnerName).Distinct().ToList();
@@ -94,6 +94,32 @@ namespace GPD.Facade
                         tempPartnerDTO.Description = dr["description"].ToString();
                         tempPartnerDTO.IsActive = Convert.ToBoolean(dr["active"]);
                         retVal.Add(tempPartnerDTO);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to get partners", ex);
+            }
+            return retVal;
+        }
+
+        public List<GroupDTO> GetGroups()
+        {
+            List<GroupDTO> retVal = new List<GroupDTO>();
+            try
+            {
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetGroups();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        GroupDTO tempGroupDTO = new GroupDTO();
+                        tempGroupDTO.GroupId = Convert.ToInt32(dr["group_id"].ToString());
+                        tempGroupDTO.Name = dr["name"].ToString();
+                        tempGroupDTO.Description = dr["description"].ToString();
+                        tempGroupDTO.IsActive = Convert.ToBoolean(dr["active"]);
+                        retVal.Add(tempGroupDTO);
                     }
                 }
             }

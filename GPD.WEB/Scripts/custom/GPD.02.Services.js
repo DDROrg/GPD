@@ -91,6 +91,9 @@ var GpdManageServices = function ($http, $q, $log) {
     var _GetPartners = function () {
         return $http.post(__RootUrl + "api/GetPartners");
     };
+    var _GetGroups = function () {
+        return $http.post(__RootUrl + "api/GetGroups");
+    };
     var _GetUsers = function (searchTerm) {
         return $http.post(__RootUrl + "api/GetUsers?searchTerm=" + encodeURI(searchTerm));
     };
@@ -117,6 +120,18 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     }
+
+    this.GetGroups = function () {
+        var deferred = $q.defer();
+        var retVal = {};
+        _GetGroups()
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+
 
     this.GetUsers = function (searchTerm) {
         var deferred = $q.defer();
@@ -176,6 +191,7 @@ var GpdManageServices = function ($http, $q, $log) {
         return deferred.promise;
     };
 
+    
     return this;
 }
 //============================================
@@ -188,6 +204,11 @@ angular.module('ManageUser')
 .factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])
 .service('CommonServices', ['$http', '$q', '$log', 'BroadcastService', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); }])
 .service('GpdManageServices', ['$http', '$q', '$log', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); }]);
+
+//angular.module('AddUserRoleCtrl')
+//.factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])
+//.service('CommonServices', ['$http', '$q', '$log', 'BroadcastService', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); }])
+//.service('GpdManageServices', ['$http', '$q', '$log', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); }]);
 
 angular.module('ManagePartner')
 .factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])

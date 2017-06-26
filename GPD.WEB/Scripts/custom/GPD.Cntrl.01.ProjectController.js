@@ -226,7 +226,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
     };
     $ctrl.OnGlobalSearch = function () { GetUsers(); };
     $ctrl.OnColExpRole = function (d) {
-        
+
         d.isRoleExpanded = !(d.isRoleExpanded);
         if (d.hasRole == false) { GetUserRoles(d); }
         //$log.log("TODO:OnColExpRole");
@@ -248,12 +248,39 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         $log.log(d);
     };
 
-     var GetUserRoles = function (d) {
-         return GpdManageServices.GetUserRoles(d.userId)
-        .then(function (payload) {
-            d.hasRole = true;
-            d.roles = payload;
+    $ctrl.OnAddRole = function (d) {
+        //$log.log("TODO:OnAddRole");
+        //$log.log(d);
+        var parentElem = angular.element('div[data-id="divManageUser"]');
+        var modalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'addUserRole.html',
+            controller: 'AddUserRoleCtrl',
+            controllerAs: '$ctrl',
+            size: 'sm',
+            appendTo: parentElem,
+            resolve: {
+                data: function () {
+                    return {user: d,  partners : $ctrl.data.partners, groups : $ctrl.data.groups};
+                }
+            }
         });
+
+        modalInstance.result.then(function (btnClicked) {
+            $log.info('Button Clicked: ' + btnClicked);
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    };
+
+    var GetUserRoles = function (d) {
+        return GpdManageServices.GetUserRoles(d.userId)
+       .then(function (payload) {
+           d.hasRole = true;
+           d.roles = payload;
+       });
     };
 
     var GetUsers = function () {
@@ -262,11 +289,47 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             $ctrl.data.users = payload;
         });
     };
+    var GetPartners = function () {
+        return GpdManageServices.GetPartners()
+        .then(function (payload) {
+            $ctrl.data.partners = payload;
+        });
+    };
+    var GetGroups = function () {
+        return GpdManageServices.GetGroups()
+        .then(function (payload) {
+            $ctrl.data.groups = payload;
+        });
+    };
 
     angular.element(document).ready(function () {
         GetUsers();
+        GetPartners();
+        GetGroups();
     });
 }]);
+
+//=================================================
+angular.module('ManageUser').controller('AddUserRoleCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices', 'data',
+    function ($uibModalInstance, $scope, $rootScope, $http, $location, $uibModal, $log, toastr, CommonServices, GpdManageServices, data) {
+        var $ctrl = this;
+        CommonServices.SetDefaultData($ctrl, $location);
+        $ctrl.data = data;
+        $ctrl.data.selectedPartner = $ctrl.data.partners[0].partnerId;
+        $ctrl.data.selectedGroup = $ctrl.data.groups[0].groupId;
+        $log.log($ctrl.data.selectedPartner);
+        $log.log($ctrl.data.selectedGroup);
+        $ctrl.Ok = function () {
+            $log.log("TODO:OK");
+            $log.log($ctrl.data.selectedPartner);
+            $log.log($ctrl.data.selectedGroup);
+            //$uibModalInstance.close("OK");
+        };
+        $ctrl.Cancel = function () {
+            $uibModalInstance.dismiss('CANCEL');
+        };
+    }]);
+
 
 //=================================================
 angular.module('ManagePartner').controller('ManagePartnerController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, toastr, CommonServices, GpdManageServices) {

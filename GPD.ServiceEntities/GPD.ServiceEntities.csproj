@@ -53,6 +53,7 @@
     <Compile Include="BaseEntities\MaterialDTO.cs" />
     <Compile Include="BaseEntities\MaterialProductDTO.cs" />
     <Compile Include="BaseEntities\MaterialTypeDTO.cs" />
+    <Compile Include="BaseEntities\GroupDTO.cs" />
     <Compile Include="BaseEntities\ProjectDTO.cs" />
     <Compile Include="BaseEntities\PartnerDTO.cs" />
     <Compile Include="BaseEntities\UserDTO.cs" />

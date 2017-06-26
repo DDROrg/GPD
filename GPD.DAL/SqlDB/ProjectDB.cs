@@ -214,14 +214,38 @@ BEGIN
 		p.short_description,
 		p.description,
 		p.active
-	FROM gpd_partner_details p;
+	FROM gpd_partner_details p
+    ORDER BY p.name;
 END;
 ");
             #endregion 
             List<SqlParameter> parametersInList = new List<SqlParameter>() { };
             return base.GetDSBasedOnStatement(sb, parametersInList);
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public DataSet GetGroups()
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN	
+	SELECT group_id, 
+	    name,
+	    description,
+	    active
+    FROM gpd_user_group
+    ORDER BY name;
+END;
+");
+            #endregion 
+            List<SqlParameter> parametersInList = new List<SqlParameter>() { };
+            return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
+
         /// <summary>
         /// 
         /// </summary>

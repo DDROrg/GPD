@@ -94,6 +94,19 @@ namespace GPD.WEB.Controllers
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        [Route("api/GetGroups")]
+        [HttpPost]
+        [Authorize]
+        public List<GroupDTO> GetGroups()
+        {
+            return new Facade.SignInFacade().GetGroups();
+        }
+        
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="searchTerm"></param>
         /// <returns></returns>
         [Route("api/GetUsers")]

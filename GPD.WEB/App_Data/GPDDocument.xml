@@ -711,6 +711,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.ProjectController.GetGroups">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:GPD.WEB.Controllers.ProjectController.GetUsers(System.String)">
             <summary>
             
