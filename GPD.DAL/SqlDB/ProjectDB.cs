@@ -331,7 +331,7 @@ END;
         /// 
         /// </summary>
         /// <param name="partner"></param>
-        public void SavePartner(PartnerDTO partner)
+        public void AddPartner(PartnerDTO partner)
         {
             StringBuilder sb = new StringBuilder("");
             #region SQL

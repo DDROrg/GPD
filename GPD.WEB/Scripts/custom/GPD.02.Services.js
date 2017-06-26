@@ -97,8 +97,8 @@ var GpdManageServices = function ($http, $q, $log) {
     var _GetUsers = function (searchTerm) {
         return $http.post(__RootUrl + "api/GetUsers?searchTerm=" + encodeURI(searchTerm));
     };
-    var _SavePartner = function (partner) {
-        return $http.post(__RootUrl + "api/SavePartner", partner);
+    var _AddPartner = function (partner) {
+        return $http.post(__RootUrl + "api/AddPartner", partner);
     };
     var _ActDactPartner = function (partnerId, isActive) {
         return $http.post(__RootUrl + "api/ActDactPartner?partnerId=" + encodeURI(partnerId) + "&isActive=" + encodeURI(isActive));
@@ -148,10 +148,10 @@ var GpdManageServices = function ($http, $q, $log) {
         return deferred.promise;
     }
 
-    this.SavePartner = function (partner) {
+    this.AddPartner = function (partner) {
         var deferred = $q.defer();
         var retVal = {};
-        _SavePartner(partner)
+        _AddPartner(partner)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);

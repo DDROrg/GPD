@@ -667,10 +667,52 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:GPD.WEB.Controllers.PartnerController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:GPD.WEB.Controllers.PartnerController.GetPartners">
+            <summary>
+            Get All Partner Accounts
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GPD.WEB.Controllers.PartnerController.ActDactPartner(System.String,System.Boolean)">
+            <summary>
+            Activate/Deactivated Partner Account
+            </summary>
+            <param name="partnerId"></param>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GPD.WEB.Controllers.PartnerController.AddPartner(GPD.ServiceEntities.BaseEntities.PartnerDTO)">
+            <summary>
+            Add Partner Account
+            </summary>
+            <param name="partner"></param>
+            <returns></returns>
+        </member>
         <member name="T:GPD.WEB.Controllers.ProjectController">
             <summary>
             
             </summary>
+        </member>
+        <member name="M:GPD.WEB.Controllers.ProjectController.GetProjectsList(System.String)">
+            <summary>
+            Get Projects List
+            </summary>
+            <param name="partnerName">Partner Name</param>
+            <returns></returns>
+        </member>
+        <member name="M:GPD.WEB.Controllers.ProjectController.GetProjectsList(System.String,System.Int32,System.Int32)">
+            <summary>
+            Get Projects List
+            </summary>
+            <param name="partnerName">Partner Name</param>
+            <param name="pageSize">Page Size</param>
+            <param name="pageIndex">Page Index</param>
+            <returns></returns>
         </member>
         <member name="M:GPD.WEB.Controllers.ProjectController.GetProjectsList(System.String,System.Int32,System.Int32,System.String)">
             <summary>
@@ -698,60 +740,44 @@
             <param name="projectDTO">Project Details</param>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.GetUserProfile(System.String)">
+        <member name="T:GPD.WEB.Controllers.UserController">
             <summary>
-            
+            User APIs List
+            </summary>
+        </member>
+        <member name="M:GPD.WEB.Controllers.UserController.GetUserProfile(System.String)">
+            <summary>
+            Get User Profile by Email
             </summary>
             <param name="userEmail"></param>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.GetPartners">
+        <member name="M:GPD.WEB.Controllers.UserController.GetUsers(System.String)">
             <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.GetGroups">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.GetUsers(System.String)">
-            <summary>
-            
+            Get All Users List
             </summary>
             <param name="searchTerm"></param>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.ActDactPartner(System.String,System.Boolean)">
+        <member name="M:GPD.WEB.Controllers.UserController.ActDactUser(System.Int32,System.Boolean)">
             <summary>
-            
-            </summary>
-            <param name="partnerId"></param>
-            <param name="isActive"></param>
-            <returns></returns>
-        </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.SavePartner(GPD.ServiceEntities.BaseEntities.PartnerDTO)">
-            <summary>
-            
-            </summary>
-            <param name="partner"></param>
-            <returns></returns>
-        </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.ActDactUser(System.Int32,System.Boolean)">
-            <summary>
-            
+            Activate/Deactivated User Account
             </summary>
             <param name="userId"></param>
             <param name="isActive"></param>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.GetUserRoles(System.Int32)">
+        <member name="M:GPD.WEB.Controllers.UserController.GetUserRoles(System.Int32)">
             <summary>
-            
+            Get a List of Roles for a User
             </summary>
             <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GPD.WEB.Controllers.UserController.GetGroups">
+            <summary>
+             Get a List of Available Roles for a User
+            </summary>
             <returns></returns>
         </member>
         <member name="T:GPD.WEB.WebApiApplication">

@@ -406,7 +406,7 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
 
     $ctrl.OnSaveEditItem = function () {
         if (IsValidPartner($ctrl.data.tempPartner)) {
-            GpdManageServices.SavePartner($ctrl.data.tempPartner)
+            GpdManageServices.AddPartner($ctrl.data.tempPartner)
             .then(function (payload) {
                 if (payload == "SUCCESS") {
                     GetPartners();
@@ -424,7 +424,7 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
 
     $ctrl.OnSaveAddItem = function () {
         if (IsValidPartner($ctrl.data.tempPartner)) {
-            GpdManageServices.SavePartner($ctrl.data.tempPartner)
+            GpdManageServices.AddPartner($ctrl.data.tempPartner)
             .then(function (payload) {
                 if (payload == "SUCCESS") {
                     GetPartners();

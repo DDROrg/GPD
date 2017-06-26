@@ -204,13 +204,13 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="partner"></param>
         /// <returns></returns>
-        public string SavePartner(PartnerDTO partner)
+        public string AddPartner(PartnerDTO partner)
         {
             string retVal = "";
 
             try
             {
-                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).SavePartner(partner);
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddPartner(partner);
                 retVal = "SUCCESS";
             }
             catch (Exception ex)
