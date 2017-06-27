@@ -233,7 +233,7 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize, int pageIndex)
+        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize, int pageIndex, string searchTerm = null)
         {
             ProjectsListResponse retVal = new ProjectsListResponse() {
                 PageIndex = pageIndex,
@@ -244,7 +244,10 @@ namespace GPD.Facade
             try
             {
                 // get projects dataset from database
-                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsList(partnerName, pageSize, pageIndex);
+                DataSet ds = (string.IsNullOrEmpty(searchTerm)) ?
+                    new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsList(partnerName, pageSize, pageIndex)
+                    :
+                    new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsListWithSearchTerm(partnerName, searchTerm, pageSize, pageIndex);
                 
                 if (ds != null && ds.Tables.Count == 2 && ds.Tables[0].Rows.Count > 0 && ds.Tables[1].Rows.Count > 0)
                 {

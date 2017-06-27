@@ -65,13 +65,13 @@ namespace GPD.WEB.Controllers
         [Route("api/{partnerName}/Project/List/{pageSize:int}/{pageIndex:int}/{searchTerm}")]
         [HttpGet]
         [AllowAnonymous]
-        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize = -1, int pageIndex = -1 , string searchTerm = "")
+        public ProjectsListResponse GetProjectsList(string partnerName, string searchTerm, int pageSize, int pageIndex)
         {
             pageSize = (pageSize == -1 || pageSize > Utility.ConfigurationHelper.API_ProjectsListPageMaxSize) ?
                 Utility.ConfigurationHelper.API_ProjectsListPageSize : pageSize;
             pageIndex = (pageIndex < 1) ? 1 : pageIndex;
 
-            ProjectsListResponse responseDTO = new Facade.ProjectFacade().GetProjectsList(partnerName, pageSize, pageIndex);
+            ProjectsListResponse responseDTO = new Facade.ProjectFacade().GetProjectsList(partnerName, pageSize, pageIndex, string.IsNullOrEmpty(searchTerm) ? "" : searchTerm.Trim());
             log.Debug("ProjectsListResponse items-count: " + responseDTO.ProjectList.Count);
 
             return responseDTO;
