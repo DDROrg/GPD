@@ -92,7 +92,7 @@ namespace GPD.DAL.SqlDB
                 new SqlParameter("@P_PageSize", pageSize)
             };
 
-            return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListBySearchTerm", parametersInList);
+            return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListBySearchKeyword", parametersInList);
         }
 
         /// <summary>
