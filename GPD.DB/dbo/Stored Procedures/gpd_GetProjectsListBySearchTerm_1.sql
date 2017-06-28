@@ -9,8 +9,8 @@ BEGIN
 	-- interfering with SELECT statements. 
 	SET NOCOUNT ON;
 	
-	CREATE table #t_RecordsCount(project_id uniqueidentifier, partner_name nvarchar(30));
-	INSERT INTO #t_RecordsCount
+	DECLARE @t_RecordsCount TABLE (project_id uniqueidentifier, partner_name nvarchar(30));
+	INSERT INTO @t_RecordsCount
 		SELECT P.project_id, P.partner_name
 		FROM gpd_project P
 		WHERE P.project_id IN (
@@ -67,13 +67,13 @@ BEGIN
 				L.STATE,
 				L.ZIP
 			FROM GPD_PROJECT P
-			INNER JOIN #t_RecordsCount x ON P.project_id = x.project_id
+			INNER JOIN @t_RecordsCount x ON P.project_id = x.project_id
 			LEFT OUTER JOIN GPD_PROJECT_LOCATION L ON P.PROJECT_ID = L.PROJECT_ID
 			ORDER BY P.create_date DESC
 			OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY;
 				
 			-- get the total count of the records
-			SELECT count(*) FROM #t_RecordsCount;
+			SELECT count(*) FROM @t_RecordsCount;
 		END
 	ELSE
 		BEGIN
@@ -95,16 +95,13 @@ BEGIN
 				L.STATE,
 				L.ZIP
 			FROM GPD_PROJECT P
-			INNER JOIN #t_RecordsCount x ON P.project_id = x.project_id
+			INNER JOIN @t_RecordsCount x ON P.project_id = x.project_id
 			LEFT OUTER JOIN GPD_PROJECT_LOCATION L ON P.PROJECT_ID = L.PROJECT_ID
 			WHERE x.partner_name = @P_PartnerName
 			ORDER BY P.create_date DESC
 			OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY;
 				
 			-- get the total count of the records
-			SELECT count(*) FROM #t_RecordsCount x WHERE x.partner_name = @P_PartnerName;
+			SELECT count(*) FROM @t_RecordsCount x WHERE x.partner_name = @P_PartnerName;
 		END
-		
-		-- drop temp table
-		DROP TABLE #t_RecordsCount;
 END;
