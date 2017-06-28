@@ -80,5 +80,39 @@ namespace GPD.WEB.Controllers
         {
             return new Facade.SignInFacade().GetGroups();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        [Route("api/DeleteUserRole")]
+        [HttpPost]
+        [Authorize]
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        public string DeleteUserRole(int userId, string partnerId, int groupId)
+        {
+            return new Facade.SignInFacade().DeleteUserRole(userId, partnerId, groupId);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        [Route("api/AddUserRole")]
+        [HttpPost]
+        [Authorize]
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        public string AddUserRole(int userId, string partnerId, int groupId)
+        {
+            return new Facade.SignInFacade().AddUserRole(userId, partnerId, groupId);
+        }
+
+        
     }
 }

@@ -108,6 +108,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
 
             angular.forEach(d.items, function (v, k) {
                 v.isMaterialExpanded = false;
+                v.hasProductUrl = (v.product.url || v.product['image-url']) ? true : false;
             });
             d.hasDetail = true;
         });
@@ -137,7 +138,10 @@ angular.module('Project').controller('ModalInstanceCtrl', ['$uibModalInstance', 
     $ctrl.data = {};
     $ctrl.data.project = project;
 
-    $ctrl.data.sort = [{ column: 'product.name', descending: false }];
+    $ctrl.data.sort = [{ column: 'hasProductUrl', descending: true },
+        { column: 'product.manufacturer', descending: false },
+        { column: 'product.model', descending: false }];
+
     $ctrl.data.page = {};
     $ctrl.data.page.currentPage = 1;
     $ctrl.data.page.maxPage = 5;
@@ -166,7 +170,7 @@ angular.module('Project').controller('ModalInstanceCtrl', ['$uibModalInstance', 
     $ctrl.ColumnSortOrder = function () {
         var retVal = [];
         angular.forEach($ctrl.data.sort, function (v, k) {
-            retVal.push((v.descending ? "-" : "") + v.column);
+            retVal.push((v.descending ? "-" : "+") + v.column);
         });
         return retVal;
     };
@@ -226,11 +230,8 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
     };
     $ctrl.OnGlobalSearch = function () { GetUsers(); };
     $ctrl.OnColExpRole = function (d) {
-
         d.isRoleExpanded = !(d.isRoleExpanded);
         if (d.hasRole == false) { GetUserRoles(d); }
-        //$log.log("TODO:OnColExpRole");
-        //$log.log(d);
     };
     $ctrl.IsShowRole = function (d) { return d.isRoleExpanded == true && d.hasRole == true; };
 
@@ -244,13 +245,18 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
     };
 
     $ctrl.OnDeleteRole = function (d) {
-        $log.log("TODO:OnDeleteRole");
-        $log.log(d);
+        GpdManageServices.DeleteUserRole(d.userId, d.partnerId, d.groupId)
+        .then(function (payload) {
+            if (payload == "SUCCESS") {
+                GetUserRoles(d);
+                toastr.success("User-Role deleted");
+            } else {
+                toastr.error("Unable to delete User-Role");
+            }
+        });
     };
 
     $ctrl.OnAddRole = function (d) {
-        //$log.log("TODO:OnAddRole");
-        //$log.log(d);
         var parentElem = angular.element('div[data-id="divManageUser"]');
         var modalInstance = $uibModal.open({
             animation: true,
@@ -263,13 +269,13 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             appendTo: parentElem,
             resolve: {
                 data: function () {
-                    return {user: d,  partners : $ctrl.data.partners, groups : $ctrl.data.groups};
+                    return { user: d, partners: $ctrl.data.partners, groups: $ctrl.data.groups };
                 }
             }
         });
 
-        modalInstance.result.then(function (btnClicked) {
-            $log.info('Button Clicked: ' + btnClicked);
+        modalInstance.result.then(function (d) {
+            GetUserRoles(d);
         }, function () {
             $log.info('Modal dismissed at: ' + new Date());
         });
@@ -313,17 +319,20 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
 angular.module('ManageUser').controller('AddUserRoleCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices', 'data',
     function ($uibModalInstance, $scope, $rootScope, $http, $location, $uibModal, $log, toastr, CommonServices, GpdManageServices, data) {
         var $ctrl = this;
-        CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data = data;
-        $ctrl.data.selectedPartner = $ctrl.data.partners[0].partnerId;
-        $ctrl.data.selectedGroup = $ctrl.data.groups[0].groupId;
-        $log.log($ctrl.data.selectedPartner);
-        $log.log($ctrl.data.selectedGroup);
+        //$ctrl.data.selectedPartner = $ctrl.data.partners[0].partnerId;
+        //$ctrl.data.selectedGroup = $ctrl.data.groups[0].groupId;
         $ctrl.Ok = function () {
-            $log.log("TODO:OK");
-            $log.log($ctrl.data.selectedPartner);
-            $log.log($ctrl.data.selectedGroup);
-            //$uibModalInstance.close("OK");
+            $log.log("TODO:TO be validated at client");
+            GpdManageServices.AddUserRole($ctrl.data.user.userId, $ctrl.data.selectedPartner, $ctrl.data.selectedGroup)
+            .then(function (payload) {
+                if (payload == "SUCCESS") {
+                    toastr.success("User-Role added");
+                    $uibModalInstance.close($ctrl.data.user);
+                } else {
+                    toastr.error("Unable to add User-Role");
+                }
+            });
         };
         $ctrl.Cancel = function () {
             $uibModalInstance.dismiss('CANCEL');

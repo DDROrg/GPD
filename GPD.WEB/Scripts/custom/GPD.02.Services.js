@@ -109,6 +109,12 @@ var GpdManageServices = function ($http, $q, $log) {
     var _GetUserRoles = function (userId) {
         return $http.post(__RootUrl + "api/GetUserRoles?userId=" + encodeURI(userId));
     };
+    var _DeleteUserRole = function (userId, partnerId, groupId) {
+        return $http.post(__RootUrl + "api/DeleteUserRole?userId=" + encodeURI(userId) + "&partnerId=" + encodeURI(partnerId) + "&groupId=" + encodeURI(groupId));
+    };
+    var _AddUserRole = function (userId, partnerId, groupId) {
+        return $http.post(__RootUrl + "api/AddUserRole?userId=" + encodeURI(userId) + "&partnerId=" + encodeURI(partnerId) + "&groupId=" + encodeURI(groupId));
+    };
 
     this.GetPartners = function () {
         var deferred = $q.defer();
@@ -191,7 +197,27 @@ var GpdManageServices = function ($http, $q, $log) {
         return deferred.promise;
     };
 
-    
+    this.DeleteUserRole = function (userId, partnerId, groupId) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _DeleteUserRole(userId, partnerId, groupId)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+
+    this.AddUserRole = function (userId, partnerId, groupId) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _AddUserRole(userId, partnerId, groupId)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
     return this;
 }
 //============================================

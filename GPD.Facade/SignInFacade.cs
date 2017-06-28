@@ -103,7 +103,7 @@ namespace GPD.Facade
             }
             return retVal;
         }
-
+        
         public List<GroupDTO> GetGroups()
         {
             List<GroupDTO> retVal = new List<GroupDTO>();
@@ -244,7 +244,11 @@ namespace GPD.Facade
             return retVal;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public List<UserRoleDTO> GetUserRoles(int userId)
         {
             List<UserRoleDTO> retVal = new List<UserRoleDTO>();
@@ -268,6 +272,53 @@ namespace GPD.Facade
             catch (Exception ex)
             {
                 log.Error("Unable to Actctivate/Dactivate user for userId: " + userId, ex);
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        public string DeleteUserRole(int userId, string partnerId, int groupId)
+        {
+            string retVal = "";
+
+            try
+            {
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).DeleteUserRole(userId, partnerId, groupId);
+                retVal = "SUCCESS";
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to delete UserRole for userId: " + userId + " partnerId: " + partnerId + " groupId: " + groupId, ex);
+                retVal = "ERROR";
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        public string AddUserRole(int userId, string partnerId, int groupId)
+        {
+            string retVal = "";
+            try
+            {
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddUserRole(userId, partnerId, groupId);
+                retVal = "SUCCESS";
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to delete UserRole for userId: " + userId + " partnerId: " + partnerId + " groupId: " + groupId, ex);
+                retVal = "ERROR";
             }
             return retVal;
         }

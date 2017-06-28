@@ -45,7 +45,7 @@ namespace GPD.ServiceEntities.BaseEntities
         [DataMember(Name = "userId", Order = 1)]
         public int UserId;
 
-        [DataMember(Name = "PartnerId", Order = 2)]
+        [DataMember(Name = "partnerId", Order = 2)]
         public string PartnerId;
 
         [DataMember(Name = "partnerNames", Order = 3)]

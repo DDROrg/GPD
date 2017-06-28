@@ -290,7 +290,7 @@
     </div>
     <script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
-            <h3 class="modal-title" id="modal-title">Item Details</h3>
+            <h3 class="modal-title" id="modal-title">Project Details</h3>
         </div>
         <div class="modal-body" id="modal-body">
             <div class="container-fluid">
@@ -358,7 +358,7 @@
                             <tbody>
                                 <tr data-ng-repeat-start="d in filterData = ($ctrl.data.project.items | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
                                     <td>
-                                        <a data-ng-if="d.product.url || d.product['image-url']"  href="{{d.product.url}}" target="PRODUCT" class="cusTooltip ">
+                                        <a data-ng-if="d.hasProductUrl"  href="{{d.product.url}}" target="PRODUCT" class="cusTooltip ">
                                         <i class="fa fa-tags"></i>
                                             <span data-ng-if="d.product['image-url']" class="container">
                                                 <img class="callout img-responsive" ng-src="{{d.product['image-url']}}" />

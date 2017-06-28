@@ -53,7 +53,7 @@ namespace GPD.DAL.SqlDB
                 throw new Exception(retVal["@P_Return_Message"].ToString());
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -498,6 +498,82 @@ END;
             };
 
             return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="groupId"></param>
+        public void DeleteUserRole(int userId, string partnerId, int groupId)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_UserId INT,
+        @M_PartnerId UNIQUEIDENTIFIER,
+	    @M_GroupId int;
+
+	SET @M_UserId = @P_UserId;
+    SET @M_PartnerId = CONVERT(UNIQUEIDENTIFIER, @P_PartnerId);
+	SET @M_GroupId = @P_GroupId;
+	
+	
+	DELETE gpd_partner_user_group_xref
+	WHERE user_id = @M_UserId AND partner_id = @M_PartnerId AND group_id = @M_GroupId;
+END;
+");
+            #endregion
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_UserId", userId),
+                 new SqlParameter("@P_PartnerId", partnerId),
+                 new SqlParameter("@P_GroupId", groupId)
+            };
+            base.ExecuteStatement(sb, parametersInList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="partnerId"></param>
+        /// <param name="groupId"></param>
+        public void AddUserRole(int userId, string partnerId, int groupId)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_UserId INT,
+        @M_PartnerId UNIQUEIDENTIFIER,
+	    @M_GroupId int;
+
+	SET @M_UserId = @P_UserId;
+	SET @M_PartnerId = CONVERT(UNIQUEIDENTIFIER, @P_PartnerId);
+	SET @M_GroupId = @P_GroupId;
+
+    IF NOT EXISTS ( SELECT * FROM gpd_partner_user_group_xref WHERE user_id = @M_UserId AND partner_id = @M_PartnerId AND group_id = @M_GroupId)
+    BEGIN
+	    INSERT INTO gpd_partner_user_group_xref (partner_id, user_id, group_id, description, active, create_date, update_date)
+        VALUES (@M_PartnerId, @M_UserId, @M_GroupId, NULL, 1, getdate(), NULL);
+    END
+END;
+");
+            #endregion
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_UserId", userId),
+                 new SqlParameter("@P_PartnerId", partnerId),
+                 new SqlParameter("@P_GroupId", groupId)
+            };
+            base.ExecuteStatement(sb, parametersInList);
         }
 
     }
