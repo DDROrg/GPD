@@ -96,6 +96,9 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         });
     };
     $ctrl.OnGlobalSearch = function () { GetProjects(); };
+    $ctrl.GlobalSearchButtonStyle = function () {
+        return $ctrl.data.globalSearchParam.length > 2 ? "input-group-addon btn btn-primary" : "input-group-addon btn btn-primary disabled";
+    };
     $ctrl.pageChanged = function () { GetProjects(); };
 
     var GetProjectDetail = function (d) {
