@@ -99,7 +99,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
     $ctrl.GlobalSearchButtonStyle = function () {
         return $ctrl.data.globalSearchParam.length > 2 ? "input-group-addon btn btn-primary" : "input-group-addon btn btn-primary disabled";
     };
-    $ctrl.pageChanged = function () { GetProjects(); };
+    $ctrl.PageChanged = function () { GetProjects(); };
 
     var GetProjectDetail = function (d) {
         return ProjectServices.GetProjectDetail($ctrl.data.LogedinUserProfile.selectedPartner, d.id)
@@ -179,7 +179,7 @@ angular.module('Project').controller('ModalInstanceCtrl', ['$uibModalInstance', 
     };
     $ctrl.OnColExpMaterial = function (d) { d.isMaterialExpanded = !(d.isMaterialExpanded); };
     $ctrl.IsShowMaterial = function (d) { return d.isMaterialExpanded == true };
-    $ctrl.pageChanged = function () {
+    $ctrl.PageChanged = function () {
         $log.log("TODO::");
     };
     $ctrl.Ok = function () {
@@ -326,16 +326,22 @@ angular.module('ManageUser').controller('AddUserRoleCtrl', ['$uibModalInstance',
         //$ctrl.data.selectedPartner = $ctrl.data.partners[0].partnerId;
         //$ctrl.data.selectedGroup = $ctrl.data.groups[0].groupId;
         $ctrl.Ok = function () {
-            $log.log("TODO:TO be validated at client");
-            GpdManageServices.AddUserRole($ctrl.data.user.userId, $ctrl.data.selectedPartner, $ctrl.data.selectedGroup)
-            .then(function (payload) {
-                if (payload == "SUCCESS") {
-                    toastr.success("User-Role added");
-                    $uibModalInstance.close($ctrl.data.user);
-                } else {
-                    toastr.error("Unable to add User-Role");
-                }
+            var isValid = true;
+            angular.forEach($ctrl.data.user.roles, function (v, k) {
+                if (isValid == true && v.partnerId == $ctrl.data.selectedPartner && v.groupId == $ctrl.data.selectedGroup) { isValid = false; }
             });
+
+            if (isValid) {
+                GpdManageServices.AddUserRole($ctrl.data.user.userId, $ctrl.data.selectedPartner, $ctrl.data.selectedGroup)
+                .then(function (payload) {
+                    if (payload == "SUCCESS") {
+                        toastr.success("User-Role added");
+                        $uibModalInstance.close($ctrl.data.user);
+                    } else {
+                        toastr.error("Unable to add User-Role");
+                    }
+                });
+            } else { toastr.error("This User-Role already exist."); }
         };
         $ctrl.Cancel = function () {
             $uibModalInstance.dismiss('CANCEL');
