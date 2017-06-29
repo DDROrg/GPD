@@ -251,8 +251,8 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         GpdManageServices.DeleteUserRole(d.userId, d.partnerId, d.groupId)
         .then(function (payload) {
             if (payload == "SUCCESS") {
-                GetUserRoles(d);
                 toastr.success("User-Role deleted");
+                GetUserRoles(d);
             } else {
                 toastr.error("Unable to delete User-Role");
             }
@@ -285,8 +285,8 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
     };
 
     var GetUserRoles = function (d) {
-        return GpdManageServices.GetUserRoles(d.userId)
-       .then(function (payload) {
+        GpdManageServices.GetUserRoles(d.userId)
+        .then(function (payload) {
            d.hasRole = true;
            d.roles = payload;
        });

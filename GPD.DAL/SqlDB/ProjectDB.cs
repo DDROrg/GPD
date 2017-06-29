@@ -470,10 +470,6 @@ END;
             #region SQL
             sb.AppendLine(@"
 BEGIN
-	DECLARE @M_USERID INT;
-
-	SET @M_USERID = @P_USERID;
-
 	SELECT distinct 
 		u.user_id, 
 		p.partner_id,
@@ -483,7 +479,7 @@ BEGIN
 	FROM gpd_user_details u
 	INNER JOIN gpd_partner_user_group_xref x
 		ON u.user_id = x.user_id
-			AND u.user_id = @M_USERID
+			AND u.user_id = @P_USERID
 	INNER JOIN gpd_partner_details p
 		ON x.partner_id = p.partner_id
 	INNER JOIN gpd_user_group g
@@ -513,17 +509,12 @@ END;
 
             sb.AppendLine(@"
 BEGIN
-	DECLARE @M_UserId INT,
-        @M_PartnerId UNIQUEIDENTIFIER,
-	    @M_GroupId int;
+	DECLARE @M_PartnerId UNIQUEIDENTIFIER;
 
-	SET @M_UserId = @P_UserId;
-    SET @M_PartnerId = CONVERT(UNIQUEIDENTIFIER, @P_PartnerId);
-	SET @M_GroupId = @P_GroupId;
-	
+	SET @M_PartnerId = CONVERT(UNIQUEIDENTIFIER, @P_PartnerId);
 	
 	DELETE gpd_partner_user_group_xref
-	WHERE user_id = @M_UserId AND partner_id = @M_PartnerId AND group_id = @M_GroupId;
+	WHERE user_id = @P_UserId AND partner_id = @M_PartnerId AND group_id = @P_GroupId;
 END;
 ");
             #endregion
@@ -550,18 +541,14 @@ END;
 
             sb.AppendLine(@"
 BEGIN
-	DECLARE @M_UserId INT,
-        @M_PartnerId UNIQUEIDENTIFIER,
-	    @M_GroupId int;
+	DECLARE @M_PartnerId UNIQUEIDENTIFIER;
 
-	SET @M_UserId = @P_UserId;
 	SET @M_PartnerId = CONVERT(UNIQUEIDENTIFIER, @P_PartnerId);
-	SET @M_GroupId = @P_GroupId;
 
-    IF NOT EXISTS ( SELECT * FROM gpd_partner_user_group_xref WHERE user_id = @M_UserId AND partner_id = @M_PartnerId AND group_id = @M_GroupId)
+    IF NOT EXISTS ( SELECT * FROM gpd_partner_user_group_xref WHERE user_id = @P_UserId AND partner_id = @M_PartnerId AND group_id = @P_GroupId)
     BEGIN
 	    INSERT INTO gpd_partner_user_group_xref (partner_id, user_id, group_id, description, active, create_date, update_date)
-        VALUES (@M_PartnerId, @M_UserId, @M_GroupId, NULL, 1, getdate(), NULL);
+        VALUES (@M_PartnerId, @P_UserId, @P_GroupId, NULL, 1, getdate(), NULL);
     END
 END;
 ");
@@ -569,8 +556,8 @@ END;
 
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
-                 new SqlParameter("@P_UserId", userId),
                  new SqlParameter("@P_PartnerId", partnerId),
+                 new SqlParameter("@P_UserId", userId),
                  new SqlParameter("@P_GroupId", groupId)
             };
             base.ExecuteStatement(sb, parametersInList);
