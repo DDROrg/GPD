@@ -179,9 +179,7 @@ angular.module('Project').controller('ModalInstanceCtrl', ['$uibModalInstance', 
     };
     $ctrl.OnColExpMaterial = function (d) { d.isMaterialExpanded = !(d.isMaterialExpanded); };
     $ctrl.IsShowMaterial = function (d) { return d.isMaterialExpanded == true };
-    $ctrl.PageChanged = function () {
-        $log.log("TODO::");
-    };
+    $ctrl.PageChanged = function () { };
     $ctrl.Ok = function () {
         //$uibModalInstance.close($ctrl.selected.item);
         $uibModalInstance.close("OK");
@@ -231,6 +229,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         });
         return retVal;
     };
+    $ctrl.PageChanged = function () { };
     $ctrl.OnGlobalSearch = function () { GetUsers(); };
     $ctrl.OnColExpRole = function (d) {
         d.isRoleExpanded = !(d.isRoleExpanded);
@@ -247,12 +246,12 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         });
     };
 
-    $ctrl.OnDeleteRole = function (d) {
-        GpdManageServices.DeleteUserRole(d.userId, d.partnerId, d.groupId)
+    $ctrl.OnDeleteRole = function (user, userRole) {
+        GpdManageServices.DeleteUserRole(userRole.userId, userRole.partnerId, userRole.groupId)
         .then(function (payload) {
             if (payload == "SUCCESS") {
                 toastr.success("User-Role deleted");
-                GetUserRoles(d);
+                GetUserRoles(user);
             } else {
                 toastr.error("Unable to delete User-Role");
             }
@@ -280,16 +279,16 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         modalInstance.result.then(function (d) {
             GetUserRoles(d);
         }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
+            //$log.info('Modal dismissed at: ' + new Date());
         });
     };
 
     var GetUserRoles = function (d) {
         GpdManageServices.GetUserRoles(d.userId)
         .then(function (payload) {
-           d.hasRole = true;
-           d.roles = payload;
-       });
+            d.hasRole = true;
+            d.roles = payload;
+        });
     };
 
     var GetUsers = function () {
@@ -325,6 +324,7 @@ angular.module('ManageUser').controller('AddUserRoleCtrl', ['$uibModalInstance',
         $ctrl.data = data;
         //$ctrl.data.selectedPartner = $ctrl.data.partners[0].partnerId;
         //$ctrl.data.selectedGroup = $ctrl.data.groups[0].groupId;
+        $log.log($ctrl.data.groups);
         $ctrl.Ok = function () {
             var isValid = true;
             angular.forEach($ctrl.data.user.roles, function (v, k) {
@@ -392,6 +392,7 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
         });
         return retVal;
     };
+    $ctrl.PageChanged = function () { };
 
     $ctrl.OnEditItem = function (d) {
         $ctrl.data.onEditing = true;
