@@ -30,27 +30,33 @@ namespace GPD.Facade
         /// <param name="password"></param>
         public SignInResponseDTO GetUserRole(string email)
         {
-            SignInResponseDTO retVal = new SignInResponseDTO();
+            SignInResponseDTO retVal = null;
 
             try
             {
                 DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUserRole(email);
+
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    retVal.UserId = dr["user_id"].ToString();
-                    retVal.FirstName = dr["first_name"].ToString();
-                    retVal.LastName = dr["last_name"].ToString();
-                    retVal.Email = email.ToLower();
-                    foreach (DataRow dr2 in ds.Tables[0].Rows)
+                    retVal = new SignInResponseDTO()
                     {
-                        UserRoleDTO tempUserRole = new UserRoleDTO();
-                        //tempUserRole.UserId = 0;
-                        tempUserRole.GroupId = Convert.ToInt32(dr2["group_id"].ToString());
-                        tempUserRole.GroupName = dr2["GroupName"].ToString();
-                        tempUserRole.PartnerId = dr2["partner_id"].ToString();
-                        tempUserRole.PartnerName = dr2["PartnerName"].ToString();
-                        retVal.Roles.Add(tempUserRole);
+                        Email = email.ToLower(),
+                        UserId = ds.Tables[0].Rows[0]["user_id"].ToString(),
+                        FirstName = ds.Tables[0].Rows[0]["first_name"].ToString(),
+                        LastName = ds.Tables[0].Rows[0]["last_name"].ToString()
+                    };
+
+                    if (ds.Tables.Count == 1)
+                        return retVal;
+
+                    foreach (DataRow dataRow in ds.Tables[1].Rows)
+                    {
+                        retVal.Roles.Add(new UserRoleDTO() {
+                            GroupId = int.Parse(dataRow["group_id"].ToString()),
+                            GroupName = dataRow["GroupName"].ToString(),
+                            PartnerId = dataRow["partner_id"].ToString(),
+                            PartnerName = dataRow["PartnerName"].ToString()
+                        });
                     }
 
                     if (retVal.Roles.Count > 0)
@@ -64,6 +70,7 @@ namespace GPD.Facade
             {
                 log.Error("Unable to get user profile for id: " + email, ex);
             }
+
             return retVal;
         }
 

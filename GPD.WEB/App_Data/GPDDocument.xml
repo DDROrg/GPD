@@ -833,12 +833,6 @@
             <param name="partner"></param>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.SessionManager.SetUserProfile(GPD.ServiceEntities.BaseEntities.SignInResponseDTO)">
-            <summary>
-            
-            </summary>
-            <param name="userProfile"></param>
-        </member>
         <member name="M:GPD.WEB.SessionManager.ClearSession">
             <summary>
             

@@ -56,15 +56,6 @@ namespace GPD.WEB
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="userProfile"></param>
-        public void SetUserProfile(SignInResponseDTO userProfile)
-        {
-            HttpContext.Current.Session.Add(SESSION_USERPROFILE, userProfile);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public void ClearSession()
         {
             HttpContext.Current.Session.Clear();
@@ -75,25 +66,25 @@ namespace GPD.WEB
         /// </summary>
         protected void loadProfile()
         {
-            if (FormsAuthentication.CookiesSupported == true)
+            if (FormsAuthentication.CookiesSupported && 
+                HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName] != null)
             {
-                if (HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+                try
                 {
-                    try
-                    {
-                        string encryptedName = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
+                    string encryptedName = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
 
-                        if (encryptedName != null)
-                        {
-                            string userEmail = FormsAuthentication.Decrypt(encryptedName).Name;
-                            SignInResponseDTO result = new Facade.SignInFacade().GetUserRole(userEmail);
-                            SetUserProfile(result);
-                        }
-                    }
-                    catch (Exception ex)
+                    if (encryptedName != null)
                     {
-                        log.Error("FormsAuthentication_OnAuthenticate :", ex);
+                        string userEmail = FormsAuthentication.Decrypt(encryptedName).Name;
+                        SignInResponseDTO userProfile = new Facade.SignInFacade().GetUserRole(userEmail);
+
+                        if(userProfile != null)
+                            HttpContext.Current.Session.Add(SESSION_USERPROFILE, userProfile);
                     }
+                }
+                catch (Exception ex)
+                {
+                    log.Error("FormsAuthentication_OnAuthenticate :", ex);
                 }
             }
         }
