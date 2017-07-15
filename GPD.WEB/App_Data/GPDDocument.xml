@@ -705,16 +705,7 @@
             <param name="partnerName">Partner Name</param>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.GetProjectsList(System.String,System.Int32,System.Int32)">
-            <summary>
-            Get Projects List
-            </summary>
-            <param name="partnerName">Partner Name</param>
-            <param name="pageSize">Page Size</param>
-            <param name="pageIndex">Page Index</param>
-            <returns></returns>
-        </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.GetProjectsList(System.String,System.String,System.Int32,System.Int32)">
+        <member name="M:GPD.WEB.Controllers.ProjectController.GetProjectsList(System.String,System.Int32,System.Int32,System.String,System.String)">
             <summary>
             Get Projects List
             </summary>

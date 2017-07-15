@@ -47,20 +47,22 @@ var BroadcastService = function ($rootScope, $log) {
     }
 };
 //============================================
-var ProjectServices = function ($http, $q, $log) {
-    var _GetProjects = function (PartnarName, GlobalSearchParam, PageIndex, PageSize) {
-        GlobalSearchParam = GlobalSearchParam == "" ? encodeURIComponent(" ") : encodeURIComponent(GlobalSearchParam);
-        return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex + "/" + GlobalSearchParam + "/");
+var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
+    var _GetProjects = function (PartnarName, GlobalSearchParam, ProjectByNumber, PageIndex, PageSize) {
+        var data = {};
+        data.searchTerm = GlobalSearchParam;
+        data.pNumber = ProjectByNumber;
+        return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex + "?" + $httpParamSerializer(data));
     };
 
     var _GetProjectDetail = function (PartnarName, id) {
         return $http.get(__RootUrl + "api/" + PartnarName + "/Project/" + id);
     };
 
-    this.GetProjects = function (PartnarName, GlobalSearchParam, PageIndex, PageSize) {
+    this.GetProjects = function (PartnarName, GlobalSearchParam, ProjectByNumber, PageIndex, PageSize) {
         var deferred = $q.defer();
         var retVal = [];
-        _GetProjects(PartnarName, GlobalSearchParam, PageIndex, PageSize)
+        _GetProjects(PartnarName, GlobalSearchParam, ProjectByNumber, PageIndex, PageSize)
         .then(function (payload) {
             retVal = payload.data;
             $.each(retVal.projects, function (k, v) {
@@ -224,17 +226,12 @@ var GpdManageServices = function ($http, $q, $log) {
 angular.module('Project')
 .factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])
 .service('CommonServices', ['$http', '$q', '$log', 'BroadcastService', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); }])
-.service('ProjectServices', ['$http', '$q', '$log', function ($http, $q, $log) { return ProjectServices($http, $q, $log); }]);
+.service('ProjectServices', ['$http', '$httpParamSerializer', '$q', '$log', function ($http, $httpParamSerializer, $q, $log) { return ProjectServices($http, $httpParamSerializer, $q, $log); }]);
 
 angular.module('ManageUser')
 .factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])
 .service('CommonServices', ['$http', '$q', '$log', 'BroadcastService', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); }])
 .service('GpdManageServices', ['$http', '$q', '$log', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); }]);
-
-//angular.module('AddUserRoleCtrl')
-//.factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])
-//.service('CommonServices', ['$http', '$q', '$log', 'BroadcastService', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); }])
-//.service('GpdManageServices', ['$http', '$q', '$log', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); }]);
 
 angular.module('ManagePartner')
 .factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])

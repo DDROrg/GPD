@@ -37,6 +37,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
     $ctrl.data.page.maxPage = 5;
     $ctrl.data.page.itemPerPage = __ItemPerPage;
     $ctrl.data.globalSearchParam = "";
+    $ctrl.data.projectByNumber = "";
     $ctrl.data.search = {};
     $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
 
@@ -76,8 +77,8 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: 'myModalContent.html',
-            controller: 'ModalInstanceCtrl',
+            templateUrl: 'ProjectDetailContent.html',
+            controller: 'ProjectDetailCtrl',
             controllerAs: '$ctrl',
             size: 'lg',
             appendTo: parentElem,
@@ -100,6 +101,8 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         return $ctrl.data.globalSearchParam.length > 2 ? "input-group-addon btn btn-primary" : "input-group-addon btn btn-primary disabled";
     };
     $ctrl.PageChanged = function () { GetProjects(); };
+    $ctrl.OnProjectByNumber = function (d) { $ctrl.data.projectByNumber = "" + d + ""; GetProjects(); };
+    $ctrl.OnCancelProjectByNumber = function () { $ctrl.data.projectByNumber = ""; GetProjects(); };
 
     var GetProjectDetail = function (d) {
         return ProjectServices.GetProjectDetail($ctrl.data.LogedinUserProfile.selectedPartner, d.id)
@@ -117,7 +120,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         });
     };
     var GetProjects = function () {
-        return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.globalSearchParam, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
+        return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.globalSearchParam, $ctrl.data.projectByNumber, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
         .then(function (payload) {
             $ctrl.data.projectListResponse = payload;
         });
@@ -136,7 +139,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
 }]);
 
 //=================================================
-angular.module('Project').controller('ModalInstanceCtrl', ['$uibModalInstance', '$log', 'toastr', 'project', function ($uibModalInstance, $log, toastr, project) {
+angular.module('Project').controller('ProjectDetailCtrl', ['$uibModalInstance', '$log', 'toastr', 'project', function ($uibModalInstance, $log, toastr, project) {
     var $ctrl = this;
     $ctrl.data = {};
     $ctrl.data.project = project;

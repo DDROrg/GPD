@@ -9,7 +9,12 @@
         <h2>@ViewBag.Title</h2>
         <div class="data-container">
             <div class="row">
-                <div class="col-sm-3"></div>
+                <div class="col-sm-3">
+                    <div data-ng-if="$ctrl.data.projectByNumber != ''" class="search-filter" >
+                        <span style="font-weight:bold;">Project History:&nbsp;</span>
+                        {{$ctrl.data.projectByNumber}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelProjectByNumber()" class="data-link"><i class="fa fa-times-circle"></i></a>
+                    </div>
+                </div>
                 <div class="col-sm-6">
                     <div data-ng-if="$ctrl.data.projectListResponse.totalRecordCount > $ctrl.data.page.itemPerPage" style="text-align: center;">
                         <div uib-pagination class="pagination-sm pagination" total-items="$ctrl.data.projectListResponse.totalRecordCount"
@@ -32,19 +37,19 @@
                     <thead style="background-color:#E9E9E9;">
                         <tr>
                             <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')" class="data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
                                 </i><br />
                                 <input data-ng-model="$ctrl.data.search.name" placeholder="Search by Name ..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
                             <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('client')">Client&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('client')">
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('client')" class="data-link">Client&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('client')">
                                 </i><br />
                                 <input data-ng-model="$ctrl.data.search.client" placeholder="Search by Client ..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
                             <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('status')">Status&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('status')">
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('status')" class="data-link">Status&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('status')">
                                 </i><br />
                                 <input data-ng-model="$ctrl.data.search.status" placeholder="Search by Status ..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
@@ -57,7 +62,7 @@
                     <tbody>
                         <tr data-ng-repeat-start="d in filterData = ($ctrl.data.projectListResponse.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder())">
                             <td>
-                                <a data-ng-href="" data-ng-click="$ctrl.OnColExpDetail(d)">
+                                <a data-ng-href="" data-ng-click="$ctrl.OnColExpDetail(d)" class="data-link">
                                     <i data-ng-class="$ctrl.ColExpClass(d)"></i>
                                     {{d.name}}
                                     <span class="empty" ng-show="!d.name">N/A</span>
@@ -274,7 +279,7 @@
                                                         Project History:
                                                     </div>
                                                     <div class="col-xs-8">
-                                                        <a>id</a>
+                                                        <a ng-href="" ng-click="$ctrl.OnProjectByNumber(d.number)" class="data-link">{{d.number}}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -288,7 +293,7 @@
             </div>
         </div>
     </div>
-    <script type="text/ng-template" id="myModalContent.html">
+    <script type="text/ng-template" id="ProjectDetailContent.html">
         <div class="modal-header">
             <h3 class="modal-title" id="modal-title">Project Details</h3>
         </div>

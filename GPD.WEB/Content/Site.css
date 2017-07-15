@@ -18,10 +18,14 @@ textarea {
     max-width: 280px;
 }
 
-a.data-link {
-    text-decoration: none;
+a {
     cursor: pointer;
 }
+
+    a.data-link {
+        text-decoration: none;
+        cursor: pointer;
+    }
 
 .data-header-row {
     text-align: center;
@@ -36,6 +40,10 @@ a.data-link {
     width: 95%;
 }
 
+.search-filter {
+    margin: 20px 0px;
+    line-height: 2;
+}
 
 .search-wrapper {
     margin: 20px 0px;
@@ -47,6 +55,7 @@ a.data-link {
     max-width: 100%;
     line-height: 2;
 }
+
 
 .mandatory {
     color: #ff0000;
@@ -123,7 +132,7 @@ a.cusTooltip {
     }
 }
 
-@media only screen and (min-width : 1201px){
+@media only screen and (min-width : 1201px) {
     .modal-lg {
         width: 95%;
     }
