@@ -667,6 +667,18 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.HomeController.ProjectList">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GPD.WEB.Controllers.HomeController.ProjectEdit">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:GPD.WEB.Controllers.PartnerController">
             <summary>
             
@@ -730,6 +742,14 @@
             </summary>
             <param name="partnerName">Partner Name</param>
             <param name="projectDTO">Project Details</param>
+            <returns></returns>
+        </member>
+        <member name="M:GPD.WEB.Controllers.ProjectController.UpdateProject(System.String,GPD.ServiceEntities.BaseEntities.ProjectDTO)">
+            <summary>
+            
+            </summary>
+            <param name="partnerName"></param>
+            <param name="projectDTO"></param>
             <returns></returns>
         </member>
         <member name="T:GPD.WEB.Controllers.UserController">

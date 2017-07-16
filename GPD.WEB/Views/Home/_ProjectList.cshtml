@@ -1,0 +1,418 @@
+﻿<div class="" data-id="Project">
+    <div data-ng-controller="ProjectController as $ctrl" ng-cloak>
+        <h2>GPD - Project</h2>
+        <div class="data-container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div data-ng-if="$ctrl.data.projectByNumber != ''" class="search-filter" >
+                        <span style="font-weight:bold;">Project Number:&nbsp;</span>
+                        {{$ctrl.data.projectByNumber}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelProjectByNumber()" class="data-link"><i class="fa fa-times-circle"></i></a>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div data-ng-if="$ctrl.data.projectListResponse.totalRecordCount > $ctrl.data.page.itemPerPage" style="text-align: center;">
+                        <div uib-pagination class="pagination-sm pagination" total-items="$ctrl.data.projectListResponse.totalRecordCount"
+                             ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.PageChanged()" previous-text="&lsaquo;"
+                             next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
+                             boundary-link-numbers="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group search-wrapper">
+                        <input type="text" class="search-box" placeholder="Enter search term" data-ng-model="$ctrl.data.globalSearchParam" />
+                        <a data-ng-href="" data-ng-click="$ctrl.OnGlobalSearch()" data-ng-class="$ctrl.GlobalSearchButtonStyle()"><i class="fa fa-arrow-circle-o-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-condensed table-hover">
+                    <thead style="background-color:#E9E9E9;">
+                        <tr>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')" class="data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
+                                </i><br />
+                                <input data-ng-model="$ctrl.data.search.name" placeholder="Search by Name ..."
+                                       style="width: 100%; height: 25px; margin-top: 4px;" />
+                            </th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('client')" class="data-link">Client&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('client')">
+                                </i><br />
+                                <input data-ng-model="$ctrl.data.search.client" placeholder="Search by Client ..."
+                                       style="width: 100%; height: 25px; margin-top: 4px;" />
+                            </th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('status')" class="data-link">Status&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('status')">
+                                </i><br />
+                                <input data-ng-model="$ctrl.data.search.status" placeholder="Search by Status ..."
+                                       style="width: 100%; height: 25px; margin-top: 4px;" />
+                            </th>
+                            <th>Location</th>
+                            <th>Added On</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat-start="d in filterData = ($ctrl.data.projectListResponse.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder())">
+                            <td>
+                                <a data-ng-href="" data-ng-click="$ctrl.OnColExpDetail(d)" class="data-link">
+                                    <i data-ng-class="$ctrl.ColExpClass(d)"></i>
+                                    {{d.name}}
+                                    <span class="empty" ng-show="!d.name">N/A</span>
+                                </a>
+                            </td>
+                            <td>{{d.client}}</td>
+                            <td>{{d.status}}</td>
+                            <td>
+                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.address1)">{{d.location.address1}},&nbsp;</ng-container>
+                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.city)">{{d.location.city}},&nbsp;</ng-container>
+                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.state)">{{d.location.state}},&nbsp;</ng-container>
+                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.zip)">zip - {{d.location.city}}</ng-container>
+                            </td>
+                            <td>{{d["create-timestamp-formatted"]}}</td>
+                            <td>
+                                <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Detail"></i></a>
+                                <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
+                            </td>
+                        </tr>
+                        <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowDetail(d)">
+                            <td colspan="6">
+                                <div class="container-fluid" style="border:1px dotted #000; border-radius:5px;">
+                                    <div>
+                                        <div style="font-weight:bold;font-size:1.2em;text-align:center;">Project Details</div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Organization:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d["organization-name"]}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Author:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.author}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Client:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.client}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Building:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d["building-name"]}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        File Name:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.filename}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Identifiers:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        <span data-ng-repeat="i in d.identifiers">{{i.system}}, </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Location:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        <span data-ng-if="d.location.address1!=''">{{d.location.address1}},&nbsp;</span>
+                                                        <span data-ng-if="d.location.city!=''">{{d.location.city}},&nbsp;</span>
+                                                        <span data-ng-if="d.location.state!=''">{{d.location.state}},&nbsp;</span>
+                                                        <span data-ng-if="d.location.zip!=''">zip - {{d.location.city}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Org Description:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d["organization-description"]}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Status:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.status}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight:bold;font-size:1.2em;text-align:center; border-top:1px dotted #000;padding-top:5px;">Session Details</div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Type:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.type}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Platform:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.platform}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        App Name:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application.name}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Build:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application.build}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Type:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application.type}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Version:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application.version}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Plugin Build:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application["plugin-build"]}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Plugin Source:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application["plugin-source"]}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Project Number:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        <a ng-href="" ng-click="$ctrl.OnProjectByNumber(d.number)" class="data-link">{{d.number}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script type="text/ng-template" id="ProjectDetailContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Project Details</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="container-fluid">
+                <div class="data-container">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div style="margin:20px 0px;">
+                                <input data-ng-model="$ctrl.data.search" placeholder="Search by ..."
+                                       style="width: 100%; height: 25px; margin-top: 4px;" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            @*<select data-ng-change="$ctrl.OnChangeSorting1(this)">
+                                    <option value="product.name" selected="selected">Name</option>
+                                    <option value="product.manufacturer" selected="selected">Manufacturer</option>
+                                </select>*@
+                        </div>
+                        <div class="col-sm-6">
+                            <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
+                                <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
+                                     ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.PageChanged()" previous-text="&lsaquo;"
+                                     next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
+                                     boundary-link-numbers="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-condensed table-hover">
+                            <thead style="background-color:#E9E9E9;">
+                                <tr>
+                                    <th></th>
+                                    <th>
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.name')">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.name')">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.manufacturer')">Manufacturer&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.manufacturer')">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.model')">Model&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.model')">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('family')">Family&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('family')">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('type')">Type&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('type')">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('quantity')">Quantity&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('quantity')">
+                                        </i>
+                                    </th>
+                                    <th>
+                                        Categories
+                                    </th>
+                                    <th>Price</th>
+                                    <th>Materials</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat-start="d in filterData = ($ctrl.data.project.items | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
+                                    <td>
+                                        <a data-ng-if="d.hasProductUrl"  href="{{d.product.url}}" target="PRODUCT" class="cusTooltip ">
+                                        <i class="fa fa-tags"></i>
+                                            <span data-ng-if="d.product['image-url']" class="container">
+                                                <img class="callout img-responsive" ng-src="{{d.product['image-url']}}" />
+                                            </span>
+                                        </a>
+                                    </td>
+                                    <td>{{d.product.name}}</td>
+                                    <td>{{d.product.manufacturer}}</td>
+                                    <td>{{d.product.model}}</td>
+                                    <td>{{d.family}}</td>
+                                    <td>{{d.type}}</td>
+                                    <td>{{d.quantity}}</td>
+                                    <td>
+                                        <span data-ng-repeat="dc in d.categories| filter : {taxonomy:'PROJECT_ITEM'}">
+                                            {{dc.title}}
+                                        </span>
+                                    </td>
+                                    <td>$0.00</td>
+                                    <td style="text-align:center;">
+                                        <a ng-href="" class="data-link" data-ng-click="$ctrl.OnColExpMaterial(d)"><i class="fa fa-list-ul"></i></a>
+                                    </td>
+                                </tr>
+                                <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowMaterial(d)">
+                                    <td colspan="3"></td>
+                                    <td colspan="6">
+                                        <table class="table table-striped table-condensed table-hover">
+                                            <thead style="background-color:#E9E9E9;">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Manufacturer</th>
+                                                    <th>Model</th>
+                                                    <th>Type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-ng-repeat="dm in d.materials">
+                                                    <td>{{dm.product.name}}</td>
+                                                    <td>{{dm.product.manufacturer}}</td>
+                                                    <td>{{dm.product.model}}</td>
+                                                    <td>{{dm.type.name}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">            
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.Cancel()">Cancel</button>
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.Ok()">OK</button>
+        </div>
+    </script>
+</div>

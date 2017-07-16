@@ -92,5 +92,19 @@ namespace GPD.WEB.Controllers
         {
             return new Facade.ProjectFacade().AddProject(partnerName, projectDTO);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partnerName"></param>
+        /// <param name="projectDTO"></param>
+        /// <returns></returns>
+        [Route("api/{partnerName}/UpdateProject")]
+        [HttpPost]
+        [AllowAnonymous]
+        public bool UpdateProject(string partnerName, ProjectDTO projectDTO)
+        {
+            return true;
+        }
     }
 }

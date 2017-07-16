@@ -1,0 +1,32 @@
+﻿
+<div data-ng-controller="ProjectEditController as $ctrl" ng-cloak>
+    <h2>Edit Project</h2>
+    <div class="data-container">        
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-1">Name</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.name" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">Client</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.client" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">Status</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.status" class="form-control text-box single-line" type="text" />
+                </div>
+            </div>
+            <div class="form-group">                
+                <label class="control-label col-md-1">Address</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.location.address1" class="form-control text-box single-line" type="text" />
+                </div>
+            </div>
+        </div>
+        <div style="text-align: right;">
+            <a class="btn btn-warning" data-ng-href="" data-ng-click="$ctrl.OnBackToProjectList()"><i class="fa fa-times-circle-o"></i>&nbsp;Back</a>
+            <a class="btn btn-primary" data-ng-href="" data-ng-click="$ctrl.OnSaveProject()"><i class="fa fa-floppy-o"></i>&nbsp;Save</a>
+        </div>
+    </div>
+</div>

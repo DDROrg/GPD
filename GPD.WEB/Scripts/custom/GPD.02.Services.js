@@ -59,6 +59,10 @@ var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
         return $http.get(__RootUrl + "api/" + PartnarName + "/Project/" + id);
     };
 
+    var _UpdateProject = function (PartnarName, project) {
+        return $http.post(__RootUrl + "api/" + PartnarName + "/UpdateProject", project);
+    };
+
     this.GetProjects = function (PartnarName, GlobalSearchParam, ProjectByNumber, PageIndex, PageSize) {
         var deferred = $q.defer();
         var retVal = [];
@@ -84,7 +88,18 @@ var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
             deferred.resolve(retVal);
         });
         return deferred.promise;
-    }
+    };
+
+    this.UpdateProject = function (PartnarName, project) {
+        var deferred = $q.defer();
+        var retVal = [];
+        _UpdateProject(PartnarName, project)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
 
     return this;
 }

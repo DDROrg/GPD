@@ -31,7 +31,25 @@ namespace GPD.WEB.Controllers
         public ActionResult Project()
         {
             ViewBag.Title = "GPD - Project";
-            return View();
+            return View("~/Views/Home/Project.cshtml");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public PartialViewResult ProjectList()
+        {
+            return PartialView("~/Views/Home/_ProjectList.cshtml");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public PartialViewResult ProjectEdit()
+        {
+            return PartialView("~/Views/Home/_ProjectEdit.cshtml");
         }
     }
 }
