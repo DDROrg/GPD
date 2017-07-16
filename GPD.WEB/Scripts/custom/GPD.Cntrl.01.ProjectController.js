@@ -98,7 +98,11 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             });
         };
         $ctrl.OnEditItem = function (d) {
-            $state.go('project.edit', { id: d.id, project: d });
+            if (d.hasDetail == false) {
+                GetProjectDetail(d).then(function () {
+                    $state.go('project.edit', { id: d.id, project: d });
+                });
+            }            
         };
         $ctrl.OnGlobalSearch = function () { GetProjects(); };
         $ctrl.GlobalSearchButtonStyle = function () {

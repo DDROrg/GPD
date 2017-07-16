@@ -1,7 +1,7 @@
 ﻿
 <div data-ng-controller="ProjectEditController as $ctrl" ng-cloak>
     <h2>Edit Project</h2>
-    <div class="data-container">        
+    <div class="data-container">
         <div class="form-horizontal">
             <div class="form-group">
                 <label class="control-label col-md-1">Name</label>
@@ -17,10 +17,99 @@
                     <input data-ng-model="$ctrl.data.project.status" class="form-control text-box single-line" type="text" />
                 </div>
             </div>
-            <div class="form-group">                
+            <div class="form-group">
                 <label class="control-label col-md-1">Address</label>
                 <div class="col-md-3">
                     <input data-ng-model="$ctrl.data.project.location.address1" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">City</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.location.city" class="form-control text-box single-line" type="text" />
+                </div>
+                <div class="col-md-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">State</label>
+                            <div class="col-md-3">
+                                <input data-ng-model="$ctrl.data.project.location.state" class="form-control text-box single-line" type="text" />
+                            </div>
+                            <label class="control-label col-md-2">Zip</label>
+                            <div class="col-md-3">
+                                <input data-ng-model="$ctrl.data.project.location.zip" class="form-control text-box single-line" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-1">Organization</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project['organization-name']" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">Author</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.author" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">Client</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.client" class="form-control text-box single-line" type="text" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-1">Building</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project['building-name']" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">Description</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project['organization-description']" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">Author</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.author" class="form-control text-box single-line" type="text" />
+                </div>
+            </div>
+            <div style="font-weight:bold;font-size:1.2em;text-align:center; border-top:1px dotted #000;padding-top:5px;">Session Details</div>
+            <div class="form-group">
+                <label class="control-label col-md-1">Type</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.type" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">Platform</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.platform" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">App Name</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.application.name" class="form-control text-box single-line" type="text" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-1">App Build</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.application.build" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">App Type</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.application.type" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">App Version</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.application.version" class="form-control text-box single-line" type="text" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-1">Plugin Build</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.application['plugin-build']" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">Plugin Source</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.application['plugin-source']" class="form-control text-box single-line" type="text" />
+                </div>
+                <label class="control-label col-md-1">Project Number</label>
+                <div class="col-md-3">
+                    {{$ctrl.data.project.number}}
                 </div>
             </div>
         </div>
