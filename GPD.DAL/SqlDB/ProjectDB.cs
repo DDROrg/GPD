@@ -79,7 +79,7 @@ namespace GPD.DAL.SqlDB
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public DataSet GetProjectsListWithSearchTerm(string partnerName, string searchTerm, int pageSize, int pageIndex)
+        public DataSet GetProjectsListWithSearchTerm(string partnerName, string searchTerm, string projectNumber, int pageSize, int pageIndex)
         {
             // start row index logic
             int startRowIndex = (pageIndex == 1) ? 0 : ((pageIndex - 1) * pageSize);
@@ -87,12 +87,13 @@ namespace GPD.DAL.SqlDB
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
                 new SqlParameter("@P_PartnerName", partnerName),
-                new SqlParameter("@P_SearchKeyword", searchTerm),
+                (searchTerm == null) ? new SqlParameter("@P_SearchKeyword", DBNull.Value) : new SqlParameter("@P_SearchKeyword", searchTerm),
+                (projectNumber == null) ? new SqlParameter("@P_ProjectNumber", DBNull.Value) : new SqlParameter("@P_ProjectNumber", projectNumber),
                 new SqlParameter("@P_StartRowIndex", startRowIndex),
                 new SqlParameter("@P_PageSize", pageSize)
             };
 
-            return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListBySearchKeyword", parametersInList);
+            return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListBySearchTerm", parametersInList);
         }
 
         /// <summary>
