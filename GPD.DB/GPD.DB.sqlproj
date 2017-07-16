@@ -85,7 +85,7 @@
     <Build Include="dbo\Stored Procedures\gpd_GetProjectsListPaginated.sql" />
     <Build Include="dbo\Tables\__MigrationHistory.sql" />
     <Build Include="dbo\Stored Procedures\gpd_AddUserDetails.sql" />
-    <Build Include="dbo\Stored Procedures\gpd_GetProjectsListBySearchTerm_1.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetUserRoles.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_GetProjectsListBySearchTerm.sql" />
   </ItemGroup>
 </Project>
