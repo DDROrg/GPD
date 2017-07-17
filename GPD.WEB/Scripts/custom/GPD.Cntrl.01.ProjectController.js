@@ -38,6 +38,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.data.page.maxPage = 5;
         $ctrl.data.page.itemPerPage = __ItemPerPage;
         $ctrl.data.globalSearchParam = "";
+        $ctrl.data.tempGlobalSearchParam = "";
         $ctrl.data.projectByNumber = "";
         $ctrl.data.search = {};
         $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
@@ -71,6 +72,10 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.CheckEmpty = function (d) { return d && d != "" ? true : false; };
         $ctrl.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
         $ctrl.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
+        $ctrl.GlobalSearchButtonStyle = function () {
+            return $ctrl.data.tempGlobalSearchParam.length > 2 ? "input-group-addon btn btn-primary" : "input-group-addon btn btn-primary disabled";
+        };
+        $ctrl.OnPageChanged = function () { GetProjects(); };        
         $ctrl.OnColExpDetail = function (d) { d.isExpanded = !(d.isExpanded); if (d.hasDetail == false) { GetProjectDetail(d); } };
         $ctrl.OnOpenItem = function (d) {
             var parentElem = angular.element('div[data-id="Project"]');
@@ -104,11 +109,8 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                 });
             }            
         };
-        $ctrl.OnGlobalSearch = function () { GetProjects(); };
-        $ctrl.GlobalSearchButtonStyle = function () {
-            return $ctrl.data.globalSearchParam.length > 2 ? "input-group-addon btn btn-primary" : "input-group-addon btn btn-primary disabled";
-        };
-        $ctrl.PageChanged = function () { GetProjects(); };
+        $ctrl.OnGlobalSearch = function () { $ctrl.data.globalSearchParam = $ctrl.data.tempGlobalSearchParam; GetProjects(); };
+        $ctrl.OnCancelGlobalSearch = function () { $ctrl.data.globalSearchParam = ""; $ctrl.data.tempGlobalSearchParam = ""; GetProjects(); };
         $ctrl.OnProjectByNumber = function (d) {
             $ctrl.data.page.currentPage = 1;
             $ctrl.data.projectByNumber = "" + d + "";
@@ -196,7 +198,7 @@ angular.module('Project').controller('ProjectDetailCtrl', ['$uibModalInstance', 
     };
     $ctrl.OnColExpMaterial = function (d) { d.isMaterialExpanded = !(d.isMaterialExpanded); };
     $ctrl.IsShowMaterial = function (d) { return d.isMaterialExpanded == true };
-    $ctrl.PageChanged = function () { };
+    $ctrl.OnPageChanged = function () { };
     $ctrl.Ok = function () {
         //$uibModalInstance.close($ctrl.selected.item);
         $uibModalInstance.close("OK");
@@ -261,7 +263,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         });
         return retVal;
     };
-    $ctrl.PageChanged = function () { };
+    $ctrl.OnPageChanged = function () { };
     $ctrl.OnGlobalSearch = function () { GetUsers(); };
     $ctrl.OnColExpRole = function (d) {
         d.isRoleExpanded = !(d.isRoleExpanded);
@@ -424,7 +426,7 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
         });
         return retVal;
     };
-    $ctrl.PageChanged = function () { };
+    $ctrl.OnPageChanged = function () { };
 
     $ctrl.OnEditItem = function (d) {
         $ctrl.data.onEditing = true;

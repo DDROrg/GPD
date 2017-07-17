@@ -54,12 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GpdDbContext.cs" />
-    <Compile Include="Migrations\201706031118463_S001.cs" />
-    <Compile Include="Migrations\201706031118463_S001.Designer.cs">
-      <DependentUpon>201706031118463_S001.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ProjectFacade.cs" />
     <Compile Include="BaseFacade.cs" />
     <Compile Include="SignInFacade.cs" />
@@ -83,14 +77,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="MigrationCommand.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706031118463_S001.resx">
-      <DependentUpon>201706031118463_S001.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

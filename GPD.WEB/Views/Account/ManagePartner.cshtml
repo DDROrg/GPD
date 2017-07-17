@@ -13,7 +13,7 @@
                 <div class="col-sm-12">
                     <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
                         <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
-                             ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.PageChanged()" previous-text="&lsaquo;"
+                             ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.OnPageChanged()" previous-text="&lsaquo;"
                              next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
                              boundary-link-numbers="true">
                         </div>

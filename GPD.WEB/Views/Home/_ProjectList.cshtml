@@ -3,24 +3,30 @@
         <h2>GPD - Project</h2>
         <div class="data-container">
             <div class="row">
-                <div class="col-sm-3">
-                    <div data-ng-if="$ctrl.data.projectByNumber != ''" class="search-filter" >
-                        <span style="font-weight:bold;">Project Number:&nbsp;</span>
-                        {{$ctrl.data.projectByNumber}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelProjectByNumber()" class="data-link"><i class="fa fa-times-circle"></i></a>
+                <div class="col-sm-5">
+                    <div class="search-filter-wrap">
+                        <div data-ng-if="$ctrl.data.projectByNumber != ''"  class="search-filter">
+                            <span style="font-weight:bold;">Project Number:&nbsp;</span>
+                            {{$ctrl.data.projectByNumber}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelProjectByNumber()" class="data-link"><i class="fa fa-times-circle"></i></a>
+                        </div>
+                        <div data-ng-if="$ctrl.data.globalSearchParam != ''"  class="search-filter">
+                            <span style="font-weight:bold;">Search Term:&nbsp;</span>
+                            {{$ctrl.data.globalSearchParam}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelGlobalSearch()" class="data-link"><i class="fa fa-times-circle"></i></a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                     <div data-ng-if="$ctrl.data.projectListResponse.totalRecordCount > $ctrl.data.page.itemPerPage" style="text-align: center;">
                         <div uib-pagination class="pagination-sm pagination" total-items="$ctrl.data.projectListResponse.totalRecordCount"
-                             ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.PageChanged()" previous-text="&lsaquo;"
+                             ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.OnPageChanged()" previous-text="&lsaquo;"
                              next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
                              boundary-link-numbers="true">
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <div class="input-group search-wrapper">
-                        <input type="text" class="search-box" placeholder="Enter search term" data-ng-model="$ctrl.data.globalSearchParam" />
+                        <input type="text" class="search-box" placeholder="Enter search term" data-ng-model="$ctrl.data.tempGlobalSearchParam" />
                         <a data-ng-href="" data-ng-click="$ctrl.OnGlobalSearch()" data-ng-class="$ctrl.GlobalSearchButtonStyle()"><i class="fa fa-arrow-circle-o-right"></i></a>
                     </div>
                 </div>
@@ -311,7 +317,7 @@
                         <div class="col-sm-6">
                             <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
                                 <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
-                                     ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.PageChanged()" previous-text="&lsaquo;"
+                                     ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.OnPageChanged()" previous-text="&lsaquo;"
                                      next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
                                      boundary-link-numbers="true">
                                 </div>
@@ -358,8 +364,8 @@
                             <tbody>
                                 <tr data-ng-repeat-start="d in filterData = ($ctrl.data.project.items | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
                                     <td>
-                                        <a data-ng-if="d.hasProductUrl"  href="{{d.product.url}}" target="PRODUCT" class="cusTooltip ">
-                                        <i class="fa fa-tags"></i>
+                                        <a data-ng-if="d.hasProductUrl" href="{{d.product.url}}" target="PRODUCT" class="cusTooltip ">
+                                            <i class="fa fa-tags"></i>
                                             <span data-ng-if="d.product['image-url']" class="container">
                                                 <img class="callout img-responsive" ng-src="{{d.product['image-url']}}" />
                                             </span>
@@ -410,7 +416,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer">            
+        <div class="modal-footer">
             <button class="btn btn-warning" type="button" ng-click="$ctrl.Cancel()">Cancel</button>
             <button class="btn btn-primary" type="button" ng-click="$ctrl.Ok()">OK</button>
         </div>

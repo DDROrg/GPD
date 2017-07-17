@@ -18,6 +18,8 @@ textarea {
     max-width: 280px;
 }
 
+input.full-width{max-width: 100%;}
+
 a {
     cursor: pointer;
 }
@@ -40,10 +42,14 @@ a {
     width: 95%;
 }
 
-.search-filter {
+.search-filter-wrap {
     margin: 20px 0px;
     line-height: 2;
 }
+
+    .search-filter-wrap .search-filter {
+        display: inline-block;        
+    }
 
 .search-wrapper {
     margin: 20px 0px;
