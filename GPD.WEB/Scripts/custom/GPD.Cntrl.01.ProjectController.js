@@ -109,7 +109,11 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             return $ctrl.data.globalSearchParam.length > 2 ? "input-group-addon btn btn-primary" : "input-group-addon btn btn-primary disabled";
         };
         $ctrl.PageChanged = function () { GetProjects(); };
-        $ctrl.OnProjectByNumber = function (d) { $ctrl.data.projectByNumber = "" + d + ""; GetProjects(); };
+        $ctrl.OnProjectByNumber = function (d) {
+            $ctrl.data.page.currentPage = 1;
+            $ctrl.data.projectByNumber = "" + d + "";
+            GetProjects();
+        };
         $ctrl.OnCancelProjectByNumber = function () { $ctrl.data.projectByNumber = ""; GetProjects(); };
 
         var GetProjectDetail = function (d) {

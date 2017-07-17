@@ -324,27 +324,27 @@
                             <thead style="background-color:#E9E9E9;">
                                 <tr>
                                     <th></th>
-                                    <th>
+                                    <th nowrap>
                                         <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.name')">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.name')">
                                         </i>
                                     </th>
-                                    <th>
+                                    <th nowrap>
                                         <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.manufacturer')">Manufacturer&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.manufacturer')">
                                         </i>
                                     </th>
-                                    <th>
+                                    <th nowrap>
                                         <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.model')">Model&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.model')">
                                         </i>
                                     </th>
-                                    <th>
+                                    <th nowrap>
                                         <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('family')">Family&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('family')">
                                         </i>
                                     </th>
-                                    <th>
+                                    <th nowrap>
                                         <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('type')">Type&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('type')">
                                         </i>
                                     </th>
-                                    <th>
+                                    <th nowrap>
                                         <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('quantity')">Quantity&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('quantity')">
                                         </i>
                                     </th>
@@ -370,7 +370,7 @@
                                     <td>{{d.product.model}}</td>
                                     <td>{{d.family}}</td>
                                     <td>{{d.type}}</td>
-                                    <td>{{d.quantity}}</td>
+                                    <td>{{d.quantity}} {{d["quantity-unit"]}}</td>
                                     <td>
                                         <span data-ng-repeat="dc in d.categories| filter : {taxonomy:'PROJECT_ITEM'}">
                                             {{dc.title}}
