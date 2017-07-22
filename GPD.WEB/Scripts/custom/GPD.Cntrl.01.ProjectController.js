@@ -32,7 +32,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         $ctrl.data.projects = [];
-        $ctrl.data.sort = [{ column: 'name', descending: false }];
+        $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
         $ctrl.data.page = {};
         $ctrl.data.page.currentPage = 1;
         $ctrl.data.page.maxPage = 5;
@@ -65,7 +65,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.ColumnSortOrder = function () {
             var retVal = [];
             angular.forEach($ctrl.data.sort, function (v, k) {
-                retVal.push((v.descending ? "-" : "") + v.column);
+                retVal.push((v.descending ? "-" : "") + "'" + v.column + "'");
             });
             return retVal;
         };
@@ -75,7 +75,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.GlobalSearchButtonStyle = function () {
             return $ctrl.data.tempGlobalSearchParam.length > 2 ? "input-group-addon btn btn-primary" : "input-group-addon btn btn-primary disabled";
         };
-        $ctrl.OnPageChanged = function () { GetProjects(); };        
+        $ctrl.OnPageChanged = function () { GetProjects(); };
         $ctrl.OnColExpDetail = function (d) { d.isExpanded = !(d.isExpanded); if (d.hasDetail == false) { GetProjectDetail(d); } };
         $ctrl.OnOpenItem = function (d) {
             var parentElem = angular.element('div[data-id="Project"]');
@@ -107,7 +107,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                 GetProjectDetail(d).then(function () {
                     $state.go('project.edit', { id: d.id, project: d });
                 });
-            }            
+            }
         };
         $ctrl.OnGlobalSearch = function () { $ctrl.data.globalSearchParam = $ctrl.data.tempGlobalSearchParam; GetProjects(); };
         $ctrl.OnCancelGlobalSearch = function () { $ctrl.data.globalSearchParam = ""; $ctrl.data.tempGlobalSearchParam = ""; GetProjects(); };

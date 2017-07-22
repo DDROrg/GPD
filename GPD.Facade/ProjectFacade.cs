@@ -264,7 +264,7 @@ namespace GPD.Facade
                             OrganizationDescription = dr["ORGANIZATION_DESCRIPTION"].ToString(),
                             OrganizationName = dr["ORGANIZATION_NAME"].ToString(),
                             Status = dr["STATUS"].ToString(),
-                            CreateTimestamp = ((DateTime)dr["CREATE_DATE"]).ToString() + " EDT",
+                            CreateTimestamp = ((DateTime)dr["CREATE_DATE"]).ToString("o"),
                             Location = new LocationItem()
                             {
                                 Address1 = dr["ADDRESS_LINE_1"].ToString(),

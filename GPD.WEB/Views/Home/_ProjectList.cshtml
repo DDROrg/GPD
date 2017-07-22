@@ -55,7 +55,10 @@
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
                             <th>Location</th>
-                            <th>Added On</th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('create-timestamp-formatted')" class="data-link">Added On&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('create-timestamp-formatted')">
+                                </i>
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -76,7 +79,7 @@
                                 <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.state)">{{d.location.state}},&nbsp;</ng-container>
                                 <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.zip)">zip - {{d.location.city}}</ng-container>
                             </td>
-                            <td>{{d["create-timestamp-formatted"]}}</td>
+                            <td>{{d["create-timestamp-formatted"] | date:'MM/dd/yyyy HH:mm:ss'}}</td>
                             <td>
                                 <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Detail"></i></a>
                                 <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
