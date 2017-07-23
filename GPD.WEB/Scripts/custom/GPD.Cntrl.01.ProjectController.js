@@ -301,7 +301,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             templateUrl: 'addUserRole.html',
             controller: 'AddUserRoleCtrl',
             controllerAs: '$ctrl',
-            size: 'sm',
+            size: 'md',
             appendTo: parentElem,
             resolve: {
                 data: function () {
