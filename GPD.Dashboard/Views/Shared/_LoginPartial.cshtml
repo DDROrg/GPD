@@ -1,0 +1,18 @@
+﻿@{
+    var up = GPD.Dashboard.SessionManager.GetInstance().GetUserProfile();
+}
+@if (Request.IsAuthenticated)
+{
+    <form action="/Account/Logout" class="navbar-right" id="logoutForm" method="post">
+        @Html.AntiForgeryToken()
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Off: @up.FirstName</a></li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/Account/Login" id="aLoginLink">Log in</a>
+    </ul>
+}
