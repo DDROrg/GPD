@@ -231,9 +231,13 @@ namespace GPD.Facade
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="partnerName"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="pIdentifier"></param>
         /// <returns></returns>
-        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize, int pageIndex, string searchTerm = null, string projectNumber = null)
+        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize, int pageIndex, string searchTerm = null, string pIdentifier = null)
         {
             ProjectsListResponse retVal = new ProjectsListResponse() {
                 PageIndex = pageIndex,
@@ -244,10 +248,10 @@ namespace GPD.Facade
             try
             {
                 // get projects dataset from database
-                DataSet ds = (string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(projectNumber)) ?
+                DataSet ds = (string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(pIdentifier)) ?
                     new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsList(partnerName, pageSize, pageIndex)
                     :
-                    new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsListWithSearchTerm(partnerName, searchTerm, projectNumber, pageSize, pageIndex);
+                    new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsListWithSearchTerm(partnerName, searchTerm, pIdentifier, pageSize, pageIndex);
                 
                 if (ds != null && ds.Tables.Count == 2 && ds.Tables[0].Rows.Count > 0 && ds.Tables[1].Rows.Count > 0)
                 {

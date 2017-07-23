@@ -725,7 +725,7 @@
             <param name="pageSize">Page Size</param>
             <param name="pageIndex">Page Index</param>
             <param name="searchTerm">Search Term</param>
-            <param name="pNumber">Project Number</param>
+            <param name="pIdentifier">Project Identifier</param>
             <returns></returns>
         </member>
         <member name="M:GPD.WEB.Controllers.ProjectController.GetProjectDetails(System.String,System.String)">

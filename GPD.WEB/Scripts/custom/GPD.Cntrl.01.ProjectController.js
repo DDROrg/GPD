@@ -39,7 +39,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.data.page.itemPerPage = __ItemPerPage;
         $ctrl.data.globalSearchParam = "";
         $ctrl.data.tempGlobalSearchParam = "";
-        $ctrl.data.projectByNumber = "";
+        $ctrl.data.projectIdentifier = "";
         $ctrl.data.search = {};
         $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
 
@@ -111,12 +111,12 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         };
         $ctrl.OnGlobalSearch = function () { $ctrl.data.globalSearchParam = $ctrl.data.tempGlobalSearchParam; GetProjects(); };
         $ctrl.OnCancelGlobalSearch = function () { $ctrl.data.globalSearchParam = ""; $ctrl.data.tempGlobalSearchParam = ""; GetProjects(); };
-        $ctrl.OnProjectByNumber = function (d) {
+        $ctrl.OnProjectByIdentifier = function (d) {
             $ctrl.data.page.currentPage = 1;
-            $ctrl.data.projectByNumber = "" + d + "";
+            $ctrl.data.projectIdentifier = "" + d + "";
             GetProjects();
         };
-        $ctrl.OnCancelProjectByNumber = function () { $ctrl.data.projectByNumber = ""; GetProjects(); };
+        $ctrl.OnCancelProjectByIdentifier = function () { $ctrl.data.projectIdentifier = ""; GetProjects(); };
 
         var GetProjectDetail = function (d) {
             return ProjectServices.GetProjectDetail($ctrl.data.LogedinUserProfile.selectedPartner, d.id)
@@ -134,7 +134,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             });
         };
         var GetProjects = function () {
-            return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.globalSearchParam, $ctrl.data.projectByNumber, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
+            return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.globalSearchParam, $ctrl.data.projectIdentifier, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
             .then(function (payload) {
                 $ctrl.data.projectListResponse = payload;
             });

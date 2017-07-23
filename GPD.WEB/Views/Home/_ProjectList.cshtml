@@ -5,9 +5,9 @@
             <div class="row">
                 <div class="col-sm-5">
                     <div class="search-filter-wrap">
-                        <div data-ng-if="$ctrl.data.projectByNumber != ''"  class="search-filter">
+                        <div data-ng-if="$ctrl.data.projectIdentifier != ''"  class="search-filter">
                             <span style="font-weight:bold;">Project Number:&nbsp;</span>
-                            {{$ctrl.data.projectByNumber}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelProjectByNumber()" class="data-link"><i class="fa fa-times-circle"></i></a>
+                            {{$ctrl.data.projectIdentifier}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelProjectByIdentifier()" class="data-link"><i class="fa fa-times-circle"></i></a>
                         </div>
                         <div data-ng-if="$ctrl.data.globalSearchParam != ''"  class="search-filter">
                             <span style="font-weight:bold;">Search Term:&nbsp;</span>
@@ -146,10 +146,10 @@
                                             <div class="col-xs-12 col-sm-4">
                                                 <div class="row">
                                                     <div class="col-xs-4 data-caption" style="font-weight:bold;">
-                                                        Identifiers:
+                                                        Project Number:
                                                     </div>
                                                     <div class="col-xs-8">
-                                                        <span data-ng-repeat="i in d.identifiers">{{i.system}}, </span>
+                                                        <span>{{d.number}}{{}}, </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -280,10 +280,10 @@
                                             <div class="col-xs-12 col-sm-4">
                                                 <div class="row">
                                                     <div class="col-xs-4 data-caption" style="font-weight:bold;">
-                                                        Project Number:
+                                                        Project Identifiers:
                                                     </div>
                                                     <div class="col-xs-8">
-                                                        <a ng-href="" ng-click="$ctrl.OnProjectByNumber(d.number)" class="data-link">{{d.number}}</a>
+                                                        <a ng-href="" ng-click="$ctrl.OnProjectByIdentifier(d.identifiers[0].identifier)" class="data-link">{{d.identifiers[0].identifier}}</a>
                                                     </div>
                                                 </div>
                                             </div>

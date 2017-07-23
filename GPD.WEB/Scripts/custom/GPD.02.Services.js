@@ -48,10 +48,10 @@ var BroadcastService = function ($rootScope, $log) {
 };
 //============================================
 var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
-    var _GetProjects = function (PartnarName, GlobalSearchParam, ProjectByNumber, PageIndex, PageSize) {
+    var _GetProjects = function (PartnarName, GlobalSearchParam, ProjectIdentifier, PageIndex, PageSize) {
         var data = {};
         data.searchTerm = GlobalSearchParam;
-        data.pNumber = ProjectByNumber;
+        data.pIdentifier = ProjectIdentifier;
         return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex + "?" + $httpParamSerializer(data));
     };
 
@@ -63,10 +63,10 @@ var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
         return $http.post(__RootUrl + "api/" + PartnarName + "/UpdateProject", project);
     };
 
-    this.GetProjects = function (PartnarName, GlobalSearchParam, ProjectByNumber, PageIndex, PageSize) {
+    this.GetProjects = function (PartnarName, GlobalSearchParam, ProjectIdentifier, PageIndex, PageSize) {
         var deferred = $q.defer();
         var retVal = [];
-        _GetProjects(PartnarName, GlobalSearchParam, ProjectByNumber, PageIndex, PageSize)
+        _GetProjects(PartnarName, GlobalSearchParam, ProjectIdentifier, PageIndex, PageSize)
         .then(function (payload) {
             retVal = payload.data;
             $.each(retVal.projects, function (k, v) {
