@@ -45,5 +45,48 @@ namespace GPD.Dashboard.Controllers
             return new Facade.ProjectFacade().GetProjectChartData(partner, fromDate, toDate);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        [Route("api/GetCategoriesChartData")]
+        [HttpPost]
+        [Authorize]
+        public List<LineChartDTO> GetCategoriesChartData(string partner, string fromDate, string toDate)
+        {
+            return new Facade.ProjectFacade().GetCategoriesChartData(partner, fromDate, toDate);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        [Route("api/GetUniqueUserCount")]
+        [HttpPost]
+        [Authorize]
+        public int GetUniqueUserCount(string partner)
+        {
+            return new Facade.ProjectFacade().GetUniqueUserCount(partner);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        [Route("api/GetProjectCount")]
+        [HttpPost]
+        [Authorize]
+        public int GetProjectCount(string partner, string fromDate, string toDate)
+        {
+            return new Facade.ProjectFacade().GetProjectCount(partner, fromDate, toDate);
+        }
+
     }
 }

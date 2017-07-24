@@ -309,7 +309,7 @@ namespace GPD.Facade
             retVal.Add(new LineChartDTO()
             {
                 Name = "Revit",
-                Color= "#FF0000",
+                Color = "#FF0000",
                 Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06" }),
                 Values = new List<int>(new int[] { 10, 12, 9, 17, 20, 14 })
             });
@@ -328,6 +328,65 @@ namespace GPD.Facade
                     Color = "#FF4400",
                     Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06" }),
                     Values = new List<int>(new int[] { 14, 10, 19, 27, 24, 4 })
+                });
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        public int GetProjectCount(string partner, string fromDate, string toDate)
+        {
+            return 1243;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        public int GetUniqueUserCount(string partner)
+        {
+            return 231;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        public List<LineChartDTO> GetCategoriesChartData(string partner, string fromDate, string toDate)
+        {
+            List<LineChartDTO> retVal = new List<LineChartDTO>();
+            retVal.Add(new LineChartDTO()
+            {
+                Name = "Doors",
+                Color = "#FF0000",
+                Dates = new List<string>(new string[] { "2016-01-01", "2017-01-01" }),
+                Values = new List<int>(new int[] { 10, 12 })
+            });
+            retVal.Add(new LineChartDTO()
+            {
+                Name = "Window",
+                Color = "#FFFF00",
+                Dates = new List<string>(new string[] { "2016-01-01", "2017-01-01" }),
+                Values = new List<int>(new int[] { 12, 12 })
+            });
+            if (partner == "ALL")
+            {
+                retVal.Add(new LineChartDTO()
+                {
+                    Name = "Furniture",
+                    Color = "#FF4400",
+                    Dates = new List<string>(new string[] { "2016-01-01", "2017-01-01" }),
+                    Values = new List<int>(new int[] { 14, 10 })
                 });
             }
             return retVal;

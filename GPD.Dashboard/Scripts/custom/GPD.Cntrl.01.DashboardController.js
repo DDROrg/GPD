@@ -8,7 +8,7 @@ angular.module('GPD').controller("PartnerCtrl", ['$scope', '$http', '$location',
         $ctrl.data.LogedinUserProfile.selectedPartner = d;
         CommonServices.ChangePartner(d);
     };
-    
+
     var GetLogedinUserProfile = function () {
         CommonServices.GetLogedinUserProfile()
         .then(function (payload) {
@@ -25,42 +25,27 @@ angular.module('GPD').controller("PartnerCtrl", ['$scope', '$http', '$location',
 angular.module('GPD').controller('GPDDashboardController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', '$state', '$stateParams', 'toastr', 'CommonServices',
     function ($scope, $rootScope, $http, $location, $uibModal, $log, $state, $stateParams, toastr, CommonServices) {
         var $ctrl = this;
-        var _chartObj;
-        var _chartColor = ['#ff0000', '#ff6a00', '#ffd800', '#b6ff00', '#4cff00', '#5f798d', '#0094ff', '#0000ff'];
+        var _projectChartObj, _categoriesChartObj;
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         $ctrl.data.fromDate = "";
         $ctrl.data.toDate = "";
+        $ctrl.data.UniqueUserCount = 0;
+        $ctrl.data.ProjectCount = 0;
 
-        var DestroyChartData = function () {
-            if (_chartObj) { _chartObj = _chartObj.destroy(); }
-        };
-
-        var RenderChartData = function (d) {
-            var tempPattern = [];
-            var tempXs = {};
-            var tempColumns = [];
-            angular.forEach(d, function (v, k) {
-                var i = "x" + (k + 1);
-                //tempPattern.push(v.color);
-                tempPattern.push(_chartColor[k]);
-                tempXs[v.name] = i;
-                v.dates.unshift(i);
-                v.values.unshift(v.name)
-                tempColumns.push(v.dates);
-                tempColumns.push(v.values);
-            });
-
-            _chartObj = c3.generate({
-                bindto: "#c3Chart",
+        var RenderProjectChartData = function (d) {
+            var tempData = CommonServices.TransformChartData(d);
+            
+            _projectChartObj = c3.generate({
+                bindto: "#c3ProjectChart",
                 grid: {
                     x: { show: true },
                     y: { show: true }
                 },
-                color: { pattern: tempPattern },
+                color: { pattern: tempData.tempPattern },
                 data: {
-                    xs: tempXs,
-                    columns: tempColumns,
+                    xs: tempData.tempXs,
+                    columns: tempData.tempColumns,
                     type: 'spline'
                 },
                 point: { r: 2 },
@@ -74,23 +59,78 @@ angular.module('GPD').controller('GPDDashboardController', ['$scope', '$rootScop
             });
         };
 
-        var GetChartData = function () {
-            $log.log("sss " + (new Date()));
-            DestroyChartData();
-            return CommonServices.GetProjectChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
-            .then(function (payload) {
-                RenderChartData(payload);
+        var RenderCategoriesChartData = function (d) {
+            var tempData = CommonServices.TransformChartData(d);
+
+            _categoriesChartObj = c3.generate({
+                bindto: "#c3CategoriesChart",
+                interaction: {
+                    enabled: false
+                },
+                grid: {
+                    x: { show: true },
+                    y: { show: true }
+                },
+                color: { pattern: tempData.tempPattern },
+                data: {
+                    xs: tempData.tempXs,
+                    columns: tempData.tempColumns,
+                    type: 'bar'
+                },
+                axis: {
+                    x: {
+                        type: 'timeseries',
+                        tick: { format: "%y" } // %b - month name, %d - date, %m - month, %y - year
+                    }
+                },
+                bar: {
+                    width: {
+                        ratio: 0.5 
+                    }
+                },
+                legend: { show: true }
             });
         };
 
+        var GetProjectChartData = function () {
+            if (_projectChartObj) { _projectChartObj = _projectChartObj.destroy(); }
+            return CommonServices.GetProjectChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            .then(function (payload) {
+                RenderProjectChartData(payload);
+            });
+        };
+
+        var GetCategoriesChartData = function () {
+            if (_categoriesChartObj) { _categoriesChartObj = _categoriesChartObj.destroy(); }
+            return CommonServices.GetCategoriesChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            .then(function (payload) {
+                RenderCategoriesChartData(payload);
+            });
+        };
+
+        var GetUniqueUserCount = function () {
+            return CommonServices.GetUniqueUserCount($ctrl.data.LogedinUserProfile.selectedPartner)
+            .then(function (payload) {
+                $ctrl.data.UniqueUserCount = payload;
+            });
+        };
+
+        var GetProjectCount = function () {
+            return CommonServices.GetProjectCount($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            .then(function (payload) {
+                $ctrl.data.ProjectCount = payload;
+            });
+        };
+
+
         $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
-            GetChartData();
+            GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount();
         });
         $rootScope.$on('EVENT-ChangePartner', function (event, data) {
-            GetChartData();
+            GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount();
         });
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            if (fromState.name != '') { GetChartData(); }
+            if (fromState.name != '') { GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); }
         });
         angular.element(document).ready(function () { });
     }]);
