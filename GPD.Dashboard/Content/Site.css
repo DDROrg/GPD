@@ -37,6 +37,11 @@ a {
     padding: 5px;
     margin: 5px;
 }
+.widget .widget-header{
+    font-size: 1.5em;
+    background-color:#CCC;
+    padding: 5px;
+}
 
 .widget-icon {
     font-size: 4em;
