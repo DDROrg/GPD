@@ -239,7 +239,8 @@ namespace GPD.Facade
         /// <returns></returns>
         public ProjectsListResponse GetProjectsList(string partnerName, int pageSize, int pageIndex, string searchTerm = null, string pIdentifier = null)
         {
-            ProjectsListResponse retVal = new ProjectsListResponse() {
+            ProjectsListResponse retVal = new ProjectsListResponse()
+            {
                 PageIndex = pageIndex,
                 PageSize = pageSize,
                 TotalRecordCount = 0
@@ -252,7 +253,7 @@ namespace GPD.Facade
                     new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsList(partnerName, pageSize, pageIndex)
                     :
                     new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsListWithSearchTerm(partnerName, searchTerm, pIdentifier, pageSize, pageIndex);
-                
+
                 if (ds != null && ds.Tables.Count == 2 && ds.Tables[0].Rows.Count > 0 && ds.Tables[1].Rows.Count > 0)
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
@@ -292,6 +293,43 @@ namespace GPD.Facade
                 log.Error("Unable to get all projects. ERROR: " + exc.ToString());
             }
 
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        public List<LineChartDTO> GetProjectChartData(string partner, string fromDate, string toDate)
+        {
+            List<LineChartDTO> retVal = new List<LineChartDTO>();
+            retVal.Add(new LineChartDTO()
+            {
+                Name = "Revit",
+                Color= "#FF0000",
+                Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06" }),
+                Values = new List<int>(new int[] { 10, 12, 9, 17, 20, 14 })
+            });
+            retVal.Add(new LineChartDTO()
+            {
+                Name = "AutoCAD",
+                Color = "#FFFF00",
+                Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06" }),
+                Values = new List<int>(new int[] { 12, 12, 19, 21, 24, 4 })
+            });
+            if (partner == "ALL")
+            {
+                retVal.Add(new LineChartDTO()
+                {
+                    Name = "BIM",
+                    Color = "#FF4400",
+                    Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06" }),
+                    Values = new List<int>(new int[] { 14, 10, 19, 27, 24, 4 })
+                });
+            }
             return retVal;
         }
     }

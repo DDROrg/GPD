@@ -1,4 +1,28 @@
-﻿
+﻿//=================================================
+angular.module('GPD').controller("PartnerCtrl", ['$scope', '$http', '$location', '$log', 'toastr', 'CommonServices', function ($scope, $http, $location, $log, toastr, CommonServices) {
+    var $ctrl = this;
+    CommonServices.SetDefaultData($ctrl, $location);
+    $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
+
+    $ctrl.SelectPartner = function (d) {
+        $ctrl.data.LogedinUserProfile.selectedPartner = d;
+        CommonServices.ChangePartner(d);
+    };
+
+
+    var GetLogedinUserProfile = function () {
+        CommonServices.GetLogedinUserProfile()
+        .then(function (payload) {
+            CommonServices.LogedinUserProfileLoaded();
+        });
+    };
+
+    angular.element(document).ready(function () {
+        if (__UserEmail != "") {
+            GetLogedinUserProfile();
+        }
+    });
+}]);
 
 //=================================================
 angular.module('GPD').controller('GPDDashboardController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', '$state', '$stateParams', 'toastr', 'CommonServices',
@@ -7,12 +31,13 @@ angular.module('GPD').controller('GPDDashboardController', ['$scope', '$rootScop
         var _chartObj;
         var _chartColor = ['#ff0000', '#ff6a00', '#ffd800', '#b6ff00', '#4cff00', '#5f798d', '#0094ff', '#0000ff'];
         CommonServices.SetDefaultData($ctrl, $location);
+        $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         $ctrl.data.fromDate = "";
         $ctrl.data.toDate = "";
-        $ctrl.data.test = "GPD-Dashboard-Controller";
+
         var DestroyChartData = function () {
             if (_chartObj) { _chartObj = _chartObj.destroy(); }
-        }
+        };
 
         var RenderChartData = function (d) {
             var tempPattern = [];
@@ -22,9 +47,9 @@ angular.module('GPD').controller('GPDDashboardController', ['$scope', '$rootScop
                 var i = "x" + (k + 1);
                 //tempPattern.push(v.color);
                 tempPattern.push(_chartColor[k]);
-                tempXs[v.Name] = i;
+                tempXs[v.name] = i;
                 v.dates.unshift(i);
-                v.values.unshift(v.Name)
+                v.values.unshift(v.name)
                 tempColumns.push(v.dates);
                 tempColumns.push(v.values);
             });
@@ -50,35 +75,25 @@ angular.module('GPD').controller('GPDDashboardController', ['$scope', '$rootScop
                 },
                 legend: { show: true }
             });
-        }
+        };
 
         var GetChartData = function () {
             DestroyChartData();
-            //return CommonServices.GetChartData($ctrl.data.fromDate, $ctrl.data.toDate)
-            //.then(function (payload) {
-            //    //RenderChartData(payload, $scope.data.selectedChart.cName, $scope.data.selectedChart.color);
-            //    RenderChartData(payload, "Test", "#FF0000");
-            //});
-
-            var dd = [];
-            dd.push({
-                Name: "Revit",
-                color: "#FF0000",
-                dates: ["2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06"],
-                values: [10, 12, 9, 17, 20, 14]
+            return CommonServices.GetProjectChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            .then(function (payload) {
+                RenderChartData(payload);
             });
-            dd.push({
-                Name: "AutoCAD",
-                color: "#FFFF00",
-                dates: ["2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06"],
-                values: [12, 12, 19, 21, 24, 4]
-            });
+        };
 
-            RenderChartData(dd);
-        }
+        $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
+            GetChartData();
+        });
+        $rootScope.$on('EVENT-ChangePartner', function (event, data) {
+            GetChartData();
+        });
 
         angular.element(document).ready(function () {
-            GetChartData();
+           
         });
     }]);
 
