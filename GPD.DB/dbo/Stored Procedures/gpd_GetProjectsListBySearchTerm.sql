@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[gpd_GetProjectsListBySearchTerm]
 	   @P_PartnerName nvarchar(30),
 	   @P_SearchKeyword nvarchar(30),
-	   @P_ProjectNumber nvarchar(250),
+	   @P_ProjectIdentifier nvarchar(250),
 	   @P_StartRowIndex int,
        @P_PageSize int
 AS
@@ -12,47 +12,59 @@ BEGIN
 	
 	DECLARE @t_RecordsCount TABLE (project_id uniqueidentifier, partner_name nvarchar(30));
 
-	INSERT INTO @t_RecordsCount
-		SELECT P.project_id, P.partner_name
-		FROM gpd_project P
-		WHERE (@P_SearchKeyword IS NULL 
-			OR @P_SearchKeyword = ''
-			OR P.project_id IN (
-			/* Project Name | Client | Status */
-			SELECT project_id FROM gpd_project P WHERE P.active = 1
-			AND (P.name LIKE '%' + @P_SearchKeyword +'%' OR P.client LIKE '%' + @P_SearchKeyword +'%' OR P.status LIKE '%' + @P_SearchKeyword +'%')
+	IF @P_SearchKeyword IS NULL
+		BEGIN
+			INSERT INTO @t_RecordsCount
+				SELECT P.project_id, P.partner_name
+				FROM gpd_project P, gpd_project_identifier I
+				WHERE I.identifier = @P_ProjectIdentifier
+				AND P.project_id = I.project_id
+				AND P.active = 1
+		END
+	ELSE
+		BEGIN
+			INSERT INTO @t_RecordsCount
+				SELECT P.project_id, P.partner_name
+				FROM gpd_project P
+				WHERE P.project_id IN (
+					/* Project Name | Client | Status */
+					SELECT project_id FROM gpd_project P WHERE P.active = 1
+					AND (P.name LIKE '%' + @P_SearchKeyword +'%' OR P.client LIKE '%' + @P_SearchKeyword +'%' OR P.status LIKE '%' + @P_SearchKeyword +'%')
 			
-			UNION
-			/* Zipcode */
-			SELECT PL.project_id
-			FROM gpd_project_location PL
-			WHERE PL.zip LIKE '%' + @P_SearchKeyword +'%'
+					UNION
+					/* Zipcode */
+					SELECT PL.project_id
+					FROM gpd_project_location PL
+					WHERE PL.zip LIKE '%' + @P_SearchKeyword +'%'
 				
-			UNION
-			/* Material Name | Material Manufacturer | Material Model */
-			SELECT I.project_id
-			FROM gpd_project_item I
-			WHERE I.project_item_id IN (
-				SELECT M.project_item_id
-				FROM gpd_project_item_material M
-				WHERE M.product_name LIKE '%' + @P_SearchKeyword +'%'
-				OR M.product_manufacturer LIKE '%' + @P_SearchKeyword +'%'
-				OR M.product_model LIKE '%' + @P_SearchKeyword +'%'
-			)
-			/* Family */
-			OR [family] LIKE '%' + @P_SearchKeyword +'%'
-			/* Family Type */
-			OR [type] LIKE '%' + @P_SearchKeyword +'%'
-			/* Manufacturer Name */
-			OR [product_manufacturer] LIKE '%' + @P_SearchKeyword +'%'
-			/* Manufacturer Name | Model Number / Name */
-			OR [product_model] LIKE '%' + @P_SearchKeyword +'%'
-			OR [product_name] LIKE '%' + @P_SearchKeyword +'%'
-		))
-		AND (@P_ProjectNumber IS NULL 
-			OR @P_SearchKeyword = ''
-			OR  P.project_id IN (SELECT I.project_id FROM gpd_project_identifier I WHERE I.identifier = @P_ProjectNumber))
-		AND P.active = 1;
+					UNION
+					/* Material Name | Material Manufacturer | Material Model */
+					SELECT I.project_id
+					FROM gpd_project_item I
+					WHERE I.project_item_id IN (
+						SELECT M.project_item_id
+						FROM gpd_project_item_material M
+						WHERE M.product_name LIKE '%' + @P_SearchKeyword +'%'
+						OR M.product_manufacturer LIKE '%' + @P_SearchKeyword +'%'
+						OR M.product_model LIKE '%' + @P_SearchKeyword +'%'
+					)
+					/* Family */
+					OR [family] LIKE '%' + @P_SearchKeyword +'%'
+					/* Family Type */
+					OR [type] LIKE '%' + @P_SearchKeyword +'%'
+					/* Manufacturer Name */
+					OR [product_manufacturer] LIKE '%' + @P_SearchKeyword +'%'
+					/* Manufacturer Name | Model Number / Name */
+					OR [product_model] LIKE '%' + @P_SearchKeyword +'%'
+					OR [product_name] LIKE '%' + @P_SearchKeyword +'%'
+				)
+				AND P.active = 1
+				AND (
+					@P_ProjectIdentifier IS NULL OR p.project_id IN (SELECT I.project_id 
+																FROM gpd_project_identifier I 
+																WHERE I.identifier = @P_ProjectIdentifier)
+				)
+		END	
 
 	IF @P_PartnerName = 'ALL'
 		BEGIN
@@ -80,7 +92,7 @@ BEGIN
 			OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY;
 				
 			-- get the total count of the records
-			SELECT count(*) AS TotalCount FROM @t_RecordsCount;
+			SELECT count(*) FROM @t_RecordsCount;
 		END
 	ELSE
 		BEGIN
@@ -109,6 +121,6 @@ BEGIN
 			OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY;
 				
 			-- get the total count of the records
-			SELECT count(*) AS TotalCount FROM @t_RecordsCount x WHERE x.partner_name = @P_PartnerName;
+			SELECT count(*) FROM @t_RecordsCount x WHERE x.partner_name = @P_PartnerName;
 		END
 END;
