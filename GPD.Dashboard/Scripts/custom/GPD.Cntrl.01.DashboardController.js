@@ -8,8 +8,7 @@ angular.module('GPD').controller("PartnerCtrl", ['$scope', '$http', '$location',
         $ctrl.data.LogedinUserProfile.selectedPartner = d;
         CommonServices.ChangePartner(d);
     };
-
-
+    
     var GetLogedinUserProfile = function () {
         CommonServices.GetLogedinUserProfile()
         .then(function (payload) {
@@ -18,9 +17,7 @@ angular.module('GPD').controller("PartnerCtrl", ['$scope', '$http', '$location',
     };
 
     angular.element(document).ready(function () {
-        if (__UserEmail != "") {
-            GetLogedinUserProfile();
-        }
+        if (__UserEmail != "") { GetLogedinUserProfile(); }
     });
 }]);
 
@@ -78,6 +75,7 @@ angular.module('GPD').controller('GPDDashboardController', ['$scope', '$rootScop
         };
 
         var GetChartData = function () {
+            $log.log("sss " + (new Date()));
             DestroyChartData();
             return CommonServices.GetProjectChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
             .then(function (payload) {
@@ -91,10 +89,10 @@ angular.module('GPD').controller('GPDDashboardController', ['$scope', '$rootScop
         $rootScope.$on('EVENT-ChangePartner', function (event, data) {
             GetChartData();
         });
-
-        angular.element(document).ready(function () {
-           
+        $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            if (fromState.name != '') { GetChartData(); }
         });
+        angular.element(document).ready(function () { });
     }]);
 
 //=================================================

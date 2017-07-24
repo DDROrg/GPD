@@ -134,6 +134,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             });
         };
         var GetProjects = function () {
+            //$log.log("sss " + (new Date()));
             return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.globalSearchParam, $ctrl.data.projectIdentifier, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
             .then(function (payload) {
                 $ctrl.data.projectListResponse = payload;

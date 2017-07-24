@@ -9,8 +9,10 @@ namespace GPD.Dashboard
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                         "~/Scripts/jquery-{version}.js",
-                         "~/Scripts/jquery.validate*"));
+                      "~/Scripts/jquery-{version}.js",
+                      "~/Scripts/jquery.validate*",
+                      "~/Scripts/d3.min.js",
+                      "~/Scripts/c3.min.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -28,9 +30,7 @@ namespace GPD.Dashboard
                       "~/Scripts/angular-ui/ui-bootstrap-tpls.js",
                       "~/Scripts/angular-ui-router.min.js",
                       "~/Scripts/angular-ui-router-title.js",
-                      "~/Scripts/loading-bar.min.js",
-                      "~/Scripts/d3.min.js",
-                      "~/Scripts/c3.min.js"));
+                      "~/Scripts/loading-bar.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/custom/script").Include(
                       "~/Scripts/custom/GPD.*"));

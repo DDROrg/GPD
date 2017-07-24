@@ -13,11 +13,9 @@
                 template: '<ui-view/>'                
             }).state('project.list', {
                 url: '/list',
-                controller: 'ProjectController',
                 templateUrl: '/Home/ProjectList'
             }).state('project.edit', {
                 url: '/edit/{id}',
-                controller: 'ProjectEditController',
                 templateUrl: '/Home/ProjectEdit',
                 params: { id: null, project: null }
                 //,
