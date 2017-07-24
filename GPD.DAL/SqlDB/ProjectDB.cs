@@ -92,14 +92,12 @@ namespace GPD.DAL.SqlDB
             {
                 new SqlParameter("@P_PartnerName", partnerName),
                 (searchTerm == null) ? new SqlParameter("@P_SearchKeyword", DBNull.Value) : new SqlParameter("@P_SearchKeyword", searchTerm),
-                (pIdentifier == null) ? new SqlParameter("@P_ProjectNumber", DBNull.Value) : new SqlParameter("@P_ProjectNumber", pIdentifier),
+                (pIdentifier == null) ? new SqlParameter("@P_ProjectIdentifier", DBNull.Value) : new SqlParameter("@P_ProjectIdentifier", pIdentifier),
                 new SqlParameter("@P_StartRowIndex", startRowIndex),
                 new SqlParameter("@P_PageSize", pageSize)
             };
 
             return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListBySearchTerm", parametersInList);
-            //return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListBySearchKeyword", parametersInList);
-
         }
 
         /// <summary>

@@ -87,5 +87,7 @@
     <Build Include="dbo\Stored Procedures\gpd_AddUserDetails.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetUserRoles.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetProjectsListBySearchTerm.sql" />
+    <Build Include="dbo\Tables\gpd_manufacture_profile.sql" />
+    <Build Include="dbo\Tables\gpd_firm_profile.sql" />
   </ItemGroup>
 </Project>
