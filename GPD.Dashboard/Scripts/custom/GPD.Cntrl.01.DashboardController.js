@@ -1,8 +1,15 @@
 ﻿//=================================================
-angular.module('GPD').controller("PartnerCtrl", ['$scope', '$http', '$location', '$log', 'toastr', 'CommonServices', function ($scope, $http, $location, $log, toastr, CommonServices) {
+angular.module('GPD').controller("FilterCtrl", ['$scope', '$http', '$location', '$log', 'toastr', 'CommonServices', function ($scope, $http, $location, $log, toastr, CommonServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
     $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
+
+    //$ctrl.data.opts = {
+    //    dateFormat: 'dd/mm/yy',
+    //    changeMonth: true,
+    //    changeYear: true
+    //};
+    //$ctrl.data.valor= "10/09/2013";
 
     $ctrl.SelectPartner = function (d) {
         $ctrl.data.LogedinUserProfile.selectedPartner = d;

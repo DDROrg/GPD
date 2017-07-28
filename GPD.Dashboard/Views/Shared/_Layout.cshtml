@@ -29,27 +29,34 @@
                 @Html.ActionLink("GPD Analytics", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown" data-ng-controller="PartnerCtrl as $ctrl" ng-cloak>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Partner: {{$ctrl.data.LogedinUserProfile.selectedPartner}}
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li data-ng-repeat="d in $ctrl.data.LogedinUserProfile.partnerNames"><a data-ng-href="" data-ng-click="$ctrl.SelectPartner(d)">{{d}}</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Report
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a ui-sref="GPD.dashboard" ui-sref-active="active">Dashboard</a></li>
-                            <li><a ui-sref="GPD.TopCategories" ui-sref-active="active">Top Categories</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                @if (Request.IsAuthenticated)
+                {
+                    <ul class="nav navbar-nav" data-ng-controller="FilterCtrl as $ctrl" ng-cloak>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Report
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a ui-sref="GPD.dashboard" ui-sref-active="active">Dashboard</a></li>
+                                <li><a ui-sref="GPD.TopCategories" ui-sref-active="active">Top Categories</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Partner: {{$ctrl.data.LogedinUserProfile.selectedPartner}}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li data-ng-repeat="d in $ctrl.data.LogedinUserProfile.partnerNames"><a data-ng-href="" data-ng-click="$ctrl.SelectPartner(d)">{{d}}</a></li>
+                            </ul>
+                        </li>
+                        @*<li>
+                            <input ui-date="$ctrl.data.opts" ng-model="$ctrl.data.valor" readonly="" />
+                            Date: {{$ctrl.data.valor}}
+                        </li>*@
+                    </ul>
+                }
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
