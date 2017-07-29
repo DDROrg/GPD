@@ -1,0 +1,47 @@
+﻿<div data-ng-controller="GPDDashboardController as $ctrl" ng-cloak>
+    <h2>GPD Analytics - Dashboard</h2>
+
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="widget">
+                <div class="widget-header">Project By Application</div>
+                <div>
+                    <div class="chart" id="c3ProjectChart" style="margin-left: -5px; margin-right: 5px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="widget">
+                <div class="widget-header">Top Categories</div>
+                <div>
+                    <div class="chart" id="c3CategoriesChart" style="margin-left: -5px; margin-right: 5px;">
+                    </div>
+                </div>
+            </div>
+            <div class="widget">
+                <table style="width:100%">
+                    <tr>
+                        <td class="widget-icon"><i class="fa fa-user-circle-o"></i></td>
+                        <td class="widget-data">
+                            <span style="font-size:1.5em;">{{$ctrl.data.UniqueUserCount}}</span><br />
+                            <span style="font-size:.8em;">Unique User</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="widget">
+                <table style="width:100%">
+                    <tr>
+                        <td class="widget-icon"><i class="fa fa-list-alt"></i></td>
+                        <td class="widget-data">
+                            <span style="font-size:1.5em;">{{$ctrl.data.ProjectCount}}</span><br />
+                            <span style="font-size:.8em;">Projects</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

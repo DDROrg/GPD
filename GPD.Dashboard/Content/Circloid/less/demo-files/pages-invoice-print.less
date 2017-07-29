@@ -1,0 +1,57 @@
+/**
+ * Pages Invoice Print - Print Version
+ */
+
+@import "../base.less";
+@import "../mixins.less";
+
+@media print {
+	body{
+		font-family: arial;
+	}
+	#left-column{
+		display: none;
+	}
+	#right-column{
+		background: none transparent;
+		border: 0 !important;
+		padding: 0 !important;
+	}
+	#left-column + #right-column{
+		margin: 0;
+		border: 0 !important;
+		padding: 0 !important;
+	}
+	#right-column .right-column-content{
+		height: auto;
+		border: 0 !important;
+		padding: 0 !important;
+	}
+	.sender-logo img{
+	
+	}
+	.table thead th{
+		font-weight: bold;
+	}
+	.block{
+		-webkit-box-shadow: none !important;
+		-moz-box-shadow: none !important;
+		box-shadow: none !important;
+		padding: 0 !important;
+		border: 0 !important;
+	}
+	.block .block-content-outer{
+		background: none transparent;
+		-webkit-box-shadow: none !important;
+		-moz-box-shadow: none !important;
+		box-shadow: none !important;
+		padding: 0 !important;
+		border: 0 !important;
+	}
+	.main-invoice{
+		overflow: visible !important;
+	}
+	#footer-container{
+		display: none;
+	}
+}

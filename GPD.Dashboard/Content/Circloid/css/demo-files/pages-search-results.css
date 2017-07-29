@@ -1,0 +1,94 @@
+/**
+ * Pages Search Results
+ */
+/* Search Results - General */
+.search-term-highlight {
+  color: #1f91f3;
+}
+/* Search Results - Classic */
+.search-results-classic {
+  margin: 0 0 20px 0;
+}
+/* Search Results - Data */
+#data-search-form .checkbox label {
+  padding-left: 0;
+}
+#data-search-form-advanced-search td {
+  display: none;
+}
+/* Search Results - Profiles */
+.search-results-profile {
+  background-color: #ffffff;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  -webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2) !important;
+  -moz-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2) !important;
+}
+.search-results-profile:hover {
+  /*border-bottom: @highlightBorderThinkness solid @circloidActiveColor;
+	border-left: 1px solid @colorGrey4;
+	border-right: 1px solid @colorGrey4;
+	border-top: 1px solid @colorGrey4;
+	margin-bottom: 17px;*/
+}
+.search-results-profile.highlight-color-blue,
+.search-results-profile.highlight-color-green,
+.search-results-profile.highlight-color-orange,
+.search-results-profile.highlight-color-yellow,
+.search-results-profile.highlight-color-blue,
+.search-results-profile.highlight-color-red,
+.search-results-profile.highlight-color-lime,
+.search-results-profile.highlight-color-purple {
+  border-bottom: 1px solid #dddddd;
+}
+.search-results-profile.highlight-color-green:hover,
+.search-results-profile.highlight-color-green:focus {
+  border-bottom: 2px solid #2b982b;
+}
+.search-results-profile.highlight-color-orange:hover,
+.search-results-profile.highlight-color-orange:focus {
+  border-bottom: 2px solid #ff9600;
+}
+.search-results-profile.highlight-color-yellow:hover,
+.search-results-profile.highlight-color-yellow:focus {
+  border-bottom: 2px solid #ffe821;
+}
+.search-results-profile.highlight-color-blue:hover,
+.search-results-profile.highlight-color-blue:focus {
+  border-bottom: 2px solid #1f91f3;
+}
+.search-results-profile.highlight-color-red:hover,
+.search-results-profile.highlight-color-red:focus {
+  border-bottom: 2px solid #fb483a;
+}
+.search-results-profile.highlight-color-lime:hover,
+.search-results-profile.highlight-color-lime:focus {
+  border-bottom: 2px solid #cddc39;
+}
+.search-results-profile.highlight-color-purple:hover,
+.search-results-profile.highlight-color-purple:focus {
+  border-bottom: 2px solid #9c27b0;
+}
+.search-results-profile .search-results-profile-image {
+  float: left;
+  width: 150px;
+  text-align: center;
+}
+.search-results-profile .search-results-profile-content {
+  position: relative;
+  margin-left: 165px;
+  min-height: 113px;
+}
+.search-results-profile .search-results-profile-content .search-results-profile-title.h3 {
+  line-height: 17px;
+  margin-bottom: 10px;
+}
+.search-results-profile .search-results-profile-content .search-results-profile-more-block {
+  display: block;
+}
+.search-results-profile .search-results-profile-content .search-results-profile-button {
+  margin-top: 10px;
+}

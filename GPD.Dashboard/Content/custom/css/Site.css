@@ -1,0 +1,32 @@
+﻿
+/*====== Bootstrap Override Start ===================*/
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x- ng-cloak {
+    display: none !important;
+}
+/*====== Bootstrap Override End ===================*/
+@media only screen and (min-width : 321px) and (max-width : 480px) {
+}
+
+@media only screen and (min-width : 481px) and (max-width : 768px) {
+    .modal-lg {
+        width: 95%;
+    }
+}
+
+@media only screen and (min-width : 769px) and (max-width : 992px) {
+    .modal-lg {
+        width: 95%;
+    }
+}
+
+@media only screen and (min-width : 993px) and (max-width : 1200px) {
+    .modal-lg {
+        width: 95%;
+    }
+}
+
+@media only screen and (min-width : 1201px) {
+    .modal-lg {
+        width: 95%;
+    }
+}

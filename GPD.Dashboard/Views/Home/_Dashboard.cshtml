@@ -1,47 +1,151 @@
-﻿<div data-ng-controller="GPDDashboardController as $ctrl" ng-cloak>
-    <h2>GPD Analytics - Dashboard</h2>
-
+﻿
+<div data-ng-controller="GPDDashboardController as $ctrl" ng-cloak>
     <div class="row">
-        <div class="col-sm-8">
-            <div class="widget">
-                <div class="widget-header">Project By Application</div>
-                <div>
-                    <div class="chart" id="c3ProjectChart" style="margin-left: -5px; margin-right: 5px;">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li class="active">
+                    <a href="~/Home/Index">Home</a>
+                </li>
+                @*<li class="active">
+                        <a href="#">Dashboard v1</a>
+                    </li>*@
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>
+                <span aria-hidden="true" class="icon icon-grid-big"></span>
+                <span class="main-text">
+                    GPD Dashboard
+                </span>
+            </h1>
+        </div>
+        <div class="col-md-6">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <div class="c-widget c-widget-quick-info c-widget-size-small highlight-color-blue" data-url="pages-profile.html" style="cursor: pointer;">
+                <div class="c-widget-icon">
+                    <span class="icon icon-user"></span>
+                </div>
+                <div class="c-wdiget-content-block">
+                    <div class="c-widget-content-heading">
+                        {{$ctrl.data.UniqueUserCount | number}}
+                    </div>
+                    <div class="c-widget-content-sub">
+                        Unique User
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="widget">
-                <div class="widget-header">Top Categories</div>
-                <div>
-                    <div class="chart" id="c3CategoriesChart" style="margin-left: -5px; margin-right: 5px;">
+        <div class="col-sm-6 col-md-3">
+            <div class="c-widget c-widget-quick-info c-widget-size-small highlight-color-green" data-url="#" style="cursor: pointer;">
+                <div class="c-widget-icon">
+                    <span class="icon icon-dollar"></span>
+                </div>
+                <div class="c-wdiget-content-block">
+                    <div class="c-widget-content-heading">
+                        {{$ctrl.data.ProjectCount | number}}
+                    </div>
+                    <div class="c-widget-content-sub">
+                        Project
                     </div>
                 </div>
             </div>
-            <div class="widget">
-                <table style="width:100%">
-                    <tr>
-                        <td class="widget-icon"><i class="fa fa-user-circle-o"></i></td>
-                        <td class="widget-data">
-                            <span style="font-size:1.5em;">{{$ctrl.data.UniqueUserCount}}</span><br />
-                            <span style="font-size:.8em;">Unique User</span>
-                        </td>
-                    </tr>
-                </table>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="c-widget c-widget-quick-info c-widget-size-small highlight-color-red" data-url="#" style="cursor: pointer;">
+                <div class="c-widget-icon">
+                    <span class="icon icon-list-circle"></span>
+                </div>
+                <div class="c-wdiget-content-block">
+                    <div class="c-widget-content-heading">
+                        {{$ctrl.data.BPMCount | number}}
+                    </div>
+                    <div class="c-widget-content-sub">
+                        BPM's
+                    </div>
+                </div>
             </div>
-            <div class="widget">
-                <table style="width:100%">
-                    <tr>
-                        <td class="widget-icon"><i class="fa fa-list-alt"></i></td>
-                        <td class="widget-data">
-                            <span style="font-size:1.5em;">{{$ctrl.data.ProjectCount}}</span><br />
-                            <span style="font-size:.8em;">Projects</span>
-                        </td>
-                    </tr>
-                </table>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="c-widget c-widget-quick-info c-widget-size-small highlight-color-yellow" data-url="#" style="cursor: pointer;">
+                <div class="c-widget-icon">
+                    <span class="icon icon-chat"></span>
+                </div>
+                <div class="c-wdiget-content-block">
+                    <div class="c-widget-content-heading">
+                        {{$ctrl.data.PartnerCount | number}}
+                    </div>
+                    <div class="c-widget-content-sub">
+                        Partner
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block">
+                        <div class="block-heading">
+                            <div class="main-text h2">
+                                Line Chart
+                            </div>
+                            <div class="block-controls">
+                                <span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span>
+                                <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                            </div>
+                        </div>
+                        <div class="block-content-outer">
+                            <div class="block-content-inner">
+                                <div id="graphProjectChart" class="graph graph-size-normal" data-graph-colors="#4596f1,#f17d45,#ff6a00,#b6ff00"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block">
+                        <div class="block-heading">
+                            <div class="main-text h2">
+                                Customer Location
+                            </div>
+                            <div class="block-controls">
+                                <span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span>
+                                <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                            </div>
+                        </div>
+                        <div class="block-content-outer">
+                            <div class="block-content-inner">
+                                <div id="world-map" class="graph graph-size-large" data-graph-colors="#408adf,#9bc3f3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="block">
+                <div class="block-heading">
+                    <div class="main-text h2">
+                        XXXXXX
+                    </div>
+                    <div class="block-controls">
+                        <span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span>
+                        <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+                    </div>
+                </div>
+                <div class="block-content-outer">
+                    <div class="block-content-inner">
+                        ZZZZZZZ
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

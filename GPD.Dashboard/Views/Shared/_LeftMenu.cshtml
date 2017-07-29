@@ -1,0 +1,75 @@
+﻿<div id="mainnav">
+    <ul class="mainnav" style="position: relative;">
+        <!-- NOTE TO READER: Accepts the following class(es) "animate" class -->
+        <li class="menu-item-top selected">
+            <a href="~/Home/Index" class="top">
+                <span class="main-menu-icon">
+                    <span aria-hidden="true" class="icon icon-grid-big"></span>
+                </span>
+                <span class="main-menu-text">Dashboard</span>
+            </a>
+        </li>
+        <li data-ng-controller="GPDPartnerCtrl as $ctrl" ng-cloak class="menu-item-top">
+            <a data-ng-href="" class="top">
+                <span class="main-menu-icon">
+                    <span aria-hidden="true" class="icon icon-grid-big"></span>
+                </span>
+                <span class="main-menu-text">Partner</span>
+                <span class="main-menu-text">{{$ctrl.data.LogedinUserProfile.selectedPartner}}</span>
+            </a>
+            <ul data-id="menu" style="position: absolute;">
+                <li data-ng-repeat="d in $ctrl.data.LogedinUserProfile.partnerNames">
+                    <a data-ng-href="" data-ng-click="$ctrl.SelectPartner(d, $event)">{{d}}</a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item-top">
+            <a href="#" class="top">
+                <span class="main-menu-icon">
+                    <span aria-hidden="true" class="icon icon-grid-big"></span>
+                </span>
+                <span class="main-menu-text">Project</span>
+            </a>
+        </li>
+        <li class="menu-item-top">
+            <a href="#" class="top">
+                <span class="main-menu-icon">
+                    <span aria-hidden="true" class="icon icon-dollar"></span>
+                </span>
+                <span class="main-menu-text">Report</span>
+            </a>
+            <ul style="position: absolute;">
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Application Activity</a></li>
+                <li><a href="#">Users Activity</a></li>
+                <li><a href="#">Categories</a></li>
+                <li><a href="#">Manufacturers in Projects</a></li>
+                <li><a href="#">Content by Appplication</a></li>
+            </ul>
+        </li>
+        <li class="menu-item-top">
+            <a href="#" class="top">
+                <span class="main-menu-icon">
+                    <span aria-hidden="true" class="icon icon-settings"></span>
+                </span>
+                <span class="main-menu-text">Manage</span>
+            </a>
+            <ul style="position: absolute;">
+                <li><a href="#">Partner</a></li>
+                <li><a href="#">Administors</a></li>
+                <li><a href="#">Project Type</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Category</a></li>
+                <li><a href="#">User</a></li>
+            </ul>
+        </li>
+        <li class="menu-item-top">
+            <a href="~/Home/Index" class="top">
+                <span class="main-menu-icon">
+                    <span aria-hidden="true" class="icon icon-map"></span>
+                </span>
+                <span class="main-menu-text">Map</span>
+            </a>
+        </li>
+    </ul>
+</div>
