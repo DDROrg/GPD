@@ -22,10 +22,10 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
     };
 
     var _GetUniqueUserCount = function (partner) {
-        var data = { partner: partner};
+        var data = { partner: partner };
         return $http.post(__RootUrl + "api/GetUniqueUserCount?" + $httpParamSerializer(data));
     };
-    
+
     this.LogedinUserProfile = { userId: "", firstName: "", lastName: "", email: "", partnerNames: [], selectedPartner: "" };
 
     this.SetDefaultData = function (myScope, myLocation) {
@@ -33,22 +33,25 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
     };
 
     this.TransformChartData = function (d) {
-        var tempData = {};
-        tempData.tempPattern = [];
-        tempData.tempXs = {};
-        tempData.tempColumns = [];
-
-        angular.forEach(d, function (v, k) {
-            var i = "x" + (k + 1);
-            //tempPattern.push(v.color);
-            tempData.tempPattern.push(_chartColor[k]);
-            tempData.tempXs[v.name] = i;
-            v.dates.unshift(i);
-            v.values.unshift(v.name)
-            tempData.tempColumns.push(v.dates);
-            tempData.tempColumns.push(v.values);
+        var td = { lines: [], xaxis: [] };
+        angular.forEach(d.lines, function (v1, k1) {
+            var tempLine = {};
+            tempLine.label = v1.name;
+            tempLine.data = [];
+            angular.forEach(v1.values, function (v2, k2) {
+                tempLine.data.push([k2 + 1, v2]);
+            });
+            td.lines.push(tempLine);
         });
-        return tempData;
+
+        angular.forEach(d.dates, function (v1, k1) {
+            td.xaxis.push([k1 + 1, v1]);
+        });
+        return td;
+    };
+
+    this.GetColor = function () {
+        return ['#ff0000', '#ff6a00', '#ffd800', '#b6ff00', '#4cff00', '#5f798d', '#0094ff', '#0000ff'];
     };
 
     this.ChangePartner = function (partner) {

@@ -2018,6 +2018,7 @@
     <None Include="Project_Readme.html" />
     <Content Include="Views\Shared\_LeftMenu.cshtml" />
     <Content Include="Views\Home\_Dashboard - Copy.cshtml" />
+    <Content Include="Views\Home\_Project.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GPD.Facade\GPD.Facade.csproj">

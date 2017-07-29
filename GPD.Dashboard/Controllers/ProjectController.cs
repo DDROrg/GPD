@@ -40,7 +40,7 @@ namespace GPD.Dashboard.Controllers
         [Route("api/GetProjectChartData")]
         [HttpPost]
         [Authorize]
-        public List<LineChartDTO> GetProjectChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetProjectChartData(string partner, string fromDate, string toDate)
         {
             return new Facade.ProjectFacade().GetProjectChartData(partner, fromDate, toDate);
         }

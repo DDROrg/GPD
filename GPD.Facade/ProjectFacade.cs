@@ -303,31 +303,37 @@ namespace GPD.Facade
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <returns></returns>
-        public List<LineChartDTO> GetProjectChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetProjectChartData(string partner, string fromDate, string toDate)
         {
-            List<LineChartDTO> retVal = new List<LineChartDTO>();
-            retVal.Add(new LineChartDTO()
+            //dynamic MyDynamic = new System.Dynamic.ExpandoObject();
+            ChartDTO retVal = new ChartDTO();
+            retVal.Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06", "2017-05-07", "2017-05-08", "2017-05-09", "2017-05-10", "2017-05-11", "2017-05-12", "2017-05-13", "2017-05-14", });
+                
+
+            retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Revit",
-                Color = "#FF0000",
-                Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06" }),
-                Values = new List<int>(new int[] { 10, 12, 9, 17, 20, 14 })
+                Values = new List<int>(new int[] { 10, 12, 9, 17, 20, 14, 10, 12, 9, 17, 20, 14, 30 })
             });
-            retVal.Add(new LineChartDTO()
+            retVal.Lines.Add(new LinesDTO()
             {
                 Name = "AutoCAD",
-                Color = "#FFFF00",
-                Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06" }),
-                Values = new List<int>(new int[] { 12, 12, 19, 21, 24, 4 })
+                Values = new List<int>(new int[] { 12, 12, 19, 21, 24, 4, 12, 12, 19, 21, 24, 4, 12 })
             });
             if (partner == "ALL")
             {
-                retVal.Add(new LineChartDTO()
+                retVal.Lines.Add(new LinesDTO()
                 {
                     Name = "BIM",
-                    Color = "#FF4400",
-                    Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06" }),
-                    Values = new List<int>(new int[] { 14, 10, 19, 27, 24, 4 })
+                    Values = new List<int>(new int[] { 14, 10, 19, 27, 24, 4 , 14, 10, 19, 27, 24, 4 , 3})
+                });
+            }
+            if (partner == "TEST")
+            {
+                retVal.Lines.Add(new LinesDTO()
+                {
+                    Name = "BIMX",
+                    Values = new List<int>(new int[] { 13, 10, 18, 27, 24, 14, 14, 10, 19, 27, 24, 14, 13 })
                 });
             }
             return retVal;
@@ -368,14 +374,12 @@ namespace GPD.Facade
             retVal.Add(new LineChartDTO()
             {
                 Name = "Doors",
-                Color = "#FF0000",
                 Dates = new List<string>(new string[] { "2016-01-01", "2017-01-01" }),
                 Values = new List<int>(new int[] { 10, 12 })
             });
             retVal.Add(new LineChartDTO()
             {
                 Name = "Window",
-                Color = "#FFFF00",
                 Dates = new List<string>(new string[] { "2016-01-01", "2017-01-01" }),
                 Values = new List<int>(new int[] { 12, 12 })
             });
@@ -384,7 +388,6 @@ namespace GPD.Facade
                 retVal.Add(new LineChartDTO()
                 {
                     Name = "Furniture",
-                    Color = "#FF4400",
                     Dates = new List<string>(new string[] { "2016-01-01", "2017-01-01" }),
                     Values = new List<int>(new int[] { 14, 10 })
                 });

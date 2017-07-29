@@ -15,6 +15,9 @@
             }).state('GPD.dashboard', {
                 url: '/dashboard',
                 templateUrl: '/Home/Dashboard'
+            }).state('GPD.Project', {
+                url: '/project',
+                templateUrl: '/Home/Project'
             }).state('GPD.TopCategories', {
                 url: '/top-categories',
                 templateUrl: '/Home/TopCategories'
