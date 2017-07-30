@@ -81,55 +81,55 @@ namespace GPD.WEB.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(UserRegistrationDTO model)
-        {
-            if (!ModelState.IsValid) { return View(model); }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="model"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Register(UserRegistrationDTO model)
+        //{
+        //    if (!ModelState.IsValid) { return View(model); }
 
-            try
-            {
-                XDocument xDoc = new XDocument();
+        //    try
+        //    {
+        //        XDocument xDoc = new XDocument();
 
-                // get XML based on UserRegistrationDTO object
-                using (var writer = xDoc.CreateWriter())
-                {
-                    var serializer = new DataContractSerializer(model.GetType());
-                    serializer.WriteObject(writer, model);
-                }
+        //        // get XML based on UserRegistrationDTO object
+        //        using (var writer = xDoc.CreateWriter())
+        //        {
+        //            var serializer = new DataContractSerializer(model.GetType());
+        //            serializer.WriteObject(writer, model);
+        //        }
 
-                int errorCode;
-                string errorMsg;
+        //        int errorCode;
+        //        string errorMsg;
 
-                string requestIpAddress = string.Empty;
-                try { requestIpAddress = System.Web.HttpContext.Current.Request.UserHostAddress; }
-                catch { }
+        //        string requestIpAddress = string.Empty;
+        //        try { requestIpAddress = System.Web.HttpContext.Current.Request.UserHostAddress; }
+        //        catch { }
 
-                // add a user to repository
-                int userId = UserDetailsFacade.AddUserDetails(xDoc, requestIpAddress, out errorCode, out errorMsg);
+        //        // add a user to repository
+        //        int userId = UserDetailsFacade.AddUserDetails(xDoc, requestIpAddress, out errorCode, out errorMsg);
 
-                if (userId != -1)
-                    return RedirectToAction("Login");
+        //        if (userId != -1)
+        //            return RedirectToAction("Login");
 
-                if (errorCode == 0 && !string.IsNullOrEmpty(errorMsg))
-                    ModelState.AddModelError("", errorMsg);
-                else
-                    throw new Exception(string.Format("Add new UserDeatils() - Database ERROR: ErrorCode: {0}, ErrorMsg: {1}", errorCode, errorMsg));
-            }
-            catch (Exception exc)
-            {
-                log.Error(exc);
-                ModelState.AddModelError("", "The server encountered an error processing registration. Please try again later.");
-            }
+        //        if (errorCode == 0 && !string.IsNullOrEmpty(errorMsg))
+        //            ModelState.AddModelError("", errorMsg);
+        //        else
+        //            throw new Exception(string.Format("Add new UserDeatils() - Database ERROR: ErrorCode: {0}, ErrorMsg: {1}", errorCode, errorMsg));
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        log.Error(exc);
+        //        ModelState.AddModelError("", "The server encountered an error processing registration. Please try again later.");
+        //    }
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
         /// <summary>
         /// 

@@ -1065,6 +1065,7 @@
     <Content Include="Views\Home\_ProjectList.cshtml" />
     <Content Include="Views\Home\_ProjectEdit.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Account\Register-v1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GPD.Facade\GPD.Facade.csproj">

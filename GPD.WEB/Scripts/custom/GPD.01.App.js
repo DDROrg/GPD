@@ -37,6 +37,10 @@
     .config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
     }]);
+    angular.module('RegisterUser', ['ui.bootstrap', 'angular-loading-bar', 'ngAnimate', 'toastr'])
+    .config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
+        cfpLoadingBarProvider.includeSpinner = false;
+    }]);
 })();
 
 

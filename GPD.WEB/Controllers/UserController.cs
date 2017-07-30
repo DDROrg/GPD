@@ -5,6 +5,9 @@ using System.Web.Http.Description;
 namespace GPD.WEB.Controllers
 {
     using ServiceEntities.BaseEntities;
+    using Facade.WebAppFacade;
+    using ServiceEntities;
+    using CNST = Utility.ConstantHelper;
 
     /// <summary>
     /// User APIs List
@@ -113,6 +116,20 @@ namespace GPD.WEB.Controllers
             return new Facade.SignInFacade().AddUserRole(userId, partnerId, groupId);
         }
 
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [Route("api/RegisterUser")]
+        [HttpPost]
+        [AllowAnonymous]
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        public UserRegistrationStatusDTO RegisterUser(UserRegistration2DTO user)
+        {
+            UserRegistrationStatusDTO retVal = new UserRegistrationStatusDTO();
+            return retVal;
+        }
     }
 }

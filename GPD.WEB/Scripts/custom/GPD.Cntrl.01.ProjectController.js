@@ -383,7 +383,6 @@ angular.module('ManageUser').controller('AddUserRoleCtrl', ['$uibModalInstance',
         };
     }]);
 
-
 //=================================================
 angular.module('ManagePartner').controller('ManagePartnerController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, toastr, CommonServices, GpdManageServices) {
     var $ctrl = this;
@@ -525,5 +524,49 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
 
     angular.element(document).ready(function () {
         GetPartners();
+    });
+}]);
+
+//=================================================
+angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices',
+    function ($scope, $rootScope, $http, $location, $uibModal, $log, toastr, CommonServices, GpdManageServices) {
+    var $ctrl = this;
+    CommonServices.SetDefaultData($ctrl, $location);
+    $ctrl.data.user = {};
+
+    var ResetData = function () {
+        $ctrl.data.user = {
+            firstName: "",
+            lastName: "",
+            email: "",
+            jobTitle: "",
+            company: {
+                name: "",
+                website: "",
+                country: "",
+                address: "",
+                address2: "",
+                city: "",
+                state: "",
+                postalCode: "",
+                defaultIndustry: "",
+                phone: ""
+            },
+            password: "",
+            confirmPassword: ""
+        };
+    };
+
+    $ctrl.OnReset = function () { ResetData();};
+    $ctrl.OnSave = function () {
+        GpdManageServices.RegisterUser($ctrl.data.user)
+        .then(function (payload) {
+            //if (payload == "SUCCESS") {
+            //    toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");
+            //}
+        });
+    };
+    angular.element(document).ready(function () {
+        ResetData();
     });
 }]);

@@ -132,6 +132,9 @@ var GpdManageServices = function ($http, $q, $log) {
     var _AddUserRole = function (userId, partnerId, groupId) {
         return $http.post(__RootUrl + "api/AddUserRole?userId=" + encodeURI(userId) + "&partnerId=" + encodeURI(partnerId) + "&groupId=" + encodeURI(groupId));
     };
+    var _RegisterUser = function (user) {
+        return $http.post(__RootUrl + "api/RegisterUser", user);
+    };
 
     this.GetPartners = function () {
         var deferred = $q.defer();
@@ -235,6 +238,18 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
+    this.RegisterUser = function (user) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _RegisterUser(user)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+
     return this;
 }
 //============================================
@@ -249,6 +264,12 @@ angular.module('ManageUser')
 .service('GpdManageServices', ['$http', '$q', '$log', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); }]);
 
 angular.module('ManagePartner')
+.factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])
+.service('CommonServices', ['$http', '$q', '$log', 'BroadcastService', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); }])
+.service('GpdManageServices', ['$http', '$q', '$log', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); }]);
+
+
+angular.module('RegisterUser')
 .factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])
 .service('CommonServices', ['$http', '$q', '$log', 'BroadcastService', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); }])
 .service('GpdManageServices', ['$http', '$q', '$log', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); }]);
