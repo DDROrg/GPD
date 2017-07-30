@@ -3,7 +3,7 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
     var _chartColor = ['#ff0000', '#ff6a00', '#ffd800', '#b6ff00', '#4cff00', '#5f798d', '#0094ff', '#0000ff'];
 
     this.LogedinUserProfile = { userId: "", firstName: "", lastName: "", email: "", partnerNames: [], selectedPartner: "", selectedMenu: "" };
-    
+
     var _GetLogedinUserProfile = function () {
         return $http.post(__RootUrl + "api/GetUserProfile?userEmail=" + encodeURI(__UserEmail));
     };
@@ -26,6 +26,15 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
     var _GetUniqueUserCount = function (partner) {
         var data = { partner: partner };
         return $http.post(__RootUrl + "api/GetUniqueUserCount?" + $httpParamSerializer(data));
+    };
+
+    var _GetBPMCount = function (partner, fromDate, toDate) {
+        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+        return $http.post(__RootUrl + "api/GetBPMCount?" + $httpParamSerializer(data));
+    };
+
+    var _GetPartnerCount = function () {
+        return $http.post(__RootUrl + "api/GetPartnerCount");
     };
 
     this.SetDefaultData = function (myScope, myLocation) {
@@ -117,6 +126,28 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         var deferred = $q.defer();
         var retVal = {};
         _GetUniqueUserCount(partner)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+
+    this.GetBPMCount = function (partner, fromDate, toDate) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _GetBPMCount(partner, fromDate, toDate)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+
+    this.GetPartnerCount = function () {
+        var deferred = $q.defer();
+        var retVal = {};
+        _GetPartnerCount()
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);

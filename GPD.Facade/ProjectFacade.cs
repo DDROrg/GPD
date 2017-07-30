@@ -346,6 +346,49 @@ namespace GPD.Facade
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <returns></returns>
+        public ChartDTO GetCategoriesChartData(string partner, string fromDate, string toDate)
+        {
+
+            ChartDTO retVal = new ChartDTO();
+            retVal.Dates = new List<string>(new string[] { "2015-05-01", "2016-05-01", "2017-05-01"});
+
+
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "Doors",
+                Values = new List<int>(new int[] { 10, 12, 9})
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "Window",
+                Values = new List<int>(new int[] { 12, 12, 19})
+            });
+            if (partner == "ALL")
+            {
+                retVal.Lines.Add(new LinesDTO()
+                {
+                    Name = "Furniture",
+                    Values = new List<int>(new int[] { 14, 10, 19 })
+                });
+            }
+            if (partner == "TEST")
+            {
+                retVal.Lines.Add(new LinesDTO()
+                {
+                    Name = "Floors",
+                    Values = new List<int>(new int[] { 13, 10, 18 })
+                });
+            }            
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
         public int GetProjectCount(string partner, string fromDate, string toDate)
         {
             return 1243;
@@ -364,35 +407,24 @@ namespace GPD.Facade
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public int GetPartnerCount()
+        {
+            return 3;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="partner"></param>
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <returns></returns>
-        public List<LineChartDTO> GetCategoriesChartData(string partner, string fromDate, string toDate)
+        public int GetBPMCount(string partner, string fromDate, string toDate)
         {
-            List<LineChartDTO> retVal = new List<LineChartDTO>();
-            retVal.Add(new LineChartDTO()
-            {
-                Name = "Doors",
-                Dates = new List<string>(new string[] { "2016-01-01", "2017-01-01" }),
-                Values = new List<int>(new int[] { 10, 12 })
-            });
-            retVal.Add(new LineChartDTO()
-            {
-                Name = "Window",
-                Dates = new List<string>(new string[] { "2016-01-01", "2017-01-01" }),
-                Values = new List<int>(new int[] { 12, 12 })
-            });
-            if (partner == "ALL")
-            {
-                retVal.Add(new LineChartDTO()
-                {
-                    Name = "Furniture",
-                    Dates = new List<string>(new string[] { "2016-01-01", "2017-01-01" }),
-                    Values = new List<int>(new int[] { 14, 10 })
-                });
-            }
-            return retVal;
+            return 37;
         }
+
+        
     }
 }

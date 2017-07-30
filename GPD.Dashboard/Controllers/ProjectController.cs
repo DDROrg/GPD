@@ -55,7 +55,7 @@ namespace GPD.Dashboard.Controllers
         [Route("api/GetCategoriesChartData")]
         [HttpPost]
         [Authorize]
-        public List<LineChartDTO> GetCategoriesChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetCategoriesChartData(string partner, string fromDate, string toDate)
         {
             return new Facade.ProjectFacade().GetCategoriesChartData(partner, fromDate, toDate);
         }
@@ -88,5 +88,31 @@ namespace GPD.Dashboard.Controllers
             return new Facade.ProjectFacade().GetProjectCount(partner, fromDate, toDate);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        [Route("api/GetBPMCount")]
+        [HttpPost]
+        [Authorize]
+        public int GetBPMCount(string partner, string fromDate, string toDate)
+        {
+            return new Facade.ProjectFacade().GetBPMCount(partner, fromDate, toDate);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/GetPartnerCount")]
+        [HttpPost]
+        [Authorize]
+        public int GetPartnerCount()
+        {
+            return new Facade.ProjectFacade().GetPartnerCount();
+        }
     }
 }

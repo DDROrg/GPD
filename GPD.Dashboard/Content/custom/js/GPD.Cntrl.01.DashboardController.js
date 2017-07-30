@@ -56,6 +56,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         $ctrl.data.ProjectCount = 0;
         $ctrl.data.BPMCount = 0;
         $ctrl.data.PartnerCount = 0;
+        $ctrl.data.TopCategories = [];
 
         var circloidLineChartFlot = function (placeholder, d) {
             var td = CommonServices.TransformChartData(d);
@@ -132,7 +133,16 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             if (_categoriesChartObj) { _categoriesChartObj = _categoriesChartObj.destroy(); }
             return CommonServices.GetCategoriesChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
             .then(function (payload) {
-                //RenderCategoriesChartData(payload);
+                var td = [];
+                angular.forEach(payload.lines, function (v1, k1) {
+                    var tempLine = { name: v1.name , value : 0};
+                    angular.forEach(v1.values, function (v2, k2) {
+                        tempLine.value = tempLine.value +  v2;
+                    });
+                    td.push(tempLine);
+                });
+
+                $ctrl.data.TopCategories = td;
             });
         };
 
@@ -150,16 +160,32 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             });
         };
 
+        var GetBPMCount = function () {
+            return CommonServices.GetBPMCount($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            .then(function (payload) {
+                $ctrl.data.BPMCount = payload;
+            });
+        };
+
+        var GetPartnerCount = function () {
+            return CommonServices.GetPartnerCount()
+            .then(function (payload) {
+                $ctrl.data.PartnerCount = payload;
+            });
+        };
+
 
         $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
-            GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount();
+            GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount(); GetPartnerCount();
         });
         $rootScope.$on('EVENT-ChangePartner', function (event, data) {
-            GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount();
+            GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount();
         });
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             $ctrl.data.LogedinUserProfile.selectedMenu = "GPD.Dashboard";
-            if (fromState.name != '') { GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); }
+            if (fromState.name != '') {
+                GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount(); GetPartnerCount();
+            }
         });
 
         angular.element(document).ready(function () { circloidMapWorld("#world-map"); });
