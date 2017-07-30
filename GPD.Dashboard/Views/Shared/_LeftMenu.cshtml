@@ -1,15 +1,15 @@
-﻿<div id="mainnav">
+﻿<div id="mainnav" data-ng-controller="GPDLeftMenuCtrl as $ctrl" ng-cloak>
     <ul class="mainnav" style="position: relative;">
         <!-- NOTE TO READER: Accepts the following class(es) "animate" class -->
-        <li class="menu-item-top selected">
-            <a ui-sref="GPD.dashboard" ui-sref-active="active" class="top">
+        <li data-ng-class="$ctrl.MenuClass('GPD.Dashboard')">
+            <a ui-sref="GPD.Dashboard" ui-sref-active="active" class="top">
                 <span class="main-menu-icon">
                     <span aria-hidden="true" class="icon icon-grid-big"></span>
                 </span>
                 <span class="main-menu-text">Dashboard</span>
             </a>
         </li>
-        <li data-ng-controller="GPDPartnerCtrl as $ctrl" ng-cloak class="menu-item-top">
+        <li data-ng-controller="GPDPartnerCtrl as $ctrl" data-ng-class="$ctrl.MenuClass('GPD.Partner')" ng-cloak>
             <a data-ng-href="" class="top">
                 <span class="main-menu-icon">
                     <span aria-hidden="true" class="icon icon-grid-big"></span>
@@ -23,7 +23,7 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-item-top">
+        <li data-ng-class="$ctrl.MenuClass('GPD.Project')">
             <a ui-sref="GPD.Project" ui-sref-active="active" class="top">
                 <span class="main-menu-icon">
                     <span aria-hidden="true" class="icon icon-grid-big"></span>
@@ -31,40 +31,40 @@
                 <span class="main-menu-text">Project</span>
             </a>
         </li>
-        <li class="menu-item-top">
-            <a href="#" class="top">
+        <li data-ng-class="$ctrl.MenuClass('GPD.Report')">
+            <a data-ng-href="" class="top">
                 <span class="main-menu-icon">
                     <span aria-hidden="true" class="icon icon-dollar"></span>
                 </span>
                 <span class="main-menu-text">Report</span>
             </a>
             <ul style="position: absolute;">
-                <li><a href="#">Projects</a></li>
-                <li><a href="#">Application Activity</a></li>
-                <li><a href="#">Users Activity</a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">Manufacturers in Projects</a></li>
-                <li><a href="#">Content by Appplication</a></li>
+                <li><a ui-sref="GPD.Report" ui-sref-active="active">Projects</a></li>
+                <li><a ui-sref="GPD.Report" ui-sref-active="active">Application Activity</a></li>
+                <li><a ui-sref="GPD.Report" ui-sref-active="active">Users Activity</a></li>
+                <li><a ui-sref="GPD.Report" ui-sref-active="active">Categories</a></li>
+                <li><a ui-sref="GPD.Report" ui-sref-active="active">Manufacturers in Projects</a></li>
+                <li><a ui-sref="GPD.Report" ui-sref-active="active">Content by Appplication</a></li>
             </ul>
         </li>
-        <li class="menu-item-top">
-            <a href="#" class="top">
+        <li data-ng-class="$ctrl.MenuClass('GPD.Manage')">
+            <a data-ng-href="" class="top">
                 <span class="main-menu-icon">
                     <span aria-hidden="true" class="icon icon-settings"></span>
                 </span>
                 <span class="main-menu-text">Manage</span>
             </a>
             <ul style="position: absolute;">
-                <li><a href="#">Partner</a></li>
-                <li><a href="#">Administors</a></li>
-                <li><a href="#">Project Type</a></li>
-                <li><a href="#">Projects</a></li>
-                <li><a href="#">Category</a></li>
-                <li><a href="#">User</a></li>
+                <li><a ui-sref="GPD.Manage" ui-sref-active="active">Partner</a></li>
+                <li><a ui-sref="GPD.Manage" ui-sref-active="active">Administors</a></li>
+                <li><a ui-sref="GPD.Manage" ui-sref-active="active">Project Type</a></li>
+                <li><a ui-sref="GPD.Manage" ui-sref-active="active">Projects</a></li>
+                <li><a ui-sref="GPD.Manage" ui-sref-active="active">Category</a></li>
+                <li><a ui-sref="GPD.Manage" ui-sref-active="active">User</a></li>
             </ul>
         </li>
-        <li class="menu-item-top">
-            <a href="~/Home/Index" class="top">
+        <li data-ng-class="$ctrl.MenuClass('GPD.Map')">
+            <a ui-sref="GPD.Map" ui-sref-active="active"class="top">
                 <span class="main-menu-icon">
                     <span aria-hidden="true" class="icon icon-map"></span>
                 </span>

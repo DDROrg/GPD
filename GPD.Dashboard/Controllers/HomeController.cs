@@ -36,9 +36,27 @@ namespace GPD.Dashboard.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        public PartialViewResult TopCategories()
+        public PartialViewResult Manage()
         {
-            return PartialView("~/Views/Home/_TopCategories.cshtml");
+            return PartialView("~/Views/Home/_Manage.cshtml");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public PartialViewResult Report()
+        {
+            return PartialView("~/Views/Home/_Report.cshtml");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public PartialViewResult Map()
+        {
+            return PartialView("~/Views/Home/_Map.cshtml");
         }
     }
 }

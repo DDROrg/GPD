@@ -2,6 +2,8 @@
 var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastService) {
     var _chartColor = ['#ff0000', '#ff6a00', '#ffd800', '#b6ff00', '#4cff00', '#5f798d', '#0094ff', '#0000ff'];
 
+    this.LogedinUserProfile = { userId: "", firstName: "", lastName: "", email: "", partnerNames: [], selectedPartner: "", selectedMenu: "" };
+    
     var _GetLogedinUserProfile = function () {
         return $http.post(__RootUrl + "api/GetUserProfile?userEmail=" + encodeURI(__UserEmail));
     };
@@ -25,8 +27,6 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         var data = { partner: partner };
         return $http.post(__RootUrl + "api/GetUniqueUserCount?" + $httpParamSerializer(data));
     };
-
-    this.LogedinUserProfile = { userId: "", firstName: "", lastName: "", email: "", partnerNames: [], selectedPartner: "" };
 
     this.SetDefaultData = function (myScope, myLocation) {
         myScope.data = {};

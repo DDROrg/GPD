@@ -12,15 +12,21 @@
                 url: '',
                 abstract: true,
                 template: '<ui-view/>'
-            }).state('GPD.dashboard', {
+            }).state('GPD.Dashboard', {
                 url: '/dashboard',
                 templateUrl: '/Home/Dashboard'
             }).state('GPD.Project', {
                 url: '/project',
                 templateUrl: '/Home/Project'
-            }).state('GPD.TopCategories', {
-                url: '/top-categories',
-                templateUrl: '/Home/TopCategories'
+            }).state('GPD.Report', {
+                url: '/report',
+                templateUrl: '/Home/Report'
+            }).state('GPD.Manage', {
+                url: '/manage',
+                templateUrl: '/Home/Manage'
+            }).state('GPD.Map', {
+                url: '/map',
+                templateUrl: '/Home/Map'
             });
 
             //$urlRouterProvider.otherwise('/dashboard');
@@ -28,9 +34,9 @@
             //    url: '',
             //    abstract: true,
             //    template: '<ui-view/>'                
-            //}).state('GPD.dashboard', {
+            //}).state('GPD.Dashboard', {
             //    url: '/dashboard',
-            //    controller: 'GPDDashboardController',
+            //    controller: 'GPDDashboardCtrl',
             //    templateUrl: '/Home/Dashboard'
             //}).state('GPD.TopCategories', {
             //    url: '/top-categories',
