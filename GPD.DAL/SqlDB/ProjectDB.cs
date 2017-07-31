@@ -250,45 +250,11 @@ END;
         /// <returns></returns>
         public DataSet GetUsers(string searchTerm)
         {
-            StringBuilder sb = new StringBuilder("");
-            #region SQL
-            sb.AppendLine(@"
-BEGIN
-	DECLARE @M_SEARCH nvarchar(150);
-	SET @M_SEARCH = @P_SEARCH;
-	SELECT 
-		u.user_id,
-		u.last_name,
-		u.first_name,
-		u.full_name,
-		u.email,
-		u.company,
-		u.job_title,
-		u.business_phone,
-		u.home_phone,
-		u.mobile_phone,
-		u.fax_number,
-		u.address_line_1,
-		u.address_line_2,
-		u.city,
-		u.state_province,
-		u.zip_postal_code,
-		u.country,
-		u.active      
-	FROM gpd_user_details U
-	WHERE @M_SEARCH = '' 
-		OR UPPER(u.last_name) LIKE @M_SEARCH 
-		OR UPPER(u.first_name) LIKE @M_SEARCH 
-		OR UPPER(u.email) LIKE @M_SEARCH;
-END;
-");
-            #endregion 
-            List<SqlParameter> parametersInList = new List<SqlParameter>()
-            {
-                 new SqlParameter("@P_SEARCH", searchTerm)
-            };
-
-            return base.GetDSBasedOnStatement(sb, parametersInList);
+            return base.GetDSBasedOnStoreProcedure("gpd_GetUsersList",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("@P_SEARCH_VALUE", searchTerm ?? string.Empty)
+                });
         }
 
         /// <summary>
@@ -538,6 +504,5 @@ END;
             };
             base.ExecuteStatement(sb, parametersInList);
         }
-
     }
 }

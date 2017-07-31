@@ -11,7 +11,9 @@ BEGIN
 	*  Variable Declarations
 	*******************************/
 	DECLARE @V_UserEmail VARCHAR(150);
-	DECLARE @V_FirmId INT;
+	DECLARE @V_FirmId INT = -1;
+	DECLARE @V_FirmName VARCHAR(150);
+	DECLARE @V_FirmUrl VARCHAR(250);	
 
 	/******************************
 	*  Initialize Variables
@@ -24,7 +26,9 @@ BEGIN
 
 		-- user email address
 		WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com', 'http://www.w3.org/2001/XMLSchema-instance' AS i)
-			SELECT  @V_UserEmail = M.value('(Email)[1]', 'NVARCHAR(150)')
+			SELECT  @V_UserEmail = M.value('(email)[1]', 'NVARCHAR(150)'),
+				@V_FirmName = M.value('(company/name)[1]', 'NVARCHAR(150)'),
+				@V_FirmUrl = M.value('(company/website)[1]', 'NVARCHAR(250)')
 			FROM @P_XML.nodes('/UserDetails') M(M);
 
 		IF EXISTS(SELECT 1 FROM GPD_USER_DETAILS WHERE EMAIL = @V_UserEmail)
@@ -36,7 +40,10 @@ BEGIN
 		 
 		    BEGIN
 
-			   Exec gpd_AddFirmProfile @P_XML, @V_FirmId OUTPUT, @P_Return_ErrorCode OUTPUT, @P_Return_Message OUTPUT;
+			   IF(LEN(@V_FirmName) > 0)
+			      BEGIN
+				     Exec gpd_AddFirmProfile @P_XML, @V_FirmId OUTPUT, @P_Return_ErrorCode OUTPUT, @P_Return_Message OUTPUT;
+				  END;
 
 				-- USER DATA
 				WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com', 'http://www.w3.org/2001/XMLSchema-instance' AS i)
