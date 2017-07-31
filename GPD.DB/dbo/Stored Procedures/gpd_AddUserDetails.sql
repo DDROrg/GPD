@@ -11,6 +11,7 @@ BEGIN
 	*  Variable Declarations
 	*******************************/
 	DECLARE @V_UserEmail VARCHAR(150);
+	DECLARE @V_FirmId INT;
 
 	/******************************
 	*  Initialize Variables
@@ -22,9 +23,9 @@ BEGIN
 		SET @P_Return_UserId = -1;
 
 		-- user email address
-		WITH XMLNAMESPACES(DEFAULT 'http://schemas.datacontract.org/2004/07/GPD.ServiceEntities', 'http://www.w3.org/2001/XMLSchema-instance' AS i)
+		WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com', 'http://www.w3.org/2001/XMLSchema-instance' AS i)
 			SELECT  @V_UserEmail = M.value('(Email)[1]', 'NVARCHAR(150)')
-			FROM @P_XML.nodes('/UserRegistrationDTO') M(M);
+			FROM @P_XML.nodes('/UserDetails') M(M);
 
 		IF EXISTS(SELECT 1 FROM GPD_USER_DETAILS WHERE EMAIL = @V_UserEmail)
 			BEGIN
@@ -32,16 +33,21 @@ BEGIN
 				SET @P_Return_Message = 'the provided e-mail address is already registered';
 			END
 		ELSE
-			BEGIN
+		 
+		    BEGIN
+
+			   Exec gpd_AddFirmProfile @P_XML, @V_FirmId OUTPUT, @P_Return_ErrorCode OUTPUT, @P_Return_Message OUTPUT;
+
 				-- USER DATA
-				WITH XMLNAMESPACES(DEFAULT 'http://schemas.datacontract.org/2004/07/GPD.ServiceEntities', 'http://www.w3.org/2001/XMLSchema-instance' AS i)
+				WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com', 'http://www.w3.org/2001/XMLSchema-instance' AS i)
 				INSERT INTO GPD_USER_DETAILS
 					([last_name]
 					,[first_name]
 					,[full_name]
 					,[email]
 					,[password]
- 					,[company]
+ 					,[firm_id]
+					,[manufacture_id]
  					,[job_title]
  					,[business_phone]
  					,[home_phone]
@@ -59,28 +65,51 @@ BEGIN
  					,[create_date]
  					,[update_date])
 				SELECT			
-					M.value('(LastName)[1]', 'NVARCHAR(150)')
-					,M.value('(FirstName)[1]', 'NVARCHAR(150)')
-					,M.value('(FirstName)[1]', 'NVARCHAR(150)') + ' ' + M.value('(LastName)[1]', 'NVARCHAR(150)')
-					,M.value('(Email)[1]', 'NVARCHAR(150)')					
-					,M.value('(Password)[1]', 'NVARCHAR(150)')
-					,M.value('(Company)[1]', 'NVARCHAR(150)')
-					,M.value('(JobTitle)[1]', 'NVARCHAR(150)')
-					,M.value('(BusinessPhone)[1]', 'NVARCHAR(50)')
-					,M.value('(HomePhone)[1]', 'NVARCHAR(50)')
-					,M.value('(MobilePhone)[1]', 'NVARCHAR(50)')
-					,M.value('(Fax)[1]', 'NVARCHAR(50)')
-					,M.value('(AddressLine1)[1]', 'NVARCHAR(150)')
-					,M.value('(AddressLine2)[1]', 'NVARCHAR(150)')
-					,M.value('(City)[1]', 'NVARCHAR(150)')
-					,M.value('(State)[1]', 'NVARCHAR(50)')
-					,M.value('(Zip)[1]', 'NVARCHAR(50)')
-					,M.value('(Country)[1]', 'NVARCHAR(50)')
+					M.value('(lastName)[1]', 'NVARCHAR(150)')
+					,M.value('(firstName)[1]', 'NVARCHAR(150)')
+					,M.value('(firstName)[1]', 'NVARCHAR(150)') + ' ' + M.value('(lastName)[1]', 'NVARCHAR(150)')
+					,M.value('(email)[1]', 'NVARCHAR(150)')					
+					,M.value('(password)[1]', 'NVARCHAR(150)')
+					,@V_FirmId
+					,NULL
+					,M.value('(jobTitle)[1]', 'NVARCHAR(150)')
+					
+					--,M.value('(BusinessPhone)[1]', 'NVARCHAR(50)')
+					,NULL
+
+					--,M.value('(HomePhone)[1]', 'NVARCHAR(50)')
+					,NULL
+
+					--,M.value('(MobilePhone)[1]', 'NVARCHAR(50)')
+					,NULL
+
+					--,M.value('(Fax)[1]', 'NVARCHAR(50)')
+					,NULL
+
+					--,M.value('(AddressLine1)[1]', 'NVARCHAR(150)')
+					,NULL
+
+					--,M.value('(AddressLine2)[1]', 'NVARCHAR(150)')
+					,NULL
+
+					--,M.value('(City)[1]', 'NVARCHAR(150)')
+					,NULL
+
+					--,M.value('(State)[1]', 'NVARCHAR(50)')
+					,NULL
+
+					--,M.value('(Zip)[1]', 'NVARCHAR(50)')
+					,NULL
+
+					--,M.value('(Country)[1]', 'NVARCHAR(50)')
+					,NULL
+
 					,@P_IpAddress
 					,1
 					,null
-					,getdate(), null
-				FROM @P_XML.nodes('/UserRegistrationDTO') M(M);
+					,getdate()
+					,NULL
+				FROM @P_XML.nodes('/UserDetails') M(M);
 				SET @P_Return_UserId = SCOPE_IDENTITY()
 				SET NOCOUNT OFF
 			END

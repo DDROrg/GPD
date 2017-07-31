@@ -618,13 +618,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.Controllers.AccountController.Register(GPD.ServiceEntities.UserRegistrationDTO)">
-            <summary>
-            
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
         <member name="M:GPD.WEB.Controllers.AccountController.Logout">
             <summary>
             
@@ -810,7 +803,7 @@
             <param name="groupId"></param>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.Controllers.UserController.RegisterUser(GPD.ServiceEntities.UserRegistration2DTO)">
+        <member name="M:GPD.WEB.Controllers.UserController.RegisterUser(GPD.ServiceEntities.UserDetailsTDO)">
             <summary>
             
             </summary>

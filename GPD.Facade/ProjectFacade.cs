@@ -143,7 +143,7 @@ namespace GPD.Facade
                             #region Item 
                             ItemDTO itemDTO = new ItemDTO()
                             {
-                                Id = dr["ITEM_ID"].ToString(),
+                                Id = int.Parse(dr["ITEM_ID"].ToString()),
                                 Type = dr["TYPE"].ToString(),
                                 Currency = dr["CURRENCY"].ToString(),
                                 Family = dr["FAMILY"].ToString(),

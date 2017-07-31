@@ -1,11 +1,12 @@
 ﻿CREATE TABLE [dbo].[gpd_user_details] (
-    [user_id]           INT            NOT NULL IDENTITY(100, 1),
+    [user_id]           INT            IDENTITY (100, 1) NOT NULL,
     [last_name]         NVARCHAR (150) NULL,
     [first_name]        NVARCHAR (150) NULL,
     [full_name]         NVARCHAR (150) NULL,
     [email]             NVARCHAR (150) NOT NULL,
     [password]          NVARCHAR (300) NULL,
-    [company]           NVARCHAR (150) NULL,
+    [firm_id]           INT            NULL,
+    [manufacture_id]    INT            NULL,
     [job_title]         NVARCHAR (150) NULL,
     [business_phone]    NVARCHAR (50)  NULL,
     [home_phone]        NVARCHAR (50)  NULL,
@@ -23,8 +24,12 @@
     [create_date]       DATETIME       NOT NULL,
     [update_date]       DATETIME       NULL,
     CONSTRAINT [PK_gpd_user_details] PRIMARY KEY CLUSTERED ([user_id] ASC),
+    CONSTRAINT [FK_gpd_user_details_gpd_firm_profile] FOREIGN KEY ([firm_id]) REFERENCES [dbo].[gpd_firm_profile] ([firm_id]),
+    CONSTRAINT [FK_gpd_user_details_gpd_manufacture_profile] FOREIGN KEY ([manufacture_id]) REFERENCES [dbo].[gpd_manufacture_profile] ([manufacture_id]),
     CONSTRAINT [IX_gpd_user_details] UNIQUE NONCLUSTERED ([email] ASC)
 );
+
+
 
 
 

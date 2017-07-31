@@ -540,6 +540,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
             lastName: "",
             email: "",
             jobTitle: "",
+            phone: "",
             company: {
                 name: "",
                 website: "",
@@ -549,8 +550,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 city: "",
                 state: "",
                 postalCode: "",
-                defaultIndustry: "",
-                phone: ""
+                defaultIndustry: ""                
             },
             password: "",
             confirmPassword: ""
@@ -561,9 +561,11 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
     $ctrl.OnSave = function () {
         GpdManageServices.RegisterUser($ctrl.data.user)
         .then(function (payload) {
-            //if (payload == "SUCCESS") {
-            //    toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");
-            //}
+            if (payload.status) {
+                //    toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");
+                window.location.href = '/Account/Login';
+                return;
+            }
         });
     };
     angular.element(document).ready(function () {

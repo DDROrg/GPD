@@ -112,13 +112,13 @@ namespace GPD.ServiceEntities
     /// <summary>
     /// 
     /// </summary>
-    [DataContract(Namespace = "http://www.gpd.com", Name = "userRegistration2")]
-    public class UserRegistration2DTO
+    [DataContract(Namespace = "http://www.gpd.com", Name = "UserDetails")]
+    public class UserDetailsTDO
     {
         #region Constr
-        public UserRegistration2DTO() : base()
+        public UserDetailsTDO() : base()
         {
-            Company = new CompanyDTO();
+            CompanyDetails = new CompanyDetailsDTO();
         }
         #endregion Constr
 
@@ -134,24 +134,24 @@ namespace GPD.ServiceEntities
         [DataMember(Name = "jobTitle", Order = 4)]
         public string JobTitle;
 
-        [DataMember(Name = "company", Order = 5)]
-        public CompanyDTO Company;
+        [DataMember(Name = "phone", Order = 5)]
+        public string Phone;
 
-        [DataMember(Name = "password", Order = 6)]
+        [DataMember(Name = "company", Order = 6)]
+        public CompanyDetailsDTO CompanyDetails;
+
+        [DataMember(Name = "password", Order = 7)]
         public string Password;
 
-        [DataMember(Name = "confirmPassword", Order = 7)]
+        [DataMember(Name = "confirmPassword", Order = 8)]
         public string ConfirmPassword;
     }
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "company")]
-    public class CompanyDTO
+    public class CompanyDetailsDTO
     {
         #region Constr
-        public CompanyDTO() : base()
-        {
-
-        }
+        public CompanyDetailsDTO() : base() { }
         #endregion Constr
 
         [DataMember(Name = "name", Order = 1)]
@@ -160,28 +160,25 @@ namespace GPD.ServiceEntities
         [DataMember(Name = "website", Order = 2)]
         public string WebSite;
 
-        [DataMember(Name = "country", Order = 4)]
+        [DataMember(Name = "country", Order = 3)]
         public string Country;
 
-        [DataMember(Name = "address", Order = 5)]
+        [DataMember(Name = "address", Order = 4)]
         public string Address;
 
-        [DataMember(Name = "address2", Order = 6)]
+        [DataMember(Name = "address2", Order = 5)]
         public string Address2;
 
-        [DataMember(Name = "city", Order = 7)]
+        [DataMember(Name = "city", Order = 6)]
         public string City;
 
-        [DataMember(Name = "state", Order = 8)]
+        [DataMember(Name = "state", Order = 7)]
         public string State;
 
-        [DataMember(Name = "postalCode", Order = 9)]
+        [DataMember(Name = "postalCode", Order = 8)]
         public string PostalCode;
 
-        [DataMember(Name = "defaultIndustry", Order = 10)]
+        [DataMember(Name = "defaultIndustry", Order = 9)]
         public string DefaultIndustry;
-
-        [DataMember(Name = "phone", Order = 10)]
-        public string Phone;
     }
 }

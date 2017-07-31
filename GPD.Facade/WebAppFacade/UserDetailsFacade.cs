@@ -22,8 +22,8 @@ namespace GPD.Facade.WebAppFacade
             try
             {
                 // hash user password
-                userDetails.XPathSelectElement("//*[local-name()='Password']").Value =
-                    ValueHashUtil.CreateHash(userDetails.XPathSelectElement("//*[local-name()='Password']").Value);
+                userDetails.XPathSelectElement("//*[local-name()='password']").Value =
+                    ValueHashUtil.CreateHash(userDetails.XPathSelectElement("//*[local-name()='password']").Value);
 
                 // add user details
                 userId = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection)

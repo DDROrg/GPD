@@ -16,7 +16,7 @@ namespace GPD.ServiceEntities.BaseEntities
         public string Family;
 
         [DataMember(Name = "id", Order = 4)]
-        public string Id;
+        public int Id;
 
         [DataMember(Name = "materials", Order = 5)]
         public List<MaterialDTO> Materials { get; set; }

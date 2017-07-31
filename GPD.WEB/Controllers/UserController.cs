@@ -1,19 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
-using System.Web.Http.Description;
 
 namespace GPD.WEB.Controllers
 {
     using ServiceEntities.BaseEntities;
-    using Facade.WebAppFacade;
     using ServiceEntities;
-    using CNST = Utility.ConstantHelper;
+    using System.Xml.Linq;
+    using System.Runtime.Serialization;
+    using Facade.WebAppFacade;
 
     /// <summary>
     /// User APIs List
     /// </summary>
     public class UserController : ApiController
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Get User Profile by Email
         /// </summary>
@@ -116,7 +119,6 @@ namespace GPD.WEB.Controllers
             return new Facade.SignInFacade().AddUserRole(userId, partnerId, groupId);
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -126,9 +128,53 @@ namespace GPD.WEB.Controllers
         [HttpPost]
         [AllowAnonymous]
         //[ApiExplorerSettings(IgnoreApi = true)]
-        public UserRegistrationStatusDTO RegisterUser(UserRegistration2DTO user)
+        public UserRegistrationStatusDTO RegisterUser(UserDetailsTDO user)
         {
-            UserRegistrationStatusDTO retVal = new UserRegistrationStatusDTO();
+            UserRegistrationStatusDTO retVal = new UserRegistrationStatusDTO() { Status = false };
+            XDocument xDoc = new XDocument();
+            int errorCode;
+            string errorMsg, requestIpAddress = string.Empty;
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(user.CompanyDetails.Name))
+                    user.CompanyDetails = new CompanyDetailsDTO();
+
+                // get XML based on UserRegistrationDTO object
+                using (var writer = xDoc.CreateWriter())
+                {
+                    var serializer = new DataContractSerializer(user.GetType());
+                    serializer.WriteObject(writer, user);
+                }                
+
+                try { requestIpAddress = System.Web.HttpContext.Current.Request.UserHostAddress; }
+                catch { }
+
+                // add a user to repository
+                int userId = UserDetailsFacade.AddUserDetails(xDoc, requestIpAddress, out errorCode, out errorMsg);
+
+                if (userId != -1)
+                {
+                    retVal = new UserRegistrationStatusDTO()
+                    {
+                        UserId = userId,
+                        Status = true
+                    };
+
+                    return retVal;
+                }
+
+                if (errorCode == 0 && !string.IsNullOrEmpty(errorMsg))
+                    retVal.Message = errorMsg;
+                else
+                    throw new Exception(string.Format("Add new UserDeatils() - Database ERROR: ErrorCode: {0}, ErrorMsg: {1}", errorCode, errorMsg));
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+                retVal.Message = "The server encountered an error processing registration. Please try again later.";
+            }
+
             return retVal;
         }
     }

@@ -89,5 +89,6 @@
     <Build Include="dbo\Stored Procedures\gpd_GetProjectsListBySearchTerm.sql" />
     <Build Include="dbo\Tables\gpd_manufacture_profile.sql" />
     <Build Include="dbo\Tables\gpd_firm_profile.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_AddFirmProfile.sql" />
   </ItemGroup>
 </Project>
