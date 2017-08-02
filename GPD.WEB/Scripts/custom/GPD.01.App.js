@@ -13,10 +13,10 @@
                 template: '<ui-view/>'                
             }).state('project.list', {
                 url: '/list',
-                templateUrl: '/Home/ProjectList'
+                templateUrl: __RootUrl + 'Home/ProjectList'
             }).state('project.edit', {
                 url: '/edit/{id}',
-                templateUrl: '/Home/ProjectEdit',
+                templateUrl: __RootUrl + 'Home/ProjectEdit',
                 params: { id: null, project: null }
                 //,
                 //resolve: {
