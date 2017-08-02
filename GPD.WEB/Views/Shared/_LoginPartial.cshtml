@@ -3,7 +3,7 @@
 }
 @if (Request.IsAuthenticated)
 {
-    <form action="/Account/Logout" class="navbar-right" id="logoutForm" method="post">
+    <form action="~/Account/Logout" class="navbar-right" id="logoutForm" method="post">
         @Html.AntiForgeryToken()
         <ul class="nav navbar-nav navbar-right">
             <!--<li><a href="javascript:document.getElementById('logoutForm').submit()">Log Off: @(up.FirstName + " " + up.LastName)</a></li>-->
@@ -14,7 +14,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="/Account/Register" id="aRregisterLink">Register</a></li>
-        <li><a href="/Account/Login" id="aLoginLink">Log in</a>
+        <li><a href="~/Account/Register" id="aRregisterLink">Register</a></li>
+        <li><a href="~/Account/Login" id="aLoginLink">Log in</a>
     </ul>
 }
