@@ -52,44 +52,56 @@
                                    class="form-control text-box single-line full-width"
                                    type="text" />
                             <ul data-ng-show="$ctrl.isACVisible()" class="autocomplete">
-                                <li data-ng-repeat="d in $ctrl.data.ACCompanies" data-ng-click="$ctrl.SelectACCompany(d)">{{ d.name }} - {{ d.website }}</li>
+                                <li data-ng-repeat="d in $ctrl.data.ACCompanies" data-ng-click="$ctrl.SelectACCompany(d)">
+                                    {{ d.name }} - {{ d.website }}
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">Website</label>
                         <div class="col-md-9">
-                            <input data-ng-model="$ctrl.data.user.company.website" class="form-control text-box single-line full-width" type="text" />
+                            <input data-ng-model="$ctrl.data.user.company.website"
+                                   class="form-control text-box single-line full-width" type="text" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">Country</label>
                         <div class="col-md-9">
-                            <input data-ng-model="$ctrl.data.user.company.country" class="form-control text-box single-line full-width" type="text" />
+                            <select data-ng-model="$ctrl.data.user.company.country" class="form-control full-width">
+                                <option data-ng-repeat="d in $ctrl.data.countries" value="{{d.Name}}">{{d.Name}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">Address</label>
                         <div class="col-md-9">
-                            <input data-ng-model="$ctrl.data.user.company.address" class="form-control text-box single-line full-width" type="text" />
+                            <input data-ng-model="$ctrl.data.user.company.address"
+                                   class="form-control text-box single-line full-width" type="text" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">Address2</label>
                         <div class="col-md-9">
-                            <input data-ng-model="$ctrl.data.user.company.address2" class="form-control text-box single-line full-width" type="text" />
+                            <input data-ng-model="$ctrl.data.user.company.address2"
+                                   class="form-control text-box single-line full-width" type="text" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">City</label>
                         <div class="col-md-9">
-                            <input data-ng-model="$ctrl.data.user.company.city" class="form-control text-box single-line full-width" type="text" />
+                            <input data-ng-model="$ctrl.data.user.company.city"
+                                   class="form-control text-box single-line full-width" type="text" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">State</label>
                         <div class="col-md-9">
-                            <input data-ng-model="$ctrl.data.user.company.state" class="form-control text-box single-line full-width" type="text" />
+                            <select data-ng-model="$ctrl.data.user.company.state"
+                                    class="form-control full-width">
+                                <option data-ng-repeat="d in States = ($ctrl.data.countries | filter : {Name : $ctrl.data.user.company.country})[0].States" 
+                                        value="{{d.Name}}">{{d.Name}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">

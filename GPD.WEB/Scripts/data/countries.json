@@ -1,0 +1,432 @@
+[
+  {
+    "CountryId": 38,
+    "Name": "Canada",
+    "CountryCode": 1,
+    "IsoCountryCode": "CA",
+    "StateList": true,
+    "Region": "na",
+    "States": [
+      {
+        "Name": "Alberta",
+        "StateProvinceId": 55
+      },
+      {
+        "Name": "British Columbia",
+        "StateProvinceId": 54
+      },
+      {
+        "Name": "Manitoba",
+        "StateProvinceId": 56
+      },
+      {
+        "Name": "New Brunswick",
+        "StateProvinceId": 59
+      },
+      {
+        "Name": "Newfoundland and Labrador",
+        "StateProvinceId": 60
+      },
+      {
+        "Name": "Northwest Territories",
+        "StateProvinceId": 62
+      },
+      {
+        "Name": "Nova Scotia",
+        "StateProvinceId": 58
+      },
+      {
+        "Name": "Nunavut",
+        "StateProvinceId": 64
+      },
+      {
+        "Name": "Ontario",
+        "StateProvinceId": 52
+      },
+      {
+        "Name": "Prince Edward Island",
+        "StateProvinceId": 61
+      },
+      {
+        "Name": "Quebec",
+        "StateProvinceId": 53
+      },
+      {
+        "Name": "Saskatchewan",
+        "StateProvinceId": 57
+      },
+      {
+        "Name": "Yukon",
+        "StateProvinceId": 63
+      }
+    ]
+  },
+  {
+    "CountryId": 93,
+    "Name": "India",
+    "CountryCode": 91,
+    "IsoCountryCode": "IN",
+    "StateList": true,
+    "Region": "asia",
+    "States": [
+      {
+        "Name": "Andaman and Nicobar Islands",
+        "StateProvinceId": 250
+      },
+      {
+        "Name": "Andhra Pradesh",
+        "StateProvinceId": 221
+      },
+      {
+        "Name": "Arunachal Pradesh",
+        "StateProvinceId": 222
+      },
+      {
+        "Name": "Assam",
+        "StateProvinceId": 223
+      },
+      {
+        "Name": "Bihar",
+        "StateProvinceId": 224
+      },
+      {
+        "Name": "Chandigarh",
+        "StateProvinceId": 251
+      },
+      {
+        "Name": "Chhattisgarh",
+        "StateProvinceId": 225
+      },
+      {
+        "Name": "Dadra and Nagar Haveli",
+        "StateProvinceId": 252
+      },
+      {
+        "Name": "Daman and Diu",
+        "StateProvinceId": 253
+      },
+      {
+        "Name": "Goa",
+        "StateProvinceId": 226
+      },
+      {
+        "Name": "Gujarat",
+        "StateProvinceId": 227
+      },
+      {
+        "Name": "Haryana",
+        "StateProvinceId": 228
+      },
+      {
+        "Name": "Himachal Pradesh",
+        "StateProvinceId": 229
+      },
+      {
+        "Name": "Jammu and Kashmir",
+        "StateProvinceId": 230
+      },
+      {
+        "Name": "Jharkhand",
+        "StateProvinceId": 231
+      },
+      {
+        "Name": "Karnataka",
+        "StateProvinceId": 232
+      },
+      {
+        "Name": "Kerala",
+        "StateProvinceId": 233
+      },
+      {
+        "Name": "Lakshadweep",
+        "StateProvinceId": 254
+      },
+      {
+        "Name": "Madhya Pradesh",
+        "StateProvinceId": 234
+      },
+      {
+        "Name": "Maharashtra",
+        "StateProvinceId": 235
+      },
+      {
+        "Name": "Manipur",
+        "StateProvinceId": 236
+      },
+      {
+        "Name": "Meghalaya",
+        "StateProvinceId": 237
+      },
+      {
+        "Name": "Mizoram",
+        "StateProvinceId": 238
+      },
+      {
+        "Name": "Nagaland",
+        "StateProvinceId": 239
+      },
+      {
+        "Name": "Delhi",
+        "StateProvinceId": 255
+      },
+      {
+        "Name": "Odisha",
+        "StateProvinceId": 240
+      },
+      {
+        "Name": "Puducherry",
+        "StateProvinceId": 256
+      },
+      {
+        "Name": "Punjab",
+        "StateProvinceId": 241
+      },
+      {
+        "Name": "Rajasthan",
+        "StateProvinceId": 242
+      },
+      {
+        "Name": "Sikkim",
+        "StateProvinceId": 243
+      },
+      {
+        "Name": "Tamil Nadu",
+        "StateProvinceId": 244
+      },
+      {
+        "Name": "Telangana",
+        "StateProvinceId": 245
+      },
+      {
+        "Name": "Tripura",
+        "StateProvinceId": 246
+      },
+      {
+        "Name": "Uttar Pradesh",
+        "StateProvinceId": 247
+      },
+      {
+        "Name": "Uttarakhand",
+        "StateProvinceId": 248
+      },
+      {
+        "Name": "West Bengal",
+        "StateProvinceId": 249
+      }
+    ]
+  },
+  {
+    "CountryId": 217,
+    "Name": "United States",
+    "CountryCode": 1,
+    "IsoCountryCode": "US",
+    "StateList": true,
+    "Region": "na",
+    "States": [
+      {
+        "Name": "Alabama",
+        "StateProvinceId": 1
+      },
+      {
+        "Name": "Alaska",
+        "StateProvinceId": 2
+      },
+      {
+        "Name": "Arizona",
+        "StateProvinceId": 3
+      },
+      {
+        "Name": "Arkansas",
+        "StateProvinceId": 4
+      },
+      {
+        "Name": "California",
+        "StateProvinceId": 5
+      },
+      {
+        "Name": "Colorado",
+        "StateProvinceId": 6
+      },
+      {
+        "Name": "Connecticut",
+        "StateProvinceId": 7
+      },
+      {
+        "Name": "Delaware",
+        "StateProvinceId": 8
+      },
+      {
+        "Name": "District Of Columbia",
+        "StateProvinceId": 9
+      },
+      {
+        "Name": "Florida",
+        "StateProvinceId": 10
+      },
+      {
+        "Name": "Georgia",
+        "StateProvinceId": 11
+      },
+      {
+        "Name": "Hawaii",
+        "StateProvinceId": 12
+      },
+      {
+        "Name": "Idaho",
+        "StateProvinceId": 13
+      },
+      {
+        "Name": "Illinois",
+        "StateProvinceId": 14
+      },
+      {
+        "Name": "Indiana",
+        "StateProvinceId": 15
+      },
+      {
+        "Name": "Iowa",
+        "StateProvinceId": 16
+      },
+      {
+        "Name": "Kansas",
+        "StateProvinceId": 17
+      },
+      {
+        "Name": "Kentucky",
+        "StateProvinceId": 18
+      },
+      {
+        "Name": "Louisiana",
+        "StateProvinceId": 19
+      },
+      {
+        "Name": "Maine",
+        "StateProvinceId": 20
+      },
+      {
+        "Name": "Maryland",
+        "StateProvinceId": 21
+      },
+      {
+        "Name": "Massachusetts",
+        "StateProvinceId": 22
+      },
+      {
+        "Name": "Michigan",
+        "StateProvinceId": 23
+      },
+      {
+        "Name": "Minnesota",
+        "StateProvinceId": 24
+      },
+      {
+        "Name": "Mississippi",
+        "StateProvinceId": 25
+      },
+      {
+        "Name": "Missouri",
+        "StateProvinceId": 26
+      },
+      {
+        "Name": "Montana",
+        "StateProvinceId": 27
+      },
+      {
+        "Name": "Nebraska",
+        "StateProvinceId": 28
+      },
+      {
+        "Name": "Nevada",
+        "StateProvinceId": 29
+      },
+      {
+        "Name": "New Hampshire",
+        "StateProvinceId": 30
+      },
+      {
+        "Name": "New Jersey",
+        "StateProvinceId": 31
+      },
+      {
+        "Name": "New Mexico",
+        "StateProvinceId": 32
+      },
+      {
+        "Name": "New York",
+        "StateProvinceId": 33
+      },
+      {
+        "Name": "North Carolina",
+        "StateProvinceId": 34
+      },
+      {
+        "Name": "North Dakota",
+        "StateProvinceId": 35
+      },
+      {
+        "Name": "Ohio",
+        "StateProvinceId": 36
+      },
+      {
+        "Name": "Oklahoma",
+        "StateProvinceId": 37
+      },
+      {
+        "Name": "Oregon",
+        "StateProvinceId": 38
+      },
+      {
+        "Name": "Pennsylvania",
+        "StateProvinceId": 39
+      },
+      {
+        "Name": "Rhode Island",
+        "StateProvinceId": 40
+      },
+      {
+        "Name": "South Carolina",
+        "StateProvinceId": 41
+      },
+      {
+        "Name": "South Dakota",
+        "StateProvinceId": 42
+      },
+      {
+        "Name": "Tennessee",
+        "StateProvinceId": 43
+      },
+      {
+        "Name": "Texas",
+        "StateProvinceId": 44
+      },
+      {
+        "Name": "Utah",
+        "StateProvinceId": 45
+      },
+      {
+        "Name": "Vermont",
+        "StateProvinceId": 46
+      },
+      {
+        "Name": "Virginia",
+        "StateProvinceId": 47
+      },
+      {
+        "Name": "Washington",
+        "StateProvinceId": 48
+      },
+      {
+        "Name": "West Virginia",
+        "StateProvinceId": 49
+      },
+      {
+        "Name": "Wisconsin",
+        "StateProvinceId": 50
+      },
+      {
+        "Name": "Wyoming",
+        "StateProvinceId": 51
+      }
+    ]
+  }
+]

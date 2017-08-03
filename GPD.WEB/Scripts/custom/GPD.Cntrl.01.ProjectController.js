@@ -533,6 +533,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
         var $ctrl = this;
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.user = {};
+        $ctrl.data.countries = [];
         $ctrl.data.ACCompanies = [];
         $ctrl.data.isACVisible = false;
 
@@ -546,7 +547,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 company: {
                     name: "",
                     website: "",
-                    country: "",
+                    country: "United State",
                     address: "",
                     address2: "",
                     city: "",
@@ -557,6 +558,12 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 password: "",
                 confirmPassword: ""
             };
+        };
+        var GetCountries = function () {
+            GpdManageServices.GetCountries().then(function (payload) {
+                //$log.log(payload);
+                $ctrl.data.countries = payload;
+            });
         };
 
         $ctrl.isACVisible = function () {
@@ -594,6 +601,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
         };
         angular.element(document).ready(function () {
             ResetData();
+            GetCountries();
         });
     }])
     .directive('keyboardPoster', ['$parse', '$timeout', function ($parse, $timeout) {

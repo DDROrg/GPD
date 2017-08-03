@@ -18,7 +18,8 @@ textarea {
     max-width: 280px;
 }
 
-    input.full-width {
+    input.full-width, 
+    select.full-width {
         max-width: 100%;
     }
 
