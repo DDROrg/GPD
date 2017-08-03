@@ -810,6 +810,13 @@
             <param name="user"></param>
             <returns></returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.UserController.GetCompanies(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="searchTerm"></param>
+            <returns></returns>
+        </member>
         <member name="T:GPD.WEB.WebApiApplication">
             <summary>
             

@@ -10,6 +10,7 @@ using System.Xml.XPath;
 namespace GPD.Facade
 {
     using DAL.SqlDB;
+    using ServiceEntities;
     using ServiceEntities.BaseEntities;
     using CNST = Utility.ConstantHelper;
 
@@ -333,6 +334,37 @@ namespace GPD.Facade
                 log.Error("Unable to delete UserRole for userId: " + userId + " partnerId: " + partnerId + " groupId: " + groupId, ex);
                 retVal = "ERROR";
             }
+            return retVal;
+        }
+
+
+
+        public List<CompanyDetailsDTO> GetCompanies(string searchTerm)
+        {
+            List<CompanyDetailsDTO> retVal = new List<CompanyDetailsDTO>();
+            retVal.Add(new CompanyDetailsDTO() {
+                Name= "ABC Company",
+                WebSite = "www.abc.com",
+                Address = "ABC Address Line 1",
+                Address2 = "ABC Address Line 2",
+                City = "ABC City",
+                State= "ABC State",
+                Country = "ABC Country",
+                PostalCode="783458",
+                DefaultIndustry="Publishing"
+            });
+            retVal.Add(new CompanyDetailsDTO()
+            {
+                Name = "XYZ Company",
+                WebSite = "www.xyz.com",
+                Address = "XYZ Address Line 1",
+                City = "XYZ City",
+                State = "XYZ State",
+                Country = "XYZ Country",
+                PostalCode = "783458",
+                DefaultIndustry = "Publishing"
+            });
+
             return retVal;
         }
     }

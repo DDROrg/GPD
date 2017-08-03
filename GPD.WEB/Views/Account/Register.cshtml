@@ -47,7 +47,13 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">Company Name</label>
                         <div class="col-md-9">
-                            <input data-ng-model="$ctrl.data.user.company.name" class="form-control text-box single-line full-width" type="text" />
+                            <input keyboard-poster post-fn="$ctrl.GetCompanies(term)"
+                                   data-ng-model="$ctrl.data.user.company.name"
+                                   class="form-control text-box single-line full-width"
+                                   type="text" />
+                            <ul data-ng-show="$ctrl.isACVisible()" class="autocomplete">
+                                <li data-ng-repeat="d in $ctrl.data.ACCompanies" data-ng-click="$ctrl.SelectACCompany(d)">{{ d.name }} - {{ d.website }}</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="form-group">
@@ -97,7 +103,16 @@
                         <div class="col-md-9">
                             <input data-ng-model="$ctrl.data.user.company.defaultIndustry" class="form-control text-box single-line full-width" type="text" />
                         </div>
-                    </div>                    
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-horizontal">
                     <h3>Password</h3>
                     <hr />
                     <div class="form-group">
@@ -112,11 +127,55 @@
                             <input data-ng-model="$ctrl.data.user.confirmPassword" class="form-control text-box single-line full-width" type="password" />
                         </div>
                     </div>
+                    <div class="from-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-9">
+                            <label>
+                                <input type="checkbox" value="true" />
+                                <span>I accept the <a href="#" target="_blank">Terms &amp; Conditions</a></span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="col-md-4">
+                <div class="jumbotron light ternary">
+                    <h5 class="collapse-top">Password Requirements</h5>
+                    <ul class="fa-ul">
+                        <li id="has_eight">
+                            <i class="fa-li fa fa-minus-circle text-danger"></i>Minimum of 8 characters
+                        </li>
+                        <li id="has_lower_letter">
+                            <i class="fa-li fa fa-minus-circle text-danger"></i>Has at least one lowercase letter
+                        </li>
+                        <li id="has_cap_letter">
+                            <i class="fa-li fa fa-minus-circle text-danger"></i>Has at least one uppercase letter
+                        </li>
+                        <li id="has_number">
+                            <i class="fa-li fa fa-minus-circle text-danger"></i>Has at least one number
+                        </li>
+                        <li id="no_rep_pattern">
+                            <i class="fa-li fa fa-check text-success"></i>Does not contain 3 same consecutive characters
+                        </li>
+                        <li id="not_username">
+                            <i class="fa-li fa fa-check text-success"></i>Is not username/email
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
                 <div style="text-align: right;">
                     <a class="btn btn-warning" data-ng-href="" data-ng-click="$ctrl.OnReset()"><i class="fa fa-times-circle-o"></i>&nbsp;Reset</a>
                     <a class="btn btn-primary" data-ng-href="" data-ng-click="$ctrl.OnSave()"><i class="fa fa-floppy-o"></i>&nbsp;Save</a>
                 </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
             </div>
             <div class="col-md-4">
             </div>

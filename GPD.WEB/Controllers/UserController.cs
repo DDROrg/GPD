@@ -177,5 +177,19 @@ namespace GPD.WEB.Controllers
 
             return retVal;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
+        [Route("api/GetCompanies")]
+        [HttpPost]
+        [AllowAnonymous]
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        public List<CompanyDetailsDTO> GetCompanies(string searchTerm)
+        {
+            return new Facade.SignInFacade().GetCompanies(searchTerm);
+        }
     }
 }

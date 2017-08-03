@@ -530,45 +530,89 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
 //=================================================
 angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices',
     function ($scope, $rootScope, $http, $location, $uibModal, $log, toastr, CommonServices, GpdManageServices) {
-    var $ctrl = this;
-    CommonServices.SetDefaultData($ctrl, $location);
-    $ctrl.data.user = {};
+        var $ctrl = this;
+        CommonServices.SetDefaultData($ctrl, $location);
+        $ctrl.data.user = {};
+        $ctrl.data.ACCompanies = [];
+        $ctrl.data.isACVisible = false;
 
-    var ResetData = function () {
-        $ctrl.data.user = {
-            firstName: "",
-            lastName: "",
-            email: "",
-            jobTitle: "",
-            phone: "",
-            company: {
-                name: "",
-                website: "",
-                country: "",
-                address: "",
-                address2: "",
-                city: "",
-                state: "",
-                postalCode: "",
-                defaultIndustry: ""                
-            },
-            password: "",
-            confirmPassword: ""
+        var ResetData = function () {
+            $ctrl.data.user = {
+                firstName: "",
+                lastName: "",
+                email: "",
+                jobTitle: "",
+                phone: "",
+                company: {
+                    name: "",
+                    website: "",
+                    country: "",
+                    address: "",
+                    address2: "",
+                    city: "",
+                    state: "",
+                    postalCode: "",
+                    defaultIndustry: ""
+                },
+                password: "",
+                confirmPassword: ""
+            };
         };
-    };
 
-    $ctrl.OnReset = function () { ResetData();};
-    $ctrl.OnSave = function () {
-        GpdManageServices.RegisterUser($ctrl.data.user)
-        .then(function (payload) {
-            if (payload.status) {
-                //    toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");
-                window.location.href = '/Account/Login';
-                return;
+        $ctrl.isACVisible = function () {
+            return $ctrl.data.isACVisible;
+        };
+        $ctrl.GetCompanies = function (term) {
+            //$log.log(term);
+            var regex = /^\w(\w|\s|.){2,}/;
+            if (regex.test(term)) {
+                GpdManageServices.GetCompanies(term).then(function (payload) {
+                    //$log.log(payload);
+                    $ctrl.data.ACCompanies = payload;
+                    $ctrl.data.isACVisible = payload.length > 0 ? true : false;
+                });
+            } else {
+                $ctrl.data.ACCompanies = [];
+                $ctrl.data.isACVisible = false;
             }
+        };
+        $ctrl.SelectACCompany = function (d) {
+            //$log.log(d);
+            $ctrl.data.user.company = d;
+            $ctrl.data.isACVisible = false;
+        };
+        $ctrl.OnReset = function () { ResetData(); };
+        $ctrl.OnSave = function () {
+            GpdManageServices.RegisterUser($ctrl.data.user)
+            .then(function (payload) {
+                if (payload.status) {
+                    //    toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");
+                    window.location.href = '/Account/Login';
+                    return;
+                }
+            });
+        };
+        angular.element(document).ready(function () {
+            ResetData();
         });
-    };
-    angular.element(document).ready(function () {
-        ResetData();
-    });
-}]);
+    }])
+    .directive('keyboardPoster', ['$parse', '$timeout', function ($parse, $timeout) {
+        return {
+            scope: {
+                postFn: '&'
+            },
+            link: function (scope, elem, attr) {
+                var DELAY_TIME_BEFORE_POSTING = 500;
+                var currentTimeout = null;
+                elem.bind("input", function (event) {
+                    if (currentTimeout) {
+                        $timeout.cancel(currentTimeout);
+                    }
+                    currentTimeout = $timeout(function () {
+                        var t = elem.val();
+                        scope.postFn({ term: t });
+                    }, DELAY_TIME_BEFORE_POSTING);
+                });
+            }
+        };
+    }]);
