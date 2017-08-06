@@ -1921,7 +1921,9 @@
     <Content Include="Content\custom\js\GPD.02.Services.js" />
     <Content Include="Content\custom\js\GPD.Cntrl.01.DashboardController.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -2020,6 +2022,7 @@
     <Content Include="Views\Home\_Report.cshtml" />
     <Content Include="Views\Home\_Manage.cshtml" />
     <Content Include="Views\Home\_Map.cshtml" />
+    <None Include="Properties\PublishProfiles\GPD-Dashboard.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GPD.Facade\GPD.Facade.csproj">

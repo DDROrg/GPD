@@ -337,32 +337,20 @@ namespace GPD.Facade
             return retVal;
         }
 
-
-
         public List<CompanyDetailsDTO> GetCompanies(string searchTerm)
         {
             List<CompanyDetailsDTO> retVal = new List<CompanyDetailsDTO>();
+
             retVal.Add(new CompanyDetailsDTO() {
+                Id = 100,
                 Name= "ABC Company",
-                WebSite = "www.abc.com",
-                Address = "ABC Address Line 1",
-                Address2 = "ABC Address Line 2",
-                City = "ABC City",
-                State= "ABC State",
-                Country = "ABC Country",
-                PostalCode="783458",
-                DefaultIndustry="Publishing"
+                WebSite = "www.abc.com"
             });
             retVal.Add(new CompanyDetailsDTO()
             {
+                Id = 101,
                 Name = "XYZ Company",
-                WebSite = "www.xyz.com",
-                Address = "XYZ Address Line 1",
-                City = "XYZ City",
-                State = "XYZ State",
-                Country = "XYZ Country",
-                PostalCode = "783458",
-                DefaultIndustry = "Publishing"
+                WebSite = "www.xyz.com"
             });
 
             return retVal;

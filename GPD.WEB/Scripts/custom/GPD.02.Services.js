@@ -141,6 +141,9 @@ var GpdManageServices = function ($http, $q, $log) {
     var _GetCountries = function (term) {
         return $http.get(__RootUrl + "Scripts/data/countries.json");
     };
+    var _GetCountryDetails = function (countryId) {
+        return $http.post(__RootUrl + "api/GetCountryDetails?countryId=" + encodeURI(countryId));
+    };
     this.GetPartners = function () {
         var deferred = $q.defer();
         var retVal = {};
@@ -259,6 +262,16 @@ var GpdManageServices = function ($http, $q, $log) {
         var deferred = $q.defer();
         var retVal = {};
         _GetCountries()
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+    this.GetCountryDetails = function (countryId) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _GetCountryDetails(countryId)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);

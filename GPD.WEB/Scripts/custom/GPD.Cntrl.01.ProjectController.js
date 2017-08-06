@@ -585,8 +585,11 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
         };
         $ctrl.SelectACCompany = function (d) {
             //$log.log(d);
-            $ctrl.data.user.company = d;
-            $ctrl.data.isACVisible = false;
+            GpdManageServices.GetCountryDetails(d.id).then(function (payload) {
+                //$log.log(d);
+                $ctrl.data.user.company = payload;
+                $ctrl.data.isACVisible = false;
+            });
         };
         $ctrl.OnReset = function () { ResetData(); };
         $ctrl.OnSave = function () {

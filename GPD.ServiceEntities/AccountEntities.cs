@@ -154,6 +154,9 @@ namespace GPD.ServiceEntities
         public CompanyDetailsDTO() : base() { }
         #endregion Constr
 
+        [DataMember(Name = "id", Order = 0)]
+        public int Id;
+
         [DataMember(Name = "name", Order = 1)]
         public string Name;
 
