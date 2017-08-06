@@ -341,17 +341,63 @@ namespace GPD.Facade
         {
             List<CompanyDetailsDTO> retVal = new List<CompanyDetailsDTO>();
 
-            retVal.Add(new CompanyDetailsDTO() {
-                Id = 100,
-                Name= "ABC Company",
-                WebSite = "www.abc.com"
-            });
-            retVal.Add(new CompanyDetailsDTO()
+            if (string.IsNullOrWhiteSpace(searchTerm) || searchTerm.Trim().Length < 3)
+                return retVal;
+
+            try
             {
-                Id = 101,
-                Name = "XYZ Company",
-                WebSite = "www.xyz.com"
-            });
+                DataSet ds = new UserDB(Utility.ConfigurationHelper.GPD_Connection).GetFirmsListBasedOnTerm(searchTerm);
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        retVal.Add(new CompanyDetailsDTO()
+                        {
+                            Id = int.Parse(dr["firm_id"].ToString()),
+                            Name = dr["name"].ToString(),
+                            WebSite = DBNull.Value.Equals(dr["url"]) ? "" : dr["url"].ToString()
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                retVal = new List<CompanyDetailsDTO>();
+            }
+
+            return retVal;
+        }
+
+        public CompanyDetailsDTO GetCompanyProfile(int companyId)
+        {
+            CompanyDetailsDTO retVal = new CompanyDetailsDTO() { Id = companyId };
+
+            try
+            {
+                DataSet ds = new UserDB(Utility.ConfigurationHelper.GPD_Connection).GetFirmProfile(companyId);
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    retVal = new CompanyDetailsDTO() {
+                        Id = companyId,
+                        Name = DBNull.Value.Equals(ds.Tables[0].Rows[0]["name"]) ? string.Empty : ds.Tables[0].Rows[0]["name"].ToString(),
+                        WebSite = DBNull.Value.Equals(ds.Tables[0].Rows[0]["url"]) ? string.Empty : ds.Tables[0].Rows[0]["url"].ToString(),
+                        Address = DBNull.Value.Equals(ds.Tables[0].Rows[0]["address_line_1"]) ? string.Empty : ds.Tables[0].Rows[0]["address_line_1"].ToString(),
+                        City = DBNull.Value.Equals(ds.Tables[0].Rows[0]["city"]) ? string.Empty : ds.Tables[0].Rows[0]["city"].ToString(),
+                        State = DBNull.Value.Equals(ds.Tables[0].Rows[0]["state_province"]) ? string.Empty : ds.Tables[0].Rows[0]["state_province"].ToString(),
+                        Country = DBNull.Value.Equals(ds.Tables[0].Rows[0]["country"]) ? string.Empty : ds.Tables[0].Rows[0]["country"].ToString(),
+                        PostalCode = DBNull.Value.Equals(ds.Tables[0].Rows[0]["zip_postal_code"]) ? string.Empty : ds.Tables[0].Rows[0]["zip_postal_code"].ToString(),
+                        DefaultIndustry = DBNull.Value.Equals(ds.Tables[0].Rows[0]["DefaultIndustry"]) ? string.Empty : ds.Tables[0].Rows[0]["DefaultIndustry"].ToString(),
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                retVal = new CompanyDetailsDTO() { Id = companyId };
+            }
 
             return retVal;
         }

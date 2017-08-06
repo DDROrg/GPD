@@ -203,22 +203,7 @@ namespace GPD.WEB.Controllers
         //[ApiExplorerSettings(IgnoreApi = true)]
         public CompanyDetailsDTO GetCountryDetails(int countryId)
         {
-            // TODO
-            //return new Facade.SignInFacade().GetCompanies(searchTerm);
-
-            return new CompanyDetailsDTO()
-            {
-                Id = 100,
-                Name = "Ruslan Company",
-                WebSite = "www.ruslan.com",
-                Address = "3452 Hillcroft road",
-                Address2 = "ABC Address Line 2",
-                City = "ABC City",
-                State = "ABC State",
-                Country = "ABC Country",
-                PostalCode = "783458",
-                DefaultIndustry = "Publishing"
-            };
+            return new Facade.SignInFacade().GetCompanyProfile(countryId);
         }
     }
 }

@@ -91,5 +91,7 @@
     <Build Include="dbo\Tables\gpd_firm_profile.sql" />
     <Build Include="dbo\Stored Procedures\gpd_AddFirmProfile.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetUsersList.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_GetFirmsListBasedOnTerm.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_GetFirmProfile.sql" />
   </ItemGroup>
 </Project>
