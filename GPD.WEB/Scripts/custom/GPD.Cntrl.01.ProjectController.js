@@ -528,12 +528,13 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
 }]);
 
 //=================================================
-angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices',
-    function ($scope, $rootScope, $http, $location, $uibModal, $log, toastr, CommonServices, GpdManageServices) {
+angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'filterFilter', 'toastr', 'CommonServices', 'GpdManageServices',
+    function ($scope, $rootScope, $http, $location, $uibModal, $log, filterFilter, toastr, CommonServices, GpdManageServices) {
         var $ctrl = this;
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.user = {};
         $ctrl.data.countries = [];
+        $ctrl.data.filteredState = [];
         $ctrl.data.ACCompanies = [];
         $ctrl.data.isACVisible = false;
 
@@ -547,7 +548,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 company: {
                     name: "",
                     website: "",
-                    country: "United State",
+                    country: "USA",
                     address: "",
                     address2: "",
                     city: "",
@@ -563,11 +564,42 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
             GpdManageServices.GetCountries().then(function (payload) {
                 //$log.log(payload);
                 $ctrl.data.countries = payload;
+                $ctrl.CountryChange();
             });
         };
         var validateUserDetail = function () {
-            var regexEmptyString = "^\s+$";
+            var isValid = true;
+            var regexEmptyString = /^\s*$/;
+            var reValidEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            var rePassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+            var errMessage = "";
+            if (regexEmptyString.test($ctrl.data.user.firstName)) {
+                errMessage = errMessage + "'First Name' is required.<br/>";
+                isValid = false;
+            }
+            if (regexEmptyString.test($ctrl.data.user.lastName)) {
+                errMessage = errMessage + "'Last Name' is required.<br/>";
+                isValid = false;
+            }
+            if (!reValidEmail.test($ctrl.data.user.email)) {
+                errMessage = errMessage + "'Email' is not valid.<br/>";
+                isValid = false;
+            }
+            if (regexEmptyString.test($ctrl.data.user.password)) {
+                errMessage = errMessage + "'Password' is required.<br/>";
+                isValid = false;
+            }
+            //if (!rePassword.test($ctrl.data.user.password)) {
+            //    errMessage = errMessage + "'Password' does not meet require criteria.<br/>";
+            //    isValid = false;
+            //}
+            if ($ctrl.data.user.password != $ctrl.data.user.confirmPassword) {
+                errMessage = errMessage + "'Re-enter Password' does not match with 'Password'.<br/>";
+                isValid = false;
+            }
 
+            if (!isValid) { toastr.error(errMessage, { allowHtml: true }); }
+            return isValid;
         };
 
         $ctrl.isACVisible = function () {
@@ -589,25 +621,41 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
         };
         $ctrl.SelectACCompany = function (d) {
             //$log.log(d);
-            GpdManageServices.GetCountryDetails(d.id).then(function (payload) {
-                //$log.log(d);
+            GpdManageServices.GetCompanyDetails(d.id).then(function (payload) {
+                //$log.log(payload);
                 $ctrl.data.user.company = payload;
+                $ctrl.CountryChange();
                 $ctrl.data.isACVisible = false;
             });
         };
-        $ctrl.OnReset = function () { ResetData(); };
-        $ctrl.OnSave = function () {
-            validateUserDetail();
-
-
-            GpdManageServices.RegisterUser($ctrl.data.user)
-            .then(function (payload) {
-                if (payload.status) {
-                    //    toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");
-                    window.location.href = '/Account/Login';
-                    return;
+        $ctrl.CountryChange = function () {
+            $ctrl.data.filteredState = [];
+            if ($ctrl.data.countries.length > 0) {
+                var filteredCountries = filterFilter($ctrl.data.countries, { Name: $ctrl.data.user.company.country });
+                if (filteredCountries.length > 0) {
+                    var filteredCountry = filteredCountries[0];
+                    if (filteredCountry.States) {
+                        $ctrl.data.filteredState = filteredCountry.States;
+                    }
                 }
-            });
+            }
+        };
+        $ctrl.HasFilteredStates = function () {
+            return $ctrl.data.filteredState.length > 0 ? 1 : 0;
+        };
+        $ctrl.OnReset = function () { ResetData(); $ctrl.CountryChange(); };
+        $ctrl.OnSave = function () {
+            if (validateUserDetail()) {
+                GpdManageServices.RegisterUser($ctrl.data.user)
+                .then(function (payload) {
+                    if (payload.status) { 
+                        window.location.href = __RootUrl + 'Account/Login';
+                        return;
+                    } else {
+                        toastr.error("ERROR : " + payload.message);
+                    }
+                });
+            }
         };
         angular.element(document).ready(function () {
             ResetData();

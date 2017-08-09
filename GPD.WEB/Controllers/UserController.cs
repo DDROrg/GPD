@@ -195,13 +195,13 @@ namespace GPD.WEB.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="searchTerm"></param>
+        /// <param name="countryId"></param>
         /// <returns></returns>
-        [Route("api/GetCountryDetails")]
+        [Route("api/GetCompanyDetails")]
         [HttpPost]
         [AllowAnonymous]
         //[ApiExplorerSettings(IgnoreApi = true)]
-        public CompanyDetailsDTO GetCountryDetails(int countryId)
+        public CompanyDetailsDTO GetCompanyDetails(int countryId)
         {
             return new Facade.SignInFacade().GetCompanyProfile(countryId);
         }

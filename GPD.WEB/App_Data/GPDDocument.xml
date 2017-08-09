@@ -817,11 +817,11 @@
             <param name="searchTerm"></param>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.Controllers.UserController.GetCountryDetails(System.Int32)">
+        <member name="M:GPD.WEB.Controllers.UserController.GetCompanyDetails(System.Int32)">
             <summary>
             
             </summary>
-            <param name="searchTerm"></param>
+            <param name="countryId"></param>
             <returns></returns>
         </member>
         <member name="T:GPD.WEB.WebApiApplication">
