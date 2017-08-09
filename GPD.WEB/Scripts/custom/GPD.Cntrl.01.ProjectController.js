@@ -565,6 +565,10 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 $ctrl.data.countries = payload;
             });
         };
+        var validateUserDetail = function () {
+            var regexEmptyString = "^\s+$";
+
+        };
 
         $ctrl.isACVisible = function () {
             return $ctrl.data.isACVisible;
@@ -593,6 +597,9 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
         };
         $ctrl.OnReset = function () { ResetData(); };
         $ctrl.OnSave = function () {
+            validateUserDetail();
+
+
             GpdManageServices.RegisterUser($ctrl.data.user)
             .then(function (payload) {
                 if (payload.status) {
