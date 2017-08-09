@@ -548,7 +548,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 company: {
                     name: "",
                     website: "",
-                    country: "USA",
+                    country: "",
                     address: "",
                     address2: "",
                     city: "",
@@ -567,11 +567,11 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 $ctrl.CountryChange();
             });
         };
-        var validateUserDetail = function () {
+        var ValidateUserDetail = function () {
             var isValid = true;
             var regexEmptyString = /^\s*$/;
             var reValidEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            var rePassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+            var rePassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
             var errMessage = "";
             if (regexEmptyString.test($ctrl.data.user.firstName)) {
                 errMessage = errMessage + "'First Name' is required.<br/>";
@@ -585,14 +585,10 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 errMessage = errMessage + "'Email' is not valid.<br/>";
                 isValid = false;
             }
-            if (regexEmptyString.test($ctrl.data.user.password)) {
-                errMessage = errMessage + "'Password' is required.<br/>";
+            if (!rePassword.test($ctrl.data.user.password)) {
+                errMessage = errMessage + "'Password' does not meet require criteria.<br/>";
                 isValid = false;
             }
-            //if (!rePassword.test($ctrl.data.user.password)) {
-            //    errMessage = errMessage + "'Password' does not meet require criteria.<br/>";
-            //    isValid = false;
-            //}
             if ($ctrl.data.user.password != $ctrl.data.user.confirmPassword) {
                 errMessage = errMessage + "'Re-enter Password' does not match with 'Password'.<br/>";
                 isValid = false;
@@ -630,8 +626,8 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
         };
         $ctrl.CountryChange = function () {
             $ctrl.data.filteredState = [];
-            if ($ctrl.data.countries.length > 0) {
-                var filteredCountries = filterFilter($ctrl.data.countries, { Name: $ctrl.data.user.company.country });
+            if ($ctrl.data.countries.length > 0 && $ctrl.data.user.company.country != '') {
+                var filteredCountries = filterFilter($ctrl.data.countries, { Name: $ctrl.data.user.company.country }, true);
                 if (filteredCountries.length > 0) {
                     var filteredCountry = filteredCountries[0];
                     if (filteredCountry.States) {
@@ -643,9 +639,24 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
         $ctrl.HasFilteredStates = function () {
             return $ctrl.data.filteredState.length > 0 ? 1 : 0;
         };
+        $ctrl.AnalyzePasswordStrength = function (type) {
+            var calss = "fa-li fa fa-minus-circle text-danger";
+            if (type == "length") {
+                if (/(?=.{8,})/.test($ctrl.data.user.password)) { calss = "fa-li fa fa-check text-success"; }
+            } else if (type == "lowercase") {
+                if (/(?=.*[a-z])/.test($ctrl.data.user.password)) { calss = "fa-li fa fa-check text-success"; }
+            } else if (type == "uppercase") {
+                if (/(?=.*[A-Z])/.test($ctrl.data.user.password)) { calss = "fa-li fa fa-check text-success"; }
+            } else if (type == "number") {
+                if (/(?=.*[0-9])/.test($ctrl.data.user.password)) { calss = "fa-li fa fa-check text-success"; }
+            } else if (type == "special") {
+                if (/(?=.*[!@#\$%\^&\*])/.test($ctrl.data.user.password)) { calss = "fa-li fa fa-check text-success"; }
+            }
+            return calss;
+        };
         $ctrl.OnReset = function () { ResetData(); $ctrl.CountryChange(); };
         $ctrl.OnSave = function () {
-            if (validateUserDetail()) {
+            if (ValidateUserDetail()) {
                 GpdManageServices.RegisterUser($ctrl.data.user)
                 .then(function (payload) {
                     if (payload.status) { 

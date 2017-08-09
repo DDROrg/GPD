@@ -136,7 +136,6 @@ var GpdManageServices = function ($http, $q, $log) {
         return $http.post(__RootUrl + "api/RegisterUser", user);
     };
     var _GetCompanies = function (term) {
-        $log.log(__RootUrl + "api/GetCompanies?searchTerm=" + encodeURIComponent(term));
         return $http.post(__RootUrl + "api/GetCompanies?searchTerm=" + encodeURIComponent(term));
     };
     var _GetCountries = function (term) {

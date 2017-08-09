@@ -69,6 +69,7 @@
                         <label class="control-label col-md-3">Country</label>
                         <div class="col-md-9">
                             <select data-ng-model="$ctrl.data.user.company.country" ng-change="$ctrl.CountryChange()" class="form-control full-width">
+                                <option value="">--Please Select--</option>
                                 <option data-ng-repeat="d in $ctrl.data.countries" value="{{d.Name}}">{{d.Name}}</option>
                             </select>
                         </div>
@@ -102,6 +103,7 @@
                             </option>*@
                         <div class="col-md-9" ng-switch="$ctrl.HasFilteredStates()">
                             <select ng-switch-when="1" data-ng-model="$ctrl.data.user.company.state" class="form-control full-width">
+                                <option value="">--Please Select--</option>
                                 <option data-ng-repeat="d in $ctrl.data.filteredState"
                                         value="{{d.Name}}">
                                     {{d.Name}}
@@ -161,23 +163,20 @@
                 <div class="jumbotron light ternary">
                     <h5 class="collapse-top">Password Requirements</h5>
                     <ul class="fa-ul">
-                        <li id="has_eight">
-                            <i class="fa-li fa fa-minus-circle text-danger"></i>Minimum of 8 characters
+                        <li>
+                            <i ng-class="$ctrl.AnalyzePasswordStrength('length')"></i>Minimum of 8 characters
                         </li>
-                        <li id="has_lower_letter">
-                            <i class="fa-li fa fa-minus-circle text-danger"></i>Has at least one lowercase letter
+                        <li>
+                            <i ng-class="$ctrl.AnalyzePasswordStrength('lowercase')"></i>Has at least one lowercase letter
                         </li>
-                        <li id="has_cap_letter">
-                            <i class="fa-li fa fa-minus-circle text-danger"></i>Has at least one uppercase letter
+                        <li>
+                            <i ng-class="$ctrl.AnalyzePasswordStrength('uppercase')"></i>Has at least one uppercase letter
                         </li>
-                        <li id="has_number">
-                            <i class="fa-li fa fa-minus-circle text-danger"></i>Has at least one number
+                        <li>
+                            <i ng-class="$ctrl.AnalyzePasswordStrength('number')"></i>Has at least one number
                         </li>
-                        <li id="no_rep_pattern">
-                            <i class="fa-li fa fa-check text-success"></i>Does not contain 3 same consecutive characters
-                        </li>
-                        <li id="not_username">
-                            <i class="fa-li fa fa-check text-success"></i>Is not username/email
+                        <li>
+                            <i ng-class="$ctrl.AnalyzePasswordStrength('special')"></i>Has least one special character [!&#64;#$%^&amp;*]
                         </li>
                     </ul>
                 </div>
