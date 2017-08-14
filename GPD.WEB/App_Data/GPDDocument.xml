@@ -824,6 +824,12 @@
             <param name="countryId"></param>
             <returns></returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.UserController.AuthenticateUser">
+            <summary>
+            
+            </summary>
+            <returns>AuthenticateUserStatusDTO</returns>
+        </member>
         <member name="T:GPD.WEB.WebApiApplication">
             <summary>
             

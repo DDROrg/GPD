@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Text;
 using System.Web.Http;
+using System.Xml.Linq;
 
 namespace GPD.WEB.Controllers
 {
-    using ServiceEntities.BaseEntities;
-    using ServiceEntities;
-    using System.Xml.Linq;
-    using System.Runtime.Serialization;
     using Facade.WebAppFacade;
+    using ServiceEntities;
+    using ServiceEntities.BaseEntities;
 
     /// <summary>
     /// User APIs List
@@ -204,6 +205,61 @@ namespace GPD.WEB.Controllers
         public CompanyDetailsDTO GetCompanyDetails(int countryId)
         {
             return new Facade.SignInFacade().GetCompanyProfile(countryId);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>AuthenticateUserStatusDTO</returns>
+        [Route("api/AuthenticateUser")]
+        [HttpGet]
+        [AllowAnonymous]
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        public AuthenticateUserStatusDTO AuthenticateUser()
+        {
+            AuthenticateUserStatusDTO authenticateUser = new AuthenticateUserStatusDTO()
+            {
+                Message = "Request Not Authenticated."
+            };
+
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                var authHeader = request.Headers["Authorization"];
+                var authHeaderVal = System.Net.Http.Headers.AuthenticationHeaderValue.Parse(authHeader);
+
+                if (authHeaderVal.Scheme.Equals("basic", StringComparison.OrdinalIgnoreCase) && authHeaderVal.Parameter != null)
+                {
+                    string credentials = Encoding.GetEncoding("iso-8859-1").GetString(Convert.FromBase64String(authHeaderVal.Parameter));
+                    string userEmail = credentials.Substring(0, credentials.IndexOf(':'));
+                    string userPassword = credentials.Substring(credentials.IndexOf(':') + 1);
+
+                    int userId = -1;
+                    var result = UserDetailsFacade.AuthenticateUser(userEmail, userPassword, out userId);
+
+                    if (userId != -1)
+                    {
+                        // get user profile
+                        var userProfile = new Facade.SignInFacade().GetUserRole(userEmail);
+
+                        if (userProfile != null)
+                        {
+                            authenticateUser.UserId = userId;
+                            authenticateUser.UserEmail = userEmail;
+                            authenticateUser.FirstName = userProfile.FirstName;
+                            authenticateUser.LastName = userProfile.LastName;
+                            authenticateUser.Status = true;
+                            authenticateUser.Message = string.Empty;
+                        }
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+            }
+
+            return authenticateUser;
         }
     }
 }

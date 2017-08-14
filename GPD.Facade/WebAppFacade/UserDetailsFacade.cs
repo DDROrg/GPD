@@ -42,9 +42,10 @@ namespace GPD.Facade.WebAppFacade
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        public static int AuthenticateUser(string userEmail, string userPassword)
+        public static int AuthenticateUser(string userEmail, string userPassword, out int userid)
         {
             int retVal = CNST.SignInStatus.Failure;
+            userid = -1;
 
             try
             {
@@ -56,7 +57,10 @@ namespace GPD.Facade.WebAppFacade
                     string passwordHash = ds.Tables[0].Rows[0]["password"].ToString();
 
                     if (ValueHashUtil.ValidateHash(userPassword, passwordHash))
-                        retVal = CNST.SignInStatus.Success;
+                    {
+                        userid = (int)ds.Tables[0].Rows[0]["user_id"];
+                        retVal = CNST.SignInStatus.Success;                        
+                    }
                 }
             }
             catch (Exception ex)

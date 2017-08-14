@@ -184,4 +184,41 @@ namespace GPD.ServiceEntities
         [DataMember(Name = "defaultIndustry", Order = 9)]
         public string DefaultIndustry;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [DataContract(Namespace = "http://www.gpd.com", Name = "AuthenticateUserStatus")]
+    public class AuthenticateUserStatusDTO
+    {
+        #region Constr
+        public AuthenticateUserStatusDTO()
+        {
+            this.UserId = -1;
+            this.FirstName = string.Empty;
+            this.LastName = string.Empty;
+            this.UserEmail = string.Empty;
+            this.Status = false;
+            this.Message = string.Empty;
+        }
+        #endregion Constr
+
+        [DataMember(Name = "userId", Order = 1)]
+        public int UserId;
+
+        [DataMember(Name = "firstName", Order = 2)]
+        public string FirstName;
+
+        [DataMember(Name = "lastName", Order = 2)]
+        public string LastName;
+
+        [DataMember(Name = "userEmail", Order = 2)]
+        public string UserEmail;
+
+        [DataMember(Name = "status", Order = 5)]
+        public bool Status;
+
+        [DataMember(Name = "message", Order = 6)]
+        public string Message;
+    }
 }

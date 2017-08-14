@@ -189,7 +189,6 @@ namespace GPD.Facade
             return retVal;
         }
 
-
         /// <summary>
         /// 
         /// </summary>

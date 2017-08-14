@@ -47,7 +47,8 @@ namespace GPD.Dashboard.Controllers
                 return View(model);
             }
 
-            var result = UserDetailsFacade.AuthenticateUser(model.Email, model.Password);
+            int userId = -1;
+            var result = UserDetailsFacade.AuthenticateUser(model.Email, model.Password, out userId);
 
             switch (result)
             {
