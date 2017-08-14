@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http;
 
 namespace GPD.Dashboard.Controllers
 {
     using ServiceEntities.BaseEntities;
-    using ServiceEntities.ResponseEntities.AddProject;
-    using ServiceEntities.ResponseEntities.ProjectsList;
 
     /// <summary>
     /// 

@@ -5,7 +5,7 @@ using System.Web.Http.Description;
 namespace GPD.WEB.Controllers
 {
     using ServiceEntities.BaseEntities;
-    using ServiceEntities.ResponseEntities.AddProject;
+    using ServiceEntities.ResponseEntities;
     using ServiceEntities.ResponseEntities.ProjectsList;
 
     /// <summary>
@@ -104,7 +104,7 @@ namespace GPD.WEB.Controllers
         [AllowAnonymous]
         public bool UpdateProject(string partnerName, ProjectDTO projectDTO)
         {
-            return true;
+            return new Facade.ProjectFacade().UpdateProject(partnerName, projectDTO);
         }
     }
 }

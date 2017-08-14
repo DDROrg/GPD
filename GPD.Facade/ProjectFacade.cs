@@ -10,7 +10,7 @@ namespace GPD.Facade
 {
     using DAL.SqlDB;
     using ServiceEntities.BaseEntities;
-    using ServiceEntities.ResponseEntities.AddProject;
+    using ServiceEntities.ResponseEntities;
     using ServiceEntities.ResponseEntities.ProjectsList;
 
     public class ProjectFacade : BaseFacade
@@ -425,6 +425,37 @@ namespace GPD.Facade
             return 37;
         }
 
-        
+        public bool UpdateProject(string projectId, ProjectDTO projectDTO)
+        {
+            UpdateProjectResponse projectResponse = new UpdateProjectResponse(false, projectId);
+            XDocument xDoc = new XDocument();
+
+            try
+            {
+                // get XML based on ProjectDTO object
+                using (var writer = xDoc.CreateWriter())
+                {
+                    var serializer = new DataContractSerializer(projectDTO.GetType());
+                    serializer.WriteObject(writer, projectDTO);
+                }
+
+                xDoc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']")
+                    .ToList()
+                    .ForEach(T => T.Add(new XAttribute("guid", System.Guid.NewGuid().ToString())));
+
+                // send the project to DB 
+                //new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(partnerName, projectId, xDoc);
+
+                // project content inserted successful
+                //responseDTO = new AddProjectResponse(true, projectId);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to update project", ex);
+                return false;
+            }
+        }
     }
 }
