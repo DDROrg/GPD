@@ -60,7 +60,7 @@
     <Compile Include="BaseEntities\UserDTO.cs" />
     <Compile Include="BaseEntities\SignInResponseDTO.cs" />
     <Compile Include="BaseEntities\SessionDTO.cs" />
-    <Compile Include="ResponseEntities\AddProject.cs" />
+    <Compile Include="ResponseEntities\ProjectResponses.cs" />
     <Compile Include="ResponseEntities\ProjectsList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
