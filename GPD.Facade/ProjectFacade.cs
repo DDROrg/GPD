@@ -75,6 +75,8 @@ namespace GPD.Facade
         public ProjectDTO GetProjectById(string projectId)
         {
             ProjectDTO retVal = new ProjectDTO();
+            string projectItemId = "";
+            MaterialDTO materialDTO = null;
 
             try
             {
@@ -138,8 +140,12 @@ namespace GPD.Facade
                     if (ds.Tables[2].Rows.Count > 0)
                     {
                         retVal.Items = new List<ItemDTO>();
+
                         foreach (DataRow dr in ds.Tables[2].Rows)
                         {
+                            // get project-item-id
+                            projectItemId = dr["project_item_id"].ToString();
+
                             #region Item 
                             ItemDTO itemDTO = new ItemDTO()
                             {
@@ -169,23 +175,29 @@ namespace GPD.Facade
                             if (ds.Tables[3].Rows.Count > 0)
                             {
                                 var drMaterials = ds.Tables[3].AsEnumerable()
-                                    .Where(i => i["ITEM_ID"].ToString().Equals(itemDTO.Id));
+                                    .Where(i => i["project_item_id"].ToString().Equals(projectItemId));
 
                                 if (drMaterials.Count() > 0)
                                 {
                                     itemDTO.Materials = new List<MaterialDTO>();
-                                    foreach (DataRow drM in drMaterials)
-                                    {
-                                        MaterialDTO tempMaterialDTO = new MaterialDTO() { Id = drM["MATERIAL_ID"].ToString() };
-                                        tempMaterialDTO.Type = new MaterialTypeDTO() { Name = drM["TYPE_NAME"].ToString() };
-                                        tempMaterialDTO.Product = new MaterialProductDTO()
-                                        {
-                                            Name = drM["TYPE_NAME"].ToString(),
-                                            Manufacturer = drM["PRODUCT_MANUFACTURER"].ToString(),
-                                            Model = drM["PRODUCT_MODEL"].ToString()
-                                        };
 
-                                        itemDTO.Materials.Add(tempMaterialDTO);
+                                    foreach (DataRow dataRow in drMaterials)
+                                    {
+                                        itemDTO.Materials.Add(
+                                            new MaterialDTO()
+                                            {
+                                                Id = dataRow["MATERIAL_ID"].ToString(),
+                                                Type = new MaterialTypeDTO()
+                                                {
+                                                    Name = dataRow["TYPE_NAME"].ToString(),
+                                                },
+                                                Product = new MaterialProductDTO()
+                                                {
+                                                    Name = dataRow["PRODUCT_NAME"].ToString(),
+                                                    Manufacturer = dataRow["PRODUCT_MANUFACTURER"].ToString(),
+                                                    Model = dataRow["PRODUCT_MODEL"].ToString()
+                                                }
+                                            });
                                     }
                                 }
                             }
