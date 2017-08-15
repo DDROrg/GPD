@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Web.Http;
 using System.Xml.Linq;
+using System.Linq;
+using System.Web;
 
 namespace GPD.WEB.Controllers
 {
@@ -146,9 +148,24 @@ namespace GPD.WEB.Controllers
                 {
                     var serializer = new DataContractSerializer(user.GetType());
                     serializer.WriteObject(writer, user);
-                }                
+                }
 
-                try { requestIpAddress = System.Web.HttpContext.Current.Request.UserHostAddress; }
+                try
+                {
+                    // get requestIP address
+                    requestIpAddress = HttpContext.Current.Request.UserHostAddress;
+
+                    // additional user info
+                    XNamespace xNamespace = xDoc.Root.Attribute("xmlns").Value;
+                    var request = HttpContext.Current.Request;
+
+                    xDoc.Root.LastNode.AddAfterSelf(new XElement(xNamespace + "additional-data",
+                        from T in request.Headers.AllKeys.Where(T => T.StartsWith("form-data-")).ToList()
+                        select new XElement(xNamespace + "item",
+                            new XAttribute("type", T.Substring(10)),
+                            request.Headers[T].ToString()
+                        )));
+                }
                 catch { }
 
                 // add a user to repository

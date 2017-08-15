@@ -557,7 +557,9 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                     defaultIndustry: ""
                 },
                 password: "",
-                confirmPassword: ""
+                confirmPassword: "",
+                enewslettersCommunication: false,
+                emailCommunication: false
             };
         };
         var GetCountries = function () {

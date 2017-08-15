@@ -133,7 +133,13 @@ var GpdManageServices = function ($http, $q, $log) {
         return $http.post(__RootUrl + "api/AddUserRole?userId=" + encodeURI(userId) + "&partnerId=" + encodeURI(partnerId) + "&groupId=" + encodeURI(groupId));
     };
     var _RegisterUser = function (user) {
-        return $http.post(__RootUrl + "api/RegisterUser", user);
+        var config = {
+            headers: {
+                'form-data-enewsletters-communication-flag': user.enewslettersCommunication,
+                'form-data-email-communication-flag': user.emailCommunication
+            }
+        };
+        return $http.post(__RootUrl + "api/RegisterUser", user, config);
     };
     var _GetCompanies = function (term) {
         return $http.post(__RootUrl + "api/GetCompanies?searchTerm=" + encodeURIComponent(term));
