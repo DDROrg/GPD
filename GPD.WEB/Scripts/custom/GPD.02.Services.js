@@ -55,12 +55,12 @@ var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
         return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex + "?" + $httpParamSerializer(data));
     };
 
-    var _GetProjectDetail = function (PartnarName, id) {
-        return $http.get(__RootUrl + "api/" + PartnarName + "/Project/" + id);
+    var _GetProjectDetail = function (id) {
+        return $http.get(__RootUrl + "api/Project/" + id);
     };
 
-    var _UpdateProject = function (PartnarName, project) {
-        return $http.post(__RootUrl + "api/" + PartnarName + "/UpdateProject", project);
+    var _UpdateProject = function (projectId, project) {
+        return $http.post(__RootUrl + "api/UpdateProject/" + projectId, project);
     };
 
     this.GetProjects = function (PartnarName, GlobalSearchParam, ProjectIdentifier, PageIndex, PageSize) {
@@ -79,10 +79,10 @@ var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
         return deferred.promise;
     };
 
-    this.GetProjectDetail = function (PartnarName, id) {
+    this.GetProjectDetail = function (id) {
         var deferred = $q.defer();
         var retVal = [];
-        _GetProjectDetail(PartnarName, id)
+        _GetProjectDetail(id)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);
@@ -90,10 +90,10 @@ var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
         return deferred.promise;
     };
 
-    this.UpdateProject = function (PartnarName, project) {
+    this.UpdateProject = function (projectId, project) {
         var deferred = $q.defer();
         var retVal = [];
-        _UpdateProject(PartnarName, project)
+        _UpdateProject(projectId, project)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);

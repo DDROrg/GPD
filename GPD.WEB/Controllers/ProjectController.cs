@@ -68,15 +68,14 @@ namespace GPD.WEB.Controllers
         /// <summary>
         /// Get Project Details
         /// </summary>
-        /// <param name="partnerName">Partner Name</param>
         /// <param name="projectId">Project Id</param>
         /// <returns></returns>
-        [Route("api/{partnerName}/Project/{projectId}")]
+        [Route("api/Project/{projectId}")]
         [HttpGet]
         [AllowAnonymous]
-        public ProjectDTO GetProjectDetails(string partnerName, string projectId)
+        public ProjectDTO GetProjectDetails(string projectId)
         {
-            return new Facade.ProjectFacade().GetProjectById(partnerName, projectId);
+            return new Facade.ProjectFacade().GetProjectById(projectId);
         }
 
         /// <summary>
@@ -96,15 +95,15 @@ namespace GPD.WEB.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="partnerName"></param>
+        /// <param name="projectId"></param>
         /// <param name="projectDTO"></param>
         /// <returns></returns>
-        [Route("api/{partnerName}/UpdateProject")]
+        [Route("api/UpdateProject/{projectId}")]
         [HttpPost]
         [AllowAnonymous]
-        public bool UpdateProject(string partnerName, ProjectDTO projectDTO)
+        public bool UpdateProject(string projectId, ProjectDTO projectDTO)
         {
-            return new Facade.ProjectFacade().UpdateProject(partnerName, projectDTO);
+            return new Facade.ProjectFacade().UpdateProject(projectId, projectDTO);
         }
     }
 }

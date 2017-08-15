@@ -9,7 +9,6 @@ angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$locati
         CommonServices.ChangePartner(d);
     };
 
-
     var GetLogedinUserProfile = function () {
         CommonServices.GetLogedinUserProfile()
         .then(function (payload) {
@@ -103,11 +102,12 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             });
         };
         $ctrl.OnEditItem = function (d) {
-            if (d.hasDetail == false) {
-                GetProjectDetail(d).then(function () {
-                    $state.go('project.edit', { id: d.id, project: d });
-                });
-            }
+            $state.go('project.edit', { id: d.id, project: null });
+            //if (d.hasDetail == false) {
+            //    GetProjectDetail(d).then(function () {
+            //        $state.go('project.edit', { id: d.id, project: d });
+            //    });
+            //}
         };
         $ctrl.OnGlobalSearch = function () { $ctrl.data.globalSearchParam = $ctrl.data.tempGlobalSearchParam; GetProjects(); };
         $ctrl.OnCancelGlobalSearch = function () { $ctrl.data.globalSearchParam = ""; $ctrl.data.tempGlobalSearchParam = ""; GetProjects(); };
@@ -119,7 +119,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.OnCancelProjectByIdentifier = function () { $ctrl.data.projectIdentifier = ""; GetProjects(); };
 
         var GetProjectDetail = function (d) {
-            return ProjectServices.GetProjectDetail($ctrl.data.LogedinUserProfile.selectedPartner, d.id)
+            return ProjectServices.GetProjectDetail(d.id)
             .then(function (payload) {
                 d.identifiers = payload.identifiers;
                 d.items = payload.items;
@@ -213,15 +213,35 @@ angular.module('Project').controller('ProjectDetailCtrl', ['$uibModalInstance', 
 angular.module('Project').controller('ProjectEditController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', '$state', '$stateParams', 'toastr', 'CommonServices', 'ProjectServices',
     function ($scope, $rootScope, $http, $location, $uibModal, $log, $state, $stateParams, toastr, CommonServices, ProjectServices) {
         var $ctrl = this;
-        CommonServices.SetDefaultData($ctrl, $location);
+        CommonServices.SetDefaultData($ctrl, $location);        
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
-        $ctrl.data.project = $stateParams.project;
+        //$ctrl.data.project = $stateParams.project
+        $ctrl.data.id = $stateParams.id
+        
+        var GetProjectDetail = function (d) {
+            return ProjectServices.GetProjectDetail($ctrl.data.id)
+            .then(function (payload) {
+                $ctrl.data.project = payload;
+            });
+        };
+
+
         $ctrl.OnBackToProjectList = function () { $state.go('project.list'); };
         $ctrl.OnSaveProject = function () {
-            return ProjectServices.UpdateProject($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.project)
+            return ProjectServices.UpdateProject($ctrl.data.id, $ctrl.data.project)
            .then(function (payload) {
            });
         };
+
+        //$rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
+        //    GetProjectDetail();
+        //});
+        //$rootScope.$on('EVENT-ChangePartner', function (event, data) {
+        //    GetProjectDetail();
+        //});
+        $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            GetProjectDetail();
+        });
     }]);
 
 //=================================================
@@ -558,6 +578,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 },
                 password: "",
                 confirmPassword: "",
+                acceptTC: false,
                 enewslettersCommunication: false,
                 emailCommunication: false
             };
@@ -661,7 +682,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
             if (ValidateUserDetail()) {
                 GpdManageServices.RegisterUser($ctrl.data.user)
                 .then(function (payload) {
-                    if (payload.status) { 
+                    if (payload.status) {
                         window.location.href = __RootUrl + 'Account/Login';
                         return;
                     } else {

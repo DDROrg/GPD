@@ -1,15 +1,18 @@
-﻿<div class="" data-id="Project">
+﻿@{
+    var isAdmin = SessionManager.GetInstance().HasRolesForPartner("ADMINISTRATOR", "ALL");
+}
+<div class="" data-id="Project">
     <div data-ng-controller="ProjectController as $ctrl" ng-cloak>
         <h2>GPD - Project</h2>
         <div class="data-container">
             <div class="row">
                 <div class="col-sm-5">
                     <div class="search-filter-wrap">
-                        <div data-ng-if="$ctrl.data.projectIdentifier != ''"  class="search-filter">
+                        <div data-ng-if="$ctrl.data.projectIdentifier != ''" class="search-filter">
                             <span style="font-weight:bold;">Project Number:&nbsp;</span>
                             {{$ctrl.data.projectIdentifier}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelProjectByIdentifier()" class="data-link"><i class="fa fa-times-circle"></i></a>
                         </div>
-                        <div data-ng-if="$ctrl.data.globalSearchParam != ''"  class="search-filter">
+                        <div data-ng-if="$ctrl.data.globalSearchParam != ''" class="search-filter">
                             <span style="font-weight:bold;">Search Term:&nbsp;</span>
                             {{$ctrl.data.globalSearchParam}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelGlobalSearch()" class="data-link"><i class="fa fa-times-circle"></i></a>
                         </div>
@@ -82,7 +85,10 @@
                             <td>{{d["create-timestamp-formatted"] | date:'MM/dd/yyyy HH:mm:ss'}}</td>
                             <td>
                                 <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Detail"></i></a>
-                                <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
+                                @if (isAdmin == true)
+                                {
+                                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
+                                }
                             </td>
                         </tr>
                         <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowDetail(d)">

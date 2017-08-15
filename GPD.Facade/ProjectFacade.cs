@@ -72,7 +72,7 @@ namespace GPD.Facade
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ProjectDTO GetProjectById(string partnerName, string projectId)
+        public ProjectDTO GetProjectById(string projectId)
         {
             ProjectDTO retVal = new ProjectDTO();
 
