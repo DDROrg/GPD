@@ -101,7 +101,7 @@ namespace GPD.WEB.Controllers
         [Route("api/UpdateProject/{projectId}")]
         [HttpPost]
         [AllowAnonymous]
-        public bool UpdateProject(string projectId, ProjectDTO projectDTO)
+        public UpdateProjectResponse UpdateProject(string projectId, ProjectDTO projectDTO)
         {
             return new Facade.ProjectFacade().UpdateProject(projectId, projectDTO);
         }

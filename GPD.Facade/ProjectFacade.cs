@@ -436,7 +436,7 @@ namespace GPD.Facade
             return 37;
         }
 
-        public bool UpdateProject(string projectId, ProjectDTO projectDTO)
+        public UpdateProjectResponse UpdateProject(string projectId, ProjectDTO projectDTO)
         {
             UpdateProjectResponse projectResponse = new UpdateProjectResponse(false, projectId);
             XDocument xDoc = new XDocument();
@@ -450,23 +450,19 @@ namespace GPD.Facade
                     serializer.WriteObject(writer, projectDTO);
                 }
 
-                xDoc.Root.XPathSelectElements("//*[local-name()='items']/*[local-name()='item']")
-                    .ToList()
-                    .ForEach(T => T.Add(new XAttribute("guid", System.Guid.NewGuid().ToString())));
-
                 // send the project to DB 
-                //new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(partnerName, projectId, xDoc);
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).UpdateProject(projectId, xDoc);
 
-                // project content inserted successful
-                //responseDTO = new AddProjectResponse(true, projectId);
-
-                return true;
+                // project updated successful
+                projectResponse.Status = true;
             }
             catch (Exception ex)
             {
-                log.Error("Unable to update project", ex);
-                return false;
+                log.Error("Unable to update the project", ex);
+                projectResponse.Message = "Unable to update the project";
             }
+
+            return projectResponse;
         }
     }
 }
