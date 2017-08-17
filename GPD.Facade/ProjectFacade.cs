@@ -171,7 +171,7 @@ namespace GPD.Facade
                             };
                             #endregion
 
-                            #region Item-Meterials
+                            #region Item-Materials
                             if (ds.Tables[3].Rows.Count > 0)
                             {
                                 var drMaterials = ds.Tables[3].AsEnumerable()
@@ -201,13 +201,13 @@ namespace GPD.Facade
                                     }
                                 }
                             }
-                            #endregion
+                            #endregion Item-Materials
 
-                            #region Item-Category
+                            #region Item-Categories
                             if (ds.Tables[4].Rows.Count > 0)
                             {
                                 var drCategories = ds.Tables[4].AsEnumerable()
-                                   .Where(i => i["ITEM_ID"].ToString().Equals(itemDTO.Id));
+                                   .Where(i => i["PROJECT_ITEM_ID"].ToString().Equals(projectItemId));
 
                                 if (drCategories.Count() > 0)
                                 {
@@ -215,17 +215,16 @@ namespace GPD.Facade
 
                                     foreach (DataRow drC in drCategories)
                                     {
-                                        CategoryDTO tempCategoryDTO = new CategoryDTO()
-                                        {
-                                            Taxonomy = drC["TAXONOMY"].ToString(),
-                                            Title = drC["TITLE"].ToString()
-                                        };
-
-                                        itemDTO.Categories.Add(tempCategoryDTO);
+                                        itemDTO.Categories.Add(
+                                            new CategoryDTO()
+                                            {
+                                                Taxonomy = drC["TAXONOMY"].ToString(),
+                                                Title = drC["TITLE"].ToString()
+                                            });
                                     }
                                 }
                             }
-                            #endregion
+                            #endregion Item-Categories
 
                             retVal.Items.Add(itemDTO);
                         }

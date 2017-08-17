@@ -68,7 +68,7 @@ BEGIN
 	
 	SELECT 
 		I.PROJECT_ID,
-		I.ITEM_ID,
+		I.PROJECT_ITEM_ID,
 		C.taxonomy,
 		C.title
 	FROM GPD_PROJECT_ITEM I
