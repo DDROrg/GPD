@@ -230,6 +230,11 @@ angular.module('Project').controller('ProjectEditController', ['$scope', '$rootS
         $ctrl.OnSaveProject = function () {
             return ProjectServices.UpdateProject($ctrl.data.id, $ctrl.data.project)
            .then(function (payload) {
+               if (payload.status) {
+                   $state.go('project.list');
+               } else {
+                   toastr.error(payload.message);
+               }
            });
         };
 
