@@ -44,6 +44,10 @@ BEGIN
 			      BEGIN
 				     Exec gpd_AddFirmProfile @P_XML, @V_FirmId OUTPUT, @P_Return_ErrorCode OUTPUT, @P_Return_Message OUTPUT;
 				  END;
+			   ELSE
+			      BEGIN
+				     SET @V_FirmId = NULL;
+				  END;
 
 				-- USER DATA
 				WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com', 'http://www.w3.org/2001/XMLSchema-instance' AS i)
@@ -113,7 +117,7 @@ BEGIN
 
 					,@P_IpAddress
 					,1
-					,null
+					,M.query('declare default element namespace "http://www.gpd.com";/UserDetails/additional-data')
 					,getdate()
 					,NULL
 				FROM @P_XML.nodes('/UserDetails') M(M);
