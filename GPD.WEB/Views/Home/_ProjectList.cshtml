@@ -3,10 +3,25 @@
 }
 <div class="" data-id="Project">
     <div data-ng-controller="ProjectController as $ctrl" ng-cloak>
-        <h2>GPD - Project</h2>
+        <div class="breadcrumb">
+            <ul>
+                <li>Home</li>
+                <li><i class="fa fa-angle-double-right"></i></li>
+                <li>GPD Analytics</li>
+                <li><i class="fa fa-angle-double-right"></i></li>
+                <li>Projects</li>
+            </ul>
+        </div>
+        <h3><i class="fa fa-usd circle-border" style="color:#5198F3;"></i>&nbsp;Projects</h3>
         <div class="data-container">
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-3">
+                    <div class="input-group search-wrapper">
+                        <input type="text" class="search-box" placeholder="Enter search term" data-ng-model="$ctrl.data.tempGlobalSearchParam" />
+                        <a data-ng-href="" data-ng-click="$ctrl.OnGlobalSearch()" data-ng-class="$ctrl.GlobalSearchButtonStyle()"><i class="fa fa-arrow-circle-o-right"></i></a>
+                    </div>
+                </div>
+                @*<div class="col-sm-4">
                     <div class="search-filter-wrap">
                         <div data-ng-if="$ctrl.data.projectIdentifier != ''" class="search-filter">
                             <span style="font-weight:bold;">Project Number:&nbsp;</span>
@@ -17,8 +32,8 @@
                             {{$ctrl.data.globalSearchParam}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelGlobalSearch()" class="data-link"><i class="fa fa-times-circle"></i></a>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-5">
+                </div>*@
+                <div class="col-sm-6">
                     <div data-ng-if="$ctrl.data.projectListResponse.totalRecordCount > $ctrl.data.page.itemPerPage" style="text-align: center;">
                         <div uib-pagination class="pagination-sm pagination" total-items="$ctrl.data.projectListResponse.totalRecordCount"
                              ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.OnPageChanged()" previous-text="&lsaquo;"
@@ -27,46 +42,64 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-2">
-                    <div class="input-group search-wrapper">
-                        <input type="text" class="search-box" placeholder="Enter search term" data-ng-model="$ctrl.data.tempGlobalSearchParam" />
-                        <a data-ng-href="" data-ng-click="$ctrl.OnGlobalSearch()" data-ng-class="$ctrl.GlobalSearchButtonStyle()"><i class="fa fa-arrow-circle-o-right"></i></a>
+                <div class="col-sm-3">
+                    <div class="search-wrapper" style="text-align:right;">
+                        <a class="btn btn-primary" data-ng-href=""><i class="fa fa-floppy-o"></i>&nbsp;Export</a>
+                        <a class="btn btn-warning" data-ng-href=""><i class="fa fa-trash"></i>&nbsp;Delete</a>
+                        <a class="btn btn-warning" data-ng-href=""><i class="fa fa-times-circle-o"></i>&nbsp;Reset</a>
                     </div>
                 </div>
             </div>
 
             <div class="table-responsive">
                 <table class="table table-striped table-condensed table-hover">
-                    <thead style="background-color:#E9E9E9;">
-                        <tr>
+                    <thead>
+                        <tr class="data-header-row">
+                            <th><input type="checkbox" /></th>
+                            <th></th>
                             <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')" class="data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
-                                </i><br />
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')" class="header-data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
+                                </i>
+                            </th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('client')" class="header-data-link">Client&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('client')">
+                                </i>
+                            </th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('status')" class="header-data-link">Status&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('status')">
+                                </i>
+                            </th>
+                            <th>Location</th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('create-timestamp-formatted')" class="header-data-link">Added On&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('create-timestamp-formatted')">
+                                </i>
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>
                                 <input data-ng-model="$ctrl.data.search.name" placeholder="Search by Name ..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
                             <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('client')" class="data-link">Client&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('client')">
-                                </i><br />
                                 <input data-ng-model="$ctrl.data.search.client" placeholder="Search by Client ..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
                             <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('status')" class="data-link">Status&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('status')">
-                                </i><br />
                                 <input data-ng-model="$ctrl.data.search.status" placeholder="Search by Status ..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
-                            <th>Location</th>
-                            <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('create-timestamp-formatted')" class="data-link">Added On&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('create-timestamp-formatted')">
-                                </i>
-                            </th>
+                            <th></th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr data-ng-repeat-start="d in filterData = ($ctrl.data.projectListResponse.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder())">
+                            <td><input type="checkbox" /></td>
+                            <td><img src="~/Content/PartnerImg/SWEETS.png" class="partner-img" /></td>
                             <td>
                                 <a data-ng-href="" data-ng-click="$ctrl.OnColExpDetail(d)" class="data-link">
                                     <i data-ng-class="$ctrl.ColExpClass(d)"></i>
@@ -89,10 +122,11 @@
                                 {
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
                                 }
+                                <a ng-href="" class="data-link"><i class="fa fa-trash" style="color:#f00;" title="Delete"></i></a>
                             </td>
                         </tr>
                         <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowDetail(d)">
-                            <td colspan="6">
+                            <td colspan="8">
                                 <div class="container-fluid" style="border:1px dotted #000; border-radius:5px;">
                                     <div>
                                         <div style="font-weight:bold;font-size:1.2em;text-align:center;">Project Details</div>
