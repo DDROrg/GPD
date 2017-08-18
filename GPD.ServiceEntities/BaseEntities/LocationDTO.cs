@@ -8,10 +8,10 @@ namespace GPD.ServiceEntities.BaseEntities
         [DataMember(Name = "country", Order = 0)]
         public string Country;
 
-        [DataMember(Name = "address-line-1", Order = 1)]
+        [DataMember(Name = "address1", Order = 1)]
         public string AddressLine1;
 
-        [DataMember(Name = "address-line-2", Order = 2)]
+        [DataMember(Name = "address2", Order = 2)]
         public string AddressLine2;
 
         [DataMember(Name = "city", Order = 3)]
