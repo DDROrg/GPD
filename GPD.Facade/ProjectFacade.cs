@@ -99,22 +99,31 @@ namespace GPD.Facade
                         retVal.OrganizationName = dr["ORGANIZATION_NAME"].ToString();
                         retVal.Status = dr["STATUS"].ToString();
 
-                        retVal.Location = new LocationDTO();
-                        retVal.Location.Address1 = dr["ADDRESS_LINE_1"].ToString();
-                        retVal.Location.City = dr["CITY"].ToString();
-                        retVal.Location.State = dr["STATE"].ToString();
-                        retVal.Location.Zip = dr["ZIP"].ToString();
+                        retVal.Location = new LocationDTO()
+                        {
+                            Country = dr["COUNTRY"].ToString(),
+                            AddressLine1 = dr["ADDRESS_LINE_1"].ToString(),
+                            AddressLine2 = dr["ADDRESS_LINE_2"].ToString(),
+                            City = dr["CITY"].ToString(),
+                            State = dr["STATE"].ToString(),
+                            PostalCode = dr["ZIP"].ToString()
+                        };
 
-                        retVal.Session = new SessionDTO();
-                        retVal.Session.Type = dr["TYPE"].ToString();
-                        retVal.Session.Platform = dr["PLATFORM"].ToString();
-                        retVal.Session.Application = new ApplicationDTO();
-                        retVal.Session.Application.Build = dr["APPLICATION_BUILD"].ToString();
-                        retVal.Session.Application.Name = dr["APPLICATION_NAME"].ToString();
-                        retVal.Session.Application.PluginBuild = dr["APPLICATION_PLUGIN_BUILD"].ToString();
-                        retVal.Session.Application.PluginSource = dr["APPLICATION_PLUGIN_SOURCE"].ToString();
-                        retVal.Session.Application.Version = dr["APPLICATION_VERSION"].ToString();
-                        retVal.Session.Application.Type = dr["APPLICATION_TYPE"].ToString();
+                        retVal.Session = new SessionDTO()
+                        {
+                            Type = dr["TYPE"].ToString(),
+                            Platform = dr["PLATFORM"].ToString(),
+                            Application = new ApplicationDTO()
+                            {
+                                Build = dr["APPLICATION_BUILD"].ToString(),
+                                Name = dr["APPLICATION_NAME"].ToString(),
+                                PluginBuild = dr["APPLICATION_PLUGIN_BUILD"].ToString(),
+                                PluginSource = dr["APPLICATION_PLUGIN_SOURCE"].ToString(),
+                                Version = dr["APPLICATION_VERSION"].ToString(),
+                                Type = dr["APPLICATION_TYPE"].ToString(),
+                                ClientIP = dr["APPLICATION_CLIENT_IP"].ToString(),
+                            }
+                        };
                     }
                     #endregion
 

@@ -5,16 +5,22 @@ namespace GPD.ServiceEntities.BaseEntities
     [DataContract(Namespace = "http://www.gpd.com", Name = "location")]
     public class LocationDTO
     {
-        [DataMember(Name = "address1", Order = 1)]
-        public string Address1;
+        [DataMember(Name = "country", Order = 0)]
+        public string Country;
 
-        [DataMember(Name = "city", Order = 2)]
+        [DataMember(Name = "address-line-1", Order = 1)]
+        public string AddressLine1;
+
+        [DataMember(Name = "address-line-2", Order = 2)]
+        public string AddressLine2;
+
+        [DataMember(Name = "city", Order = 3)]
         public string City;
 
-        [DataMember(Name = "state", Order = 3)]
+        [DataMember(Name = "state", Order = 4)]
         public string State;
 
-        [DataMember(Name = "zip", Order = 4)]
-        public string Zip;
+        [DataMember(Name = "zip", Order = 5)]
+        public string PostalCode;
     }
 }
