@@ -188,7 +188,7 @@ div.breadcrumb {
     border-color: #2e6da4;
 }
 
-.navbar-inverse {
+/*.navbar-inverse {
     background-color: #f59393;
     border-color: #f59393;
     color: #000000;
@@ -223,7 +223,7 @@ div.breadcrumb {
     .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
         color: #000000;
     }
-}
+}*/
 
 .modal-lg {
 }
