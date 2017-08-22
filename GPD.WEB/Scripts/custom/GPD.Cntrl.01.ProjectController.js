@@ -96,9 +96,9 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             });
 
             modalInstance.result.then(function (btnClicked) {
-                $log.info('Button Clicked: ' + btnClicked);
+                //$log.info('Button Clicked: ' + btnClicked);
             }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
+                //$log.info('Modal dismissed at: ' + new Date());
             });
         };
         $ctrl.OnEditItem = function (d) {
@@ -134,7 +134,6 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             });
         };
         var GetProjects = function () {
-            //$log.log("sss " + (new Date()));
             return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.globalSearchParam, $ctrl.data.projectIdentifier, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
             .then(function (payload) {
                 $ctrl.data.projectListResponse = payload;
