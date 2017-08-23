@@ -11,6 +11,9 @@
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
+                <div style="text-align:center;">
+                    <img src="~/Content/img/GPDLogo-big.png" class="img-responsive" alt="Cinque Terre">
+                </div>
                 @Html.AntiForgeryToken()
                 <h4>Use a local account to log in.</h4>
                 <hr />

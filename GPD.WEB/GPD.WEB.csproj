@@ -135,7 +135,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\test\" />
     <Folder Include="Models\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
@@ -190,6 +189,8 @@
     <Content Include="Content\angular-toastr.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img\GPDLogo-big.png" />
+    <Content Include="Content\img\GPDLogo-small.png" />
     <Content Include="Content\loading-bar.css" />
     <Content Include="Content\loading-bar.min.css" />
     <Content Include="Content\PartnerImg\DEFAULT.png" />
@@ -1068,7 +1069,6 @@
     <Content Include="Views\Home\_ProjectList.cshtml" />
     <Content Include="Views\Home\_ProjectEdit.cshtml" />
     <Content Include="Scripts\version.json" />
-    <Content Include="Views\Account\Register-v1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GPD.Facade\GPD.Facade.csproj">

@@ -48,7 +48,13 @@ tr.data-header-row {
     color: #fff;
     font-weight: bold;
 }
-
+.header-logo
+{
+    background: url(img/GPDLogo-small.png) center no-repeat ; 
+    width:75px;
+    display:inline-block;
+    border-radius:3px;
+}
 .data-container {
 }
 
