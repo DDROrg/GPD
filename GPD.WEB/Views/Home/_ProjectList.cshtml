@@ -12,7 +12,7 @@
                 <li>Projects</li>
             </ul>
         </div>
-        <h3><i class="fa fa-usd circle-border" style="color:#5198F3;"></i>&nbsp;Projects</h3>
+        <h3>Projects</h3>
         <div class="data-container">
             <div class="row">
                 <div class="col-sm-3">
@@ -21,18 +21,6 @@
                         <a data-ng-href="" data-ng-click="$ctrl.OnGlobalSearch()" data-ng-class="$ctrl.GlobalSearchButtonStyle()"><i class="fa fa-arrow-circle-o-right"></i></a>
                     </div>
                 </div>
-                @*<div class="col-sm-4">
-                    <div class="search-filter-wrap">
-                        <div data-ng-if="$ctrl.data.projectIdentifier != ''" class="search-filter">
-                            <span style="font-weight:bold;">Project Number:&nbsp;</span>
-                            {{$ctrl.data.projectIdentifier}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelProjectByIdentifier()" class="data-link"><i class="fa fa-times-circle"></i></a>
-                        </div>
-                        <div data-ng-if="$ctrl.data.globalSearchParam != ''" class="search-filter">
-                            <span style="font-weight:bold;">Search Term:&nbsp;</span>
-                            {{$ctrl.data.globalSearchParam}}&nbsp;<a ng-href="" ng-click="$ctrl.OnCancelGlobalSearch()" class="data-link"><i class="fa fa-times-circle"></i></a>
-                        </div>
-                    </div>
-                </div>*@
                 <div class="col-sm-6">
                     <div data-ng-if="$ctrl.data.projectListResponse.totalRecordCount > $ctrl.data.page.itemPerPage" style="text-align: center;">
                         <div uib-pagination class="pagination-sm pagination" total-items="$ctrl.data.projectListResponse.totalRecordCount"
@@ -44,9 +32,9 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="search-wrapper" style="text-align:right;">
-                        <a class="btn btn-primary" data-ng-href=""><i class="fa fa-floppy-o"></i>&nbsp;Export</a>
-                        <a class="btn btn-warning" data-ng-href=""><i class="fa fa-trash"></i>&nbsp;Delete</a>
-                        <a class="btn btn-warning" data-ng-href=""><i class="fa fa-times-circle-o"></i>&nbsp;Reset</a>
+                        <a class="btn btn-primary" data-ng-href="" data-ng-click="$ctrl.OnExport()"><i class="fa fa-floppy-o"></i>&nbsp;Export</a>
+                        <a class="btn btn-warning" data-ng-href="" data-ng-click="$ctrl.OnDeleteProjects()"><i class="fa fa-trash"></i>&nbsp;Delete</a>
+                        <a class="btn btn-warning" data-ng-href="" data-ng-click="$ctrl.OnResetFilter()"><i class="fa fa-times-circle-o"></i>&nbsp;Reset</a>
                     </div>
                 </div>
             </div>
@@ -99,7 +87,7 @@
                     <tbody>
                         <tr data-ng-repeat-start="d in filterData = ($ctrl.data.projectListResponse.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder())">
                             <td><input type="checkbox" /></td>
-                            <td><img src="~/Content/PartnerImg/SWEETS.png" class="partner-img" /></td>
+                            <td><img data-ng-src="{{$ctrl.GetPartnerImgUrl(d['partner-name'])}}" class="partner-img" /></td>
                             <td>
                                 <a data-ng-href="" data-ng-click="$ctrl.OnColExpDetail(d)" class="data-link">
                                     <i data-ng-class="$ctrl.ColExpClass(d)"></i>

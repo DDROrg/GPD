@@ -31,15 +31,16 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         $ctrl.data.projects = [];
-        $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
         $ctrl.data.page = {};
+        $ctrl.data.search = {};
+
+        $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
         $ctrl.data.page.currentPage = 1;
         $ctrl.data.page.maxPage = 5;
         $ctrl.data.page.itemPerPage = __ItemPerPage;
         $ctrl.data.globalSearchParam = "";
         $ctrl.data.tempGlobalSearchParam = "";
         $ctrl.data.projectIdentifier = "";
-        $ctrl.data.search = {};
         $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
 
         $ctrl.OnChangeSorting = function (column) {
@@ -110,14 +111,31 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             //}
         };
         $ctrl.OnGlobalSearch = function () { $ctrl.data.globalSearchParam = $ctrl.data.tempGlobalSearchParam; GetProjects(); };
-        $ctrl.OnCancelGlobalSearch = function () { $ctrl.data.globalSearchParam = ""; $ctrl.data.tempGlobalSearchParam = ""; GetProjects(); };
         $ctrl.OnProjectByIdentifier = function (d) {
             $ctrl.data.page.currentPage = 1;
             $ctrl.data.projectIdentifier = "" + d + "";
             GetProjects();
         };
-        $ctrl.OnCancelProjectByIdentifier = function () { $ctrl.data.projectIdentifier = ""; GetProjects(); };
-
+        $ctrl.OnExport = function () { alert("TODO:Not Implemented"); };
+        $ctrl.OnDeleteProjects = function () { alert("TODO:Not Implemented"); };
+        $ctrl.OnResetFilter = function () {
+            var isRefreshRequired = $ctrl.data.projectIdentifier != "" || $ctrl.data.globalSearchParam != "" ? true : false;
+            $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
+            $ctrl.data.page.currentPage = 1;
+            $ctrl.data.page.maxPage = 5;
+            $ctrl.data.page.itemPerPage = __ItemPerPage;
+            $ctrl.data.globalSearchParam = "";
+            $ctrl.data.tempGlobalSearchParam = "";
+            $ctrl.data.projectIdentifier = "";
+            $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
+            if (isRefreshRequired) { GetProjects(); }
+        };
+        $ctrl.GetPartnerImgUrl = function (pName) {
+            var iName = "DEFAULT.png";
+            pName = pName.toUpperCase();
+            if (pName == "SWEETS") { iName = "SWEETS.png"; }
+            return __RootUrl + "Content/PartnerImg/" + iName;
+        };
         var GetProjectDetail = function (d) {
             return ProjectServices.GetProjectDetail(d.id)
             .then(function (payload) {
@@ -212,11 +230,11 @@ angular.module('Project').controller('ProjectDetailCtrl', ['$uibModalInstance', 
 angular.module('Project').controller('ProjectEditController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', '$state', '$stateParams', 'toastr', 'CommonServices', 'ProjectServices',
     function ($scope, $rootScope, $http, $location, $uibModal, $log, $state, $stateParams, toastr, CommonServices, ProjectServices) {
         var $ctrl = this;
-        CommonServices.SetDefaultData($ctrl, $location);        
+        CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         //$ctrl.data.project = $stateParams.project
         $ctrl.data.id = $stateParams.id
-        
+
         var GetProjectDetail = function (d) {
             return ProjectServices.GetProjectDetail($ctrl.data.id)
             .then(function (payload) {
