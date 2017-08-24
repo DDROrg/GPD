@@ -744,6 +744,14 @@
             <param name="projectDTO"></param>
             <returns></returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.ProjectController.ActivateProjectList(System.Collections.Generic.List{System.String},System.Boolean)">
+            <summary>
+            Activate/Deactivated Project List
+            </summary>
+            <param name="projectList"></param>
+            <param name="isActive"></param>
+            <returns></returns>
+        </member>
         <member name="T:GPD.WEB.Controllers.UserController">
             <summary>
             User APIs List
