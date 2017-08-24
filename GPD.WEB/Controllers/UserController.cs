@@ -31,7 +31,7 @@ namespace GPD.WEB.Controllers
         //[ApiExplorerSettings(IgnoreApi = true)]
         public SignInResponseDTO GetUserProfile(string userEmail)
         {
-            return new Facade.SignInFacade().GetUserRole(userEmail);
+            return UserDetailsFacade.GetUserRole(userEmail);
         }
 
         /// <summary>
@@ -241,7 +241,7 @@ namespace GPD.WEB.Controllers
 
             try
             {
-                var request = System.Web.HttpContext.Current.Request;
+                var request = HttpContext.Current.Request;
                 var authHeader = request.Headers["Authorization"];
                 var authHeaderVal = System.Net.Http.Headers.AuthenticationHeaderValue.Parse(authHeader);
 
@@ -257,7 +257,7 @@ namespace GPD.WEB.Controllers
                     if (userId != -1)
                     {
                         // get user profile
-                        var userProfile = new Facade.SignInFacade().GetUserRole(userEmail);
+                        var userProfile = UserDetailsFacade.GetUserRole(userEmail);
 
                         if (userProfile != null)
                         {

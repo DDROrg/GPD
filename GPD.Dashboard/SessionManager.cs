@@ -5,6 +5,7 @@ using System.Web.Security;
 
 namespace GPD.Dashboard
 {
+    using Facade.WebAppFacade;
     using ServiceEntities.BaseEntities;
     /// <summary>
     /// 
@@ -76,7 +77,7 @@ namespace GPD.Dashboard
                     if (encryptedName != null)
                     {
                         string userEmail = FormsAuthentication.Decrypt(encryptedName).Name;
-                        SignInResponseDTO userProfile = new Facade.SignInFacade().GetUserRole(userEmail);
+                        SignInResponseDTO userProfile = UserDetailsFacade.GetUserRole(userEmail);
 
                         if(userProfile != null)
                             HttpContext.Current.Session.Add(SESSION_USERPROFILE, userProfile);

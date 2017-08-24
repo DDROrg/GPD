@@ -51,10 +51,13 @@ namespace GPD.ServiceEntities.BaseEntities
         [DataMember(Name = "partnerNames", Order = 3)]
         public string PartnerName;
 
-        [DataMember(Name = "groupId", Order = 4)]
+        [DataMember(Name = "partnerImageUrl", Order = 4)]
+        public string PartnerImageUrl;
+
+        [DataMember(Name = "groupId", Order = 5)]
         public int GroupId;
 
-        [DataMember(Name = "groupName", Order = 5)]
+        [DataMember(Name = "groupName", Order = 6)]
         public string GroupName;
     }
 }

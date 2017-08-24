@@ -23,58 +23,6 @@ namespace GPD.Facade
 
         public SignInFacade() : base() { }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
-        public SignInResponseDTO GetUserRole(string email)
-        {
-            SignInResponseDTO retVal = null;
-
-            try
-            {
-                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUserRole(email);
-
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    retVal = new SignInResponseDTO()
-                    {
-                        Email = email.ToLower(),
-                        UserId = ds.Tables[0].Rows[0]["user_id"].ToString(),
-                        FirstName = ds.Tables[0].Rows[0]["first_name"].ToString(),
-                        LastName = ds.Tables[0].Rows[0]["last_name"].ToString()
-                    };
-
-                    if (ds.Tables.Count == 1)
-                        return retVal;
-
-                    foreach (DataRow dataRow in ds.Tables[1].Rows)
-                    {
-                        retVal.Roles.Add(new UserRoleDTO() {
-                            GroupId = int.Parse(dataRow["group_id"].ToString()),
-                            GroupName = dataRow["GroupName"].ToString(),
-                            PartnerId = dataRow["partner_id"].ToString(),
-                            PartnerName = dataRow["PartnerName"].ToString()
-                        });
-                    }
-
-                    if (retVal.Roles.Count > 0)
-                    {
-                        retVal.PartnerNames = retVal.Roles.Select(i => i.PartnerName).Distinct().ToList();
-                        retVal.SelectedPartner = retVal.PartnerNames.FirstOrDefault();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error("Unable to get user profile for id: " + email, ex);
-            }
-
-            return retVal;
-        }
-
         public object AuthenticateUser(string email, string password)
         {
             throw new NotImplementedException();

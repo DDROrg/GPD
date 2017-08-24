@@ -4,6 +4,7 @@ using System.Web.Http;
 
 namespace GPD.Dashboard.Controllers
 {
+    using Facade.WebAppFacade;
     using ServiceEntities.BaseEntities;
 
     /// <summary>
@@ -25,7 +26,7 @@ namespace GPD.Dashboard.Controllers
         //[ApiExplorerSettings(IgnoreApi = true)]
         public SignInResponseDTO GetUserProfile(string userEmail)
         {
-            return new Facade.SignInFacade().GetUserRole(userEmail);
+            return UserDetailsFacade.GetUserRole(userEmail);
         }
 
         /// <summary>

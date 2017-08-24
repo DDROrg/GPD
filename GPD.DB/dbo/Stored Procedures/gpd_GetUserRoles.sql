@@ -23,12 +23,19 @@ BEGIN
 		BEGIN
 		    SELECT a.partner_id,
 				a.PartnerName,
+				a.PartnerImageUrl,
 				105 AS group_id,
 				'ADMINISTRATOR' as GroupName
 			FROM (
-				SELECT @v_partner_id AS partner_id, 'ALL' AS PartnerName, 0 item_index
+				SELECT partner_id, p.name as PartnerName, 
+					[xml_partner_metadata].value('(/metadata/item)[1]', 'varchar(300)') AS "PartnerImageUrl",
+					0 item_index
+				FROM gpd_partner_details p 
+				WHERE p.name = 'ALL' AND p.active = 1
 				UNION
-				SELECT p.partner_id, p.name as PartnerName, 1
+				SELECT p.partner_id, p.name as PartnerName, 
+					[xml_partner_metadata].value('(/metadata/item)[1]', 'varchar(300)') AS "PartnerImageUrl",
+					1
 				FROM gpd_partner_details p
 				WHERE p.active = 1
 				AND p.partner_id <> @v_partner_id

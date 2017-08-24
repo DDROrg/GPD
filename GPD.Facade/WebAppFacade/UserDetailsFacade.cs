@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
 namespace GPD.Facade.WebAppFacade
 {
-    using DAL.SqlDB;    
+    using DAL.SqlDB;
+    using ServiceEntities.BaseEntities;
+    using Utility;
     using Utility.CommonUtils;
-    using CNST = Utility.ConstantHelper;
+    using Utility.ConstantHelper;
 
     public class UserDetailsFacade
     {
@@ -44,7 +47,7 @@ namespace GPD.Facade.WebAppFacade
         /// <param name="password"></param>
         public static int AuthenticateUser(string userEmail, string userPassword, out int userid)
         {
-            int retVal = CNST.SignInStatus.Failure;
+            int retVal = SignInStatus.Failure;
             userid = -1;
 
             try
@@ -59,13 +62,66 @@ namespace GPD.Facade.WebAppFacade
                     if (ValueHashUtil.ValidateHash(userPassword, passwordHash))
                     {
                         userid = (int)ds.Tables[0].Rows[0]["user_id"];
-                        retVal = CNST.SignInStatus.Success;                        
+                        retVal = SignInStatus.Success;                        
                     }
                 }
             }
             catch (Exception ex)
             {
                 log.Error("Unable to sign in id: " + userEmail ?? "n/a", ex);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        public static SignInResponseDTO GetUserRole(string email)
+        {
+            SignInResponseDTO retVal = null;
+
+            try
+            {
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUserRole(email);
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    retVal = new SignInResponseDTO()
+                    {
+                        Email = email.ToLower(),
+                        UserId = ds.Tables[0].Rows[0]["user_id"].ToString(),
+                        FirstName = ds.Tables[0].Rows[0]["first_name"].ToString(),
+                        LastName = ds.Tables[0].Rows[0]["last_name"].ToString()
+                    };
+
+                    if (ds.Tables.Count == 1)
+                        return retVal;
+
+                    foreach (DataRow dataRow in ds.Tables[1].Rows)
+                    {
+                        retVal.Roles.Add(new UserRoleDTO()
+                        {
+                            GroupId = int.Parse(dataRow["group_id"].ToString()),
+                            GroupName = dataRow["GroupName"].ToString(),
+                            PartnerId = dataRow["partner_id"].ToString(),
+                            PartnerName = dataRow["PartnerName"].ToString(),
+                            PartnerImageUrl = DBNull.Value.Equals(dataRow["PartnerImageUrl"]) ? ConfigurationHelper.DefaultPartnerImageUrl : dataRow["PartnerImageUrl"].ToString()
+                        });
+                    }
+
+                    if (retVal.Roles.Count > 0)
+                    {
+                        retVal.PartnerNames = retVal.Roles.Select(i => i.PartnerName).Distinct().ToList();
+                        retVal.SelectedPartner = retVal.PartnerNames.FirstOrDefault();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to get user profile for id: " + email, ex);
             }
 
             return retVal;
