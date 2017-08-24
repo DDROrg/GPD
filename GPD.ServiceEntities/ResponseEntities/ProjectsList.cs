@@ -72,8 +72,11 @@ namespace GPD.ServiceEntities.ResponseEntities.ProjectsList
         [DataMember(Name = "create-timestamp-formatted", Order = 14)]
         public string CreateTimestamp;
 
-        [DataMember(Name = "location", Order = 15)]
-        public LocationItem Location;
+        [DataMember(Name = "partner-name", Order = 15)]
+        public string PartnerName;
+
+        [DataMember(Name = "location", Order = 16)]
+        public LocationItem Location;        
     }
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "location")]

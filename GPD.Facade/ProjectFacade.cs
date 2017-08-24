@@ -290,6 +290,7 @@ namespace GPD.Facade
                             OrganizationName = dr["ORGANIZATION_NAME"].ToString(),
                             Status = dr["STATUS"].ToString(),
                             CreateTimestamp = ((DateTime)dr["CREATE_DATE"]).ToString("o"),
+                            PartnerName = dr["PARTNER_NAME"].ToString(),
                             Location = new LocationItem()
                             {
                                 Address1 = dr["ADDRESS_LINE_1"].ToString(),
