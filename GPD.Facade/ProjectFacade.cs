@@ -474,5 +474,32 @@ namespace GPD.Facade
 
             return projectResponse;
         }
+
+        public ActivateProjectListResponse ActivateProjectList(List<string> projectList, bool isActiv)
+        {
+            ActivateProjectListResponse responseObj = new ActivateProjectListResponse();
+
+            try
+            {
+                XDocument xDoc = new XDocument(
+                    new XElement("project-list",
+                        projectList.Select(T => new XElement("project", T))
+                    )
+                );
+
+                // call DB function
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).ActivateProjectList(xDoc, isActiv);
+
+                // project updated successful
+                responseObj.Status = true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to update the project list", ex);
+                responseObj.Message = "Unable to update the project list";
+            }
+
+            return responseObj;
+        }
     }
 }

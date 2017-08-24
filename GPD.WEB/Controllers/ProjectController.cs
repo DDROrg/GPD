@@ -105,5 +105,24 @@ namespace GPD.WEB.Controllers
         {
             return new Facade.ProjectFacade().UpdateProject(projectId, projectDTO);
         }
+
+
+        /// <summary>
+        /// Activate/Deactivated Project List
+        /// </summary>
+        /// <param name="projectList"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
+        [Route("api/ActivateProjectList")]
+        [HttpPost]
+        [Authorize]
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        public ActivateProjectListResponse ActivateProjectList(List<string> projectList, bool isActive)
+        {
+            if (projectList == null || projectList.Count == 0)
+                return new ActivateProjectListResponse() { Message = "Project List is Empty." };
+
+            return new Facade.ProjectFacade().ActivateProjectList(projectList, isActive);
+        }
     }
 }

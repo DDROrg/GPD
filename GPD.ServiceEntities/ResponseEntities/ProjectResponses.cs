@@ -46,4 +46,22 @@ namespace GPD.ServiceEntities.ResponseEntities
         [DataMember(Name = "project-id", Order = 3)]
         public string ProjectId;
     }
+
+    [DataContract(Namespace = "http://www.gpd.com", Name = "activate-project-list-response")]
+    public class ActivateProjectListResponse
+    {
+        #region Constr
+        public ActivateProjectListResponse()
+        {
+            this.Status = false;
+            this.Message = string.Empty;
+        }
+        #endregion Constr
+
+        [DataMember(Name = "status", Order = 1)]
+        public bool Status;
+
+        [DataMember(Name = "message", Order = 2)]
+        public string Message;
+    }
 }
