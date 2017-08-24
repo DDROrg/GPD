@@ -10,6 +10,9 @@
                 <li>GPD Analytics</li>
                 <li><i class="fa fa-angle-double-right"></i></li>
                 <li>Projects</li>
+                <li data-ng-if="$ctrl.data.projectIdentifier != ''"><i class="fa fa-angle-double-right"></i></li>
+                <li data-ng-if="$ctrl.data.projectIdentifier != ''">Identifier : {{$ctrl.data.projectIdentifier}}</li>
+
             </ul>
         </div>
         <h3>Projects</h3>
@@ -43,7 +46,7 @@
                 <table class="table table-striped table-condensed table-hover">
                     <thead>
                         <tr class="data-header-row">
-                            <th><input type="checkbox" /></th>
+                            <th><input type="checkbox" data-ng-model="$ctrl.data.isAllSelected" data-ng-change="$ctrl.OnCheckAllChange()" /></th>
                             <th></th>
                             <th>
                                 <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')" class="header-data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
@@ -86,7 +89,7 @@
                     </thead>
                     <tbody>
                         <tr data-ng-repeat-start="d in filterData = ($ctrl.data.projectListResponse.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder())">
-                            <td><input type="checkbox" /></td>
+                            <td><input type="checkbox" data-ng-model="d.isSelected" /></td>
                             <td><img data-ng-src="{{$ctrl.GetPartnerImgUrl(d['partner-name'])}}" class="partner-img" /></td>
                             <td>
                                 <a data-ng-href="" data-ng-click="$ctrl.OnColExpDetail(d)" class="data-link">

@@ -30,7 +30,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         var $ctrl = this;
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
-        $ctrl.data.projects = [];
+        $ctrl.data.projectListResponse = {};
         $ctrl.data.page = {};
         $ctrl.data.search = {};
 
@@ -42,6 +42,8 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.data.tempGlobalSearchParam = "";
         $ctrl.data.projectIdentifier = "";
         $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
+        $ctrl.data.isAllSelected = false;
+
 
         $ctrl.OnChangeSorting = function (column) {
             var t = { column: column, descending: true };
@@ -135,6 +137,11 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             pName = pName.toUpperCase();
             if (pName == "SWEETS") { iName = "SWEETS.png"; }
             return __RootUrl + "Content/PartnerImg/" + iName;
+        };
+        $ctrl.OnCheckAllChange = function () {
+            $.each($ctrl.data.projectListResponse.projects, function (k, v) {
+                v.isSelected = $ctrl.data.isAllSelected;
+            });
         };
         var GetProjectDetail = function (d) {
             return ProjectServices.GetProjectDetail(d.id)

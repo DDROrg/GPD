@@ -72,6 +72,7 @@ var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
             $.each(retVal.projects, function (k, v) {
                 v.isExpanded = false;
                 v.hasDetail = false;
+                v.isSelected = false;
             });
             deferred.resolve(retVal);
         });
