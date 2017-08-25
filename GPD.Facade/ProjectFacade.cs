@@ -76,7 +76,6 @@ namespace GPD.Facade
         {
             ProjectDTO retVal = new ProjectDTO();
             string projectItemId = "";
-            MaterialDTO materialDTO = null;
 
             try
             {
