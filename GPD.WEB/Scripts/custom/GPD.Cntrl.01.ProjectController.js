@@ -12,7 +12,6 @@ angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$locati
     var GetLogedinUserProfile = function () {
         CommonServices.GetLogedinUserProfile()
         .then(function (payload) {
-            //$ctrl.data.LogedinUserProfile = payload;
             CommonServices.LogedinUserProfileLoaded();
         });
     };
