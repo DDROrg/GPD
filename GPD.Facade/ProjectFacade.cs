@@ -475,7 +475,7 @@ namespace GPD.Facade
             return projectResponse;
         }
 
-        public ActivateProjectListResponse ActivateProjectList(List<string> projectList, bool isActiv)
+        public ActivateProjectListResponse ActivateProjectList(List<string> projectList, bool isActive)
         {
             ActivateProjectListResponse responseObj = new ActivateProjectListResponse();
 
@@ -488,7 +488,7 @@ namespace GPD.Facade
                 );
 
                 // call DB function
-                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).ActivateProjectList(xDoc, isActiv);
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).ActivateProjectList(xDoc, isActive);
 
                 // project updated successful
                 responseObj.Status = true;

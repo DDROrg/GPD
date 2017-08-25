@@ -118,7 +118,20 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             GetProjects();
         };
         $ctrl.OnExport = function () { alert("TODO:Not Implemented"); };
-        $ctrl.OnDeleteProjects = function () { alert("TODO:Not Implemented"); };
+        $ctrl.OnDeleteProjects = function () {
+            var selectedProjects = [];
+            $.each($ctrl.data.projectListResponse.projects, function (k, v) {
+                if (v.isSelected) { selectedProjects.push(v.id); }
+            });
+
+            if (selectedProjects.length > 0) {
+                ProjectServices.ActDactProjects(selectedProjects, false)
+                .then(function (payload) {
+                    if (payload.status) { GetProjects(); }
+                    else { toastr.error(payload.message); }
+                });
+            }
+        };
         $ctrl.OnResetFilter = function () {
             var isRefreshRequired = $ctrl.data.projectIdentifier != "" || $ctrl.data.globalSearchParam != "" ? true : false;
             $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
@@ -129,7 +142,13 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.tempGlobalSearchParam = "";
             $ctrl.data.projectIdentifier = "";
             $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
+            $ctrl.data.isAllSelected = false;
             if (isRefreshRequired) { GetProjects(); }
+            else {
+                $.each($ctrl.data.projectListResponse.projects, function (k, v) {
+                    v.isSelected = $ctrl.data.isAllSelected;
+                });
+            }
         };
         $ctrl.GetPartnerImgUrl = function (pName) {
             var iName = "DEFAULT.png";
