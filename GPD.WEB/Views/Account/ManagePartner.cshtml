@@ -6,11 +6,20 @@
 
 <div data-ng-app="ManagePartner">
     <div data-ng-controller="ManagePartnerController as $ctrl" ng-cloak>
-        <h2>@ViewBag.Title</h2>
-        <hr />
+        <div class="breadcrumb">
+            <ul>
+                <li>Home</li>
+                <li><i class="fa fa-angle-double-right"></i></li>
+                <li>Manage Partner</li>
+
+            </ul>
+        </div>
+        <h3>@ViewBag.Title</h3>
+        <div class="data-container"></div>
         <div data-ng-if="!($ctrl.data.onEditing || $ctrl.data.onAdding)" class="data-container">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
                     <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
                         <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
                              ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.OnPageChanged()" previous-text="&lsaquo;"
@@ -19,41 +28,55 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-3">
+                    <div class="search-wrapper" style="text-align:right;">
+                        <a class="btn btn-primary" data-ng-href="" data-ng-click="$ctrl.OnAddItem()" title="Add Partner"><i class="fa fa-plus-circle"></i>&nbsp;Add</a>
+                    </div>
+                </div>
             </div>
 
             <div class="table-responsive">
-                <table class="table table-striped table-condensed table-hover">
-                    <thead style="background-color:#E9E9E9;">
+                <table class="table table-striped table-condensed table-hover table-bordered">
+                    <thead>
+                        <tr class="data-header-row">
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')" class="header-data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
+                                </i>
+                            </th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('shortDescription')" class="header-data-link">Short Description&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('shortDescription')">
+                                </i>
+                            </th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('description')" class="header-data-link">Description&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('description')">
+                                </i>
+                            </th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('url')" class="header-data-link">URL&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('url')">
+                                </i>
+                            </th>
+                            <th>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('isActive')" class="header-data-link">Is Active&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('isActive')">
+                                </i>
+                            </th>
+                            <th></th>
+                        </tr>
                         <tr>
                             <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
-                                </i><br />
                                 <input data-ng-model="$ctrl.data.search.name" placeholder="Search by Name ..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
                             <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('shortDescription')">Short Description&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('shortDescription')">
-                                </i><br />
                                 <input data-ng-model="$ctrl.data.search.shortDescription" placeholder="..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
                             <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('description')">Description&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('description')">
-                                </i><br />
                                 <input data-ng-model="$ctrl.data.search.description" placeholder="..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
-                            <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('url')">URL&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('url')">
-                                </i>
-                            </th>
-                            <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('isActive')">Is Active&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('isActive')">
-                                </i>
-                            </th>
-                            <th>
-                                <a data-ng-href="" data-ng-click="$ctrl.OnAddItem()" class="btn btn-primary" title="Add Partner"><i class="fa fa-plus-circle"></i>&nbsp;Add</a>
-                            </th>
+                            <th> </th>
+                            <th> </th>
+                            <th> </th>
 
                         </tr>
                     </thead>

@@ -43,7 +43,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-striped table-condensed table-hover">
+                <table class="table table-striped table-condensed table-hover table-bordered">
                     <thead>
                         <tr class="data-header-row">
                             <th><input type="checkbox" data-ng-model="$ctrl.data.isAllSelected" data-ng-change="$ctrl.OnCheckAllChange()" /></th>
@@ -360,32 +360,32 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table table-striped table-condensed table-hover">
-                            <thead style="background-color:#E9E9E9;">
-                                <tr>
+                        <table class="table table-striped table-condensed table-hover  table-bordered">
+                            <thead>
+                                <tr class="data-header-row">
                                     <th></th>
                                     <th nowrap>
-                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.name')">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.name')">
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.name')"  class="header-data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.name')">
                                         </i>
                                     </th>
                                     <th nowrap>
-                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.manufacturer')">Manufacturer&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.manufacturer')">
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.manufacturer')" class="header-data-link">Manufacturer&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.manufacturer')">
                                         </i>
                                     </th>
                                     <th nowrap>
-                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.model')">Model&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.model')">
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.model')" class="header-data-link">Model&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.model')">
                                         </i>
                                     </th>
                                     <th nowrap>
-                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('family')">Family&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('family')">
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('family')" class="header-data-link">Family&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('family')">
                                         </i>
                                     </th>
                                     <th nowrap>
-                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('type')">Type&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('type')">
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('type')" class="header-data-link">Type&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('type')">
                                         </i>
                                     </th>
                                     <th nowrap>
-                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('quantity')">Quantity&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('quantity')">
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('quantity')" class="header-data-link">Quantity&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('quantity')">
                                         </i>
                                     </th>
                                     <th>
