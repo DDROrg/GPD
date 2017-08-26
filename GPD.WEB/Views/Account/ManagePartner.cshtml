@@ -5,178 +5,197 @@
 }
 
 <div data-ng-app="ManagePartner">
-    <div data-ng-controller="ManagePartnerController as $ctrl" ng-cloak>
-        <div class="breadcrumb">
-            <ul>
-                <li>Home</li>
-                <li><i class="fa fa-angle-double-right"></i></li>
-                <li>Manage Partner</li>
+    <div data-ng-controller="ManagePartnerController as $ctrl" ng-cloak>        
+        <div class="data-container">
+            <div data-ng-if="!($ctrl.data.onEditing || $ctrl.data.onAdding)" class="data-container">
+                <div class="breadcrumb">
+                    <ul>
+                        <li>Home</li>
+                        <li><i class="fa fa-angle-double-right"></i></li>
+                        <li>Manage Partner</li>
 
-            </ul>
-        </div>
-        <h3>@ViewBag.Title</h3>
-        <div class="data-container"></div>
-        <div data-ng-if="!($ctrl.data.onEditing || $ctrl.data.onAdding)" class="data-container">
-            <div class="row">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-6">
-                    <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
-                        <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
-                             ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.OnPageChanged()" previous-text="&lsaquo;"
-                             next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
-                             boundary-link-numbers="true">
+                    </ul>
+                </div>
+                <h3>Manage Partner</h3>
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
+                            <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
+                                 ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.OnPageChanged()" previous-text="&lsaquo;"
+                                 next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
+                                 boundary-link-numbers="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="search-wrapper" style="text-align:right;">
+                            <a class="btn btn-primary" data-ng-href="" data-ng-click="$ctrl.OnAddItem()" title="Add Partner"><i class="fa fa-plus-circle"></i>&nbsp;Add</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3">
-                    <div class="search-wrapper" style="text-align:right;">
-                        <a class="btn btn-primary" data-ng-href="" data-ng-click="$ctrl.OnAddItem()" title="Add Partner"><i class="fa fa-plus-circle"></i>&nbsp;Add</a>
-                    </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-condensed table-hover table-bordered">
+                        <thead>
+                            <tr class="data-header-row">
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')" class="header-data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
+                                    </i>
+                                </th>
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('shortDescription')" class="header-data-link">Short Description&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('shortDescription')">
+                                    </i>
+                                </th>
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('description')" class="header-data-link">Description&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('description')">
+                                    </i>
+                                </th>
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('url')" class="header-data-link">URL&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('url')">
+                                    </i>
+                                </th>
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('isActive')" class="header-data-link">Is Active&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('isActive')">
+                                    </i>
+                                </th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <input data-ng-model="$ctrl.data.search.name" placeholder="Search by Name ..."
+                                           style="width: 100%; height: 25px; margin-top: 4px;" />
+                                </th>
+                                <th>
+                                    <input data-ng-model="$ctrl.data.search.shortDescription" placeholder="..."
+                                           style="width: 100%; height: 25px; margin-top: 4px;" />
+                                </th>
+                                <th>
+                                    <input data-ng-model="$ctrl.data.search.description" placeholder="..."
+                                           style="width: 100%; height: 25px; margin-top: 4px;" />
+                                </th>
+                                <th> </th>
+                                <th> </th>
+                                <th> </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="d in filterData = ($ctrl.data.partners | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
+                                <td>{{d.name}}</td>
+                                <td>{{d.shortDescription}}</td>
+                                <td>{{d.description}}</td>
+                                <td><a data-ng-if="d.url" href="{{d.url}}" target="PRODUCT"><i class="fa fa-link"></i>&nbsp;{{d.url}}</a></td>
+                                <td style="text-align:center;">
+                                    <label title="Activat/Deactivate Partner"><input type="checkbox" data-ng-model="d.isActive" data-ng-click="$ctrl.OnActDeactItem(d)" /></label>
+                                </td>
+                                <td style="text-align:center;"><a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)" title="Edit Partner"><i class="fa fa-pencil-square-o"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped table-condensed table-hover table-bordered">
-                    <thead>
-                        <tr class="data-header-row">
-                            <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')" class="header-data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
-                                </i>
-                            </th>
-                            <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('shortDescription')" class="header-data-link">Short Description&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('shortDescription')">
-                                </i>
-                            </th>
-                            <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('description')" class="header-data-link">Description&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('description')">
-                                </i>
-                            </th>
-                            <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('url')" class="header-data-link">URL&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('url')">
-                                </i>
-                            </th>
-                            <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('isActive')" class="header-data-link">Is Active&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('isActive')">
-                                </i>
-                            </th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <th>
-                                <input data-ng-model="$ctrl.data.search.name" placeholder="Search by Name ..."
-                                       style="width: 100%; height: 25px; margin-top: 4px;" />
-                            </th>
-                            <th>
-                                <input data-ng-model="$ctrl.data.search.shortDescription" placeholder="..."
-                                       style="width: 100%; height: 25px; margin-top: 4px;" />
-                            </th>
-                            <th>
-                                <input data-ng-model="$ctrl.data.search.description" placeholder="..."
-                                       style="width: 100%; height: 25px; margin-top: 4px;" />
-                            </th>
-                            <th> </th>
-                            <th> </th>
-                            <th> </th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-ng-repeat="d in filterData = ($ctrl.data.partners | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
-                            <td>{{d.name}}</td>
-                            <td>{{d.shortDescription}}</td>
-                            <td>{{d.description}}</td>
-                            <td><a data-ng-if="d.url" href="{{d.url}}" target="PRODUCT"><i class="fa fa-link"></i>&nbsp;{{d.url}}</a></td>
-                            <td style="text-align:center;">
-                                <label title="Activat/Deactivate Partner"><input type="checkbox" data-ng-model="d.isActive" data-ng-click="$ctrl.OnActDeactItem(d)" /></label>
-                            </td>
-                            <td style="text-align:center;"><a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)" title="Edit Partner"><i class="fa fa-pencil-square-o"></i></a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div data-ng-if="$ctrl.data.onEditing" class="data-container">
-            <h4>Edit Partner</h4>
-            <div class="form-horizontal">
-                <div class="form-group">
-                    <label class="control-label col-md-4">ID</label>
-                    <div class="col-md-8">
-                        <div style="line-height:2.43;">
-                            {{$ctrl.data.tempPartner.partnerId}}
+            <div data-ng-if="$ctrl.data.onEditing" class="data-container">
+                <div class="breadcrumb">
+                    <ul>
+                        <li>Home</li>
+                        <li><i class="fa fa-angle-double-right"></i></li>
+                        <li>Manage Partner</li>
+                        <li><i class="fa fa-angle-double-right"></i></li>
+                        <li>Edit</li>
+                    </ul>
+                </div>
+                <h3>Edit Partner</h3>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">ID</label>
+                        <div class="col-md-8">
+                            <div style="line-height:2.43;">
+                                {{$ctrl.data.tempPartner.partnerId}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Name<span class="mandatory">*</span></label>
+                        <div class="col-md-8">
+                            <input data-ng-model="$ctrl.data.tempPartner.name" class="form-control text-box single-line" id="txtName" name="txtName" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">URL<span class="mandatory">*</span></label>
+                        <div class="col-md-8">
+                            <input data-ng-model="$ctrl.data.tempPartner.url" class="form-control text-box single-line" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Short Description</label>
+                        <div class="col-md-8">
+                            <input data-ng-model="$ctrl.data.tempPartner.shortDescription" class="form-control text-box single-line" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Description<span class="mandatory">*</span></label>
+                        <div class="col-md-8">
+                            <input data-ng-model="$ctrl.data.tempPartner.description" class="form-control text-box single-line" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Is Active</label>
+                        <div class="col-md-8">
+                            <div style="line-height:2.43;">
+                                <input data-ng-model="$ctrl.data.tempPartner.isActive" type="checkbox" />
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-4">Name<span class="mandatory">*</span></label>
-                    <div class="col-md-8">
-                        <input data-ng-model="$ctrl.data.tempPartner.name" class="form-control text-box single-line" id="txtName" name="txtName" type="text" />
-                    </div>
+                <div style="text-align: right;">
+                    <a class="btn btn-warning" data-ng-href="" id="aCancelEdit" data-ng-click="$ctrl.OnCancelEditItem()"><i class="fa fa-times-circle-o"></i>&nbsp;Cancel</a>
+                    <a class="btn btn-primary" data-ng-href="" id="aSaveEdit" data-ng-click="$ctrl.OnSaveEditItem()"><i class="fa fa-floppy-o"></i>&nbsp;Save</a>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-4">URL<span class="mandatory">*</span></label>
-                    <div class="col-md-8">
-                        <input data-ng-model="$ctrl.data.tempPartner.url" class="form-control text-box single-line" type="text" />
-                    </div>
+            </div>
+
+            <div data-ng-if="$ctrl.data.onAdding" class="data-container">
+                <div class="breadcrumb">
+                    <ul>
+                        <li>Home</li>
+                        <li><i class="fa fa-angle-double-right"></i></li>
+                        <li>Manage Partner</li>
+                        <li><i class="fa fa-angle-double-right"></i></li>
+                        <li>Add</li>
+                    </ul>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-4">Short Description</label>
-                    <div class="col-md-8">
-                        <input data-ng-model="$ctrl.data.tempPartner.shortDescription" class="form-control text-box single-line" type="text" />
+                <h3>Add Partner</h3>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Name<span class="mandatory">*</span></label>
+                        <div class="col-md-8">
+                            <input data-ng-model="$ctrl.data.tempPartner.name" class="form-control text-box single-line" id="txtName" name="txtName" type="text" />
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-4">Description<span class="mandatory">*</span></label>
-                    <div class="col-md-8">
-                        <input data-ng-model="$ctrl.data.tempPartner.description" class="form-control text-box single-line" type="text" />
+                    <div class="form-group">
+                        <label class="control-label col-md-4">URL<span class="mandatory">*</span></label>
+                        <div class="col-md-8">
+                            <input data-ng-model="$ctrl.data.tempPartner.url" class="form-control text-box single-line" type="text" />
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-4">Is Active</label>
-                    <div class="col-md-8">
-                        <div style="line-height:2.43;">
-                            <input data-ng-model="$ctrl.data.tempPartner.isActive" type="checkbox" />
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Short Description</label>
+                        <div class="col-md-8">
+                            <input data-ng-model="$ctrl.data.tempPartner.shortDescription" class="form-control text-box single-line" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Description<span class="mandatory">*</span></label>
+                        <div class="col-md-8">
+                            <input data-ng-model="$ctrl.data.tempPartner.description" class="form-control text-box single-line" type="text" />
                         </div>
                     </div>
                 </div>
-            </div>
-            <div style="text-align: right;">
-                <a class="btn btn-warning" data-ng-href="" id="aCancelEdit" data-ng-click="$ctrl.OnCancelEditItem()"><i class="fa fa-times-circle-o"></i>&nbsp;Cancel</a>
-                <a class="btn btn-primary" data-ng-href="" id="aSaveEdit" data-ng-click="$ctrl.OnSaveEditItem()"><i class="fa fa-floppy-o"></i>&nbsp;Save</a>
-            </div>
-        </div>
-
-        <div data-ng-if="$ctrl.data.onAdding" class="data-container">
-            <h4>Add Partner</h4>
-            <div class="form-horizontal">
-                <div class="form-group">
-                    <label class="control-label col-md-4">Name<span class="mandatory">*</span></label>
-                    <div class="col-md-8">
-                        <input data-ng-model="$ctrl.data.tempPartner.name" class="form-control text-box single-line" id="txtName" name="txtName" type="text" />
-                    </div>
+                <div style="text-align: right;">
+                    <a class="btn btn-warning" data-ng-href="" id="aCancelEdit" data-ng-click="$ctrl.OnCancelAddItem()"><i class="fa fa-times-circle-o"></i>&nbsp;Cancel</a>
+                    <a class="btn btn-primary" data-ng-href="" id="aSaveEdit" data-ng-click="$ctrl.OnSaveAddItem()"><i class="fa fa-floppy-o"></i>&nbsp;Save</a>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-4">URL<span class="mandatory">*</span></label>
-                    <div class="col-md-8">
-                        <input data-ng-model="$ctrl.data.tempPartner.url" class="form-control text-box single-line" type="text" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-4">Short Description</label>
-                    <div class="col-md-8">
-                        <input data-ng-model="$ctrl.data.tempPartner.shortDescription" class="form-control text-box single-line" type="text" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-4">Description<span class="mandatory">*</span></label>
-                    <div class="col-md-8">
-                        <input data-ng-model="$ctrl.data.tempPartner.description" class="form-control text-box single-line" type="text" />
-                    </div>
-                </div>
-            </div>
-            <div style="text-align: right;">
-                <a class="btn btn-warning" data-ng-href="" id="aCancelEdit" data-ng-click="$ctrl.OnCancelAddItem()"><i class="fa fa-times-circle-o"></i>&nbsp;Cancel</a>
-                <a class="btn btn-primary" data-ng-href="" id="aSaveEdit" data-ng-click="$ctrl.OnSaveAddItem()"><i class="fa fa-floppy-o"></i>&nbsp;Save</a>
             </div>
         </div>
     </div>
