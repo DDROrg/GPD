@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Xml.Linq;
@@ -7,6 +8,7 @@ using System.Xml.XPath;
 namespace GPD.Facade.WebAppFacade
 {
     using DAL.SqlDB;
+    using ServiceEntities;
     using ServiceEntities.BaseEntities;
     using Utility;
     using Utility.CommonUtils;
@@ -122,6 +124,94 @@ namespace GPD.Facade.WebAppFacade
             catch (Exception ex)
             {
                 log.Error("Unable to get user profile for id: " + email, ex);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
+        public static List<UserDTO> GetUsers(string searchTerm)
+        {
+            List<UserDTO> retVal = new List<UserDTO>();
+            searchTerm = string.IsNullOrWhiteSpace(searchTerm) ? string.Empty : "%" + searchTerm.Trim() + "%";
+
+            try
+            {
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUsers(searchTerm);
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        retVal.Add(new UserDTO()
+                        {
+                            UserId = int.Parse(dr["user_id"].ToString()),
+                            FirstName = dr["first_name"].ToString(),
+                            LastName = dr["last_name"].ToString(),
+                            Email = dr["email"].ToString(),
+                            FirmId = DBNull.Value.Equals(dr["firm_id"]) ? -1 : int.Parse(dr["firm_id"].ToString()),
+                            FirmName = DBNull.Value.Equals(dr["firmName"]) ? "" : dr["firmName"].ToString(),
+                            IsActive = Convert.ToBoolean(dr["active"])
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to get users for search term: " + searchTerm, ex);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        public static UserDetailsTDO GetUserFullProfile(int userId)
+        {
+            UserDetailsTDO retVal = null;
+
+            try
+            {
+                DataSet ds = new UserDB(Utility.ConfigurationHelper.GPD_Connection).GetUserFullProfile(userId);
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    retVal = new UserDetailsTDO()
+                    {
+                        FirstName = ds.Tables[0].Rows[0]["first_name"].ToString(),
+                        LastName = ds.Tables[0].Rows[0]["last_name"].ToString(),
+                        Email = ds.Tables[0].Rows[0]["email"].ToString(),
+                        JobTitle = ds.Tables[0].Rows[0]["job_title"].ToString(),
+                        Phone = ds.Tables[0].Rows[0]["business_phone"].ToString(),
+                    };
+
+                    if (ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0)
+                    {
+                        retVal.CompanyDetails = new CompanyDetailsDTO()
+                        {
+                            Id = (int)ds.Tables[1].Rows[0]["firm_id"],
+                            Name = ds.Tables[1].Rows[0]["name"].ToString(),
+                            WebSite = ds.Tables[1].Rows[0]["url"].ToString(),
+                            Country = ds.Tables[1].Rows[0]["country"].ToString(),
+                            Address = ds.Tables[1].Rows[0]["address_line_1"].ToString(),
+                            Address2 = ds.Tables[1].Rows[0]["address_line_2"].ToString(),
+                            City = ds.Tables[1].Rows[0]["city"].ToString(),
+                            State = ds.Tables[1].Rows[0]["state_province"].ToString(),
+                            PostalCode = ds.Tables[1].Rows[0]["zip_postal_code"].ToString(),
+                            DefaultIndustry = ds.Tables[1].Rows[0]["DefaultIndustry"].ToString()
+                        };
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to get user full profile for id: " + userId, ex);
             }
 
             return retVal;

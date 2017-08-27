@@ -221,4 +221,33 @@ namespace GPD.ServiceEntities
         [DataMember(Name = "message", Order = 6)]
         public string Message;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [DataContract(Namespace = "http://www.gpd.com", Name = "UserFullProfileStatus")]
+    public class UserFullProfileStatusDTO
+    {
+        #region Constr
+        public UserFullProfileStatusDTO()
+        {
+            this.userId = -1;
+            this.userDetails = null;
+            this.Status = false;
+            this.Message = string.Empty;
+        }
+        #endregion Constr
+
+        [DataMember(Name = "userId", Order = 1)]
+        public int userId;
+
+        [DataMember(Name = "userDetails", Order = 2)]
+        public UserDetailsTDO userDetails;
+
+        [DataMember(Name = "status", Order = 3)]
+        public bool Status;
+
+        [DataMember(Name = "message", Order = 4)]
+        public string Message;
+    }
 }

@@ -45,7 +45,7 @@ namespace GPD.WEB.Controllers
         //[ApiExplorerSettings(IgnoreApi = true)]
         public List<UserDTO> GetUsers(string searchTerm)
         {
-            return new Facade.SignInFacade().GetUsers(searchTerm);
+            return UserDetailsFacade.GetUsers(searchTerm);
         }
 
         /// <summary>
@@ -277,6 +277,52 @@ namespace GPD.WEB.Controllers
             }
 
             return authenticateUser;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>UserFullProfileStatusDTO</returns>
+        [Route("api/UserFullProfile")]
+        [HttpGet]
+        [AllowAnonymous]
+        public UserFullProfileStatusDTO GetUserFullProfile()
+        {
+            UserFullProfileStatusDTO retObj = new UserFullProfileStatusDTO()
+            {
+                Message = "Request Not Authenticated."
+            };
+
+            try
+            {
+                var request = HttpContext.Current.Request;
+                var authHeader = request.Headers["Authorization"];
+                var authHeaderVal = System.Net.Http.Headers.AuthenticationHeaderValue.Parse(authHeader);
+
+                if (authHeaderVal.Scheme.Equals("basic", StringComparison.OrdinalIgnoreCase) && authHeaderVal.Parameter != null)
+                {
+                    string credentials = Encoding.GetEncoding("iso-8859-1").GetString(Convert.FromBase64String(authHeaderVal.Parameter));
+                    string userEmail = credentials.Substring(0, credentials.IndexOf(':'));
+                    string userPassword = credentials.Substring(credentials.IndexOf(':') + 1);
+
+                    int userId = -1;
+                    var result = UserDetailsFacade.AuthenticateUser(userEmail, userPassword, out userId);
+
+                    if (userId != -1)
+                    {
+                        // get user profile
+                        retObj.userDetails = UserDetailsFacade.GetUserFullProfile(userId);
+                        retObj.Message = string.Empty;
+                        retObj.userId = userId;
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+            }
+
+            return retObj;
         }
     }
 }

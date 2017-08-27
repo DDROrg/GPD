@@ -89,57 +89,6 @@ namespace GPD.Facade
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="searchTerm"></param>
-        /// <returns></returns>
-        public List<UserDTO> GetUsers(string searchTerm)
-        {
-            List<UserDTO> retVal = new List<UserDTO>();
-            searchTerm = string.IsNullOrWhiteSpace(searchTerm) ? string.Empty : "%" + searchTerm.Trim() + "%";
-
-            try
-            {
-                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUsers(searchTerm);
-
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    foreach (DataRow dr in ds.Tables[0].Rows)
-                    {
-                        retVal.Add(new UserDTO()
-                        {
-                            UserId = int.Parse(dr["user_id"].ToString()),
-                            FirstName = dr["first_name"].ToString(),
-                            LastName = dr["last_name"].ToString(),
-                            Email = dr["email"].ToString(),
-                            FirmId = DBNull.Value.Equals(dr["firm_id"]) ? -1 : int.Parse(dr["firm_id"].ToString()),
-                            FirmName = DBNull.Value.Equals(dr["firmName"]) ? "" : dr["firmName"].ToString(),
-                            //ManufactureId = DBNull.Value.Equals(dr["manufacture_id"]) ? -1 : int.Parse(dr["manufacture_id"].ToString()),
-                            //JobTitle = dr["job_title"].ToString(),
-                            //BusinessPhone = dr["business_phone"].ToString(),
-                            //HomePhone = dr["home_phone"].ToString(),
-                            //MobilePhone = dr["mobile_phone"].ToString(),
-                            //FAX = dr["fax_number"].ToString(),
-                            //AddressLine1 = dr["address_line_1"].ToString(),
-                            //AddressLine2 = dr["address_line_2"].ToString(),
-                            //City = dr["city"].ToString(),
-                            //State = dr["state_province"].ToString(),
-                            //ZIP = dr["zip_postal_code"].ToString(),
-                            //Country = dr["country"].ToString(),
-                            IsActive = Convert.ToBoolean(dr["active"])
-                        });
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error("Unable to get users for search term: " + searchTerm, ex);
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="partnerId"></param>
         /// <param name="isActive"></param>
         /// <returns></returns>

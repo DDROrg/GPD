@@ -837,6 +837,12 @@
             </summary>
             <returns>AuthenticateUserStatusDTO</returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.UserController.GetUserFullProfile">
+            <summary>
+            
+            </summary>
+            <returns>UserFullProfileStatusDTO</returns>
+        </member>
         <member name="T:GPD.WEB.WebApiApplication">
             <summary>
             

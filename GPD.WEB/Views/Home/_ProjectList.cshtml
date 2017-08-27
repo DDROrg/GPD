@@ -107,7 +107,7 @@
                                 <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.zip)">zip - {{d.location.city}}</ng-container>
                             </td>
                             <td>{{d["create-timestamp-formatted"] | date:'MM/dd/yyyy HH:mm:ss'}}</td>
-                            <td>
+                            <td nowrap>
                                 <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Detail"></i></a>
                                 @if (isAdmin == true)
                                 {

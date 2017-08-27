@@ -43,5 +43,20 @@ namespace GPD.DAL.SqlDB
 
             return base.GetDSBasedOnStoreProcedure("gpd_GetFirmProfile", parametersInList);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>DataSet</returns>
+        public DataSet GetUserFullProfile(int userId)
+        {
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                new SqlParameter("@P_USER_ID", userId)
+            };
+
+            return base.GetDSBasedOnStoreProcedure("gpd_GetUserFullProfile", parametersInList);
+        }
     }
 }
