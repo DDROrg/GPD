@@ -95,5 +95,6 @@
     <Build Include="dbo\Stored Procedures\gpd_GetFirmProfile.sql" />
     <Build Include="dbo\Stored Procedures\gpd_UpdateProject.sql" />
     <Build Include="dbo\Stored Procedures\gpd_ActivateProjectList.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_GetUserFullProfile.sql" />
   </ItemGroup>
 </Project>
