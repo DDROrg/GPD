@@ -17,9 +17,11 @@ BEGIN
 			INSERT INTO @t_RecordsCount
 				SELECT P.project_id, P.partner_name
 				FROM gpd_project P, gpd_project_identifier I
-				WHERE I.identifier = @P_ProjectIdentifier
+				WHERE P.active = 1
+				AND (
+					@P_ProjectIdentifier IS NULL OR I.identifier = @P_ProjectIdentifier
+				)
 				AND P.project_id = I.project_id
-				AND P.active = 1
 		END
 	ELSE
 		BEGIN

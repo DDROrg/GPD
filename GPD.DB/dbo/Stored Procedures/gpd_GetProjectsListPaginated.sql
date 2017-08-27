@@ -34,7 +34,7 @@ BEGIN
 				OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY;
 				
 				-- get the total count of the records
-				SELECT COUNT(project_id) AS TotalCount  FROM GPD_PROJECT;
+				SELECT COUNT(project_id) AS TotalCount  FROM GPD_PROJECT WHERE [active] = 1;
 	   	   END
 	   ELSE
 	   	   BEGIN
@@ -65,6 +65,7 @@ BEGIN
 				-- get the total count of the records
 				SELECT COUNT(project_id) AS TotalCount  
 				FROM GPD_PROJECT
-				WHERE PARTNER_NAME = @P_PartnerName;
+				WHERE PARTNER_NAME = @P_PartnerName
+				AND [active] = 1;;
 	   	   END
 END;
