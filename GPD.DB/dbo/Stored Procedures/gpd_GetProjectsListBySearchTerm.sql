@@ -94,7 +94,7 @@ BEGIN
 			OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY;
 				
 			-- get the total count of the records
-			SELECT count(*) FROM @t_RecordsCount;
+			SELECT count(project_id) AS TotalCount FROM @t_RecordsCount;
 		END
 	ELSE
 		BEGIN
@@ -123,6 +123,6 @@ BEGIN
 			OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY;
 				
 			-- get the total count of the records
-			SELECT count(*) FROM @t_RecordsCount x WHERE x.partner_name = @P_PartnerName;
+			SELECT count(project_id) AS TotalCount FROM @t_RecordsCount x WHERE x.partner_name = @P_PartnerName;
 		END
 END;
