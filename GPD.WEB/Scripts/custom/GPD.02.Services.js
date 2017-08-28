@@ -24,12 +24,20 @@ var CommonServices = function ($http, $q, $log, BroadcastService) {
         var retVal = {};
         _GetLogedinUserProfile()
         .then(function (payload) {
+            var partnerDefImages = [];
             this.LogedinUserProfile.userId = payload.data.userId;
             this.LogedinUserProfile.firstName = payload.data.firstName;
             this.LogedinUserProfile.lastName = payload.data.lastName;
             this.LogedinUserProfile.email = payload.data.email;
             this.LogedinUserProfile.partnerNames = payload.data.partnerNames;
             this.LogedinUserProfile.selectedPartner = payload.data.selectedPartner;
+            if (payload.data.roles != null)
+            {
+                $.each(payload.data.roles, function (k, v) {
+                    partnerDefImages.push({ "name": v.partnerNames, "image": v.partnerImageUrl });
+                });
+            }
+            this.LogedinUserProfile.partnerDefImages = partnerDefImages;
             retVal = payload.data;
             deferred.resolve(retVal);
         });

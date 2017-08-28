@@ -151,10 +151,14 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             }
         };
         $ctrl.GetPartnerImgUrl = function (pName) {
-            var iName = "DEFAULT.png";
-            pName = pName.toUpperCase();
-            if (pName == "SWEETS") { iName = "SWEETS.png"; }
-            return __RootUrl + "Content/PartnerImg/" + iName;
+            // default value
+            var defaultImg = __RootUrl + "Content/PartnerImg/DEFAULT.png";
+            if ($ctrl.data.LogedinUserProfile.partnerDefImages != null) {
+                angular.forEach($ctrl.data.LogedinUserProfile.partnerDefImages, function (item) {
+                    if (item.name.toLowerCase() == pName.toLowerCase()) { defaultImg = item.image; }
+                });
+            }
+            return defaultImg;
         };
         $ctrl.OnCheckAllChange = function () {
             $.each($ctrl.data.projectListResponse.projects, function (k, v) {
