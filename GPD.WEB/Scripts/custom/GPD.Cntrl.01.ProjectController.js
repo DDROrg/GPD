@@ -33,17 +33,19 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.data.page = {};
         $ctrl.data.search = {};
 
-        $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
-        $ctrl.data.page.currentPage = 1;
-        $ctrl.data.page.maxPage = 5;
-        $ctrl.data.page.itemPerPage = __ItemPerPage;
-        $ctrl.data.globalSearchParam = "";
-        $ctrl.data.tempGlobalSearchParam = "";
-        $ctrl.data.projectIdentifier = "";
-        $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
-        $ctrl.data.isAllSelected = false;
-
-
+        var ResetFilter = function () {
+            $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
+            $ctrl.data.page.currentPage = 1;
+            $ctrl.data.page.maxPage = 5;
+            $ctrl.data.page.itemPerPage = 2;//__ItemPerPage;
+            $ctrl.data.globalSearchParam = "";
+            $ctrl.data.tempGlobalSearchParam = "";
+            $ctrl.data.projectIdentifier = "";
+            $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
+            $ctrl.data.isAllSelected = false;
+        };
+        ResetFilter();
+        
         $ctrl.OnChangeSorting = function (column) {
             var t = { column: column, descending: true };
             if ($ctrl.data.sort.length > 0) {
@@ -134,15 +136,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         };
         $ctrl.OnResetFilter = function () {
             var isRefreshRequired = $ctrl.data.projectIdentifier != "" || $ctrl.data.globalSearchParam != "" ? true : false;
-            $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
-            $ctrl.data.page.currentPage = 1;
-            $ctrl.data.page.maxPage = 5;
-            $ctrl.data.page.itemPerPage = __ItemPerPage;
-            $ctrl.data.globalSearchParam = "";
-            $ctrl.data.tempGlobalSearchParam = "";
-            $ctrl.data.projectIdentifier = "";
-            $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
-            $ctrl.data.isAllSelected = false;
+            ResetFilter();
             if (isRefreshRequired) { GetProjects(); }
             else {
                 $.each($ctrl.data.projectListResponse.projects, function (k, v) {
@@ -186,11 +180,14 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                 $ctrl.data.projectListResponse = payload;
             });
         };
+       
 
         $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
+            ResetFilter();
             GetProjects();
         });
         $rootScope.$on('EVENT-ChangePartner', function (event, data) {
+            ResetFilter();
             GetProjects();
         });
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
