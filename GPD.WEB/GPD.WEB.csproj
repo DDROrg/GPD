@@ -194,6 +194,7 @@
     <Content Include="Content\loading-bar.min.css" />
     <Content Include="Content\PartnerImg\DEFAULT.png" />
     <Content Include="Content\PartnerImg\SWEETS.png" />
+    <Content Include="Content\PartnerImg\Sweets\SWEETS_ICON_TRANS.png" />
     <Content Include="Content\PartnerImg\ULSpot\UL_Enterprise_red_25x25.png" />
     <Content Include="Content\PartnerImg\ULSpot\UL_Mark.svg.png" />
     <Content Include="Content\ui-bootstrap-csp.css" />

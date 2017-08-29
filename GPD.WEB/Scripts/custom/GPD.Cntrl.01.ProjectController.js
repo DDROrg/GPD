@@ -37,7 +37,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
             $ctrl.data.page.currentPage = 1;
             $ctrl.data.page.maxPage = 5;
-            $ctrl.data.page.itemPerPage = 2;//__ItemPerPage;
+            $ctrl.data.page.itemPerPage = __ItemPerPage;
             $ctrl.data.globalSearchParam = "";
             $ctrl.data.tempGlobalSearchParam = "";
             $ctrl.data.projectIdentifier = "";
