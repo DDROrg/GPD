@@ -324,5 +324,51 @@ namespace GPD.WEB.Controllers
 
             return retObj;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>UpdateUserProfileStatusDTO</returns>
+        [Route("api/UpdateUserProfile")]
+        [HttpPost]
+        [AllowAnonymous]
+        public UpdateUserProfileStatusDTO UpdateUserProfile(UserDetailsTDO userDetails)
+        {
+            UpdateUserProfileStatusDTO retObj = new UpdateUserProfileStatusDTO()
+            {
+                Message = "Request Not Authenticated."
+            };
+
+            try
+            {
+                var request = HttpContext.Current.Request;
+                var authHeader = request.Headers["Authorization"];
+                var authHeaderVal = System.Net.Http.Headers.AuthenticationHeaderValue.Parse(authHeader);
+
+                if (authHeaderVal.Scheme.Equals("basic", StringComparison.OrdinalIgnoreCase) && authHeaderVal.Parameter != null)
+                {
+                    string credentials = Encoding.GetEncoding("iso-8859-1").GetString(Convert.FromBase64String(authHeaderVal.Parameter));
+                    string userEmail = credentials.Substring(0, credentials.IndexOf(':'));
+                    string userPassword = credentials.Substring(credentials.IndexOf(':') + 1);
+
+                    int userId = -1;
+                    var result = UserDetailsFacade.AuthenticateUser(userEmail, userPassword, out userId);
+
+                    if (userId != -1)
+                    {
+                        // update user profile
+                        string errorMsg;
+                        retObj.Status = UserDetailsFacade.UpdatetUserFullProfile(userId, userDetails, out errorMsg);
+                        retObj.Message = errorMsg;
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+            }
+
+            return retObj;
+        }
     }
 }

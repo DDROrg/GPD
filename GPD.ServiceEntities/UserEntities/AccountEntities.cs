@@ -250,4 +250,25 @@ namespace GPD.ServiceEntities
         [DataMember(Name = "message", Order = 4)]
         public string Message;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [DataContract(Namespace = "http://www.gpd.com", Name = "UpdateUserProfileStatus")]
+    public class UpdateUserProfileStatusDTO
+    {
+        #region Constr
+        public UpdateUserProfileStatusDTO()
+        {
+            this.Status = false;
+            this.Message = string.Empty;
+        }
+        #endregion Constr
+
+        [DataMember(Name = "status", Order = 1)]
+        public bool Status;
+
+        [DataMember(Name = "message", Order = 2)]
+        public string Message;
+    }
 }

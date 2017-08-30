@@ -216,5 +216,38 @@ namespace GPD.Facade.WebAppFacade
 
             return retVal;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="userDetails"></param>
+        public static bool UpdatetUserProfile(int userId, UserDetailsTDO userDetails, out string errorMsg)
+        {
+            try
+            {
+                // hash user password
+                userDetails.Password = (string.IsNullOrEmpty(userDetails.Password)) ? null : ValueHashUtil.CreateHash(userDetails.Password);
+
+                // get XML based on UserDetailsTDO object
+                XDocument xDoc = new XDocument();
+                using (var writer = xDoc.CreateWriter())
+                {
+                    var serializer = new System.Runtime.Serialization.DataContractSerializer(userDetails.GetType());
+                    serializer.WriteObject(writer, userDetails);
+                }
+
+                // update user details
+                int errorCode;
+                new ProjectDB(ConfigurationHelper.GPD_Connection).UpdateUserProfile(userId, xDoc, out errorCode, out errorMsg);
+                return (errorCode == -1 && errorCode == 0);
+            }
+            catch (Exception exc)
+            {
+                log.Error("Unable to Update User Profile. ERROR: " + exc.ToString());
+                errorMsg = "Unable to Update User Profile";
+                return false;
+            }
+        }
     }
 }

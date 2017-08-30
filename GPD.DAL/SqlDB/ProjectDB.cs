@@ -558,5 +558,38 @@ END;
                 throw new Exception(retVal["@P_Return_Message"].ToString());
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xDoc"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="errorMsg"></param>
+        public void UpdateUserProfile(int userId, XDocument xDoc, out int errorCode, out string errorMsg)
+        {
+            errorCode = 0;
+            errorMsg = string.Empty;
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                new SqlParameter("@P_UserId", userId),
+                new SqlParameter("@P_XML", xDoc.ToString()),
+                new SqlParameter("@P_Return_ErrorCode", SqlDbType.Int) { Direction = ParameterDirection.Output },
+                new SqlParameter("@P_Return_Message", SqlDbType.VarChar, 1024) { Direction = ParameterDirection.Output }
+            };
+
+            Dictionary<string, object> retVal = base.ExecuteStoreProcedure("gpd_UpdateUserProfile", parametersInList);
+
+            if (retVal == null)
+            {
+                errorCode = -1;
+                errorMsg = "Unhandled Exception";
+            }
+            else if (Convert.ToInt32(retVal["@P_Return_ErrorCode"]) != 0)
+            {
+                errorCode = Convert.ToInt32(retVal["@P_Return_ErrorCode"]);
+                errorMsg = retVal["@P_Return_Message"].ToString();
+            }
+        }
     }
 }

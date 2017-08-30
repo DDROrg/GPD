@@ -843,6 +843,12 @@
             </summary>
             <returns>UserFullProfileStatusDTO</returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.UserController.UpdateUserProfile(GPD.ServiceEntities.UserDetailsTDO)">
+            <summary>
+            
+            </summary>
+            <returns>UpdateUserProfileStatusDTO</returns>
+        </member>
         <member name="T:GPD.WEB.WebApiApplication">
             <summary>
             
