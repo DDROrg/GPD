@@ -2,7 +2,7 @@
     [user_id]           INT            IDENTITY (100, 1) NOT NULL,
     [last_name]         NVARCHAR (150) NULL,
     [first_name]        NVARCHAR (150) NULL,
-    [full_name]         NVARCHAR (150) NULL,
+    [full_name]         NVARCHAR (310) NULL,
     [email]             NVARCHAR (150) NOT NULL,
     [password]          NVARCHAR (300) NULL,
     [firm_id]           INT            NULL,

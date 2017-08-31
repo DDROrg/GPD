@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[gpd_AddFirmProfile]
 	@P_XML XML,
 	@P_Return_FirmId INT OUT,
+	@P_Return_FirmAdmin BIT OUT,
 	@P_Return_ErrorCode INT OUT,
 	@P_Return_Message VARCHAR(1024) OUT
 AS 
@@ -15,9 +16,10 @@ BEGIN
 	/******************************
 	*  Initialize Variables
 	*******************************/
-	SET @P_Return_ErrorCode = @@ERROR;
-	SET @P_Return_Message = '';
-	SET @P_Return_FirmId = -1;
+	SET @P_Return_ErrorCode = @@ERROR
+	SET @P_Return_Message = ''
+	SET @P_Return_FirmId = -1
+	SET @P_Return_FirmAdmin = 0
 	
 	BEGIN TRY	
 
@@ -50,7 +52,6 @@ BEGIN
 					,[state_province]
 					,[zip_postal_code]
 					,[country]
-
 					,[active]
 					,[xml_firm_metadata]
 					,[create_date]
@@ -72,7 +73,8 @@ BEGIN
 					,NULL
 				FROM @P_XML.nodes('/UserDetails') M(M);
 
-				SET @P_Return_FirmId = SCOPE_IDENTITY()
+				SET @P_Return_FirmId = SCOPE_IDENTITY();
+				SET @P_Return_FirmAdmin = 1;
 				SET NOCOUNT OFF
 			END
 

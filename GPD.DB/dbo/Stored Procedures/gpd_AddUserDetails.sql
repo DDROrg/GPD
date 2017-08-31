@@ -10,10 +10,12 @@ BEGIN
 	/******************************
 	*  Variable Declarations
 	*******************************/
-	DECLARE @V_UserEmail VARCHAR(150);
-	DECLARE @V_FirmId INT = -1;
-	DECLARE @V_FirmName VARCHAR(150);
-	DECLARE @V_FirmUrl VARCHAR(250);	
+	DECLARE @TempTable TABLE ( [itemType] NVARCHAR(250), [itemValue] NVARCHAR(250) );
+	DECLARE @V_UserEmail VARCHAR(150),
+			@V_FirmId INT = -1,
+			@P_FirmAdmin INT = 0,
+			@V_FirmName VARCHAR(150),
+			@V_FirmUrl VARCHAR(250);
 
 	/******************************
 	*  Initialize Variables
@@ -27,8 +29,8 @@ BEGIN
 		-- user email address
 		WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com', 'http://www.w3.org/2001/XMLSchema-instance' AS i)
 			SELECT  @V_UserEmail = M.value('(email)[1]', 'NVARCHAR(150)'),
-				@V_FirmName = M.value('(company/name)[1]', 'NVARCHAR(150)'),
-				@V_FirmUrl = M.value('(company/website)[1]', 'NVARCHAR(250)')
+					@V_FirmName = M.value('(company/name)[1]', 'NVARCHAR(150)'),
+					@V_FirmUrl = M.value('(company/website)[1]', 'NVARCHAR(250)')
 			FROM @P_XML.nodes('/UserDetails') M(M);
 
 		IF EXISTS(SELECT 1 FROM GPD_USER_DETAILS WHERE EMAIL = @V_UserEmail)
@@ -42,15 +44,27 @@ BEGIN
 
 			   IF(LEN(@V_FirmName) > 0)
 			      BEGIN
-				     Exec gpd_AddFirmProfile @P_XML, @V_FirmId OUTPUT, @P_Return_ErrorCode OUTPUT, @P_Return_Message OUTPUT;
+				     Exec gpd_AddFirmProfile @P_XML, @V_FirmId OUTPUT, @P_FirmAdmin OUTPUT, @P_Return_ErrorCode OUTPUT, @P_Return_Message OUTPUT;
+
+					 IF(@P_FirmAdmin = 1 AND @V_FirmId != -1)
+						BEGIN
+							INSERT INTO @TempTable VALUES('firm-admin', @V_FirmId);
+						END;
 				  END;
 			   ELSE
 			      BEGIN
 				     SET @V_FirmId = NULL;
 				  END;
+			
+			   -- ADDITIONAL DATA
+			   INSERT INTO @TempTable
+			      SELECT
+					doc.col.value('@type', 'nvarchar(250)'),
+					doc.col.value('.', 'nvarchar(250)')
+				  FROM @P_XML.nodes('//*[local-name()="UserDetails"]/*[local-name()="additional-data"]/*[local-name()="item"]') doc(col);
 
 				-- USER DATA
-				WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com', 'http://www.w3.org/2001/XMLSchema-instance' AS i)
+				WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com')
 				INSERT INTO GPD_USER_DETAILS
 					([last_name]
 					,[first_name]
@@ -117,7 +131,12 @@ BEGIN
 
 					,@P_IpAddress
 					,1
-					,M.query('declare default element namespace "http://www.gpd.com";/UserDetails/additional-data')
+					--,M.query('declare default element namespace "http://www.gpd.com";/UserDetails/additional-data')
+					,(
+						SELECT [itemType] AS [item/@type], [itemValue] AS [item] 
+						FROM @TempTable
+						FOR XML PATH(''), ROOT ('additional-data')
+					)
 					,getdate()
 					,NULL
 				FROM @P_XML.nodes('/UserDetails') M(M);

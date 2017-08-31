@@ -358,7 +358,7 @@ namespace GPD.WEB.Controllers
                     {
                         // update user profile
                         string errorMsg;
-                        retObj.Status = UserDetailsFacade.UpdatetUserFullProfile(userId, userDetails, out errorMsg);
+                        retObj.Status = UserDetailsFacade.UpdatetUserProfile(userId, userDetails, out errorMsg);
                         retObj.Message = errorMsg;
                     }
                 }
