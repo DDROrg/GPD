@@ -710,7 +710,7 @@
             <param name="partnerName">Partner Name</param>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.GetProjectsList(System.String,System.Int32,System.Int32,System.String,System.String)">
+        <member name="M:GPD.WEB.Controllers.ProjectController.GetProjectsList(System.String,System.Int32,System.Int32,System.String,System.String,System.String,System.String)">
             <summary>
             Get Projects List
             </summary>
@@ -718,6 +718,8 @@
             <param name="pageSize">Page Size</param>
             <param name="pageIndex">Page Index</param>
             <param name="searchTerm">Search Term</param>
+            <param name="fromDate">From Date</param>
+            <param name="toDate">To Date</param>
             <param name="pIdentifier">Project Identifier</param>
             <returns></returns>
         </member>

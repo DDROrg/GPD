@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -7,6 +8,7 @@ namespace GPD.WEB.Controllers
     using ServiceEntities.BaseEntities;
     using ServiceEntities.ResponseEntities;
     using ServiceEntities.ResponseEntities.ProjectsList;
+
 
     /// <summary>
     /// 
@@ -39,12 +41,14 @@ namespace GPD.WEB.Controllers
         /// <param name="pageSize">Page Size</param>
         /// <param name="pageIndex">Page Index</param>
         /// <param name="searchTerm">Search Term</param>
+        /// <param name="fromDate">From Date as string in UTC format (2017-08-03T140:00:00.000Z)</param>
+        /// <param name="toDate">To Date as string in UTC format (2017-08-03T140:00:00.000Z)</param>
         /// <param name="pIdentifier">Project Identifier</param>
         /// <returns></returns>
         [Route("api/{partnerName}/Project/List/{pageSize:int}/{pageIndex:int}/{searchTerm?}/{pNumber?}")]
         [HttpGet]
         [AllowAnonymous]
-        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize, int pageIndex, string searchTerm = null, string pIdentifier = null)
+        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize, int pageIndex, string fromDate, string toDate, string searchTerm = null, string pIdentifier = null)
         {
             pageSize = (pageSize == -1 || pageSize > Utility.ConfigurationHelper.API_ProjectsListPageMaxSize) ?
                 Utility.ConfigurationHelper.API_ProjectsListPageSize : pageSize;

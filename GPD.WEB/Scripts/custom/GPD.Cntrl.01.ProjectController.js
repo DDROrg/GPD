@@ -37,6 +37,8 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.data.page = {};
         $ctrl.data.search = {};
         $ctrl.data.selectedProjects = [];
+        //$scope.data.dateFormats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+
 
         var ResetFilter = function () {
             $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
@@ -48,9 +50,28 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.projectIdentifier = "";
             $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
             $ctrl.data.isAllSelected = false;
+            $ctrl.data.toDate = new Date();
+            $ctrl.data.toDate.setUTCHours(0, 0, 0, 0);
+            $ctrl.data.fromDate = new Date();
+            $ctrl.data.fromDate.setMonth($ctrl.data.fromDate.getMonth() - 1);
+            $ctrl.data.fromDate.setUTCHours(0, 0, 0, 0);
+            $ctrl.data.toDatePopup = { opened: false };
+            $ctrl.data.fromDatePopup = { opened: false };
         };
         ResetFilter();
 
+        $ctrl.toDatePopupOpen = function () {
+            $ctrl.data.toDatePopup.opened = true;
+        };
+        $ctrl.fromDatePopupOpen = function () {
+            $ctrl.data.fromDatePopup.opened = true;
+        };
+        $ctrl.toDateSelected = function () {
+            GetProjects();
+        };
+        $ctrl.fromDateSelected = function () {
+            GetProjects(); 
+        };
         $ctrl.OnChangeSorting = function (column) {
             var t = { column: column, descending: true };
             if ($ctrl.data.sort.length > 0) {
@@ -172,8 +193,8 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                 d.hasDetail = true;
             });
         };
-        var GetProjects = function () {
-            return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.globalSearchParam, $ctrl.data.projectIdentifier, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
+        var GetProjects = function () {           
+            return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.globalSearchParam, $ctrl.data.fromDate, $ctrl.data.toDate, $ctrl.data.projectIdentifier, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
             .then(function (payload) {
                 $ctrl.data.projectListResponse = payload;
             });
@@ -188,7 +209,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                         cancel: {
                             text: 'Cancel',
                             btnClass: 'btn-blue',
-                            action: function (scope, button) {                                
+                            action: function (scope, button) {
                                 $ctrl.data.selectedProjects = [];
                             }
                         },

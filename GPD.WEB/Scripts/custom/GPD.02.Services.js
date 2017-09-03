@@ -31,8 +31,7 @@ var CommonServices = function ($http, $q, $log, BroadcastService) {
             this.LogedinUserProfile.email = payload.data.email;
             this.LogedinUserProfile.partnerNames = payload.data.partnerNames;
             this.LogedinUserProfile.selectedPartner = payload.data.selectedPartner;
-            if (payload.data.roles != null)
-            {
+            if (payload.data.roles != null) {
                 $.each(payload.data.roles, function (k, v) {
                     partnerDefImages.push({ "name": v.partnerNames, "image": v.partnerImageUrl });
                 });
@@ -56,10 +55,12 @@ var BroadcastService = function ($rootScope, $log) {
 };
 //============================================
 var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
-    var _GetProjects = function (PartnarName, GlobalSearchParam, ProjectIdentifier, PageIndex, PageSize) {
+    var _GetProjects = function (PartnarName, GlobalSearchParam, FromDate, ToDate, ProjectIdentifier, PageIndex, PageSize) {
         var data = {};
         data.searchTerm = GlobalSearchParam;
         data.pIdentifier = ProjectIdentifier;
+        data.fromDate = FromDate;
+        data.toDate = ToDate;
         return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex + "?" + $httpParamSerializer(data));
     };
     var _GetProjectDetail = function (id) {
@@ -72,10 +73,10 @@ var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
         return $http.post(__RootUrl + "api/ActivateProjectList?isActive=" + encodeURIComponent(isActive), projectIds);
     };
 
-    this.GetProjects = function (PartnarName, GlobalSearchParam, ProjectIdentifier, PageIndex, PageSize) {
+    this.GetProjects = function (PartnarName, GlobalSearchParam, FromDate, ToDate, ProjectIdentifier, PageIndex, PageSize) {
         var deferred = $q.defer();
         var retVal = [];
-        _GetProjects(PartnarName, GlobalSearchParam, ProjectIdentifier, PageIndex, PageSize)
+        _GetProjects(PartnarName, GlobalSearchParam, FromDate, ToDate, ProjectIdentifier, PageIndex, PageSize)
         .then(function (payload) {
             retVal = payload.data;
             $.each(retVal.projects, function (k, v) {
@@ -279,7 +280,7 @@ var GpdManageServices = function ($http, $q, $log) {
             retVal = payload.data;
             deferred.resolve(retVal);
         });
-        return deferred.promise;        
+        return deferred.promise;
     };
     this.GetCountries = function () {
         var deferred = $q.defer();
