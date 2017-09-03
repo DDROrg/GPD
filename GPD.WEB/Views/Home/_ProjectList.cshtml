@@ -112,8 +112,8 @@
                                 @if (isAdmin == true)
                                 {
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
+                                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnDeleteProject(d)"><i class="fa fa-trash" style="color:#f00;" title="Delete"></i></a>
                                 }
-                                <a ng-href="" class="data-link"><i class="fa fa-trash" style="color:#f00;" title="Delete"></i></a>
                             </td>
                         </tr>
                         <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowDetail(d)">
@@ -365,7 +365,7 @@
                                 <tr class="data-header-row">
                                     <th></th>
                                     <th nowrap>
-                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.name')"  class="header-data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.name')">
+                                        <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('product.name')" class="header-data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('product.name')">
                                         </i>
                                     </th>
                                     <th nowrap>

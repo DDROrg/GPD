@@ -32,6 +32,7 @@ namespace GPD.WEB
                        "~/Scripts/angular-animate.js",
                       "~/Scripts/angular-toastr.tpls.min.js",
                       "~/Scripts/angular-ui/ui-bootstrap-tpls.js",
+                      "~/Scripts/angular-confirm/angular-confirm.min.js",
                       "~/Scripts/angular-ui-router.min.js",
                       "~/Scripts/angular-ui-router-title.js",
                       "~/Scripts/loading-bar.min.js"));
@@ -43,6 +44,7 @@ namespace GPD.WEB
                       "~/Content/bootstrap.css",
                       "~/Content/loading-bar.min.css",
                       "~/Content/angular-toastr.min.css",
+                      "~/Scripts/angular-confirm/angular-confirm.min.css",
                       "~/Content/site.css"));
         }
     }

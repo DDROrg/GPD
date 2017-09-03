@@ -1,7 +1,7 @@
 ﻿
 (function () {
     'use strict';
-    angular.module('Project', ['ui.bootstrap', 'angular-loading-bar', 'ui.router', 'ngAnimate', 'toastr'])
+    angular.module('Project', ['ui.bootstrap', 'angular-loading-bar', 'ui.router', 'ngAnimate', 'cp.ngConfirm', 'toastr'])
     .config(['$stateProvider', '$urlRouterProvider', 'cfpLoadingBarProvider',
         function ($stateProvider, $urlRouterProvider, cfpLoadingBarProvider) {
             cfpLoadingBarProvider.includeSpinner = false;

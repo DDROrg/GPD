@@ -1,4 +1,8 @@
 ﻿//=================================================
+
+
+
+//=================================================
 angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$location', '$log', 'toastr', 'CommonServices', function ($scope, $http, $location, $log, toastr, CommonServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
@@ -24,14 +28,15 @@ angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$locati
 }]);
 
 //=================================================
-angular.module('Project').controller('ProjectController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', '$state', '$stateParams', 'toastr', 'CommonServices', 'ProjectServices',
-    function ($scope, $rootScope, $http, $location, $uibModal, $log, $state, $stateParams, toastr, CommonServices, ProjectServices) {
+angular.module('Project').controller('ProjectController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', '$state', '$stateParams', '$ngConfirm', 'toastr', 'CommonServices', 'ProjectServices',
+    function ($scope, $rootScope, $http, $location, $uibModal, $log, $state, $stateParams, $ngConfirm, toastr, CommonServices, ProjectServices) {
         var $ctrl = this;
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         $ctrl.data.projectListResponse = {};
         $ctrl.data.page = {};
         $ctrl.data.search = {};
+        $ctrl.data.selectedProjects = [];
 
         var ResetFilter = function () {
             $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
@@ -45,7 +50,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.isAllSelected = false;
         };
         ResetFilter();
-        
+
         $ctrl.OnChangeSorting = function (column) {
             var t = { column: column, descending: true };
             if ($ctrl.data.sort.length > 0) {
@@ -107,11 +112,6 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         };
         $ctrl.OnEditItem = function (d) {
             $state.go('project.edit', { id: d.id, project: null });
-            //if (d.hasDetail == false) {
-            //    GetProjectDetail(d).then(function () {
-            //        $state.go('project.edit', { id: d.id, project: d });
-            //    });
-            //}
         };
         $ctrl.OnGlobalSearch = function () { $ctrl.data.globalSearchParam = $ctrl.data.tempGlobalSearchParam; GetProjects(); };
         $ctrl.OnProjectByIdentifier = function (d) {
@@ -121,18 +121,16 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         };
         $ctrl.OnExport = function () { alert("TODO:Not Implemented"); };
         $ctrl.OnDeleteProjects = function () {
-            var selectedProjects = [];
+            $ctrl.data.selectedProjects = [];
             $.each($ctrl.data.projectListResponse.projects, function (k, v) {
-                if (v.isSelected) { selectedProjects.push(v.id); }
+                if (v.isSelected) { $ctrl.data.selectedProjects.push(v.id); }
             });
-
-            if (selectedProjects.length > 0) {
-                ProjectServices.ActDactProjects(selectedProjects, false)
-                .then(function (payload) {
-                    if (payload.status) { GetProjects(); }
-                    else { toastr.error(payload.message); }
-                });
-            }
+            DeleteProjects();
+        };
+        $ctrl.OnDeleteProject = function (d) {
+            $ctrl.data.selectedProjects = [];
+            $ctrl.data.selectedProjects.push(d.id);
+            DeleteProjects();
         };
         $ctrl.OnResetFilter = function () {
             var isRefreshRequired = $ctrl.data.projectIdentifier != "" || $ctrl.data.globalSearchParam != "" ? true : false;
@@ -180,7 +178,36 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                 $ctrl.data.projectListResponse = payload;
             });
         };
-       
+        var DeleteProjects = function () {
+            if ($ctrl.data.selectedProjects.length > 0) {
+                $ngConfirm({
+                    title: 'Confirm!',
+                    content: '<strong>{{$ctrl.data.selectedProjects.length}}</strong> Project/s will be deleted',
+                    scope: $scope,
+                    buttons: {
+                        cancel: {
+                            text: 'Cancel',
+                            btnClass: 'btn-blue',
+                            action: function (scope, button) {                                
+                                $ctrl.data.selectedProjects = [];
+                            }
+                        },
+                        ok: {
+                            text: 'Delete',
+                            btnClass: 'btn-warning',
+                            action: function (scope, button) {
+                                ProjectServices.ActDactProjects($ctrl.data.selectedProjects, false)
+                                .then(function (payload) {
+                                    if (payload.status) { GetProjects(); }
+                                    else { toastr.error(payload.message); }
+                                    $ctrl.data.selectedProjects = [];
+                                });
+                            }
+                        }
+                    }
+                });
+            }
+        };
 
         $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
             ResetFilter();
