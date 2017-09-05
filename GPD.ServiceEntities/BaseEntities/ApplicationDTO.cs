@@ -20,13 +20,16 @@ namespace GPD.ServiceEntities.BaseEntities
         [DataMember(Name = "plugin-source", Order = 5)]
         public string PluginSource;
 
-        [DataMember(Name = "type", Order = 6)]
+        [DataMember(Name = "plugin-name", Order = 6)]
+        public string PluginName;
+
+        [DataMember(Name = "type", Order = 7)]
         public string Type;
 
-        [DataMember(Name = "username", Order = 7)]
+        [DataMember(Name = "username", Order = 8)]
         public string Username;
 
-        [DataMember(Name = "version", Order = 8)]
+        [DataMember(Name = "version", Order = 9)]
         public string Version;
     }
 }

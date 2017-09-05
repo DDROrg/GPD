@@ -3,19 +3,7 @@
 }
 <div class="" data-id="Project">
     <div data-ng-controller="ProjectController as $ctrl" ng-cloak>
-        <div class="breadcrumb">
-            <ul>
-                <li>Home</li>
-                <li><i class="fa fa-angle-double-right"></i></li>
-                <li>GPD Analytics</li>
-                <li><i class="fa fa-angle-double-right"></i></li>
-                <li>Projects</li>
-                <li data-ng-if="$ctrl.data.projectIdentifier != ''"><i class="fa fa-angle-double-right"></i></li>
-                <li data-ng-if="$ctrl.data.projectIdentifier != ''">Identifier : {{$ctrl.data.projectIdentifier}}</li>
-
-            </ul>
-        </div>
-        <h3>Projects</h3>
+        <h3>{{ $ctrl.data.projectListResponse.totalRecordCount | number }} Projects</h3>
         <div class="data-container">
             <div class="row">
                 <div class="col-sm-5">
@@ -265,6 +253,28 @@
                                             <div class="col-xs-12 col-sm-4">
                                                 <div class="row">
                                                     <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        App Name:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application.name}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Plugin Build:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application["plugin-build"]}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
                                                         Platform:
                                                     </div>
                                                     <div class="col-xs-8">
@@ -275,54 +285,10 @@
                                             <div class="col-xs-12 col-sm-4">
                                                 <div class="row">
                                                     <div class="col-xs-4 data-caption" style="font-weight:bold;">
-                                                        App Name:
-                                                    </div>
-                                                    <div class="col-xs-8">
-                                                        {{d.session.application.name}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-4">
-                                                <div class="row">
-                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
-                                                        Build:
-                                                    </div>
-                                                    <div class="col-xs-8">
-                                                        {{d.session.application.build}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-4">
-                                                <div class="row">
-                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
-                                                        Type:
+                                                        App Type:
                                                     </div>
                                                     <div class="col-xs-8">
                                                         {{d.session.application.type}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-4">
-                                                <div class="row">
-                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
-                                                        Version:
-                                                    </div>
-                                                    <div class="col-xs-8">
-                                                        {{d.session.application.version}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-4">
-                                                <div class="row">
-                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
-                                                        Plugin Build:
-                                                    </div>
-                                                    <div class="col-xs-8">
-                                                        {{d.session.application["plugin-build"]}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -336,6 +302,40 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Client IP:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application.client-ip}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        App Build:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application.build}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        Plugin Name:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application["plugin-name"]}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-xs-12 col-sm-4">
                                                 <div class="row">
                                                     <div class="col-xs-4 data-caption" style="font-weight:bold;">
@@ -345,6 +345,19 @@
                                                         <a ng-href="" ng-click="$ctrl.OnProjectByIdentifier(d.identifiers[0].identifier)" class="data-link">{{d.identifiers[0].identifier}}</a>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-xs-4 data-caption" style="font-weight:bold;">
+                                                        App Version:
+                                                    </div>
+                                                    <div class="col-xs-8">
+                                                        {{d.session.application.version}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4">
+                                                <div class="row">&nbsp;</div>
                                             </div>
                                         </div>
                                     </div>

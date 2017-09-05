@@ -49,6 +49,7 @@ BEGIN
 				[application_version] = m.value('(application[1]/version)[1]', 'NVARCHAR(150)'),				
 				[application_plugin_build] = m.value('(application[1]/plugin-build)[1]', 'NVARCHAR(150)'),
 				[application_plugin_source] = m.value('(application[1]/plugin-source)[1]', 'NVARCHAR(150)'),
+				[application_plugin_name] = m.value('(application[1]/plugin-name)[1]', 'NVARCHAR(150)'),
 				[application_client_ip] = m.value('(application[1]/client-ip)[1]', 'NVARCHAR(150)'),
 				[update_date] = getdate()
 			FROM @P_XML.nodes('/project/session') M(m)

@@ -718,8 +718,8 @@
             <param name="pageSize">Page Size</param>
             <param name="pageIndex">Page Index</param>
             <param name="searchTerm">Search Term</param>
-            <param name="fromDate">From Date</param>
-            <param name="toDate">To Date</param>
+            <param name="fromDate">From Date as string in UTC format (2017-08-03T140:00:00.000Z)</param>
+            <param name="toDate">To Date as string in UTC format (2017-08-03T140:00:00.000Z)</param>
             <param name="pIdentifier">Project Identifier</param>
             <returns></returns>
         </member>

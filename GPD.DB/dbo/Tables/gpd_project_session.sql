@@ -7,6 +7,7 @@
     [application_name]          NVARCHAR (150)   NULL,
     [application_plugin_build]  NVARCHAR (150)   NULL,
     [application_plugin_source] NVARCHAR (150)   NULL,
+	[application_plugin_name]   NVARCHAR (150)   NULL,
     [application_type]          NVARCHAR (100)   NULL,
     [application_username]      NVARCHAR (250)   NULL,
     [application_version]       NVARCHAR (150)   NULL,

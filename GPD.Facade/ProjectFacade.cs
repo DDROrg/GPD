@@ -118,6 +118,7 @@ namespace GPD.Facade
                                 Name = dr["APPLICATION_NAME"].ToString(),
                                 PluginBuild = dr["APPLICATION_PLUGIN_BUILD"].ToString(),
                                 PluginSource = dr["APPLICATION_PLUGIN_SOURCE"].ToString(),
+                                PluginName = dr["APPLICATION_PLUGIN_NAME"].ToString(),
                                 Version = dr["APPLICATION_VERSION"].ToString(),
                                 Type = dr["APPLICATION_TYPE"].ToString(),
                                 ClientIP = dr["APPLICATION_CLIENT_IP"].ToString(),
