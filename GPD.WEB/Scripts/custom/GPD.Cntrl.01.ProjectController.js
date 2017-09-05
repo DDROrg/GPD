@@ -34,43 +34,68 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         $ctrl.data.projectListResponse = {};
+        $ctrl.data.to = {};
+        $ctrl.data.from = {};
         $ctrl.data.page = {};
+        $ctrl.data.page.maxPage = 5;
+        $ctrl.data.page.itemPerPage = __ItemPerPage;
         $ctrl.data.search = {};
         $ctrl.data.selectedProjects = [];
         //$scope.data.dateFormats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 
-
+        var ResetPagination = function () { $ctrl.data.page.currentPage = 1; };
+        var ResetDateRange = function (d) {
+            if (d == "TO") {
+                if ($ctrl.data.from.date > $ctrl.data.to.date) {
+                    $ctrl.data.from.date = new Date($ctrl.data.to.date);
+                } 
+            }
+            else if (d == "FROM") {
+                if ($ctrl.data.from.date > $ctrl.data.to.date) {
+                    $ctrl.data.to.date = new Date($ctrl.data.from.date);
+                }
+            }
+        };
         var ResetFilter = function () {
+            ResetPagination();
             $ctrl.data.sort = [{ column: 'create-timestamp-formatted', descending: true }];
-            $ctrl.data.page.currentPage = 1;
-            $ctrl.data.page.maxPage = 5;
-            $ctrl.data.page.itemPerPage = __ItemPerPage;
             $ctrl.data.globalSearchParam = "";
             $ctrl.data.tempGlobalSearchParam = "";
             $ctrl.data.projectIdentifier = "";
             $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
             $ctrl.data.isAllSelected = false;
-            $ctrl.data.toDate = new Date();
-            $ctrl.data.toDate.setUTCHours(0, 0, 0, 0);
-            $ctrl.data.fromDate = new Date();
-            $ctrl.data.fromDate.setMonth($ctrl.data.fromDate.getMonth() - 1);
-            $ctrl.data.fromDate.setUTCHours(0, 0, 0, 0);
-            $ctrl.data.toDatePopup = { opened: false };
-            $ctrl.data.fromDatePopup = { opened: false };
+
+            $ctrl.data.to.date = new Date();
+            $ctrl.data.to.date.setUTCHours(0, 0, 0, 0);
+            $ctrl.data.from.date = new Date($ctrl.data.to.date);
+            $ctrl.data.from.date.setMonth($ctrl.data.from.date.getMonth() - 1);
+            var tmpDate = new Date();
+            tmpDate.setUTCHours(0, 0, 0, 0);
+            $ctrl.data.to.maxDate = new Date(tmpDate);
+            $ctrl.data.from.maxDate = new Date(tmpDate);
+            tmpDate.setMonth(tmpDate.getMonth() - 36);
+            $ctrl.data.to.minDate = new Date(tmpDate);
+            $ctrl.data.from.minDate = new Date(tmpDate);
+            $ctrl.data.to.popupOpened = false;
+            $ctrl.data.from.popupOpened = false;
         };
         ResetFilter();
 
         $ctrl.toDatePopupOpen = function () {
-            $ctrl.data.toDatePopup.opened = true;
+            $ctrl.data.to.popupOpened = true;
         };
         $ctrl.fromDatePopupOpen = function () {
-            $ctrl.data.fromDatePopup.opened = true;
+            $ctrl.data.from.popupOpened = true;
         };
         $ctrl.toDateSelected = function () {
+            ResetPagination();
+            ResetDateRange("TO");
             GetProjects();
         };
         $ctrl.fromDateSelected = function () {
-            GetProjects(); 
+            ResetPagination();
+            ResetDateRange("FROM");
+            GetProjects();
         };
         $ctrl.OnChangeSorting = function (column) {
             var t = { column: column, descending: true };
@@ -134,7 +159,11 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.OnEditItem = function (d) {
             $state.go('project.edit', { id: d.id, project: null });
         };
-        $ctrl.OnGlobalSearch = function () { $ctrl.data.globalSearchParam = $ctrl.data.tempGlobalSearchParam; GetProjects(); };
+        $ctrl.OnGlobalSearch = function () {
+            $ctrl.data.globalSearchParam = $ctrl.data.tempGlobalSearchParam;
+            ResetPagination();
+            GetProjects();
+        };
         $ctrl.OnProjectByIdentifier = function (d) {
             $ctrl.data.page.currentPage = 1;
             $ctrl.data.projectIdentifier = "" + d + "";
@@ -193,8 +222,8 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                 d.hasDetail = true;
             });
         };
-        var GetProjects = function () {           
-            return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.globalSearchParam, $ctrl.data.fromDate, $ctrl.data.toDate, $ctrl.data.projectIdentifier, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
+        var GetProjects = function () {
+            return ProjectServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.globalSearchParam, $ctrl.data.from.date, $ctrl.data.to.date, $ctrl.data.projectIdentifier, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
             .then(function (payload) {
                 $ctrl.data.projectListResponse = payload;
             });
@@ -219,7 +248,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                             action: function (scope, button) {
                                 ProjectServices.ActDactProjects($ctrl.data.selectedProjects, false)
                                 .then(function (payload) {
-                                    if (payload.status) { GetProjects(); }
+                                    if (payload.status) { ResetPagination(); GetProjects(); }
                                     else { toastr.error(payload.message); }
                                     $ctrl.data.selectedProjects = [];
                                 });

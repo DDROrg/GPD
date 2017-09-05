@@ -28,8 +28,8 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="input-group search-wrapper">
-                                <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.data.fromDate"
-                                       is-open="$ctrl.data.fromDatePopup.opened" datepicker-options="dateOptions" show-button-bar="false"readonly="readonly"
+                                <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.data.from.date"
+                                       is-open="$ctrl.data.from.popupOpened" datepicker-options="$ctrl.data.from" show-button-bar="false"readonly="readonly"
                                        ng-change="$ctrl.fromDateSelected()" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-primary" ng-click="$ctrl.fromDatePopupOpen()"><i class="fa fa-calendar"></i></button>
@@ -38,8 +38,8 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="input-group search-wrapper">
-                                <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.data.toDate"
-                                       is-open="$ctrl.data.toDatePopup.opened" datepicker-options="dateOptions" show-button-bar="false" readonly="readonly"
+                                <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.data.to.date"
+                                       is-open="$ctrl.data.to.popupOpened" datepicker-options="$ctrl.data.to" show-button-bar="false" readonly="readonly"
                                        ng-change="$ctrl.toDateSelected()" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-primary" ng-click="$ctrl.toDatePopupOpen()"><i class="fa fa-calendar"></i></button>
