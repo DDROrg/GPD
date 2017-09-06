@@ -27,8 +27,6 @@
             });
         }]);
 
-
-
     angular.module('ManageUser', ['ui.bootstrap', 'angular-loading-bar', 'ngAnimate', 'toastr'])
     .config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;

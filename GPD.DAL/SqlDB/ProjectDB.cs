@@ -562,6 +562,31 @@ END;
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="projectListXmlData"></param>
+        public void DeleteProjectList(XDocument projectListXmlData)
+        {
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                new SqlParameter("@P_XML", projectListXmlData.ToString()),
+                new SqlParameter("@P_Return_ErrorCode", SqlDbType.Int) { Direction = ParameterDirection.Output },
+                new SqlParameter("@P_Return_Message", SqlDbType.VarChar, 1024) { Direction = ParameterDirection.Output }
+            };
+
+            Dictionary<string, object> retVal = base.ExecuteStoreProcedure("gpd_DeleteProjectList", parametersInList);
+
+            if (retVal == null)
+            {
+                throw new Exception("Unhandled Exception");
+            }
+            else if (Convert.ToInt32(retVal["@P_Return_ErrorCode"]) != 0)
+            {
+                throw new Exception(retVal["@P_Return_Message"].ToString());
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="xDoc"></param>
         /// <param name="errorCode"></param>
         /// <param name="errorMsg"></param>

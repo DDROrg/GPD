@@ -123,14 +123,23 @@
                                 <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.zip)">zip - {{d.location.city}}</ng-container>
                             </td>
                             <td>{{d["create-timestamp-formatted"] | date:'MM/dd/yyyy HH:mm:ss'}}</td>
-                            <td nowrap>
-                                <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Detail"></i></a>
-                                @if (isAdmin == true)
-                                {
+
+                            @if (isAdmin == true)
+                            {
+                                <td width="90px" align="center" nowrap>
+                                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Detail"></i></a>
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
+                                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnInactivateProject(d)"><i class="fa fa-archive" title="Inactivate"></i></a>
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnDeleteProject(d)"><i class="fa fa-trash" style="color:#f00;" title="Delete"></i></a>
-                                }
-                            </td>
+                                </td>
+
+                            }
+                            @if (isAdmin == false)
+                            {
+                                <td>
+                                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Detail"></i></a>
+                                </td>
+                            }
                         </tr>
                         <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowDetail(d)">
                             <td colspan="8">

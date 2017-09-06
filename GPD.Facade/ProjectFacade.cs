@@ -501,5 +501,32 @@ namespace GPD.Facade
 
             return responseObj;
         }
+
+        public DeleteProjectListResponse DeleteProjectList(List<string> projectList)
+        {
+            DeleteProjectListResponse responseObj = new DeleteProjectListResponse();
+
+            try
+            {
+                XDocument xDoc = new XDocument(
+                    new XElement("project-list",
+                        projectList.Select(T => new XElement("project", T))
+                    )
+                );
+
+                // call DB function
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).DeleteProjectList(xDoc);
+
+                // project updated successful
+                responseObj.Status = true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unable to delete the project list", ex);
+                responseObj.Message = "Unable to update the project list";
+            }
+
+            return responseObj;
+        }
     }
 }

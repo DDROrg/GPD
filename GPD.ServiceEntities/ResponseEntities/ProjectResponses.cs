@@ -64,4 +64,22 @@ namespace GPD.ServiceEntities.ResponseEntities
         [DataMember(Name = "message", Order = 2)]
         public string Message;
     }
+
+    [DataContract(Namespace = "http://www.gpd.com", Name = "delete-project-list-response")]
+    public class DeleteProjectListResponse
+    {
+        #region Constr
+        public DeleteProjectListResponse()
+        {
+            this.Status = false;
+            this.Message = string.Empty;
+        }
+        #endregion Constr
+
+        [DataMember(Name = "status", Order = 1)]
+        public bool Status;
+
+        [DataMember(Name = "message", Order = 2)]
+        public string Message;
+    }
 }

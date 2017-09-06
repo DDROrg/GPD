@@ -97,5 +97,6 @@
     <Build Include="dbo\Stored Procedures\gpd_ActivateProjectList.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetUserFullProfile.sql" />
     <Build Include="dbo\Stored Procedures\gpd_UpdateUserProfile.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_DeleteProjectList.sql" />
   </ItemGroup>
 </Project>

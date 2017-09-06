@@ -29,12 +29,13 @@ BEGIN
 					L.ZIP
 				FROM GPD_PROJECT P
 				LEFT OUTER JOIN GPD_PROJECT_LOCATION L ON P.PROJECT_ID = L.PROJECT_ID
-				WHERE P.active = 1
+				WHERE [deleted] = 0
+				AND [active] = 1
 				ORDER BY P.create_date DESC
 				OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY;
 				
 				-- get the total count of the records
-				SELECT COUNT(project_id) AS TotalCount  FROM GPD_PROJECT WHERE [active] = 1;
+				SELECT COUNT(project_id) AS TotalCount  FROM GPD_PROJECT WHERE [deleted] = 0 AND [active] = 1;
 	   	   END
 	   ELSE
 	   	   BEGIN
@@ -57,15 +58,17 @@ BEGIN
 					L.ZIP
 				FROM GPD_PROJECT P
 				LEFT OUTER JOIN GPD_PROJECT_LOCATION L ON P.PROJECT_ID = L.PROJECT_ID
-				WHERE P.PARTNER_NAME = @P_PartnerName
+				WHERE P.deleted = 0
 				AND P.active = 1
+				AND P.PARTNER_NAME = @P_PartnerName
 				ORDER BY P.create_date DESC
 				OFFSET @P_StartRowIndex ROWS FETCH NEXT @P_PageSize ROWS ONLY
 				
 				-- get the total count of the records
 				SELECT COUNT(project_id) AS TotalCount  
 				FROM GPD_PROJECT
-				WHERE PARTNER_NAME = @P_PartnerName
-				AND [active] = 1;;
+				WHERE [deleted] = 0
+				AND [active] = 1
+				AND PARTNER_NAME = @P_PartnerName;
 	   	   END
 END;

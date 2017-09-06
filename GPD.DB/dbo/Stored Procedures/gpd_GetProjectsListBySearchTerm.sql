@@ -17,7 +17,8 @@ BEGIN
 			INSERT INTO @t_RecordsCount
 				SELECT P.project_id, P.partner_name
 				FROM gpd_project P, gpd_project_identifier I
-				WHERE P.active = 1
+				WHERE p.deleted = 0
+				AND P.active = 1
 				AND (
 					@P_ProjectIdentifier IS NULL OR I.identifier = @P_ProjectIdentifier
 				)
@@ -60,6 +61,7 @@ BEGIN
 					OR [product_model] LIKE '%' + @P_SearchKeyword +'%'
 					OR [product_name] LIKE '%' + @P_SearchKeyword +'%'
 				)
+				AND P.deleted = 0
 				AND P.active = 1
 				AND (
 					@P_ProjectIdentifier IS NULL OR p.project_id IN (SELECT I.project_id 

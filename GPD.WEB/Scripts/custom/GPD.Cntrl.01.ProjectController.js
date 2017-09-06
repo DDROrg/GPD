@@ -182,10 +182,17 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.selectedProjects.push(d.id);
             DeleteProjects();
         };
+        $ctrl.OnInactivateProject = function (d) {
+            $ctrl.data.selectedProjects = [];
+            $ctrl.data.selectedProjects.push(d.id);
+            InactivateProject();
+        };
         $ctrl.OnResetFilter = function () {
             var isRefreshRequired = $ctrl.data.projectIdentifier != "" || $ctrl.data.globalSearchParam != "" ? true : false;
             ResetFilter();
-            if (isRefreshRequired) { GetProjects(); }
+            if (isRefreshRequired) {
+                GetProjects();
+            }
             else {
                 $.each($ctrl.data.projectListResponse.projects, function (k, v) {
                     v.isSelected = $ctrl.data.isAllSelected;
@@ -232,7 +239,9 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             if ($ctrl.data.selectedProjects.length > 0) {
                 $ngConfirm({
                     title: 'Confirm!',
-                    content: '<strong>{{$ctrl.data.selectedProjects.length}}</strong> Project/s will be deleted',
+                    content: ($ctrl.data.selectedProjects.length == 1) ? 
+                        'Are you sure you want to delete this Project?' :
+                        '<strong>{{$ctrl.data.selectedProjects.length}}</strong> Projects will be deleted',
                     scope: $scope,
                     buttons: {
                         cancel: {
@@ -246,12 +255,52 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                             text: 'Delete',
                             btnClass: 'btn-warning',
                             action: function (scope, button) {
-                                ProjectServices.ActDactProjects($ctrl.data.selectedProjects, false)
-                                .then(function (payload) {
-                                    if (payload.status) { ResetPagination(); GetProjects(); }
-                                    else { toastr.error(payload.message); }
-                                    $ctrl.data.selectedProjects = [];
-                                });
+                                ProjectServices.ProjectListDelete($ctrl.data.selectedProjects)
+                                    .then(function (payload) {
+                                        if (payload.status) {
+                                            ResetPagination();
+                                            GetProjects();
+                                        }
+                                        else {
+                                            toastr.error(payload.message);
+                                        }
+                                        $ctrl.data.selectedProjects = [];
+                                    });
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        var InactivateProject = function () {
+            if ($ctrl.data.selectedProjects.length > 0) {
+                $ngConfirm({
+                    title: 'Confirm!',
+                    content: 'Are you sure you want to inactivate this Project?',
+                    scope: $scope,
+                    buttons: {
+                        cancel: {
+                            text: 'Cancel',
+                            btnClass: 'btn-blue',
+                            action: function (scope, button) {
+                                $ctrl.data.selectedProjects = [];
+                            }
+                        },
+                        ok: {
+                            text: 'Inactivate',
+                            btnClass: 'btn-warning',
+                            action: function (scope, button) {
+                                ProjectServices.ProjectListActDact($ctrl.data.selectedProjects, false)
+                                    .then(function (payload) {
+                                        if (payload.status) {
+                                            ResetPagination();
+                                            GetProjects();
+                                        }
+                                        else {
+                                            toastr.error(payload.message);
+                                        }
+                                        $ctrl.data.selectedProjects = [];
+                                    });
                             }
                         }
                     }
