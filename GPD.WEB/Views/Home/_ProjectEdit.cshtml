@@ -51,43 +51,57 @@
                 <div class="col-md-3">
                     <input data-ng-model="$ctrl.data.project.session.type" class="form-control text-box single-line full-width" type="text" />
                 </div>
-                <label class="control-label col-md-1">Platform</label>
-                <div class="col-md-3">
-                    <input data-ng-model="$ctrl.data.project.session.platform" class="form-control text-box single-line full-width" type="text" />
-                </div>
                 <label class="control-label col-md-1">App Name</label>
                 <div class="col-md-3">
                     <input data-ng-model="$ctrl.data.project.session.application.name" class="form-control text-box single-line full-width" type="text" />
                 </div>
+                <label class="control-label col-md-1">Plugin Name</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.application['plugin-name']" class="form-control text-box single-line full-width" type="text" />
+                </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-1">App Build</label>
+                <label class="control-label col-md-1">Platform</label>
                 <div class="col-md-3">
-                    <input data-ng-model="$ctrl.data.project.session.application.build" class="form-control text-box single-line full-width" type="text" />
+                    <input data-ng-model="$ctrl.data.project.session.platform" class="form-control text-box single-line full-width" type="text" />
                 </div>
                 <label class="control-label col-md-1">App Type</label>
                 <div class="col-md-3">
                     <input data-ng-model="$ctrl.data.project.session.application.type" class="form-control text-box single-line full-width" type="text" />
                 </div>
-                <label class="control-label col-md-1">App Version</label>
-                <div class="col-md-3">
-                    <input data-ng-model="$ctrl.data.project.session.application.version" class="form-control text-box single-line full-width" type="text" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-md-1">Plugin Build</label>
-                <div class="col-md-3">
-                    <input data-ng-model="$ctrl.data.project.session.application['plugin-build']" class="form-control text-box single-line full-width" type="text" />
-                </div>
                 <label class="control-label col-md-1">Plugin Source</label>
                 <div class="col-md-3">
                     <input data-ng-model="$ctrl.data.project.session.application['plugin-source']" class="form-control text-box single-line full-width" type="text" />
                 </div>
+            </div>
+            <div class="form-group">
                 <label class="control-label col-md-1">Client IP</label>
                 <div class="col-md-3">
                     <input data-ng-model="$ctrl.data.project.session.application['client-ip']" class="form-control text-box single-line full-width" type="text" />
                 </div>
+                <label class="control-label col-md-1">App Build</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.application.build" class="form-control text-box single-line full-width" type="text" />
+                </div>
+                <label class="control-label col-md-1">Plugin Build</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.application['plugin-build']" class="form-control text-box single-line full-width" type="text" />
+                </div>
             </div>
+            <div class="form-group">
+                <label class="control-label col-md-1">&nbsp;</label>
+                <div class="col-md-3">
+                    &nbsp;
+                </div>
+                <label class="control-label col-md-1">App Version</label>
+                <div class="col-md-3">
+                    <input data-ng-model="$ctrl.data.project.session.application.version" class="form-control text-box single-line full-width" type="text" />
+                </div>
+                <div class="col-md-3">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="form-group"></div>
             <hr />
             <div style="font-weight:bold;font-size:1.2em;text-align:center;padding-bottom:5px;">Project Location</div>
             <div class="form-group">

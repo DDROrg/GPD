@@ -11,6 +11,7 @@
     [organization_name]        NVARCHAR (250)   NULL,
     [status]                   NVARCHAR (250)   NULL,
 	[active]				   BIT              NOT NULL DEFAULT 1,
+	[deleted]				   BIT              NOT NULL DEFAULT 0,
     [xml_project_metadata]     XML              NULL,
     [create_date]              DATETIME         NOT NULL,
     [update_date]              DATETIME         NULL,
