@@ -748,10 +748,17 @@
         </member>
         <member name="M:GPD.WEB.Controllers.ProjectController.ActivateProjectList(System.Collections.Generic.List{System.String},System.Boolean)">
             <summary>
-            Activate/Deactivated Project List
+            Activate/Deactivated Projects based on ids list
             </summary>
             <param name="projectList"></param>
             <param name="isActive"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GPD.WEB.Controllers.ProjectController.DeleteProjectList(System.Collections.Generic.List{System.String})">
+            <summary>
+            Delete Projects based on ids list
+            </summary>
+            <param name="projectList"></param>
             <returns></returns>
         </member>
         <member name="T:GPD.WEB.Controllers.UserController">
@@ -810,6 +817,14 @@
             <param name="userId"></param>
             <param name="partnerId"></param>
             <param name="groupId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GPD.WEB.Controllers.UserController.AddProject(System.String,GPD.ServiceEntities.UserDetailsTDO)">
+            <summary>
+            
+            </summary>
+            <param name="partnerName">Partner Name</param>
+            <param name="user">User Details</param>
             <returns></returns>
         </member>
         <member name="M:GPD.WEB.Controllers.UserController.RegisterUser(GPD.ServiceEntities.UserDetailsTDO)">

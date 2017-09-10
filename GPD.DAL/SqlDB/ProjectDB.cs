@@ -147,13 +147,13 @@ namespace GPD.DAL.SqlDB
         /// </summary>
         /// <param name="partnerName"></param>
         /// <param name="projectXmlData"></param>
-        public int AddUserDetails(XDocument projectXmlData, string requestIpAddress, out int errorCode, out string errorMsg)
+        public int AddUserDetails(XDocument xDoc, string requestIpAddress, out int errorCode, out string errorMsg)
         {
             int userId = -1;
 
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
-                new SqlParameter("@P_XML", projectXmlData.ToString()),
+                new SqlParameter("@P_XML", xDoc.ToString()),
                 new SqlParameter("@P_IpAddress", requestIpAddress),
                 new SqlParameter("@P_Return_UserId", SqlDbType.Int) { Direction = ParameterDirection.Output },
                 new SqlParameter("@P_Return_ErrorCode", SqlDbType.Int) { Direction = ParameterDirection.Output },

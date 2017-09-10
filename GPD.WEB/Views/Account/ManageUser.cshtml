@@ -16,8 +16,7 @@
         <h3>@ViewBag.Title</h3>
         <div class="data-container">
             <div class="row">
-                <div class="col-sm-3">
-                </div>
+                <div class="col-sm-3"></div>
                 <div class="col-sm-6">
                     <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
                         <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
@@ -38,6 +37,7 @@
                 <table class="table table-striped table-condensed table-hover table-bordered">
                     <thead>
                         <tr class="data-header-row">
+                            <th>Role</th>
                             <th>
                                 <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('firstName')" class="header-data-link">First Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('firstName')">
                                 </i>
@@ -58,9 +58,9 @@
                                 <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('isActive')" class="header-data-link">Is Active&nbsp;</a>
                                 <i data-ng-class="$ctrl.ColumnSortClass('isActive')"></i>
                             </th>
-                            <th>Role</th>
                         </tr>
                         <tr>
+                            <th></th>
                             <th>
                                 <input data-ng-model="$ctrl.data.search.firstName" placeholder="Search by Name ..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
@@ -77,22 +77,20 @@
                                 <input data-ng-model="$ctrl.data.search.company" placeholder="..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
-                            <th>                                
-                            </th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr data-ng-repeat-start="d in filterData = ($ctrl.data.users | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder()) | limitTo : $ctrl.data.page.itemPerPage : $ctrl.data.page.itemPerPage * ($ctrl.data.page.currentPage - 1)">
+                            <td style="text-align:center;">
+                                <a ng-href="" class="data-link" data-ng-click="$ctrl.OnColExpRole(d)"><i class="fa fa-list-ul"></i></a>
+                            </td>
                             <td>{{d.firstName}}</td>
                             <td>{{d.lastName}}</td>
                             <td>{{d.email}}</td>
                             <td>{{d.company}}</td>
                             <td style="text-align:center;">
                                 <label title="Activat/Deactivate Partner"><input type="checkbox" data-ng-model="d.isActive" data-ng-click="$ctrl.OnActDeactItem(d)" /></label>
-                            </td>
-                            <td style="text-align:center;">
-                                <a ng-href="" class="data-link" data-ng-click="$ctrl.OnColExpRole(d)"><i class="fa fa-list-ul"></i></a>
                             </td>
                         </tr>
                         <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowRole(d)">

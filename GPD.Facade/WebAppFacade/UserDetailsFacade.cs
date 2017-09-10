@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -40,6 +41,51 @@ namespace GPD.Facade.WebAppFacade
             }
 
             return userId;
+        }
+
+        public static int RegisterUser(UserDetailsTDO userDetails, string partnerName, List<KeyValuePair<string, string>> additionalData, 
+            string requestIpAddress, out int dbErrorCode, out string dbErrorMsg)
+        {
+            dbErrorCode = -1;
+            dbErrorMsg = "";
+
+            if (string.IsNullOrWhiteSpace(userDetails.CompanyDetails.Name))
+                userDetails.CompanyDetails = new CompanyDetailsDTO();
+
+            if (string.IsNullOrWhiteSpace(userDetails.Password))
+            {
+                dbErrorCode = 0;
+                dbErrorMsg = "Unable to register user at this time. Invalid Password.";
+                return -1;
+            }
+
+
+            // hash user password
+            userDetails.Password = ValueHashUtil.CreateHash(userDetails.Password);
+
+            // get XML based on UserRegistrationDTO object
+            XDocument xDoc = new XDocument();
+            using (var writer = xDoc.CreateWriter())
+            {
+                var serializer = new DataContractSerializer(userDetails.GetType());
+                serializer.WriteObject(writer, userDetails);
+            }
+
+            // additional user info
+            if (additionalData != null && additionalData.Count > 0)
+            {
+                XNamespace xNamespace = xDoc.Root.Attribute("xmlns").Value;
+
+                xDoc.Root.LastNode.AddAfterSelf(new XElement(xNamespace + "additional-data",
+                    from T in additionalData
+                    select new XElement(xNamespace + "item",
+                        new XAttribute("type", T.Key),
+                        T.Value
+                    )));
+            }
+
+            // db call
+            return new ProjectDB(ConfigurationHelper.GPD_Connection).AddUserDetails(xDoc, requestIpAddress, out dbErrorCode, out dbErrorMsg);
         }
 
         /// <summary>

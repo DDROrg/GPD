@@ -29,6 +29,13 @@ namespace GPD.ServiceEntities
     [DataContract(Namespace = "http://www.gpd.com", Name = "userRegistrationStatus")]
     public class UserRegistrationStatusDTO
     {
+        public UserRegistrationStatusDTO()
+        {
+            this.UserId = -1;
+            this.Status = false;
+            this.Message = "The server encountered an error processing registration. Please try again later.";
+        }
+
         [DataMember(Name = "userId", Order = 1)]
         public int UserId;
 
@@ -142,9 +149,6 @@ namespace GPD.ServiceEntities
 
         [DataMember(Name = "password", Order = 7)]
         public string Password;
-
-        [DataMember(Name = "confirmPassword", Order = 8)]
-        public string ConfirmPassword;
     }
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "company")]

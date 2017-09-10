@@ -125,6 +125,61 @@ namespace GPD.WEB.Controllers
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="partnerName">Partner Name</param>
+        /// <param name="user">User Details</param>
+        /// <returns></returns>
+        [Route("api/{partnerName}/RegisterUser")]
+        [HttpPost]
+        [AllowAnonymous]
+        public UserRegistrationStatusDTO AddProject(string partnerName, UserDetailsTDO user)
+        {
+            UserRegistrationStatusDTO retObj = new UserRegistrationStatusDTO();
+
+            try
+            {
+                // get requestIP address
+                var request = HttpContext.Current.Request;
+                string requestIpAddress = request.UserHostAddress;
+
+                // additional user info
+                List<KeyValuePair<string, string>> additionalData =
+                    (from T in request.Headers.AllKeys
+                     where T.ToLower().StartsWith("form-data-")
+                     select new KeyValuePair<string, string>(
+                         T.Substring(10),
+                         request.Headers[T].ToString()
+                         )).ToList();
+
+                // Register User
+                int dbErrorCode;
+                string dbErrorMsg;
+                int userId = UserDetailsFacade.RegisterUser(user, partnerName, additionalData, requestIpAddress, out dbErrorCode, out dbErrorMsg);
+
+                if (userId != -1)
+                {
+                    retObj.UserId = userId;
+                    retObj.Status = true;
+                    retObj.Message = string.Empty;
+                }
+                else if (dbErrorCode == 0 && !string.IsNullOrEmpty(dbErrorMsg))
+                    retObj.Message = dbErrorMsg;
+                else
+                    throw new Exception(string.Format("UserRegistration() - Database ERROR: ErrorCode: {0}, ErrorMsg: {1}", dbErrorCode, dbErrorMsg));
+
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+                retObj = new UserRegistrationStatusDTO();
+            }
+
+            return retObj;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
         [Route("api/RegisterUser")]
