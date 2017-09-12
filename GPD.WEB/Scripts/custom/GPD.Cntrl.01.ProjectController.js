@@ -443,6 +443,15 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         }
         $ctrl.data.sort = [t];
     };
+    $ctrl.OnResetManageUser = function () {
+        $ctrl.data.page.currentPage = 1;
+        $ctrl.data.globalSearchParam = "";
+        $ctrl.data.search.firstName = "";
+        $ctrl.data.search.lastName = "";
+        $ctrl.data.search.email = "";
+        $ctrl.data.search.company = "";
+        GetUsers();
+    };
     $ctrl.ColumnSortClass = function (column) {
         var retVal = "fa fa-sort";
         if ($ctrl.data.sort && $ctrl.data.sort[0].column && column == $ctrl.data.sort[0].column) {

@@ -16,7 +16,7 @@
         <h3>@ViewBag.Title</h3>
         <div class="data-container">
             <div class="row">
-                <div class="col-sm-3"></div>
+                <div class="col-sm-2"></div>
                 <div class="col-sm-6">
                     <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
                         <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
@@ -32,12 +32,17 @@
                         <a data-ng-href="" data-ng-click="$ctrl.OnGlobalSearch()" class="input-group-addon btn btn-primary"><i class="fa fa-arrow-circle-o-right"></i></a>
                     </div>
                 </div>
+                <div class="col-sm-1">
+                    <div class="search-wrapper" style="text-align:right;">
+                        <a class="btn btn-warning" data-ng-href="" data-ng-click="$ctrl.OnResetManageUser()"><i class="fa fa-times-circle-o"></i>&nbsp;Reset</a>
+                    </div>
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped table-condensed table-hover table-bordered">
                     <thead>
                         <tr class="data-header-row">
-                            <th>Role</th>
+                            <th style="text-align:center;">Role</th>
                             <th>
                                 <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('firstName')" class="header-data-link">First Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('firstName')">
                                 </i>
@@ -62,7 +67,7 @@
                         <tr>
                             <th></th>
                             <th>
-                                <input data-ng-model="$ctrl.data.search.firstName" placeholder="Search by Name ..."
+                                <input data-ng-model="$ctrl.data.search.firstName" placeholder="Search by First Name ..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
                             <th>
