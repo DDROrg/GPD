@@ -1,5 +1,5 @@
 ﻿@{
-    var isAdmin = SessionManager.GetInstance().HasRolesForPartner("ADMINISTRATOR", "ALL");
+    var isAdmin = SessionManager.GetInstance().AdminRole();
 }
 <div class="" data-id="Project">
     <div data-ng-controller="ProjectController as $ctrl" ng-cloak>
@@ -62,7 +62,12 @@
                 <table class="table table-striped table-condensed table-hover table-bordered">
                     <thead>
                         <tr class="data-header-row">
-                            <th><input type="checkbox" data-ng-model="$ctrl.data.isAllSelected" data-ng-change="$ctrl.OnCheckAllChange()" /></th>
+                            @if (isAdmin == true)
+                            {
+                                <th>
+                                    <input type="checkbox" data-ng-model="$ctrl.data.isAllSelected" data-ng-change="$ctrl.OnCheckAllChange()" />
+                                </th>
+                            }
                             <th></th>
                             <th>
                                 <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')" class="header-data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')">
@@ -84,7 +89,9 @@
                             <th></th>
                         </tr>
                         <tr>
-                            <th></th>
+                            @if (isAdmin == true) {
+                                <th></th> 
+                            }
                             <th></th>
                             <th>
                                 <input data-ng-model="$ctrl.data.search.name" placeholder="Search by Name ..."
@@ -105,7 +112,12 @@
                     </thead>
                     <tbody>
                         <tr data-ng-repeat-start="d in filterData = ($ctrl.data.projectListResponse.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder())">
-                            <td><input type="checkbox" data-ng-model="d.isSelected" /></td>
+                            @if (isAdmin == true)
+                            {
+                                <td>
+                                    <input type="checkbox" data-ng-model="d.isSelected" />
+                                </td>
+                            }
                             <td><img data-ng-src="{{$ctrl.GetPartnerImgUrl(d['partner-name'])}}" class="partner-img" /></td>
                             <td>
                                 <a data-ng-href="" data-ng-click="$ctrl.OnColExpDetail(d)" class="data-link">
@@ -123,7 +135,6 @@
                                 <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.zip)">zip - {{d.location.city}}</ng-container>
                             </td>
                             <td>{{d["create-timestamp-formatted"] | date:'MM/dd/yyyy HH:mm:ss'}}</td>
-
                             @if (isAdmin == true)
                             {
                                 <td width="90px" align="center" nowrap>
@@ -132,7 +143,6 @@
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnInactivateProject(d)"><i class="fa fa-archive" title="Inactivate"></i></a>
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnDeleteProject(d)"><i class="fa fa-trash" style="color:#f00;" title="Delete"></i></a>
                                 </td>
-
                             }
                             @if (isAdmin == false)
                             {

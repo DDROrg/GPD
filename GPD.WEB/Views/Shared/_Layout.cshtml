@@ -3,7 +3,8 @@
 <head>
     @{
         var up = SessionManager.GetInstance().GetUserProfile();
-        var isAdmin = SessionManager.GetInstance().HasRolesForPartner("ADMINISTRATOR", "ALL");
+        var isAdmin = SessionManager.GetInstance().AdminRole();
+        var isGPDAdmin = SessionManager.GetInstance().AdminGPDRole();
         int pageSize = GPD.Utility.ConfigurationHelper.API_ProjectsListPageSize;
     }
     <meta charset="utf-8">
@@ -32,7 +33,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Project", "Project", "Home", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                    @if (Request.IsAuthenticated && isAdmin == true)
+                    @if (Request.IsAuthenticated && isGPDAdmin)
                     {
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -40,8 +41,8 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("User", "ManageUser", "Account", routeValues: null, htmlAttributes: new { id = "aManageUaer" })</li>
-                                <li>@Html.ActionLink("Partner", "ManagePartner", "Account", routeValues: null, htmlAttributes: new { id = "aManageUaer" })</li>
+                                <li>@Html.ActionLink("User", "ManageUser", "Account", routeValues: null, htmlAttributes: new { id = "aManageUser" })</li>
+                                <li>@Html.ActionLink("Partner", "ManagePartner", "Account", routeValues: null, htmlAttributes: new { id = "aManagePartner" })</li>
                             </ul>
                         </li>
                     }

@@ -3,7 +3,7 @@
 <head>
     @{
         var up = SessionManager.GetInstance().GetUserProfile();
-        var isAdmin = SessionManager.GetInstance().HasRolesForPartner("ADMINISTRATOR", "ALL");
+        var isAdmin = SessionManager.GetInstance().AdminRole();
     }
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

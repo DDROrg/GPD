@@ -262,7 +262,7 @@ BEGIN
 	    description,
 	    active
     FROM gpd_user_group
-    ORDER BY name;
+    ORDER BY group_id;
 END;
 ");
             #endregion 

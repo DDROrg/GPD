@@ -48,10 +48,64 @@ namespace GPD.WEB
         /// <returns></returns>
         public bool HasRolesForPartner(string role, string partner)
         {
-            bool retVal = false;
-            SignInResponseDTO userProfile = GetUserProfile();
-            retVal = userProfile != null ? userProfile.Roles.Exists(i => i.PartnerName == partner && i.GroupName == role) : false;
-            return retVal;
+            try
+            {
+                // get user profile
+                SignInResponseDTO userProfile = GetUserProfile();
+
+                if (userProfile != null)
+                    return userProfile.Roles.Exists(i => i.PartnerName.Equals(partner) && i.GroupName.Equals(role));
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Is User has ADMIN role
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool AdminRole()
+        {
+            try
+            {
+                // get user profile
+                SignInResponseDTO userProfile = GetUserProfile();
+
+                if (userProfile != null)
+                    return userProfile.Roles.Exists(T => T.GroupName.ToUpper().Contains("ADMIN"));
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Is User has GPDRole role
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool AdminGPDRole()
+        {
+            try
+            {
+                // get user profile
+                SignInResponseDTO userProfile = GetUserProfile();
+
+                if (userProfile != null)
+                    return userProfile.Roles.Exists(T => T.GroupName.ToUpper().Contains("GPD ADMIN"));
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+            }
+
+            return false;
         }
 
         /// <summary>

@@ -66,16 +66,19 @@ namespace GPD.Facade
             try
             {
                 DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetGroups();
+
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        GroupDTO tempGroupDTO = new GroupDTO();
-                        tempGroupDTO.GroupId = Convert.ToInt32(dr["group_id"].ToString());
-                        tempGroupDTO.Name = dr["name"].ToString();
-                        tempGroupDTO.Description = dr["description"].ToString();
-                        tempGroupDTO.IsActive = Convert.ToBoolean(dr["active"]);
-                        retVal.Add(tempGroupDTO);
+                        retVal.Add(
+                            new GroupDTO()
+                            {
+                                GroupId = Convert.ToInt32(dr["group_id"].ToString()),
+                                Name = dr["name"].ToString(),
+                                Description = dr["description"].ToString(),
+                                IsActive = Convert.ToBoolean(dr["active"])
+                            });
                     }
                 }
             }

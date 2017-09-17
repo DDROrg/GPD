@@ -3,7 +3,8 @@
 <head>
     @{
         var up = SessionManager.GetInstance().GetUserProfile();
-        var isAdmin = SessionManager.GetInstance().HasRolesForPartner("ADMINISTRATOR", "ALL");
+        var isAdmin = SessionManager.GetInstance().AdminRole();
+        var isGPDAdmin = SessionManager.GetInstance().AdminGPDRole();
         int pageSize = GPD.Utility.ConfigurationHelper.API_ProjectsListPageSize;
     }
     <meta charset="utf-8">
@@ -47,7 +48,7 @@
                                 <li data-ng-repeat="d in $ctrl.data.LogedinUserProfile.partnerNames"><a data-ng-href="" data-ng-click="$ctrl.SelectPartner(d)">{{d}}</a></li>
                             </ul>
                         </li>
-                        if (isAdmin == true)
+                        if (isGPDAdmin == true)
                         {
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -55,8 +56,8 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("User", "ManageUser", "Account", routeValues: null, htmlAttributes: new { id = "aManageUaer" })</li>
-                                    <li>@Html.ActionLink("Partner", "ManagePartner", "Account", routeValues: null, htmlAttributes: new { id = "aManageUaer" })</li>
+                                    <li>@Html.ActionLink("User", "ManageUser", "Account", routeValues: null, htmlAttributes: new { id = "aManageUser" })</li>
+                                    <li>@Html.ActionLink("Partner", "ManagePartner", "Account", routeValues: null, htmlAttributes: new { id = "aManagePartner" })</li>
                                 </ul>
                             </li>
                         }

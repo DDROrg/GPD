@@ -901,6 +901,18 @@
             <param name="partner"></param>
             <returns></returns>
         </member>
+        <member name="M:GPD.WEB.SessionManager.AdminRole">
+            <summary>
+            Is User has ADMIN role
+            </summary>
+            <returns>bool</returns>
+        </member>
+        <member name="M:GPD.WEB.SessionManager.AdminGPDRole">
+            <summary>
+            Is User has GPDRole role
+            </summary>
+            <returns>bool</returns>
+        </member>
         <member name="M:GPD.WEB.SessionManager.ClearSession">
             <summary>
             
