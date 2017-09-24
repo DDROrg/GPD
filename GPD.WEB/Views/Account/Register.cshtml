@@ -128,6 +128,13 @@
                 </div>
             </div>
             <div class="col-md-4">
+                <div style="padding:5px;">
+                    <input filelist-bind image-selected="$ctrl.OnImageSelected(d)" ng-model="imgFile" name="profileImage" type="file" id="fileProfileImage" style="display:none">
+                    <a class="btn btn-primary" data-ng-href="" data-ng-click="$ctrl.SelectProfileImg()"><i class="fa fa-upload"></i>&nbsp;Upload Profile Image</a>
+                </div>
+                <div style="padding:5px;">
+                    <img ng-src="{{$ctrl.data.profileImage.url }}" class="img-responsive img-rounded" style="" />
+                </div>
             </div>
         </div>
 
@@ -152,7 +159,7 @@
                         <div class="col-md-3"></div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                <input type="checkbox" value="true" data-ng-model="$ctrl.data.user.acceptTC"/>&nbsp;&nbsp;I accept the <label><a href="#" target="_blank">Terms &amp; Conditions</a></label><span class="mandatory">(Required for membership)</span>
+                                <input type="checkbox" value="true" data-ng-model="$ctrl.data.user.acceptTC" />&nbsp;&nbsp;I accept the <label><a href="#" target="_blank">Terms &amp; Conditions</a></label><span class="mandatory">(Required for membership)</span>
                                 <br />
                                 <input type="checkbox" data-ng-model="$ctrl.data.user.enewslettersCommunication" ng-checked="true">&nbsp;&nbsp;I agree to receive eNewsletters and Prospector communications
                                 <br />

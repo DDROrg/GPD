@@ -48,7 +48,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             if (d == "TO") {
                 if ($ctrl.data.from.date > $ctrl.data.to.date) {
                     $ctrl.data.from.date = new Date($ctrl.data.to.date);
-                } 
+                }
             }
             else if (d == "FROM") {
                 if ($ctrl.data.from.date > $ctrl.data.to.date) {
@@ -239,7 +239,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             if ($ctrl.data.selectedProjects.length > 0) {
                 $ngConfirm({
                     title: 'Confirm!',
-                    content: ($ctrl.data.selectedProjects.length == 1) ? 
+                    content: ($ctrl.data.selectedProjects.length == 1) ?
                         'Are you sure you want to delete this Project?' :
                         '<strong>{{$ctrl.data.selectedProjects.length}}</strong> Projects will be deleted',
                     scope: $scope,
@@ -736,6 +736,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
         var $ctrl = this;
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.user = {};
+        $ctrl.data.profileImage = {};
         $ctrl.data.countries = [];
         $ctrl.data.filteredState = [];
         $ctrl.data.ACCompanies = [];
@@ -763,7 +764,12 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 confirmPassword: "",
                 acceptTC: false,
                 enewslettersCommunication: false,
-                emailCommunication: false
+                emailCommunication: false,
+                isProfileImgAvailable: false
+            };
+            $ctrl.data.profileImage = {
+                isPresent: false,
+                url :''
             };
         };
         var GetCountries = function () {
@@ -845,6 +851,15 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
         $ctrl.HasFilteredStates = function () {
             return $ctrl.data.filteredState.length > 0 ? 1 : 0;
         };
+        $ctrl.SelectProfileImg = function () {
+            $("#fileProfileImage").click();
+        };
+        $ctrl.OnImageSelected = function (d) {
+            $scope.$apply(function () {
+                $ctrl.data.profileImage.isPresent = d.isPresent;
+                $ctrl.data.profileImage.url = d.url;
+            });
+        }
         $ctrl.AnalyzePasswordStrength = function (type) {
             var calss = "fa-li fa fa-minus-circle text-danger";
             if (type == "length") {
@@ -898,4 +913,30 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 });
             }
         };
-    }]);
+    }])
+    .directive('filelistBind', function () {
+        return {
+            scope: { imageSelected: '&' },
+            link: function (scope, elm, attrs) {
+                elm.bind('change', function (evt) {
+                    scope.$apply(function () {
+                        scope[attrs.name] = evt.target.files;
+                        //scope.imgAvailable = true;
+                        //scope.objData.user.isProfileImgAvailable = true;
+                        //renderImage(evt.target.files[0]);
+                        // generate a new FileReader object
+                        var reader = new FileReader();
+                        // inject an image with the src url
+                        reader.onload = function (event) {
+                         scope.imageSelected({ d: { isPresent: true, url: event.target.result } });
+                            //scope.$apply(function () {
+                            //    scope.the_url = event.target.result                               
+                            //});                            
+                        };
+                        // when the file is read it triggers the onload event above.
+                        reader.readAsDataURL(evt.target.files[0]);
+                    });
+                });
+            }
+        };
+    });
