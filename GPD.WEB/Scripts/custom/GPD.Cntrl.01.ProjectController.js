@@ -769,7 +769,8 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
             };
             $ctrl.data.profileImage = {
                 isPresent: false,
-                url :''
+                url: '',
+                file : null
             };
         };
         var GetCountries = function () {
@@ -858,6 +859,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
             $scope.$apply(function () {
                 $ctrl.data.profileImage.isPresent = d.isPresent;
                 $ctrl.data.profileImage.url = d.url;
+                $ctrl.data.profileImage.file = d.file;
             });
         }
         $ctrl.AnalyzePasswordStrength = function (type) {
@@ -928,7 +930,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                         var reader = new FileReader();
                         // inject an image with the src url
                         reader.onload = function (event) {
-                         scope.imageSelected({ d: { isPresent: true, url: event.target.result } });
+                            scope.imageSelected({ d: { isPresent: true, url: event.target.result, file: evt.target.files } });
                             //scope.$apply(function () {
                             //    scope.the_url = event.target.result                               
                             //});                            
