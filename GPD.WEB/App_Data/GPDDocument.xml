@@ -834,6 +834,13 @@
             <param name="user"></param>
             <returns></returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.UserController.UploadProfileImage(System.String)">
+            <summary>
+            Upload profile image
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
         <member name="M:GPD.WEB.Controllers.UserController.GetCompanies(System.String)">
             <summary>
             
@@ -865,6 +872,11 @@
             
             </summary>
             <returns>UpdateUserProfileStatusDTO</returns>
+        </member>
+        <member name="T:GPD.WEB.Controllers.CustomMultipartFormDataStreamProvider">
+            <summary>
+            
+            </summary>
         </member>
         <member name="T:GPD.WEB.WebApiApplication">
             <summary>

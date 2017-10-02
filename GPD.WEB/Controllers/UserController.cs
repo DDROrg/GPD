@@ -6,12 +6,21 @@ using System.Web.Http;
 using System.Xml.Linq;
 using System.Linq;
 using System.Web;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http.Description;
+using System.Net.Http.Headers;
 
 namespace GPD.WEB.Controllers
 {
     using Facade.WebAppFacade;
     using ServiceEntities;
     using ServiceEntities.BaseEntities;
+    using Utility;
+
+
 
     /// <summary>
     /// User APIs List
@@ -252,6 +261,55 @@ namespace GPD.WEB.Controllers
         }
 
         /// <summary>
+        /// Upload profile image
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Route("api/UploadProfileImage")]
+        [HttpPost]
+        [AllowAnonymous]
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<string> UploadProfileImage(string userId)
+        {
+            string retVal = "SUCCESS";
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                retVal = "FAILED";
+            }
+            else
+            {
+                var tempPath = HttpContext.Current.Server.MapPath("~/App_Data");
+                if (!Directory.Exists(tempPath)) { Directory.CreateDirectory(tempPath); }
+
+                var profileImagePath = ConfigurationHelper.ProfileImageFolder;
+                if (!Directory.Exists(profileImagePath)) { Directory.CreateDirectory(profileImagePath); }
+
+                var provider = new CustomMultipartFormDataStreamProvider(tempPath);
+                try
+                {
+                    await Request.Content.ReadAsMultipartAsync(provider);
+
+                    // This illustrates how to get the file names for uploaded files. 
+                    foreach (var file in provider.FileData)
+                    {
+                        FileInfo fileInfo = new FileInfo(file.LocalFileName);
+                        var fileName = userId + fileInfo.Extension;
+                        var newFileName = Path.Combine(profileImagePath, fileName);
+
+                        if (File.Exists(newFileName)) { File.Delete(newFileName); }
+                        File.Move(file.LocalFileName, newFileName);
+                    }
+                }
+                catch (Exception)
+                {
+                    retVal = "FAILED";
+                }
+            }
+            return retVal;
+        }
+
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="searchTerm"></param>
@@ -424,6 +482,20 @@ namespace GPD.WEB.Controllers
             }
 
             return retObj;
+        }
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CustomMultipartFormDataStreamProvider : MultipartFormDataStreamProvider
+    {
+        public CustomMultipartFormDataStreamProvider(string path) : base(path) { }
+
+        public override string GetLocalFileName(HttpContentHeaders headers)
+        {
+            return headers.ContentDisposition.FileName.Replace("\"", string.Empty);
         }
     }
 }

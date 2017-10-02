@@ -770,7 +770,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
             $ctrl.data.profileImage = {
                 isPresent: false,
                 url: '',
-                file : null
+                file: null
             };
         };
         var GetCountries = function () {
@@ -808,7 +808,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
             }
 
             if (!isValid) { toastr.error(errMessage, { allowHtml: true }); }
-            return isValid;
+            return isValid;            
         };
 
         $ctrl.isACVisible = function () {
@@ -883,8 +883,19 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 GpdManageServices.RegisterUser($ctrl.data.user)
                 .then(function (payload) {
                     if (payload.status) {
-                        window.location.href = __RootUrl + 'Account/Login';
-                        return;
+                        var data = new FormData();
+                        if ($ctrl.data.profileImage.file.length > 0) {
+                            data.append("file", $ctrl.data.profileImage.file[0]);
+                        }
+                        GpdManageServices.UploadProfileImage(payload.userId, data)
+                        .then(function (payload) {
+                            if (payload == "SUCCESS") {
+                                window.location.href = __RootUrl + 'Account/Login';
+                                return;
+                            } else {
+                                toastr.error("ERROR : In File upload");
+                            }
+                        });
                     } else {
                         toastr.error("ERROR : " + payload.message);
                     }

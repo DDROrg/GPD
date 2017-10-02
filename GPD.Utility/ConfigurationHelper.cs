@@ -18,5 +18,7 @@ namespace GPD.Utility
         public static int API_ProjectsListPageMaxSize { get { return int.Parse(ConfigurationManager.AppSettings["API-PROJECTS-LIST-PAGE-MAX-SIZE"]); } }
 
         public static string DefaultPartnerImageUrl { get { return ConfigurationManager.AppSettings["DEFAULT-PARTNER-IMAGE-URL"]; } }
+
+        public static string ProfileImageFolder { get { return ConfigurationManager.AppSettings["PROFILE-IMAGE-FOLDER"]; } }
     }
 }

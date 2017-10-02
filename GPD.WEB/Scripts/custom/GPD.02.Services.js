@@ -170,6 +170,20 @@ var GpdManageServices = function ($http, $q, $log) {
         };
         return $http.post(__RootUrl + "api/RegisterUser", user, config);
     };
+
+    var _UploadProfileImage = function (userId, file) {
+        var config = {
+            headers: {
+                //"Content-Type": "multipart/form-data; boundary=gc0p4Jq0M2Yt08jU534c0p",
+                //"Content-Type": "multipart/form-data",
+                //"Content-Disposition": "form-data; name=profileImage"
+                "Content-Type": undefined
+            },
+            transformRequest: angular.identity
+        };
+        return $http.post(__RootUrl + "api/UploadProfileImage?userId=" + userId, file, config);
+    };
+
     var _GetCompanies = function (term) {
         return $http.post(__RootUrl + "api/GetCompanies?searchTerm=" + encodeURIComponent(term));
     };
@@ -277,6 +291,16 @@ var GpdManageServices = function ($http, $q, $log) {
         var deferred = $q.defer();
         var retVal = {};
         _RegisterUser(user)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+    this.UploadProfileImage = function (userId, file) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _UploadProfileImage(userId, file)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);
