@@ -53,11 +53,18 @@ namespace GPD.WEB.Controllers
             switch (result)
             {
                 case CNST.SignInStatus.Success:
-                    FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
-                    //var userProfile = new Facade.SignInFacade().GetUserRole(model.Email);
-                    //SessionManager.GetInstance().SetPartnarName(userProfile.PartnerNames.FirstOrDefault());
-                    return RedirectToLocal(returnUrl);
-
+                    if (userId == -1)
+                    {
+                        ModelState.AddModelError("", "Unhandled Exception Error... ");
+                        return View(model);
+                    }
+                    else
+                    {
+                        FormsAuthentication.SetAuthCookie(userId.ToString(), model.RememberMe);
+                        //var userProfile = new Facade.SignInFacade().GetUserRole(model.Email);
+                        //SessionManager.GetInstance().SetPartnarName(userProfile.PartnerNames.FirstOrDefault());
+                        return RedirectToLocal(returnUrl);
+                    }
                 case CNST.SignInStatus.LockedOut:
                     return View("Lockout");
 

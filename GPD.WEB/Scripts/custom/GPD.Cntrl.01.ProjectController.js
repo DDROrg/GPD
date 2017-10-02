@@ -21,7 +21,7 @@ angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$locati
     };
 
     angular.element(document).ready(function () {
-        if (__UserEmail != "") {
+        if (__UserId != "") {
             GetLogedinUserProfile();
         }
     });
@@ -806,9 +806,18 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 errMessage = errMessage + "'Re-enter Password' does not match with 'Password'.<br/>";
                 isValid = false;
             }
-
+            if (!$ctrl.data.profileImage.isPresent) {
+                errMessage = errMessage + "Profile image missing.<br/>";
+                isValid = false;
+            }
+            else{
+                if ($ctrl.data.profileImage.file[0].size > 200000) {
+                    errMessage = errMessage + "Profile image size should be less than 200 KB.<br/>";
+                    isValid = false;
+                }                
+            }
             if (!isValid) { toastr.error(errMessage, { allowHtml: true }); }
-            return isValid;            
+            return isValid;
         };
 
         $ctrl.isACVisible = function () {

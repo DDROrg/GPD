@@ -16,6 +16,7 @@
     @Scripts.Render("~/bundles/modernizr")
     <script type="text/javascript">
         var __RootUrl = '@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))';
+        var __UserId = '@(up == null ? "": up.UserId)';
         var __UserEmail = '@(up == null ? "": up.Email)';
         var __ItemPerPage = @(pageSize);
     </script>

@@ -126,20 +126,20 @@ namespace GPD.WEB
             {
                 try
                 {
-                    string encryptedName = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
+                    string encryptedValue = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
 
-                    if (encryptedName != null)
+                    if (encryptedValue != null)
                     {
-                        string userEmail = FormsAuthentication.Decrypt(encryptedName).Name;
-                        SignInResponseDTO userProfile = UserDetailsFacade.GetUserRole(userEmail);
+                        int userId = int.Parse(FormsAuthentication.Decrypt(encryptedValue).Name);
+                        SignInResponseDTO userProfile = UserDetailsFacade.GetUserRole(userId);
 
                         if(userProfile != null)
                             HttpContext.Current.Session.Add(SESSION_USERPROFILE, userProfile);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception exc)
                 {
-                    log.Error("FormsAuthentication_OnAuthenticate :", ex);
+                    log.Error(exc);
                 }
             }
         }

@@ -1,7 +1,7 @@
 ﻿//============================================
 var CommonServices = function ($http, $q, $log, BroadcastService) {
     var _GetLogedinUserProfile = function () {
-        return $http.post(__RootUrl + "api/GetUserProfile?userEmail=" + encodeURI(__UserEmail));
+        return $http.post(__RootUrl + "api/GetUserProfile?userId=" + encodeURI(__UserId));
     };
 
     this.LogedinUserProfile = { userId: "", firstName: "", lastName: "", email: "", partnerNames: [], selectedPartner: "" };

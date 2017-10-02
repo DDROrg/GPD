@@ -30,17 +30,17 @@ namespace GPD.WEB.Controllers
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
-        /// Get User Profile by Email
+        /// Get User Profile by User ID
         /// </summary>
-        /// <param name="userEmail"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
         [Route("api/GetUserProfile")]
         [HttpPost]
         [Authorize]
         //[ApiExplorerSettings(IgnoreApi = true)]
-        public SignInResponseDTO GetUserProfile(string userEmail)
+        public SignInResponseDTO GetUserProfile(int userId)
         {
-            return UserDetailsFacade.GetUserRole(userEmail);
+            return UserDetailsFacade.GetUserRole(userId);
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace GPD.WEB.Controllers
         [AllowAnonymous]
         //[ApiExplorerSettings(IgnoreApi = true)]
         public UserRegistrationStatusDTO RegisterUser(UserDetailsTDO user)
-        {
+        {            
             UserRegistrationStatusDTO retVal = new UserRegistrationStatusDTO() { Status = false };
             XDocument xDoc = new XDocument();
             int errorCode;
@@ -370,7 +370,7 @@ namespace GPD.WEB.Controllers
                     if (userId != -1)
                     {
                         // get user profile
-                        var userProfile = UserDetailsFacade.GetUserRole(userEmail);
+                        var userProfile = UserDetailsFacade.GetUserRole(userId);
 
                         if (userProfile != null)
                         {

@@ -38,7 +38,7 @@ angular.module('GPD').controller("GPDPartnerCtrl", ['$scope', '$http', '$locatio
     };
 
     angular.element(document).ready(function () {
-        if (__UserEmail != "") { GetLogedinUserProfile(); }
+        if (__UserId != "") { GetLogedinUserProfile(); }
     });
 }]);
 

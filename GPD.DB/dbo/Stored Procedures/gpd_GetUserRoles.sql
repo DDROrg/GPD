@@ -1,21 +1,22 @@
 ﻿CREATE PROCEDURE [dbo].[gpd_GetUserRoles]
-	@P_USER_EMAIL nvarchar(150)
+	@P_USER_ID INT
 AS
 BEGIN
 	DECLARE @v_partner_id uniqueidentifier
 	
-	SELECT u.user_id, 
+	SELECT u.email, 
 		u.first_name, 
 		u.last_name 
 	FROM gpd_user_details u
-	WHERE u.email = @P_USER_EMAIL;
+	WHERE u.user_id = @P_USER_ID
+	AND u.active = 1;
 
 	IF EXISTS (
 		SELECT gref.*
 		FROM [gpd_user_details] u, 
 			[gpd_partner_user_group_xref] gref,
 			[gpd_partner_details] p
-		WHERE u.email = @P_USER_EMAIL
+		WHERE u.user_id = @P_USER_ID
 		AND gref.user_id = u.user_id
 		AND gref.group_id = 100
 		AND gref.active = 1
@@ -57,7 +58,8 @@ BEGIN
 				[gpd_partner_user_group_xref] gref,
 				[gpd_partner_details] p,
 				[gpd_user_group] g
-			WHERE u.email = @P_USER_EMAIL
+			WHERE u.user_id = @P_USER_ID
+			AND u.active = 1
 			AND gref.user_id = u.user_id
 			AND gref.group_id <> 100
 			AND p.partner_id = gref.partner_id

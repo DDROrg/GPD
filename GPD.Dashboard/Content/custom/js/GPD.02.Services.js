@@ -5,7 +5,7 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
     this.LogedinUserProfile = { userId: "", firstName: "", lastName: "", email: "", partnerNames: [], selectedPartner: "", selectedMenu: "" };
 
     var _GetLogedinUserProfile = function () {
-        return $http.post(__RootUrl + "api/GetUserProfile?userEmail=" + encodeURI(__UserEmail));
+        return $http.post(__RootUrl + "api/GetUserProfile?userId=" + __UserId);
     };
 
     var _GetProjectChartData = function (partner, fromDate, toDate) {
