@@ -172,17 +172,18 @@ namespace GPD.WEB.Controllers
         /// <summary>
         /// Delete Projects based on ids list
         /// </summary>
-        /// <param name="projectList"></param>
+        /// <param name="projectList">List Of Project IDs</param>
+        /// <param name="deleteFlag">Project Delete Flag</param>
         /// <returns></returns>
         [Route("api/DeleteProjectList")]
         [HttpPost]
         [Authorize]
-        public DeleteProjectListResponse DeleteProjectList(List<string> projectList)
+        public DeleteProjectListResponse DeleteProjectList(List<string> projectList, bool deleteFlag)
         {
             if (projectList == null || projectList.Count == 0)
                 return new DeleteProjectListResponse() { Message = "Project List is Empty." };
 
-            return new Facade.ProjectFacade().DeleteProjectList(projectList);
+            return new Facade.ProjectFacade().DeleteProjectList(projectList, deleteFlag);
         }
     }
 }

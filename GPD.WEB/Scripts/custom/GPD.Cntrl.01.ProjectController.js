@@ -177,12 +177,12 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $.each($ctrl.data.projectListResponse.projects, function (k, v) {
                 if (v.isSelected) { $ctrl.data.selectedProjects.push(v.id); }
             });
-            DeleteProjects();
+            DeleteProjects(true);
         };
         $ctrl.OnDeleteProject = function (d) {
             $ctrl.data.selectedProjects = [];
             $ctrl.data.selectedProjects.push(d.id);
-            DeleteProjects();
+            DeleteProjects(d['delete-status'] === 'False');
         };
         $ctrl.OnInactivateProject = function (d) {
             $ctrl.data.selectedProjects = [];
@@ -237,13 +237,15 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                 $ctrl.data.projectListResponse = payload;
             });
         };
-        var DeleteProjects = function () {
+        var DeleteProjects = function (deleteFlag) {
+            var confirmMsg = !deleteFlag ? 'Are you sure you want to undelete this Project?' : 'Are you sure you want to delete this Project?';
+            if (deleteFlag && $ctrl.data.selectedProjects.length > 1) {
+                confirmMsg = '<strong>{{$ctrl.data.selectedProjects.length}}</strong> Projects will be deleted';
+            }
             if ($ctrl.data.selectedProjects.length > 0) {
                 $ngConfirm({
                     title: 'Confirm!',
-                    content: ($ctrl.data.selectedProjects.length == 1) ?
-                        'Are you sure you want to delete this Project?' :
-                        '<strong>{{$ctrl.data.selectedProjects.length}}</strong> Projects will be deleted',
+                    content: confirmMsg,
                     scope: $scope,
                     buttons: {
                         cancel: {
@@ -254,10 +256,10 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                             }
                         },
                         ok: {
-                            text: 'Delete',
+                            text: deleteFlag ? 'Delete' : 'UnDelete',
                             btnClass: 'btn-warning',
                             action: function (scope, button) {
-                                ProjectServices.ProjectListDelete($ctrl.data.selectedProjects)
+                                ProjectServices.ProjectListDelete($ctrl.data.selectedProjects, deleteFlag)
                                     .then(function (payload) {
                                         if (payload.status) {
                                             ResetPagination();
