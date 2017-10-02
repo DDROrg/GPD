@@ -62,7 +62,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.globalSearchParam = "";
             $ctrl.data.tempGlobalSearchParam = "";
             $ctrl.data.projectIdentifier = "";
-            $ctrl.data.search = { name: "", number: "", "organization-name": "", author: "", client: "", status: "" };
+            $ctrl.data.search = { "user-email": "", name: "", client: "", status: "" };
             $ctrl.data.isAllSelected = false;
 
             $ctrl.data.to.date = new Date();
@@ -125,6 +125,8 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         };
         $ctrl.CheckEmpty = function (d) { return d && d != "" ? true : false; };
         $ctrl.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
+        $ctrl.DeleteItemsColor = function (d) { return d['delete-status'] == "False" ? "color:#f00;" : "color:#CCC;"; };
+        $ctrl.DeleteItemsTitle = function (d) { return d['delete-status'] == "False" ? "Delete" : "UnDelete"; };
         $ctrl.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
         $ctrl.GlobalSearchButtonStyle = function () {
             return $ctrl.data.tempGlobalSearchParam.length > 2 ? "input-group-addon btn btn-primary" : "input-group-addon btn btn-primary disabled";

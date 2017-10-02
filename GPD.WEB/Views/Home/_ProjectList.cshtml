@@ -74,7 +74,7 @@
                             }
                             <th></th>
                             <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('publisher')" class="header-data-link">Publisher&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('publisher')"></i>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('user-email')" class="header-data-link">Publisher&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('user-email')"></i>
                             </th>
                             <th>
                                 <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')" class="header-data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')"></i>
@@ -99,7 +99,7 @@
                             }
                             <th></th>
                             <th>
-                                <input data-ng-model="$ctrl.data.search.publisher" placeholder="Search by Publisher ..."
+                                <input data-ng-model="$ctrl.data.search['user-email']" placeholder="Search by Publisher ..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
                             </th>
                             <th>
@@ -128,7 +128,7 @@
                                 </td>
                             }
                             <td><img data-ng-src="{{$ctrl.GetPartnerImgUrl(d['partner-name'])}}" class="partner-img" /></td>
-                            <td>todo@email.com</td>
+                            <td>{{ d['user-email'] }}</td>
                             <td>
                                 <a data-ng-href="" data-ng-click="$ctrl.OnColExpDetail(d)" class="data-link">
                                     <i data-ng-class="$ctrl.ColExpClass(d)"></i>
@@ -151,7 +151,7 @@
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Project Details"></i></a>
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnInactivateProject(d)"><i class="fa fa-archive" title="Inactivate"></i></a>
-                                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnDeleteProject(d)"><i class="fa fa-trash" style="color:#f00;" title="Delete"></i></a>
+                                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnDeleteProject(d)"><i class="fa fa-trash" style="{{$ctrl.DeleteItemsColor(d)}}" title="{{$ctrl.DeleteItemsTitle(d)}}"></i></a>
                                 </td>
                             }
                             @if (isAdmin == false)
