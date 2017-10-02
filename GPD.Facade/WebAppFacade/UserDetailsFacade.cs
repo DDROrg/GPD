@@ -125,22 +125,21 @@ namespace GPD.Facade.WebAppFacade
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
-        public static SignInResponseDTO GetUserRole(string email)
+        /// <param name="userId"></param>
+        public static SignInResponseDTO GetUserRole(int userId)
         {
             SignInResponseDTO retVal = null;
 
             try
             {
-                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUserRole(email);
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUserRole(userId);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     retVal = new SignInResponseDTO()
                     {
-                        Email = email.ToLower(),
-                        UserId = ds.Tables[0].Rows[0]["user_id"].ToString(),
+                        Email = ds.Tables[0].Rows[0]["email"].ToString(),
+                        UserId = userId.ToString(),
                         FirstName = ds.Tables[0].Rows[0]["first_name"].ToString(),
                         LastName = ds.Tables[0].Rows[0]["last_name"].ToString()
                     };
@@ -169,7 +168,7 @@ namespace GPD.Facade.WebAppFacade
             }
             catch (Exception ex)
             {
-                log.Error("Unable to get user profile for id: " + email, ex);
+                log.Error("Unable to get user profile for id: " + userId, ex);
             }
 
             return retVal;

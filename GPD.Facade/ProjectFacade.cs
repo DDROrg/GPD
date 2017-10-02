@@ -19,7 +19,7 @@ namespace GPD.Facade
 
         public ProjectFacade() : base() { }
 
-        public AddProjectResponse AddProject(string partnerName, ProjectDTO projectDTO)
+        public AddProjectResponse AddProject(string partnerName, int userId, ProjectDTO projectDTO)
         {
             AddProjectResponse responseDTO = new AddProjectResponse();
             XDocument xDoc = new XDocument();
@@ -53,7 +53,7 @@ namespace GPD.Facade
                     ])));
 
                 // send the project to DB 
-                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(partnerName, projectId, xDoc);
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).AddProject(partnerName, userId, projectId, xDoc);
 
                 // project content inserted successful
                 responseDTO = new AddProjectResponse(true, projectId);
@@ -252,12 +252,16 @@ namespace GPD.Facade
         /// 
         /// </summary>
         /// <param name="partnerName"></param>
+        /// <param name="userId"></param>
         /// <param name="pageSize"></param>
         /// <param name="pageIndex"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
         /// <param name="searchTerm"></param>
         /// <param name="pIdentifier"></param>
         /// <returns></returns>
-        public ProjectsListResponse GetProjectsList(string partnerName, int pageSize, int pageIndex, string searchTerm = null, string pIdentifier = null)
+        public ProjectsListResponse GetProjectsList(string partnerName, int userId, int pageSize, int pageIndex, 
+            string fromDate, string toDate, string searchTerm = null, string projectIdentifier = null)
         {
             ProjectsListResponse retVal = new ProjectsListResponse()
             {
@@ -269,10 +273,14 @@ namespace GPD.Facade
             try
             {
                 // get projects dataset from database
-                DataSet ds = (string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(pIdentifier)) ?
-                    new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsList(partnerName, pageSize, pageIndex)
-                    :
-                    new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsListWithSearchTerm(partnerName, searchTerm, pIdentifier, pageSize, pageIndex);
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection)
+                    .GetProjectsList(partnerName, userId, fromDate, toDate, searchTerm, projectIdentifier, pageSize, pageIndex);
+
+                //DataSet ds = (string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(pIdentifier)) ?
+                //    new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsList(partnerName, pageSize, pageIndex, fromDate, toDate)
+                //    :
+                //    new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectsListWithSearchTerm(partnerName, searchTerm, pIdentifier, fromDate, toDate, pageSize, pageIndex);
+
 
                 if (ds != null && ds.Tables.Count == 2 && ds.Tables[0].Rows.Count > 0 && ds.Tables[1].Rows.Count > 0)
                 {
@@ -289,8 +297,10 @@ namespace GPD.Facade
                             OrganizationDescription = dr["ORGANIZATION_DESCRIPTION"].ToString(),
                             OrganizationName = dr["ORGANIZATION_NAME"].ToString(),
                             Status = dr["STATUS"].ToString(),
+                            DeleteStatus = dr["DELETED"].ToString(),
                             CreateTimestamp = ((DateTime)dr["CREATE_DATE"]).ToString("o"),
                             PartnerName = dr["PARTNER_NAME"].ToString(),
+                            UserEmail = dr["EMAIL"].ToString(),
                             Location = new LocationItem()
                             {
                                 Address1 = dr["ADDRESS_LINE_1"].ToString(),

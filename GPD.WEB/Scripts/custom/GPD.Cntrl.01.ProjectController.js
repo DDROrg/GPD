@@ -21,7 +21,7 @@ angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$locati
     };
 
     angular.element(document).ready(function () {
-        if (__UserEmail != "") {
+        if (__UserId != "") {
             GetLogedinUserProfile();
         }
     });

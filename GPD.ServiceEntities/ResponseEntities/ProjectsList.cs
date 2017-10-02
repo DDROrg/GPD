@@ -7,14 +7,10 @@ namespace GPD.ServiceEntities.ResponseEntities.ProjectsList
     public class ProjectsListResponse
     {
         #region Constr
-        public ProjectsListResponse() { this.ProjectList = new List<ProjectItem>(); }
-        //public ProjectsListResponse(int pageSize, int pageIndex)
-        //{
-        //    this.PageSize = pageSize;
-        //    this.PageIndex = pageIndex;
-        //    this.TotalRecordCount = 0;
-        //    this.ProjectList = new List<ProjectItem>();
-        //}
+        public ProjectsListResponse()
+        {
+            this.ProjectList = new List<ProjectItem>();
+        }
         #endregion Constr
 
         [DataMember(Name = "pageSize", Order = 1)]
@@ -69,14 +65,20 @@ namespace GPD.ServiceEntities.ResponseEntities.ProjectsList
         [DataMember(Name = "status", Order = 13)]
         public string Status;
 
-        [DataMember(Name = "create-timestamp-formatted", Order = 14)]
+        [DataMember(Name = "delete-status", Order = 14)]
+        public string DeleteStatus;
+
+        [DataMember(Name = "create-timestamp-formatted", Order = 15)]
         public string CreateTimestamp;
 
-        [DataMember(Name = "partner-name", Order = 15)]
+        [DataMember(Name = "partner-name", Order = 16)]
         public string PartnerName;
 
-        [DataMember(Name = "location", Order = 16)]
-        public LocationItem Location;        
+        [DataMember(Name = "user-email", Order = 17)]
+        public string UserEmail;
+
+        [DataMember(Name = "location", Order = 18)]
+        public LocationItem Location;       
     }
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "location")]

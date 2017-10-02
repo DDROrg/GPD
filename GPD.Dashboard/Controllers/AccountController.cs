@@ -53,7 +53,7 @@ namespace GPD.Dashboard.Controllers
             switch (result)
             {
                 case CNST.SignInStatus.Success:
-                    FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
+                    FormsAuthentication.SetAuthCookie(userId.ToString(), model.RememberMe);
                     //var userProfile = new Facade.SignInFacade().GetUserRole(model.Email);
                     //SessionManager.GetInstance().SetPartnarName(userProfile.PartnerNames.FirstOrDefault());
                     return RedirectToLocal(returnUrl);

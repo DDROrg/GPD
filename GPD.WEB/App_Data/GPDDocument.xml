@@ -703,13 +703,6 @@
             
             </summary>
         </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.GetProjectsList(System.String)">
-            <summary>
-            Get Projects List
-            </summary>
-            <param name="partnerName">Partner Name</param>
-            <returns></returns>
-        </member>
         <member name="M:GPD.WEB.Controllers.ProjectController.GetProjectsList(System.String,System.Int32,System.Int32,System.String,System.String,System.String,System.String)">
             <summary>
             Get Projects List
@@ -766,11 +759,11 @@
             User APIs List
             </summary>
         </member>
-        <member name="M:GPD.WEB.Controllers.UserController.GetUserProfile(System.String)">
+        <member name="M:GPD.WEB.Controllers.UserController.GetUserProfile(System.Int32)">
             <summary>
-            Get User Profile by Email
+            Get User Profile by User ID
             </summary>
-            <param name="userEmail"></param>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:GPD.WEB.Controllers.UserController.GetUsers(System.String)">

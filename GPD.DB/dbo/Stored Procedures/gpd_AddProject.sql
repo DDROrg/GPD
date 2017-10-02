@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[gpd_AddProject]
 	@P_PartnerName nvarchar(30),
+	@P_UserId	INT,
 	@P_ProjectId uniqueidentifier,
 	@P_XML XML,	
 	@P_Return_ErrorCode INT OUT,
@@ -242,6 +243,13 @@ BEGIN
 				FROM   @P_XML.nodes('/project/items/item/categories/category') M(m)) I
 			ON C.TAXONOMY = I.TAXONOMY
 				AND C.TITLE = I.TITLE;
+
+			--- ROSS
+			IF @P_UserId > 0 AND EXISTS (SELECT * FROM gpd_user_details u WHERE u.user_id = @P_UserId)
+				BEGIN
+					INSERT INTO [gpd_project_user_xref] 
+					VALUES(@P_ProjectId, @P_UserId, getdate(), NULL);
+				END;
 
 	COMMIT TRAN;
     SELECT @P_Return_ErrorCode = 0, @P_Return_Message = '';

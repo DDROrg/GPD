@@ -31,11 +31,12 @@ namespace GPD.DAL.SqlDB
         /// </summary>
         /// <param name="partnerName"></param>
         /// <param name="projectXmlData"></param>
-        public void AddProject(string partnerName, string projectId, XDocument projectXmlData)
+        public void AddProject(string partnerName, int userId, string projectId, XDocument projectXmlData)
         {
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
                 new SqlParameter("@P_PartnerName", partnerName),
+                new SqlParameter("@P_UserId", userId),
                 new SqlParameter("@P_ProjectId", projectId),
                 new SqlParameter("@P_XML", projectXmlData.ToString()),
                 new SqlParameter("@P_Return_ErrorCode", SqlDbType.Int) { Direction = ParameterDirection.Output },
@@ -81,36 +82,66 @@ namespace GPD.DAL.SqlDB
             }
         }
 
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="userId"></param>
+        ///// <returns></returns>
+        //public DataSet GetProjectsList(string partnerName, int pageSize, int pageIndex, string fromDate, string toDate)
+        //{
+        //    // start row index logic
+        //    int startRowIndex = (pageIndex == 1) ? 0 : ((pageIndex - 1) * pageSize);
+
+        //    List<SqlParameter> parametersInList = new List<SqlParameter>()
+        //    {
+        //        new SqlParameter("@P_PartnerName", partnerName),
+        //        new SqlParameter("@P_StartRowIndex", startRowIndex),
+        //        new SqlParameter("@P_PageSize", pageSize)
+        //    };
+
+        //    return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListPaginated", parametersInList);
+        //}
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="partnerName"></param>
+        ///// <param name="searchTerm"></param>
+        ///// <param name="pIdentifier"></param>
+        ///// <param name="pageSize"></param>
+        ///// <param name="pageIndex"></param>
+        ///// <returns></returns>
+        //public DataSet GetProjectsListWithSearchTerm(string partnerName, string searchTerm, string pIdentifier, string fromDate, string toDate, int pageSize, int pageIndex)
+        //{
+        //    // start row index logic
+        //    int startRowIndex = (pageIndex == 1) ? 0 : ((pageIndex - 1) * pageSize);
+
+        //    List<SqlParameter> parametersInList = new List<SqlParameter>()
+        //    {
+        //        new SqlParameter("@P_PartnerName", partnerName),
+        //        (searchTerm == null) ? new SqlParameter("@P_SearchKeyword", DBNull.Value) : new SqlParameter("@P_SearchKeyword", searchTerm),
+        //        (pIdentifier == null) ? new SqlParameter("@P_ProjectIdentifier", DBNull.Value) : new SqlParameter("@P_ProjectIdentifier", pIdentifier),
+        //        new SqlParameter("@P_StartRowIndex", startRowIndex),
+        //        new SqlParameter("@P_PageSize", pageSize)
+        //    };
+
+        //    return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListBySearchTerm", parametersInList);
+        //}
+
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public DataSet GetProjectsList(string partnerName, int pageSize, int pageIndex)
-        {
-            // start row index logic
-            int startRowIndex = (pageIndex == 1) ? 0 : ((pageIndex - 1) * pageSize);
-
-            List<SqlParameter> parametersInList = new List<SqlParameter>()
-            {
-                new SqlParameter("@P_PartnerName", partnerName),
-                new SqlParameter("@P_StartRowIndex", startRowIndex),
-                new SqlParameter("@P_PageSize", pageSize)
-            };
-
-            return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListPaginated", parametersInList);
-        }
-
-        /// <summary>
-        /// 
+        /// Get Projects List
         /// </summary>
         /// <param name="partnerName"></param>
-        /// <param name="searchTerm"></param>
-        /// <param name="pIdentifier"></param>
+        /// <param name="userId"></param>
         /// <param name="pageSize"></param>
         /// <param name="pageIndex"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="projectIdentifier"></param>
         /// <returns></returns>
-        public DataSet GetProjectsListWithSearchTerm(string partnerName, string searchTerm, string pIdentifier, int pageSize, int pageIndex)
+        public DataSet GetProjectsList(string partnerName, int userId, string fromDate, string toDate,
+            string searchTerm, string projectIdentifier, int pageSize, int pageIndex)
         {
             // start row index logic
             int startRowIndex = (pageIndex == 1) ? 0 : ((pageIndex - 1) * pageSize);
@@ -118,13 +149,16 @@ namespace GPD.DAL.SqlDB
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
                 new SqlParameter("@P_PartnerName", partnerName),
-                (searchTerm == null) ? new SqlParameter("@P_SearchKeyword", DBNull.Value) : new SqlParameter("@P_SearchKeyword", searchTerm),
-                (pIdentifier == null) ? new SqlParameter("@P_ProjectIdentifier", DBNull.Value) : new SqlParameter("@P_ProjectIdentifier", pIdentifier),
+                new SqlParameter("@P_UserId", userId),
+                new SqlParameter("@P_FromDate", fromDate),
+                new SqlParameter("@P_ToDate", toDate),
+                string.IsNullOrEmpty(searchTerm) ? new SqlParameter("@P_SearchTerm", DBNull.Value) : new SqlParameter("@P_SearchTerm", searchTerm),
+                string.IsNullOrEmpty(projectIdentifier) ? new SqlParameter("@P_ProjectIdentifier", DBNull.Value) : new SqlParameter("@P_ProjectIdentifier", projectIdentifier),
                 new SqlParameter("@P_StartRowIndex", startRowIndex),
                 new SqlParameter("@P_PageSize", pageSize)
             };
 
-            return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsListBySearchTerm", parametersInList);
+            return base.GetDSBasedOnStoreProcedure("gpd_GetProjectsList", parametersInList);
         }
 
         /// <summary>
@@ -211,11 +245,11 @@ END;
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        public DataSet GetUserRole(string email)
+        public DataSet GetUserRole(int userId)
         {
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
-                 new SqlParameter("@P_USER_EMAIL", email)
+                 new SqlParameter("@P_USER_ID", userId)
             };
 
             return base.GetDSBasedOnStoreProcedure("gpd_GetUserRoles", parametersInList);
