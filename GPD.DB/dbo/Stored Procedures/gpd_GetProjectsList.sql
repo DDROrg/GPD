@@ -33,7 +33,6 @@ BEGIN
 		SELECT P.project_id, P.create_date
 		FROM gpd_project P, gpd_project_identifier I
 		WHERE P.create_date BETWEEN CONVERT(DATETIME, @P_FromDate, 102) AND DATEADD(day, 1, @P_ToDate)
-		AND P.deleted = 0
 		AND P.project_id = I.project_id
 		AND (
 			(@P_ProjectIdentifier IS NULL OR LEN(@P_ProjectIdentifier) = 0) OR I.identifier = @P_ProjectIdentifier
