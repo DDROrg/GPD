@@ -86,7 +86,8 @@ namespace GPD.WEB.Controllers
 
                 searchTerm = (string.IsNullOrWhiteSpace(searchTerm)) ? null : searchTerm.Trim();
                 pIdentifier = (string.IsNullOrWhiteSpace(pIdentifier)) ? null : pIdentifier.Trim();
-                return new Facade.ProjectFacade().GetProjectsList(partnerName, userId, pageSize, pageIndex, fromDate, toDate, searchTerm, pIdentifier);
+                return new Facade.ProjectFacade().GetProjectsList(partnerName, userId, pageSize, pageIndex, 
+                    string.Format("{0:yyyy-MM-dd}", fromDateTime), string.Format("{0:yyyy-MM-dd}", toDateTime), searchTerm, pIdentifier);
             }
             catch (Exception exc)
             {

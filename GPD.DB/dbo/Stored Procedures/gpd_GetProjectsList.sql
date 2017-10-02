@@ -19,10 +19,11 @@ BEGIN
 	DECLARE @V_IS_USER_GPD_ADMIN BIT = 0;
 
 	IF EXISTS (
-		SELECT * 
-		FROM gpd_partner_user_group_xref X
+		SELECT X.user_id
+		FROM gpd_partner_user_group_xref X, gpd_partner_details PD
 		WHERE X.user_id = @P_UserId
-		AND X.partner_id = '484330C5-1B83-4D37-93EA-D2049BFD3DD5'
+		AND PD.name = 'ALL'
+		AND X.partner_id = PD.partner_id
 	)
 		BEGIN
 			SET @V_IS_USER_GPD_ADMIN = 1;
@@ -46,7 +47,7 @@ BEGIN
 
 	IF (@P_SearchTerm IS NOT NULL AND LEN(@P_SearchTerm) > 0)
 		BEGIN
-SELECT 'version B', @V_IS_USER_GPD_ADMIN as "IS_USER_GPD_ADMIN", @P_FromDate, @P_ToDate;	
+	
 			SET @P_SearchTerm = '%' + @P_SearchTerm + '%';
 
 			/* Project Name | Client | Status */
