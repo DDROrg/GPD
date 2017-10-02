@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[gpd_DeleteProjectList]
-	@P_XML XML,	
+	@P_XML XML,
+	@P_DeleteFlag bit,
 	@P_Return_ErrorCode INT OUT,
 	@P_Return_Message VARCHAR(1024) = '' OUT
 AS 
@@ -12,7 +13,7 @@ BEGIN
 
 	BEGIN TRY  
 		UPDATE gpd_project
-		SET [deleted] = 1
+		SET [deleted] = @P_DeleteFlag
 			,[update_date] = getdate()
 		WHERE project_id IN (
 			SELECT doc.col.value('.', 'uniqueidentifier')
