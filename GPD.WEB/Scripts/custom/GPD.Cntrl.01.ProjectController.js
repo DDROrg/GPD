@@ -66,11 +66,11 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.isAllSelected = false;
 
             $ctrl.data.to.date = new Date();
-            $ctrl.data.to.date.setUTCHours(0, 0, 0, 0);
+            $ctrl.data.to.date.setHours(0, 0, 0, 0);
             $ctrl.data.from.date = new Date($ctrl.data.to.date);
             $ctrl.data.from.date.setMonth($ctrl.data.from.date.getMonth() - 1);
             var tmpDate = new Date();
-            tmpDate.setUTCHours(0, 0, 0, 0);
+            tmpDate.setHours(0, 0, 0, 0);
             $ctrl.data.to.maxDate = new Date(tmpDate);
             $ctrl.data.from.maxDate = new Date(tmpDate);
             tmpDate.setMonth(tmpDate.getMonth() - 36);

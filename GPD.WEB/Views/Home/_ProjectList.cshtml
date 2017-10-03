@@ -3,7 +3,7 @@
 }
 <div class="" data-id="Project">
     <div data-ng-controller="ProjectController as $ctrl" ng-cloak>
-        <h3>{{ $ctrl.data.projectListResponse.totalRecordCount | number }} Projects</h3>
+        <h3>{{ $ctrl.data.projectListResponse.totalRecordCount | number }} Projects <span data-ng-if="$ctrl.data.projectIdentifier != ''" style="font-size:.5em;"> (Identifier :: {{$ctrl.data.projectIdentifier}})</span></h3>
         <div class="data-container">
             <div class="row">
                 <div class="col-sm-5">

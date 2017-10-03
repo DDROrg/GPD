@@ -58,6 +58,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         $ctrl.data.PartnerCount = 0;
         $ctrl.data.TopCategories = [];
 
+        /***=====================================================
         var circloidLineChartFlot = function (placeholder, d) {
             var td = CommonServices.TransformChartData(d);
             var colors = CommonServices.GetColor();
@@ -128,7 +129,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
                 circloidLineChartFlot("#graphProjectChart", payload);
             });
         };
-
+        =====================================================***/
         var GetCategoriesChartData = function () {
             if (_categoriesChartObj) { _categoriesChartObj = _categoriesChartObj.destroy(); }
             return CommonServices.GetCategoriesChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
@@ -174,21 +175,20 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             });
         };
 
-
         $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
-            GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount(); GetPartnerCount();
+             GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount(); GetPartnerCount();
         });
         $rootScope.$on('EVENT-ChangePartner', function (event, data) {
-            GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount();
+             GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount();
         });
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             $ctrl.data.LogedinUserProfile.selectedMenu = "GPD.Dashboard";
             if (fromState.name != '') {
-                GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount(); GetPartnerCount();
+                GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount(); GetPartnerCount();
             }
         });
 
-        angular.element(document).ready(function () { circloidMapWorld("#world-map"); });
+        angular.element(document).ready(function () {  });
     }]);
 
 //=================================================
