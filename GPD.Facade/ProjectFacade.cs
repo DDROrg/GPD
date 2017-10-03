@@ -512,7 +512,7 @@ namespace GPD.Facade
             return responseObj;
         }
 
-        public DeleteProjectListResponse DeleteProjectList(List<string> projectList)
+        public DeleteProjectListResponse DeleteProjectList(List<string> projectList, bool deleteFlag)
         {
             DeleteProjectListResponse responseObj = new DeleteProjectListResponse();
 
@@ -525,7 +525,7 @@ namespace GPD.Facade
                 );
 
                 // call DB function
-                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).DeleteProjectList(xDoc);
+                new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).DeleteProjectList(xDoc, deleteFlag);
 
                 // project updated successful
                 responseObj.Status = true;

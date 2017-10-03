@@ -72,8 +72,8 @@ var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
     var _ProjectListActDact = function (projectIds, isActive) {
         return $http.post(__RootUrl + "api/ActivateProjectList?isActive=" + encodeURIComponent(isActive), projectIds);
     };
-    var _ProjectListDelete = function (projectIds) {
-        return $http.post(__RootUrl + "api/DeleteProjectList", projectIds);
+    var _ProjectListDelete = function (projectIds, deleteFlag) {
+        return $http.post(__RootUrl + "api/DeleteProjectList?deleteFlag=" + deleteFlag, projectIds);
     };
     this.GetProjects = function (PartnarName, GlobalSearchParam, FromDate, ToDate, ProjectIdentifier, PageIndex, PageSize) {
         var deferred = $q.defer();
@@ -120,10 +120,10 @@ var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
         });
         return deferred.promise;
     };
-    this.ProjectListDelete = function (projectIds) {
+    this.ProjectListDelete = function (projectIds, deleteFlag) {
         var deferred = $q.defer();
         var retVal = {};
-        _ProjectListDelete(projectIds)
+        _ProjectListDelete(projectIds, deleteFlag)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);

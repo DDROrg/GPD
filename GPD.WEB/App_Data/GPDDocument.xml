@@ -747,11 +747,12 @@
             <param name="isActive"></param>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.Controllers.ProjectController.DeleteProjectList(System.Collections.Generic.List{System.String})">
+        <member name="M:GPD.WEB.Controllers.ProjectController.DeleteProjectList(System.Collections.Generic.List{System.String},System.Boolean)">
             <summary>
             Delete Projects based on ids list
             </summary>
-            <param name="projectList"></param>
+            <param name="projectList">List Of Project IDs</param>
+            <param name="deleteFlag">Project Delete Flag</param>
             <returns></returns>
         </member>
         <member name="T:GPD.WEB.Controllers.UserController">
