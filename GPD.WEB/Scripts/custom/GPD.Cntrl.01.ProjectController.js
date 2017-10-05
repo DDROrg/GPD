@@ -742,6 +742,14 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
         $ctrl.data.ACCompanies = [];
         $ctrl.data.isACVisible = false;
 
+        var ResetProfileImage = function () {
+            $ctrl.data.profileImage = {
+                isPresent: false,
+                url: '',
+                file: null
+            };
+            $("#fileProfileImage").get(0).value = null;
+        };
         var ResetData = function () {
             $ctrl.data.user = {
                 firstName: "",
@@ -767,11 +775,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 emailCommunication: false,
                 isProfileImgAvailable: false
             };
-            $ctrl.data.profileImage = {
-                isPresent: false,
-                url: '',
-                file: null
-            };
+            ResetProfileImage();
         };
         var GetCountries = function () {
             GpdManageServices.GetCountries().then(function (payload) {
@@ -806,11 +810,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 errMessage = errMessage + "'Re-enter Password' does not match with 'Password'.<br/>";
                 isValid = false;
             }
-            if (!$ctrl.data.profileImage.isPresent) {
-                errMessage = errMessage + "Profile image missing.<br/>";
-                isValid = false;
-            }
-            else{
+            if ($ctrl.data.profileImage.isPresent) {                
                 if ($ctrl.data.profileImage.file[0].size > 200000) {
                     errMessage = errMessage + "Profile image size should be less than 200 KB.<br/>";
                     isValid = false;
@@ -887,6 +887,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
             return calss;
         };
         $ctrl.OnReset = function () { ResetData(); $ctrl.CountryChange(); };
+        $ctrl.OnProfileImg = function () { ResetProfileImage(); };
         $ctrl.OnSave = function () {
             if (ValidateUserDetail()) {
                 GpdManageServices.RegisterUser($ctrl.data.user)
