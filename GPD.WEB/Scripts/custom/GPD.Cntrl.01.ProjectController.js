@@ -66,16 +66,12 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.isAllSelected = false;
 
             $ctrl.data.to.date = new Date();
-            $ctrl.data.to.date.setHours(0, 0, 0, 0);
-            $ctrl.data.from.date = new Date($ctrl.data.to.date);
-            $ctrl.data.from.date.setMonth($ctrl.data.from.date.getMonth() - 1);
-            var tmpDate = new Date();
-            tmpDate.setHours(0, 0, 0, 0);
-            $ctrl.data.to.maxDate = new Date(tmpDate);
-            $ctrl.data.from.maxDate = new Date(tmpDate);
-            tmpDate.setMonth(tmpDate.getMonth() - 36);
-            $ctrl.data.to.minDate = new Date(tmpDate);
-            $ctrl.data.from.minDate = new Date(tmpDate);
+            $ctrl.data.to.maxDate = new Date();
+            $ctrl.data.from.date = new Date();
+            $ctrl.data.from.date.setMonth(new Date().getMonth() -1);
+            $ctrl.data.from.maxDate = new Date();
+            $ctrl.data.to.popupOpened = false;
+            $ctrl.data.from.popupOpened = false;
             $ctrl.data.to.popupOpened = false;
             $ctrl.data.from.popupOpened = false;
         };
