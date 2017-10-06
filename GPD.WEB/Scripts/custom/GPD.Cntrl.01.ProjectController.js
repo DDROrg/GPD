@@ -124,10 +124,9 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.DeleteItemsColor = function (d) { return d['delete-status'] == "False" ? "color:#f00;" : "color:#CCC;"; };
         $ctrl.DeleteItemsTitle = function (d) { return d['delete-status'] == "False" ? "Delete" : "UnDelete"; };
         $ctrl.ActiveItemsColor = function (d) {
-            return d.active === "True" ? "" :
-                d['update-timestamp-formatted']=== "" ? "color:#f00;" : "color:#CCC;";
-                };
-        $ctrl.ActiveItemsTitle = function (d) { return d.active == "False" ? "Activate": "Inactivate"; };
+            return (d.active == "True") ? "" : d['update-timestamp-formatted'] == "" ? "color:#f00;" : "color:#CCC;";
+        };
+        $ctrl.ActiveItemsTitle = function (d) { return (d.active == "False") ? "Activate" : "Inactivate"; };
         $ctrl.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
         $ctrl.GlobalSearchButtonStyle = function () {
             return $ctrl.data.tempGlobalSearchParam.length > 2 ? "input-group-addon btn btn-primary" : "input-group-addon btn btn-primary disabled";
@@ -191,16 +190,8 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             InactivateProject(d.active === 'True');
         };
         $ctrl.OnResetFilter = function () {
-            var isRefreshRequired = $ctrl.data.projectIdentifier != "" || $ctrl.data.globalSearchParam != "" ? true : false;
             ResetFilter();
-            if (isRefreshRequired) {
-                GetProjects();
-            }
-            else {
-                $.each($ctrl.data.projectListResponse.projects, function (k, v) {
-                    v.isSelected = $ctrl.data.isAllSelected;
-                });
-            }
+            GetProjects();
         };
         $ctrl.GetPartnerImgUrl = function (pName) {
             // default value
