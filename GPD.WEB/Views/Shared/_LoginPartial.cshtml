@@ -6,8 +6,7 @@
     <form action="~/Account/Logout" class="navbar-right" id="logoutForm" method="post">
         @Html.AntiForgeryToken()
         <ul class="nav navbar-nav navbar-right">
-            @*<li><a href="javascript:document.getElementById('logoutForm').submit()">Log Off: @(up.FirstName + " " + up.LastName)</a></li>*@
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Off: @up.FirstName</a></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Off: @if (up != null) { @up.FirstName }</a></li>
         </ul>
     </form>
 }

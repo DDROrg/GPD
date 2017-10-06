@@ -150,7 +150,12 @@
                                 <td width="90px" align="center" nowrap>
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Project Details"></i></a>
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
-                                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnInactivateProject(d)"><i class="fa fa-archive" title="Inactivate"></i></a>
+                                    
+                                    
+                                    
+                                    <!--<a ng-href="" class="data-link" data-ng-click="$ctrl.OnInactivateProject(d)"><i class="fa fa-archive" title="Inactivate"></i></a>-->
+                                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnInactivateProject(d)"><i class="fa fa-archive" style="{{$ctrl.ActiveItemsColor(d)}}" title="{{$ctrl.ActiveItemsTitle(d)}}"></i></a>
+
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnDeleteProject(d)"><i class="fa fa-trash" style="{{$ctrl.DeleteItemsColor(d)}}" title="{{$ctrl.DeleteItemsTitle(d)}}"></i></a>
                                 </td>
                             }

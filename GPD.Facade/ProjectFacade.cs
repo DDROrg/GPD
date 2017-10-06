@@ -297,8 +297,10 @@ namespace GPD.Facade
                             OrganizationDescription = dr["ORGANIZATION_DESCRIPTION"].ToString(),
                             OrganizationName = dr["ORGANIZATION_NAME"].ToString(),
                             Status = dr["STATUS"].ToString(),
+                            Active = dr["ACTIVE"].ToString(),
                             DeleteStatus = dr["DELETED"].ToString(),
                             CreateTimestamp = ((DateTime)dr["CREATE_DATE"]).ToString("o"),
+                            UpdateTimestamp = DBNull.Value.Equals(dr["UPDATE_DATE"]) ? "" : ((DateTime)dr["UPDATE_DATE"]).ToString("o"),
                             PartnerName = dr["PARTNER_NAME"].ToString(),
                             UserEmail = dr["EMAIL"].ToString(),
                             Location = new LocationItem()

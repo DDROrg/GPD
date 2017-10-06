@@ -65,19 +65,25 @@ namespace GPD.ServiceEntities.ResponseEntities.ProjectsList
         [DataMember(Name = "status", Order = 13)]
         public string Status;
 
-        [DataMember(Name = "delete-status", Order = 14)]
+        [DataMember(Name = "active", Order = 14)]
+        public string Active;
+
+        [DataMember(Name = "delete-status", Order = 15)]
         public string DeleteStatus;
 
-        [DataMember(Name = "create-timestamp-formatted", Order = 15)]
+        [DataMember(Name = "create-timestamp-formatted", Order = 16)]
         public string CreateTimestamp;
 
-        [DataMember(Name = "partner-name", Order = 16)]
+        [DataMember(Name = "update-timestamp-formatted", Order = 17)]
+        public string UpdateTimestamp;        
+
+        [DataMember(Name = "partner-name", Order = 18)]
         public string PartnerName;
 
-        [DataMember(Name = "user-email", Order = 17)]
+        [DataMember(Name = "user-email", Order = 19)]
         public string UserEmail;
 
-        [DataMember(Name = "location", Order = 18)]
+        [DataMember(Name = "location", Order = 20)]
         public LocationItem Location;       
     }
 

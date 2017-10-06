@@ -267,13 +267,13 @@ namespace GPD.WEB.Controllers
         //[ApiExplorerSettings(IgnoreApi = true)]
         public async Task<string> UploadProfileImage(string userId)
         {
-            string retVal = "SUCCESS";
-            if (!Request.Content.IsMimeMultipartContent())
+            string[] responseStatus = { "FAILED", "SUCCESS" };
+
+            try
             {
-                retVal = "FAILED";
-            }
-            else
-            {
+                if (!Request.Content.IsMimeMultipartContent())
+                    return responseStatus[0];
+
                 var tempPath = HttpContext.Current.Server.MapPath("~/App_Data");
                 if (!Directory.Exists(tempPath)) { Directory.CreateDirectory(tempPath); }
 
@@ -281,29 +281,28 @@ namespace GPD.WEB.Controllers
                 if (!Directory.Exists(profileImagePath)) { Directory.CreateDirectory(profileImagePath); }
 
                 var provider = new CustomMultipartFormDataStreamProvider(tempPath);
-                try
-                {
-                    await Request.Content.ReadAsMultipartAsync(provider);
 
-                    // This illustrates how to get the file names for uploaded files. 
-                    foreach (var file in provider.FileData)
-                    {
-                        FileInfo fileInfo = new FileInfo(file.LocalFileName);
-                        var fileName = userId + fileInfo.Extension;
-                        var newFileName = Path.Combine(profileImagePath, fileName);
+                await Request.Content.ReadAsMultipartAsync(provider);
 
-                        if (File.Exists(newFileName)) { File.Delete(newFileName); }
-                        File.Move(file.LocalFileName, newFileName);
-                    }
-                }
-                catch (Exception)
+                // This illustrates how to get the file names for uploaded files. 
+                foreach (var file in provider.FileData)
                 {
-                    retVal = "FAILED";
+                    FileInfo fileInfo = new FileInfo(file.LocalFileName);
+                    var fileName = userId + fileInfo.Extension;
+                    var newFileName = Path.Combine(profileImagePath, fileName);
+
+                    if (File.Exists(newFileName)) { File.Delete(newFileName); }
+                    File.Move(file.LocalFileName, newFileName);
                 }
             }
-            return retVal;
-        }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+                return responseStatus[0];
+            }
 
+            return responseStatus[1];
+        }
 
         /// <summary>
         /// 

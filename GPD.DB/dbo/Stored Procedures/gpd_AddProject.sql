@@ -40,6 +40,7 @@ BEGIN
 					 organization_description, 
 					 organization_name, 
 					 [status], 
+					 active,
 					 xml_project_metadata, 
 					 create_date, 
 					 update_date) 
@@ -53,7 +54,8 @@ BEGIN
 					m.value('(number)[1]', 'NVARCHAR(250)'), 
 					m.value('(organization-description)[1]', 'NVARCHAR(250)'), 
 					m.value('(organization-name)[1]', 'NVARCHAR(250)'), 
-					m.value('(status)[1]', 'NVARCHAR(250)'), 
+					m.value('(status)[1]', 'NVARCHAR(250)'),
+					0, 
 					NULL, 
 					Getdate(), 
 					NULL 

@@ -123,6 +123,11 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
         $ctrl.DeleteItemsColor = function (d) { return d['delete-status'] == "False" ? "color:#f00;" : "color:#CCC;"; };
         $ctrl.DeleteItemsTitle = function (d) { return d['delete-status'] == "False" ? "Delete" : "UnDelete"; };
+        $ctrl.ActiveItemsColor = function (d) {
+            return d.active === "True" ? "" :
+                d['update-timestamp-formatted']=== "" ? "color:#f00;" : "color:#CCC;";
+                };
+        $ctrl.ActiveItemsTitle = function (d) { return d.active == "False" ? "Activate": "Inactivate"; };
         $ctrl.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
         $ctrl.GlobalSearchButtonStyle = function () {
             return $ctrl.data.tempGlobalSearchParam.length > 2 ? "input-group-addon btn btn-primary" : "input-group-addon btn btn-primary disabled";
@@ -183,7 +188,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.OnInactivateProject = function (d) {
             $ctrl.data.selectedProjects = [];
             $ctrl.data.selectedProjects.push(d.id);
-            InactivateProject();
+            InactivateProject(d.active === 'True');
         };
         $ctrl.OnResetFilter = function () {
             var isRefreshRequired = $ctrl.data.projectIdentifier != "" || $ctrl.data.globalSearchParam != "" ? true : false;
@@ -272,7 +277,8 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                 });
             }
         };
-        var InactivateProject = function () {
+        var InactivateProject = function (activeFlag) {
+            var confirmMsg = (activeFlag) ? "Are you sure you want to inactivate this Project?" : "Are you sure you want to activate this Project?";
             if ($ctrl.data.selectedProjects.length > 0) {
                 $ngConfirm({
                     title: 'Confirm!',
@@ -287,10 +293,10 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                             }
                         },
                         ok: {
-                            text: 'Inactivate',
+                            text: (activeFlag) ? 'inactivate': 'activate',
                             btnClass: 'btn-warning',
                             action: function (scope, button) {
-                                ProjectServices.ProjectListActDact($ctrl.data.selectedProjects, false)
+                                ProjectServices.ProjectListActDact($ctrl.data.selectedProjects, !activeFlag)
                                     .then(function (payload) {
                                         if (payload.status) {
                                             ResetPagination();
@@ -337,7 +343,7 @@ angular.module('Project').controller('ProjectDetailCtrl', ['$uibModalInstance', 
     $ctrl.data.page = {};
     $ctrl.data.page.currentPage = 1;
     $ctrl.data.page.maxPage = 5;
-    $ctrl.data.page.itemPerPage = 10;
+    $ctrl.data.page.itemPerPage = 25;
     $ctrl.data.search = "";
 
     $ctrl.OnChangeSorting = function (column) {
@@ -948,17 +954,10 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 elm.bind('change', function (evt) {
                     scope.$apply(function () {
                         scope[attrs.name] = evt.target.files;
-                        //scope.imgAvailable = true;
-                        //scope.objData.user.isProfileImgAvailable = true;
-                        //renderImage(evt.target.files[0]);
-                        // generate a new FileReader object
                         var reader = new FileReader();
                         // inject an image with the src url
                         reader.onload = function (event) {
                             scope.imageSelected({ d: { isPresent: true, url: event.target.result, file: evt.target.files } });
-                            //scope.$apply(function () {
-                            //    scope.the_url = event.target.result                               
-                            //});                            
                         };
                         // when the file is read it triggers the onload event above.
                         reader.readAsDataURL(evt.target.files[0]);
