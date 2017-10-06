@@ -68,7 +68,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.to.date = new Date();
             $ctrl.data.to.maxDate = new Date();
             $ctrl.data.from.date = new Date();
-            $ctrl.data.from.date.setMonth(new Date().getMonth() -1);
+            $ctrl.data.from.date.setMonth(new Date().getMonth() - 1);
             $ctrl.data.from.maxDate = new Date();
             $ctrl.data.to.popupOpened = false;
             $ctrl.data.from.popupOpened = false;
@@ -810,11 +810,11 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 errMessage = errMessage + "'Re-enter Password' does not match with 'Password'.<br/>";
                 isValid = false;
             }
-            if ($ctrl.data.profileImage.isPresent) {                
+            if ($ctrl.data.profileImage.isPresent) {
                 if ($ctrl.data.profileImage.file[0].size > 200000) {
                     errMessage = errMessage + "Profile image size should be less than 200 KB.<br/>";
                     isValid = false;
-                }                
+                }
             }
             if (!isValid) { toastr.error(errMessage, { allowHtml: true }); }
             return isValid;
@@ -893,19 +893,23 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                 GpdManageServices.RegisterUser($ctrl.data.user)
                 .then(function (payload) {
                     if (payload.status) {
-                        var data = new FormData();
-                        if ($ctrl.data.profileImage.file.length > 0) {
-                            data.append("file", $ctrl.data.profileImage.file[0]);
-                        }
-                        GpdManageServices.UploadProfileImage(payload.userId, data)
-                        .then(function (payload) {
-                            if (payload == "SUCCESS") {
-                                window.location.href = __RootUrl + 'Account/Login';
-                                return;
-                            } else {
-                                toastr.error("ERROR : In File upload");
+                        if ($ctrl.data.profileImage.isPresent == true) {
+                            var data = new FormData();
+                            if ($ctrl.data.profileImage.file.length > 0) {
+                                data.append("file", $ctrl.data.profileImage.file[0]);
                             }
-                        });
+                            GpdManageServices.UploadProfileImage(payload.userId, data)
+                            .then(function (payload) {
+                                if (payload == "SUCCESS") {
+                                    window.location.href = __RootUrl + 'Account/Login';
+                                    return;
+                                } else {
+                                    toastr.error("ERROR : In File upload");
+                                }
+                            });
+                        } else {
+                            window.location.href = __RootUrl + 'Account/Login';
+                        }                        
                     } else {
                         toastr.error("ERROR : " + payload.message);
                     }
