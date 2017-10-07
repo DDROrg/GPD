@@ -285,7 +285,7 @@ namespace GPD.Facade.WebAppFacade
                 // update user details
                 int errorCode;
                 new ProjectDB(ConfigurationHelper.GPD_Connection).UpdateUserProfile(userId, xDoc, out errorCode, out errorMsg);
-                return (errorCode == -1 || errorCode == 0);
+                return (errorCode == 0);
             }
             catch (Exception exc)
             {
