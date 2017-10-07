@@ -420,6 +420,7 @@ namespace GPD.WEB.Controllers
                     {
                         // get user profile
                         retObj.userDetails = UserDetailsFacade.GetUserFullProfile(userId);
+                        retObj.Status = true;
                         retObj.Message = string.Empty;
                         retObj.userId = userId;
                     }

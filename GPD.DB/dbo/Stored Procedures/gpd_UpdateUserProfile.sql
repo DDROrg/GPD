@@ -22,7 +22,13 @@ BEGIN
             @V_firmCity VARCHAR(150),
             @V_firmState VARCHAR(50),
             @V_firmZip VARCHAR(50),
-			@V_firmDefaultIndustry VARCHAR(250);
+			@V_firmCountry VARCHAR(50),
+			@V_firmDefaultIndustry VARCHAR(250),
+			@V_userFirmId INT,
+			@P_FirmAdmin INT = 0,
+			@V_xmlUserMetadata XML;
+
+	DECLARE @V_TempTable TABLE ( [type] NVARCHAR(250),[value] NVARCHAR(250) );
 
 	/******************************
 	*  Initialize Variables
@@ -46,6 +52,7 @@ BEGIN
 			@V_firmCity = m.value('(company/city)[1][not(@*[local-name()="nil"])]', 'NVARCHAR(50)'),
             @V_firmState = m.value('(company/state)[1][not(@*[local-name()="nil"])]', 'NVARCHAR(50)'),
             @V_firmZip = m.value('(company/postalCode)[1][not(@*[local-name()="nil"])]', 'NVARCHAR(50)'),
+			@V_firmCountry = m.value('(company/country)[1][not(@*[local-name()="nil"])]', 'NVARCHAR(50)'),
 			@V_firmDefaultIndustry = m.value('(company/defaultIndustry)[1][not(@*[local-name()="nil"])]', 'NVARCHAR(250)')
 		FROM @P_XML.nodes('/UserDetails') M(m);
 
@@ -57,6 +64,9 @@ BEGIN
 						SET @P_Return_Message = 'the provided e-mail address is already registered';
 					END
 			END;
+
+		-- get user firm-id & xml-metadata
+		SELECT @V_userFirmId = U.firm_id, @V_xmlUserMetadata = U.xml_user_metadata FROM gpd_user_details U WHERE U.user_id = @P_UserId;
 		
 		-- update user details
 		IF (LEN(@P_Return_Message) = 0)
@@ -149,6 +159,11 @@ BEGIN
 									WHEN 'NULL' THEN [zip_postal_code]
 									ELSE @V_firmZip
 								END,
+							[country] =
+								CASE ISNULL(@V_firmCountry, 'NULL')
+									WHEN 'NULL' THEN [country]
+									ELSE @V_firmCountry
+								END,
 							[xml_firm_metadata] = 
 								CASE ISNULL(@V_firmDefaultIndustry, 'NULL')
 									WHEN 'NULL' THEN [xml_firm_metadata]
@@ -156,6 +171,39 @@ BEGIN
 									END,
 							update_date = getdate()
 						WHERE firm_id = (SELECT firm_id FROM GPD_USER_DETAILS WHERE user_id = @P_UserId)
+					END;
+
+				-- create firm record
+				ELSE IF (@V_userFirmId IS NULL AND @V_firmName IS NOT NULL AND  @V_firmUrl IS NOT NULL 
+				AND LEN(RTRIM(@V_firmName)) > 0 AND LEN(RTRIM(@V_firmUrl)) > 0)
+					BEGIN
+					   --@P_XML  @V_userFirmId
+					   Exec gpd_AddFirmProfile @P_XML, @V_userFirmId OUTPUT, @P_FirmAdmin OUTPUT, @P_Return_ErrorCode OUTPUT, @P_Return_Message OUTPUT;
+					   SET @P_Return_ErrorCode = 0;
+					   SET @P_Return_Message = '';
+
+					   IF(@P_FirmAdmin = 1 AND @V_userFirmId != -1)
+							BEGIN
+								INSERT INTO @V_TempTable VALUES('firm-admin', @V_userFirmId);
+								INSERT INTO @V_TempTable
+									SELECT r.value('@type', 'nvarchar(250)'), r.value('.', 'nvarchar(250)')
+									FROM @V_xmlUserMetadata.nodes('//*[local-name()="additional-data"]/*[local-name()="item"]') AS x(r);
+								
+								UPDATE gpd_user_details
+								SET xml_user_metadata = (
+									SELECT DISTINCT [type] AS [item/@type], [value] AS [item] 
+									FROM @V_TempTable
+									FOR XML PATH(''), ROOT ('additional-data')
+								)
+								WHERE user_id = @P_UserId;
+							END;
+
+						IF( @V_userFirmId != -1)
+							BEGIN
+								UPDATE gpd_user_details
+								SET firm_id = @V_userFirmId
+								WHERE user_id = @P_UserId;
+							END;
 					END;
 
 			END;

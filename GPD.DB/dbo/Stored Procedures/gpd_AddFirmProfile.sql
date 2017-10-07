@@ -24,10 +24,11 @@ BEGIN
 	BEGIN TRY	
 
 		-- user email address
-		WITH XMLNAMESPACES(DEFAULT 'http://www.gpd.com', 'http://www.w3.org/2001/XMLSchema-instance' AS i)
-			SELECT @V_FirmName = M.value('(company/name)[1]', 'NVARCHAR(150)'),
-				@V_FirmUrl = M.value('(company/website)[1]', 'NVARCHAR(250)')
-			FROM @P_XML.nodes('/UserDetails') M(M);
+		SELECT
+			@V_FirmName = M.value('(./*[local-name()="name"])[1]', 'NVARCHAR(150)'),
+			@V_FirmUrl = M.value('(./*[local-name()="website"])[1]', 'NVARCHAR(250)')
+		FROM @P_XML.nodes('//*[local-name()="company"]') M(M);
+			
 
 		IF EXISTS(SELECT 1 FROM GPD_FIRM_PROFILE F WHERE F.name = @V_FirmName AND F.url = @V_FirmUrl)
 			BEGIN
@@ -57,21 +58,21 @@ BEGIN
 					,[create_date]
 					,[update_date])
 				SELECT			
-					M.value('(company/name)[1]', 'NVARCHAR(150)')
-					,M.value('(company/website)[1]', 'NVARCHAR(250)')
+					M.value('(./*[local-name()="name"])[1]', 'NVARCHAR(150)')
+					,M.value('(./*[local-name()="website"])[1]', 'NVARCHAR(250)')
 					,NULL
-					,M.value('(company/address)[1]', 'NVARCHAR(250)')
-					,M.value('(company/address2)[1]', 'NVARCHAR(250)')
-					,M.value('(company/city)[1]', 'NVARCHAR(250)')
-					,M.value('(company/state)[1]', 'NVARCHAR(250)')
-					,M.value('(company/postalCode)[1]', 'NVARCHAR(250)')
-					,M.value('(company/country)[1]', 'NVARCHAR(250)')
+					,M.value('(./*[local-name()="address"])[1]', 'NVARCHAR(250)')
+					,M.value('(./*[local-name()="address2"])[1]', 'NVARCHAR(250)')
+					,M.value('(./*[local-name()="city"])[1]', 'NVARCHAR(250)')
+					,M.value('(./*[local-name()="state"])[1]', 'NVARCHAR(250)')
+					,M.value('(./*[local-name()="postalCode"])[1]', 'NVARCHAR(250)')
+					,M.value('(./*[local-name()="country"])[1]', 'NVARCHAR(250)')
 					
 					,1
-					,'<list><item name="defaultIndustry">' + M.value('(company/defaultIndustry)[1]', 'NVARCHAR(150)') + '</item></list>'
+					,'<list><item name="defaultIndustry">' + M.value('(./*[local-name()="defaultIndustry"])[1]', 'NVARCHAR(150)') + '</item></list>'
 					,getdate()
 					,NULL
-				FROM @P_XML.nodes('/UserDetails') M(M);
+				FROM @P_XML.nodes('//*[local-name()="company"]') M(M);
 
 				SET @P_Return_FirmId = SCOPE_IDENTITY();
 				SET @P_Return_FirmAdmin = 1;
