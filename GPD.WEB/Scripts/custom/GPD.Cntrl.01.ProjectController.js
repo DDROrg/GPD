@@ -16,6 +16,7 @@ angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$locati
     var GetLogedinUserProfile = function () {
         CommonServices.GetLogedinUserProfile()
         .then(function (payload) {
+            $log.log("==PartnerCtrl GetLogedinUserProfile()===")
             CommonServices.LogedinUserProfileLoaded();
         });
     };
@@ -311,10 +312,12 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             GetProjects();
         });
         $rootScope.$on('EVENT-ChangePartner', function (event, data) {
+            $log.log("==EVENT-ChangePartner===")
             ResetFilter();
             GetProjects();
         });
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            $log.log("==$stateChangeSuccess===")
             if (fromState.name == "project.edit") { GetProjects(); };
         });
 
