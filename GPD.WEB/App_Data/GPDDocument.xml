@@ -774,6 +774,13 @@
             <param name="searchTerm"></param>
             <returns></returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.UserController.ResetUserPassword(System.String)">
+            <summary>
+            Reset User Password
+            </summary>
+            <param name="userEmail">user email address</param>
+            <returns></returns>
+        </member>
         <member name="M:GPD.WEB.Controllers.UserController.ActDactUser(System.Int32,System.Boolean)">
             <summary>
             Activate/Deactivated User Account

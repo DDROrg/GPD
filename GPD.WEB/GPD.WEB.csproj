@@ -183,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\GPDDocument.xml" />
+    <Content Include="App_Data\reset-user-password-email.htm" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\angular-toastr.css" />
     <Content Include="Content\angular-toastr.min.css" />

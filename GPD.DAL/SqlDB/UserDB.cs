@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -57,6 +58,24 @@ namespace GPD.DAL.SqlDB
             };
 
             return base.GetDSBasedOnStoreProcedure("gpd_GetUserFullProfile", parametersInList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <param name="userPassword"></param>
+        /// <returns>DataSet</returns>
+        public DataSet UpdateUserPassword(string userEmail, string userPassword)
+        {
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                new SqlParameter("@P_USER_EMAIL", userEmail),
+                new SqlParameter("@P_USER_PASSWORD", userPassword),
+            };
+
+            // call stored procedure
+            return base.GetDSBasedOnStoreProcedure("gpd_UpdateUserPassword", parametersInList);
         }
     }
 }

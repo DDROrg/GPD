@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -293,6 +295,81 @@ namespace GPD.Facade.WebAppFacade
                 errorMsg = "Unable to Update User Profile";
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <param name="errorMsg"></param>
+        public static bool ResetUserPassword(string userEmail, out string errorMsg)
+        {
+            bool retObj = false;
+            errorMsg = string.Empty;
+
+            try
+            {
+                string userPassword = Guid.NewGuid().ToString().Replace("-", "");
+                userPassword = userPassword.Substring(0, 8);
+                DataSet dataSet = new UserDB(ConfigurationHelper.GPD_Connection).UpdateUserPassword(userEmail, ValueHashUtil.CreateHash(userPassword));
+
+                if (dataSet == null || dataSet.Tables.Count == 0 || dataSet.Tables[0].Rows.Count == 0)
+                    throw new Exception("No response from stored procedure.");
+
+                // send email
+                string emailContentFile = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\App_Data\\" + "reset-user-password-email.htm";
+                string emailHtml = System.IO.File.ReadAllText(emailContentFile);
+
+                emailHtml = emailHtml.Replace("{user-first-name}", dataSet.Tables[0].Rows[0]["first_name"].ToString());
+                emailHtml = emailHtml.Replace("{user-last-name}", dataSet.Tables[0].Rows[0]["last_name"].ToString());
+                emailHtml = emailHtml.Replace("{user-email-address}", dataSet.Tables[0].Rows[0]["email"].ToString());
+                emailHtml = emailHtml.Replace("{user-password}", userPassword);
+
+                // send emaill
+                retObj = SendEmail(userEmail, emailHtml);
+            }
+            catch (Exception exc)
+            {
+                log.Error("Unable to reset user password. ERROR: " + exc.ToString());
+                errorMsg = "Unable to Reset User Password.";
+            }
+
+            return retObj;
+        }
+
+        public static bool SendEmail(string userEmail, string input)
+        {
+            MailMessage msg = new MailMessage();
+            SmtpClient client = new SmtpClient();
+
+            try
+            {
+                msg.From = new MailAddress(ConfigurationHelper.MailEmaillFrom);
+                msg.To.Add(userEmail);
+                msg.Subject = ConfigurationHelper.MailSubject;
+                msg.Body = input;
+                msg.IsBodyHtml = true;
+
+                client.UseDefaultCredentials = true;
+                client.Host = "smtp.gmail.com";
+                client.Port = 587;
+                client.EnableSsl = true;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.Credentials = new NetworkCredential(ConfigurationHelper.MailUserName, ConfigurationHelper.MailUserPassword);
+                client.Timeout = 20000;
+                client.Send(msg);
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+                return false;
+            }
+            finally
+            {
+                msg.Dispose();
+            }
+
+            return true;
         }
     }
 }

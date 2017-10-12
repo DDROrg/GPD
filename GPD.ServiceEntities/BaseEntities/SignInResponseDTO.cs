@@ -3,8 +3,6 @@ using System.Runtime.Serialization;
 
 namespace GPD.ServiceEntities.BaseEntities
 {
-
-
     [DataContract(Namespace = "http://www.gpd.com", Name = "signInResponse")]
     public class SignInResponseDTO
     {
@@ -59,5 +57,23 @@ namespace GPD.ServiceEntities.BaseEntities
 
         [DataMember(Name = "groupName", Order = 6)]
         public string GroupName;
+    }
+
+    [DataContract(Namespace = "http://www.gpd.com", Name = "reset-user-password-response")]
+    public class ResetUserPasswordResponse
+    {
+        #region Constr
+        public ResetUserPasswordResponse()
+        {
+            this.Status = false;
+            this.Message = string.Empty;
+        }
+        #endregion Constr
+
+        [DataMember(Name = "status", Order = 1)]
+        public bool Status;
+
+        [DataMember(Name = "message", Order = 2)]
+        public string Message;
     }
 }

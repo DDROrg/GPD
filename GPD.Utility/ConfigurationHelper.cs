@@ -20,5 +20,10 @@ namespace GPD.Utility
         public static string DefaultPartnerImageUrl { get { return ConfigurationManager.AppSettings["DEFAULT-PARTNER-IMAGE-URL"]; } }
 
         public static string ProfileImageFolder { get { return ConfigurationManager.AppSettings["PROFILE-IMAGE-FOLDER"]; } }
+
+        public static string MailEmaillFrom { get { return ConfigurationManager.AppSettings["MAIL-EMAIL-FROM"]; } }
+        public static string MailUserName { get { return ConfigurationManager.AppSettings["MAIL-USER-NAME"]; } }
+        public static string MailUserPassword { get { return ConfigurationManager.AppSettings["MAIL-USER-PASSWORD"]; } }
+        public static string MailSubject { get { return ConfigurationManager.AppSettings["MAIL-SUBJECT"]; } }
     }
 }

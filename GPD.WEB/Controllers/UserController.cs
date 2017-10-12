@@ -54,6 +54,28 @@ namespace GPD.WEB.Controllers
         }
 
         /// <summary>
+        /// Reset User Password
+        /// </summary>
+        /// <param name="userEmail">user email address</param>
+        /// <returns></returns>
+        [Route("api/ResetUserPassword")]
+        [HttpPost]
+        //[Authorize]
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        public ResetUserPasswordResponse ResetUserPassword(string userEmail)
+        {
+            ResetUserPasswordResponse retObj = new ResetUserPasswordResponse();
+
+            string errorMsg = string.Empty;
+            retObj.Status = UserDetailsFacade.ResetUserPassword(userEmail, out errorMsg);
+
+            if (!string.IsNullOrEmpty(errorMsg))
+                retObj.Message = errorMsg;
+
+            return retObj;
+        }
+
+        /// <summary>
         /// Activate/Deactivated User Account
         /// </summary>
         /// <param name="userId"></param>
