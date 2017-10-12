@@ -306,6 +306,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         };
 
         $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
+            $log.log("==EVENT-LogedinUserProfileLoaded===")
             ResetFilter();
             GetProjects();
         });
