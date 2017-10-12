@@ -1,5 +1,6 @@
 ﻿@{
     var isAdmin = SessionManager.GetInstance().AdminRole();
+    var isGPGAdmin = SessionManager.GetInstance().AdminGPDRole();
 }
 <div class="" data-id="Project">
     <div data-ng-controller="ProjectController as $ctrl" ng-cloak>
@@ -145,7 +146,7 @@
                                 <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.zip)">zip - {{d.location.city}}</ng-container>
                             </td>
                             <td>{{d["create-timestamp-formatted"] | date:'MM/dd/yyyy HH:mm:ss'}}</td>
-                            @if (isAdmin == true)
+                            @if (isGPGAdmin == true)
                             {
                                 <td width="90px" align="center" nowrap>
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Project Details"></i></a>
@@ -159,10 +160,11 @@
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnDeleteProject(d)"><i class="fa fa-trash" style="{{$ctrl.DeleteItemsColor(d)}}" title="{{$ctrl.DeleteItemsTitle(d)}}"></i></a>
                                 </td>
                             }
-                            @if (isAdmin == false)
+                            @if (isGPGAdmin == false)
                             {
                                 <td>
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Detail"></i></a>
+                                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
                                 </td>
                             }
                         </tr>
