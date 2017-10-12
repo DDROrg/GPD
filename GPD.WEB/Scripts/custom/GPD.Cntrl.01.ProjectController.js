@@ -1,8 +1,4 @@
 ﻿//=================================================
-
-
-
-//=================================================
 angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$location', '$log', 'toastr', 'CommonServices', function ($scope, $http, $location, $log, toastr, CommonServices) {
     var $ctrl = this;
     CommonServices.SetDefaultData($ctrl, $location);
@@ -16,14 +12,16 @@ angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$locati
     var GetLogedinUserProfile = function () {
         CommonServices.GetLogedinUserProfile()
         .then(function (payload) {
-            $log.log("==PartnerCtrl GetLogedinUserProfile()===")
+            //$log.log("==PartnerCtrl GetLogedinUserProfile()===")
             CommonServices.LogedinUserProfileLoaded();
         });
     };
 
     angular.element(document).ready(function () {
         if (__UserId != "") {
-            GetLogedinUserProfile();
+            setTimeout(function () {
+                GetLogedinUserProfile();
+            }, 1500);            
         }
     });
 }]);
@@ -285,7 +283,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
                             }
                         },
                         ok: {
-                            text: (activeFlag) ? 'inactivate': 'activate',
+                            text: (activeFlag) ? 'inactivate' : 'activate',
                             btnClass: 'btn-warning',
                             action: function (scope, button) {
                                 ProjectServices.ProjectListActDact($ctrl.data.selectedProjects, !activeFlag)
@@ -307,17 +305,17 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         };
 
         $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
-            $log.log("==EVENT-LogedinUserProfileLoaded===")
+            //$log.log("==EVENT-LogedinUserProfileLoaded===")
             ResetFilter();
             GetProjects();
         });
         $rootScope.$on('EVENT-ChangePartner', function (event, data) {
-            $log.log("==EVENT-ChangePartner===")
+            //$log.log("==EVENT-ChangePartner===")
             ResetFilter();
             GetProjects();
         });
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            $log.log("==$stateChangeSuccess===")
+            //$log.log("==$stateChangeSuccess===")
             if (fromState.name == "project.edit") { GetProjects(); };
         });
 
@@ -910,7 +908,7 @@ angular.module('RegisterUser').controller('RegisterUserCtrl', ['$scope', '$rootS
                             });
                         } else {
                             window.location.href = __RootUrl + 'Account/Login';
-                        }                        
+                        }
                     } else {
                         toastr.error("ERROR : " + payload.message);
                     }
