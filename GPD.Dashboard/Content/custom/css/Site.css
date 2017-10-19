@@ -3,6 +3,7 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x- ng-cloak {
     display: none !important;
 }
+.table{margin:0px;}
 /*====== Bootstrap Override End ===================*/
 @media only screen and (min-width : 321px) and (max-width : 480px) {
 }
@@ -30,3 +31,6 @@
         width: 95%;
     }
 }
+/*====== Bootstrap Override End ===================*/
+
+

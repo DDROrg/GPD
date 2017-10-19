@@ -44,8 +44,8 @@ angular.module('GPD').controller("GPDPartnerCtrl", ['$scope', '$http', '$locatio
 
 
 //=================================================
-angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', '$state', '$stateParams', 'toastr', 'CommonServices',
-    function ($scope, $rootScope, $http, $location, $uibModal, $log, $state, $stateParams, toastr, CommonServices) {
+angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', '$state', '$stateParams', '$filter', 'toastr', 'CommonServices',
+    function ($scope, $rootScope, $http, $location, $uibModal, $log, $state, $stateParams, $filter, toastr, CommonServices) {
         var $ctrl = this;
         var _projectChartObj, _categoriesChartObj;
         CommonServices.SetDefaultData($ctrl, $location);
@@ -240,7 +240,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             });
         };
 
-        var RenderProjectYOYChartDataD3 = function (placeholder, d) {
+        var RenderPieChartDataD3 = function (placeholder, d) {
 
             _projectYOYChartObj = c3.generate({
                 bindto: placeholder,
@@ -331,11 +331,43 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
 
         var GetProjectYOYChartData = function () {
             var d = [
-                        ["Project This Year", 2300],
-                        ["Project Last Year", 6000]
+                        ["Project This Year (" + $filter('number')(2300) + ")", 2300],
+                        ["Project Last Year (" + $filter('number')(6000) + ")", 6000]
             ];
-            RenderProjectYOYChartDataD3("#projectYOYChart", d);
+            RenderPieChartDataD3("#projectYOYChart", d);
         };
+
+        var GetTopProductChartData = function () {
+            var d = [
+                        ["Doors (" + $filter('number')(2300) + ")", 2300],
+                        ["Windows (" + $filter('number')(6000) + ")", 6000],
+                        ["Furniture (" + $filter('number')(4700) + ")", 4700],
+                        ["Plumbing (" + $filter('number')(2800) + ")", 2800],
+                        ["Lighting (" + $filter('number')(3900) + ")", 3900]
+            ];
+            RenderPieChartDataD3("#topProducts", d);
+        };
+        var GetTopApplicationChartData = function () {
+            var d = [
+                        ["UL SPOT App for Autodesk Revit", 2380],
+                        ["AEC Daily App for Autodesk Revit", 6000],
+                        ["AEC Daily App for Autodesk AutoCAD", 4700],
+                        ["UL SPOT App for Autodesk AutoCAD", 2800],
+                        ["UL SPOT App for Sketchup", 3900]
+            ];
+            RenderPieChartDataD3("#topApplication", d);
+        };
+        var GetTopCustomerChartData = function () {
+            var d = [
+                        ["Delta (" + $filter('number')(2300) + ")", 2300],
+                        ["Harman Miller (" + $filter('number')(10000) + ")", 6000],
+                        ["Kawneer (" + $filter('number')(4700) + ")", 4700],
+                        ["Kimball (" + $filter('number')(2800) + ")", 2800],
+                        ["Peachtree Doors & Window (" + $filter('number')(3900) + ")", 3900]
+            ];
+            RenderPieChartDataD3("#topCustomers", d);
+        };
+        //topCustomers
 
         $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
             GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount(); GetPartnerCount();
@@ -355,6 +387,9 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             circloidDialChart("#pctProjectProductTAG");
             circloidDonutChartFlot("#pctAppProject", "small", false);
             GetProjectYOYChartData();
+            GetTopProductChartData();
+            GetTopApplicationChartData();
+            GetTopCustomerChartData();
         });
     }]);
 
