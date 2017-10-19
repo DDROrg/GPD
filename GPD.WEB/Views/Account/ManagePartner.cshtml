@@ -3,7 +3,10 @@
     ViewBag.Title = "Manage Partner";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@if (Request.IsAuthenticated && !SessionManager.GetInstance().AdminGPDRole())
+{
+        Response.Redirect("/");
+}
 <div data-ng-app="ManagePartner">
     <div data-ng-controller="ManagePartnerController as $ctrl" ng-cloak>        
         <div class="data-container">

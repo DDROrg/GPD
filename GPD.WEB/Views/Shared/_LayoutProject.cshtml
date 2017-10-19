@@ -37,7 +37,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Project", "Project", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                    @if (Request.IsAuthenticated && isGPDAdmin)
+                    {
+                        <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                    }
                     @if (Request.IsAuthenticated)
                     {
                         <li class="dropdown" data-ng-controller="PartnerCtrl as $ctrl" ng-cloak>

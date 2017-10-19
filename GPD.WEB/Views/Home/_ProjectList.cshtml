@@ -1,6 +1,7 @@
 ﻿@{
     var isAdmin = SessionManager.GetInstance().AdminRole();
     var isGPGAdmin = SessionManager.GetInstance().AdminGPDRole();
+    int columnsNbr = (isGPGAdmin) ? 9 : 7;
 }
 <div class="" data-id="Project">
     <div data-ng-controller="ProjectController as $ctrl" ng-cloak>
@@ -59,24 +60,26 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
-                    
-                </div>
+                <div class="col-sm-12"></div>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped table-condensed table-hover table-bordered">
                     <thead>
                         <tr class="data-header-row">
-                            @if (isAdmin == true)
+                            @if (isAdmin)
                             {
-                                <th>
+                                <th style="text-align: center;">
                                     <input type="checkbox" data-ng-model="$ctrl.data.isAllSelected" data-ng-change="$ctrl.OnCheckAllChange()" />
                                 </th>
+                                <th></th>
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('user-email')" class="header-data-link">Publisher&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('user-email')"></i>
+                                </th>
                             }
-                            <th></th>
-                            <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('user-email')" class="header-data-link">Publisher&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('user-email')"></i>
-                            </th>
+                            @if (!isAdmin)
+                            {
+                                <th></th>
+                            }
                             <th>
                                 <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('name')" class="header-data-link">Name&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('name')"></i>
                             </th>
@@ -89,20 +92,23 @@
                             </th>
                             <th>Location</th>
                             <th>
-                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('create-timestamp-formatted')" class="header-data-link">Published&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('create-timestamp-formatted')">
-                                </i>
+                                <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('create-timestamp-formatted')" class="header-data-link">Published&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('create-timestamp-formatted')"></i>
                             </th>
                             <th></th>
                         </tr>
                         <tr>
-                            @if (isAdmin == true) {
-                                <th></th> 
+                            @if (isAdmin) {
+                                <th></th>
+                                <th></th>
+                                <th>
+                                    <input data-ng-model="$ctrl.data.search['user-email']" placeholder="Search by Publisher ..." 
+                                           style="width: 100%; height: 25px; margin-top: 4px;" />
+                                </th>
                             }
-                            <th></th>
-                            <th>
-                                <input data-ng-model="$ctrl.data.search['user-email']" placeholder="Search by Publisher ..."
-                                       style="width: 100%; height: 25px; margin-top: 4px;" />
-                            </th>
+                            @if (!isAdmin)
+                            {
+                                <th></th>
+                            }
                             <th>
                                 <input data-ng-model="$ctrl.data.search.name" placeholder="Search by Name ..."
                                        style="width: 100%; height: 25px; margin-top: 4px;" />
@@ -122,14 +128,22 @@
                     </thead>
                     <tbody>
                         <tr data-ng-repeat-start="d in filterData = ($ctrl.data.projectListResponse.projects | filter:$ctrl.data.search | orderBy : $ctrl.ColumnSortOrder())">
-                            @if (isAdmin == true)
+                            @if (isAdmin)
                             {
-                                <td>
+                                <td width="35px" align="center">
                                     <input type="checkbox" data-ng-model="d.isSelected" />
                                 </td>
+                                <td width="35px" align="center">
+                                    <img data-ng-src="{{$ctrl.GetPartnerImgUrl(d['partner-name'])}}" class="partner-img" />
+                                </td>
+                                <td>{{ d['user-email'] }}</td>
                             }
-                            <td><img data-ng-src="{{$ctrl.GetPartnerImgUrl(d['partner-name'])}}" class="partner-img" /></td>
-                            <td>{{ d['user-email'] }}</td>
+                            @if (!isAdmin)
+                            {
+                                <td width="35px" align="center">
+                                    <img data-ng-src="{{$ctrl.GetPartnerImgUrl(d['partner-name'])}}" class="partner-img" />
+                                </td>
+                            }
                             <td>
                                 <a data-ng-href="" data-ng-click="$ctrl.OnColExpDetail(d)" class="data-link">
                                     <i data-ng-class="$ctrl.ColExpClass(d)"></i>
@@ -146,30 +160,24 @@
                                 <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.zip)">zip - {{d.location.city}}</ng-container>
                             </td>
                             <td>{{d["create-timestamp-formatted"] | date:'MM/dd/yyyy HH:mm:ss'}}</td>
-                            @if (isGPGAdmin == true)
+                            @if (isGPGAdmin)
                             {
                                 <td width="90px" align="center" nowrap>
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Project Details"></i></a>
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
-                                    
-                                    
-                                    
-                                    <!--<a ng-href="" class="data-link" data-ng-click="$ctrl.OnInactivateProject(d)"><i class="fa fa-archive" title="Inactivate"></i></a>-->
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnInactivateProject(d)"><i class="fa fa-archive" style="{{$ctrl.ActiveItemsColor(d)}}" title="{{$ctrl.ActiveItemsTitle(d)}}"></i></a>
-
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnDeleteProject(d)"><i class="fa fa-trash" style="{{$ctrl.DeleteItemsColor(d)}}" title="{{$ctrl.DeleteItemsTitle(d)}}"></i></a>
                                 </td>
                             }
-                            @if (isGPGAdmin == false)
+                            @if (!isGPGAdmin)
                             {
-                                <td>
+                                <td width="35px" align="center">
                                     <a ng-href="" class="data-link" data-ng-click="$ctrl.OnOpenItem(d)"><i class="fa fa-list-ul" title="Detail"></i></a>
-                                    <a ng-href="" class="data-link" data-ng-click="$ctrl.OnEditItem(d)"><i class="fa fa-pencil-square-o" title="Edit"></i></a>
                                 </td>
                             }
                         </tr>
                         <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowDetail(d)">
-                            <td colspan="8">
+                            <td colspan="@(columnsNbr)">
                                 <div class="container-fluid" style="border:1px dotted #000; border-radius:5px;">
                                     <div>
                                         <div style="font-weight:bold;font-size:1.2em;text-align:center;">Project Details</div>

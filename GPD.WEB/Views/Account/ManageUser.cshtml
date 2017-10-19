@@ -3,7 +3,10 @@
     ViewBag.Title = "Manage User";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@if (Request.IsAuthenticated && !SessionManager.GetInstance().AdminGPDRole())
+{
+    Response.Redirect("/");
+}
 <div data-ng-app="ManageUser">
     <div data-id="divManageUser" data-ng-controller="ManageUserController as $ctrl" ng-cloak>
         <h3>@ViewBag.Title</h3>
