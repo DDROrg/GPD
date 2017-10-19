@@ -964,6 +964,12 @@
     <Content Include="Content\angular\js\i18n\angular-locale_zu.js" />
     <Content Include="Content\angular\js\loading-bar.js" />
     <Content Include="Content\angular\js\loading-bar.min.js" />
+    <Content Include="Content\c3\css\c3.css" />
+    <Content Include="Content\c3\css\c3.min.css" />
+    <Content Include="Content\c3\js\c3.js" />
+    <Content Include="Content\c3\js\c3.min.js" />
+    <Content Include="Content\c3\js\d3.js" />
+    <Content Include="Content\c3\js\d3.min.js" />
     <Content Include="Content\Circloid\css\base.css" />
     <Content Include="Content\Circloid\css\demo-files\ecommerce-dashboard-1.css" />
     <Content Include="Content\Circloid\css\demo-files\ecommerce-order-view.css" />

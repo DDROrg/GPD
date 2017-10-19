@@ -59,6 +59,25 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return td;
     };
 
+
+    this.TransformChartDataD3 = function (d) {
+        var tempData = {};
+        tempData.tempPattern = [];
+        tempData.tempXs = {};
+        tempData.tempColumns = [];
+        angular.forEach(d.lines, function (v, k) {
+            var i = "x" + (k + 1);
+            tempData.tempPattern.push(_chartColor[k]);
+            tempData.tempXs[v.name] = i;
+            var dates = d.dates.slice();
+            dates.unshift(i);
+            v.values.unshift(v.name)
+            tempData.tempColumns.push(dates);
+            tempData.tempColumns.push(v.values);
+        });
+        return tempData;
+    };
+
     this.GetColor = function () {
         return ['#ff0000', '#ff6a00', '#ffd800', '#b6ff00', '#4cff00', '#5f798d', '#0094ff', '#0000ff'];
     };

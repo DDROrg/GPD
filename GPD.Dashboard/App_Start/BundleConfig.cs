@@ -33,14 +33,17 @@ namespace GPD.Dashboard
                       "~/Content/angular/js/angular-ui/ui-bootstrap-tpls.js",
                       "~/Content/angular/js/angular-ui-router.min.js",
                       "~/Content/angular/js/angular-ui-router-title.js",
-                      "~/Content/angular/js/loading-bar.min.js"));
+                      "~/Content/angular/js/loading-bar.min.js",
+                      "~/Content/c3/js/d3.min.js",
+                      "~/Content/c3/js/c3.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/custom/js").Include(
                       "~/Content/custom/js/GPD.*"));
 
             bundles.Add(new StyleBundle("~/bundles/angular/css").Include(
                       "~/Content/angular/css/loading-bar.min.css",
-                      "~/Content/angular/css/angular-toastr.min.css"));
+                      "~/Content/angular/css/angular-toastr.min.css",
+                      "~/Content/c3/css/c3.min.css"));
 
             bundles.Add(new StyleBundle("~/bundles/custom/css").Include(
                      "~/Content/custom/css/Site.css"));
