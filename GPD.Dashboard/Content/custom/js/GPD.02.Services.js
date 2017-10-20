@@ -18,6 +18,11 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return $http.post(__RootUrl + "api/GetTopProductChartData?" + $httpParamSerializer(data));
     };
 
+    var _GetAppChartData = function (partner, fromDate, toDate) {
+        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+        return $http.post(__RootUrl + "api/GetAppChartData?" + $httpParamSerializer(data));
+    };
+
     var _GetProjectCount = function (partner, fromDate, toDate) {
         var data = { partner: partner, fromDate: fromDate, toDate: toDate };
         return $http.post(__RootUrl + "api/GetProjectCount?" + $httpParamSerializer(data));
@@ -58,7 +63,6 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         });
         return td;
     };
-
 
     this.TransformChartDataD3 = function (d) {
         var tempData = {};
@@ -167,6 +171,17 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         var deferred = $q.defer();
         var retVal = {};
         _GetPartnerCount()
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+
+    this.GetAppChartData = function (partner, fromDate, toDate) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _GetAppChartData(partner, fromDate, toDate)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);

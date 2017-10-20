@@ -60,6 +60,21 @@ namespace GPD.Dashboard.Controllers
         }
 
         /// <summary>
+        /// Get project count based on app name
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        [Route("api/GetAppChartData")]
+        [HttpPost]
+        [Authorize]
+        public ChartDTO GetAppChartData(string partner, string fromDate, string toDate)
+        {
+            return new Facade.ProjectFacade().GetAppChartData(partner, fromDate, toDate);
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="partner"></param>

@@ -260,7 +260,7 @@ namespace GPD.Facade
         /// <param name="searchTerm"></param>
         /// <param name="pIdentifier"></param>
         /// <returns></returns>
-        public ProjectsListResponse GetProjectsList(string partnerName, int userId, int pageSize, int pageIndex, 
+        public ProjectsListResponse GetProjectsList(string partnerName, int userId, int pageSize, int pageIndex,
             string fromDate, string toDate, string searchTerm = null, string projectIdentifier = null)
         {
             ProjectsListResponse retVal = new ProjectsListResponse()
@@ -341,7 +341,7 @@ namespace GPD.Facade
             //dynamic MyDynamic = new System.Dynamic.ExpandoObject();
             ChartDTO retVal = new ChartDTO();
             retVal.Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06", "2017-05-07", "2017-05-08", "2017-05-09", "2017-05-10", "2017-05-11", "2017-05-12", "2017-05-13", "2017-05-14", });
-                
+
 
             retVal.Lines.Add(new LinesDTO()
             {
@@ -358,7 +358,7 @@ namespace GPD.Facade
                 retVal.Lines.Add(new LinesDTO()
                 {
                     Name = "BIM",
-                    Values = new List<int>(new int[] { 14, 10, 19, 27, 24, 4 , 14, 10, 19, 27, 24, 4 , 3})
+                    Values = new List<int>(new int[] { 14, 10, 19, 27, 24, 4, 14, 10, 19, 27, 24, 4, 3 })
                 });
             }
             if (partner == "TEST")
@@ -382,34 +382,34 @@ namespace GPD.Facade
         public ChartDTO GetTopProductChartData(string partner, string fromDate, string toDate)
         {
             ChartDTO retVal = new ChartDTO();
-            retVal.Dates = new List<string>(new string[] { "2015-05-01", "2016-05-01", "2017-05-01"});
-            
+            retVal.Dates = new List<string>(new string[] { "2015-05-01" });
+
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Doors",
-                Values = new List<int>(new int[] { 10, 12, 9})
+                Values = new List<int>(new int[] {4520 })
             });
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Window",
-                Values = new List<int>(new int[] { 12, 12, 19})
+                Values = new List<int>(new int[] { 3421 })
             });
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Plumbing",
-                Values = new List<int>(new int[] { 35, 12, 19 })
+                Values = new List<int>(new int[] { 7820 })
             });
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Lighting",
-                Values = new List<int>(new int[] { 12, 56, 19 })
+                Values = new List<int>(new int[] { 300 })
             });
             if (partner == "ALL")
             {
                 retVal.Lines.Add(new LinesDTO()
                 {
                     Name = "Furniture",
-                    Values = new List<int>(new int[] { 14, 10, 19 })
+                    Values = new List<int>(new int[] { 950 })
                 });
             }
             if (partner == "TEST")
@@ -417,11 +417,69 @@ namespace GPD.Facade
                 retVal.Lines.Add(new LinesDTO()
                 {
                     Name = "Floors",
-                    Values = new List<int>(new int[] { 13, 10, 18 })
+                    Values = new List<int>(new int[] { 710})
                 });
-            }            
+            }
             return retVal;
         }
+        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        public ChartDTO GetAppChartData(string partner, string fromDate, string toDate)
+        {
+            ChartDTO retVal = new ChartDTO();
+            retVal.Dates = new List<string>(new string[] { "2015-05-01" });
+
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "UL SPOT App for Autodesk Revit",
+                Values = new List<int>(new int[] { 560 })
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "AEC Daily App for Autodesk Revit",
+                Values = new List<int>(new int[] { 1456 })
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "AEC Daily App for Autodesk AutoCAD",
+                Values = new List<int>(new int[] { 2450})
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "UL SPOT App for Autodesk AutoCAD",
+                Values = new List<int>(new int[] {740})
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "UL Autodesk Revit 2016",
+                Values = new List<int>(new int[] { 770 })
+            });
+            if (partner == "ALL")
+            {
+                retVal.Lines.Add(new LinesDTO()
+                {
+                    Name = "Autodesk Revit 2016",
+                    Values = new List<int>(new int[] { 970 })
+                });
+            }
+            if (partner == "TEST")
+            {
+                retVal.Lines.Add(new LinesDTO()
+                {
+                    Name = "UL SPOT App for Sketchup",
+                    Values = new List<int>(new int[] { 430 })
+                });
+            }
+            return retVal;
+        }
+
 
         /// <summary>
         /// 
