@@ -75,6 +75,21 @@ namespace GPD.Dashboard.Controllers
         }
 
         /// <summary>
+        /// Get project count based on customer name
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        [Route("api/GetTopCustomerChartData")]
+        [HttpPost]
+        [Authorize]
+        public ChartDTO GetTopCustomerChartData(string partner, string fromDate, string toDate)
+        {
+            return new Facade.ProjectFacade().GetTopCustomerChartData(partner, fromDate, toDate);
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="partner"></param>

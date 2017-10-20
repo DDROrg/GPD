@@ -15,6 +15,9 @@
     color:#000;
 }
 
+.c3-tooltip{}
+.c3-tooltip .name{white-space:nowrap;}
+
 
 
 

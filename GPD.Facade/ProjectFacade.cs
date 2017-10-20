@@ -420,6 +420,16 @@ namespace GPD.Facade
                     Values = new List<int>(new int[] { 710})
                 });
             }
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "Roof",
+                Values = new List<int>(new int[] { 7820 })
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "Glass Window",
+                Values = new List<int>(new int[] { 300 })
+            });
             return retVal;
         }
         
@@ -438,34 +448,25 @@ namespace GPD.Facade
 
             retVal.Lines.Add(new LinesDTO()
             {
-                Name = "UL SPOT App for Autodesk Revit",
+                Name = "UL SPOT Autodesk Revit",
                 Values = new List<int>(new int[] { 560 })
             });
             retVal.Lines.Add(new LinesDTO()
             {
-                Name = "AEC Daily App for Autodesk Revit",
+                Name = "AEC Daily Autodesk Revit",
                 Values = new List<int>(new int[] { 1456 })
             });
             retVal.Lines.Add(new LinesDTO()
             {
-                Name = "AEC Daily App for Autodesk AutoCAD",
+                Name = "AEC Daily Autodesk AutoCAD",
                 Values = new List<int>(new int[] { 2450})
             });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "UL SPOT App for Autodesk AutoCAD",
-                Values = new List<int>(new int[] {740})
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "UL Autodesk Revit 2016",
-                Values = new List<int>(new int[] { 770 })
-            });
+           
             if (partner == "ALL")
             {
                 retVal.Lines.Add(new LinesDTO()
                 {
-                    Name = "Autodesk Revit 2016",
+                    Name = "Autodesk Revit 2015",
                     Values = new List<int>(new int[] { 970 })
                 });
             }
@@ -473,10 +474,78 @@ namespace GPD.Facade
             {
                 retVal.Lines.Add(new LinesDTO()
                 {
-                    Name = "UL SPOT App for Sketchup",
+                    Name = "UL SPOT Sketchup",
                     Values = new List<int>(new int[] { 430 })
                 });
             }
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "UL SPOT Autodesk AutoCAD",
+                Values = new List<int>(new int[] { 740 })
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "Autodesk Revit 2016",
+                Values = new List<int>(new int[] { 770 })
+            });
+            return retVal;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        public ChartDTO GetTopCustomerChartData(string partner, string fromDate, string toDate)
+        {
+            ChartDTO retVal = new ChartDTO();
+            retVal.Dates = new List<string>(new string[] { "2015-05-01" });
+
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "Delta",
+                Values = new List<int>(new int[] { 560 })
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "Harman Miller",
+                Values = new List<int>(new int[] { 1456 })
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "Kawneer",
+                Values = new List<int>(new int[] { 2450 })
+            });
+
+            if (partner == "ALL")
+            {
+                retVal.Lines.Add(new LinesDTO()
+                {
+                    Name = "Kimball",
+                    Values = new List<int>(new int[] { 970 })
+                });
+            }
+            if (partner == "TEST")
+            {
+                retVal.Lines.Add(new LinesDTO()
+                {
+                    Name = "Peachtree Doors & Window",
+                    Values = new List<int>(new int[] { 430 })
+                });
+            }
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "3M",
+                Values = new List<int>(new int[] { 740 })
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "Ruskin",
+                Values = new List<int>(new int[] { 770 })
+            });
             return retVal;
         }
 

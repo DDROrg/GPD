@@ -51,7 +51,7 @@ angular.module('GPD').controller("GPDPartnerCtrl", ['$scope', '$http', '$locatio
 angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', '$state', '$stateParams', '$filter', 'toastr', 'CommonServices',
     function ($scope, $rootScope, $http, $location, $uibModal, $log, $state, $stateParams, $filter, toastr, CommonServices) {
         var $ctrl = this;
-        var _projectChartObj, _pctAppChart, _pctTopAppChart, _topProductChart;
+        var _projectChartObj, _pctAppChart, _pctTopAppChart, _topCustomers, _topProductChart;
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         $ctrl.data.fromDate = "";
@@ -313,25 +313,31 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
                     var sum = v1.values.reduce(function (t, v) { return t + v; }, 0);
                     td.push([v1.name + "(" + $filter('number')(sum) + ")", sum]);
                 });
-                _topProductChart = RenderPieChartDataD3("#topProducts", td);
+                var len = td.length > 5 ? 5 : td.length;
+                _topProductChart = RenderPieChartDataD3("#topProducts", td.slice(0, len));
             });
         };
 
         var GetTopCustomerChartData = function () {
-            var d = [
-                        ["Delta (" + $filter('number')(2300) + ")", 2300],
-                        ["Harman Miller (" + $filter('number')(10000) + ")", 6000],
-                        ["Kawneer (" + $filter('number')(4700) + ")", 4700],
-                        ["Kimball (" + $filter('number')(2800) + ")", 2800],
-                        ["Peachtree Doors & Window (" + $filter('number')(3900) + ")", 3900]
-            ];
-            RenderPieChartDataD3("#topCustomers", d);
+
+            if (_topCustomers) { _topCustomers = _topCustomers.destroy(); }
+            return CommonServices.GetTopCustomerChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            .then(function (payload) {
+                var td = [];
+                angular.forEach(payload.lines, function (v1, k1) {
+                    var sum = v1.values.reduce(function (t, v) { return t + v; }, 0);
+                    td.push([v1.name + "(" + $filter('number')(sum) + ")", sum]);
+                });
+                var len = td.length > 5 ? 5 : td.length;
+                _topCustomers = RenderPieChartDataD3("#topCustomers", td.slice(0, len));
+            });            
         };
         
         $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
             GetProjectChartData();
             GetAppChartData();
             GetTopProductChartData();
+            GetTopCustomerChartData();
             GetUniqueUserCount();
             GetProjectCount();
             GetBPMCount();
@@ -341,6 +347,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             GetProjectChartData();
             GetAppChartData();
             GetTopProductChartData();
+            GetTopCustomerChartData();
             GetUniqueUserCount();
             GetProjectCount();
             GetBPMCount();
@@ -352,6 +359,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
                 GetProjectChartData();
                 GetAppChartData();
                 GetTopProductChartData();
+                GetTopCustomerChartData();
                 GetUniqueUserCount();
                 GetProjectCount();
                 GetBPMCount();
@@ -363,7 +371,6 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             circloidDialChart("#pctProjectManufacture");
             circloidDialChart("#pctProjectProductTAG");
             GetProjectYOYChartData();
-            GetTopCustomerChartData();
         });
     }]);
 
