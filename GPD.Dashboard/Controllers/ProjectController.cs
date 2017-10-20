@@ -143,5 +143,38 @@ namespace GPD.Dashboard.Controllers
         {
             return new Facade.ProjectFacade().GetPartnerCount();
         }
+
+        /// <summary>
+        /// Get percentage of project with ProductTAG data
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        [Route("api/GetPctProjectWithProductTAG")]
+        [HttpPost]
+        [Authorize]
+        public int GetPctProjectWithProductTAG(string partner, string fromDate, string toDate)
+        {
+            return new Facade.ProjectFacade().GetPctProjectWithProductTAG(partner, fromDate, toDate);
+        }
+
+        /// <summary>
+        /// Get percentage of project with manufacturer data
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        [Route("api/GetPctProjectWithManufacturer")]
+        [HttpPost]
+        [Authorize]
+        public int GetPctProjectWithManufacturer(string partner, string fromDate, string toDate)
+        {
+            return new Facade.ProjectFacade().GetPctProjectWithManufacturer(partner, fromDate, toDate);
+        }
+
+
+
     }
 }

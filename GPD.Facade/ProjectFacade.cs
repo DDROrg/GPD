@@ -593,6 +593,30 @@ namespace GPD.Facade
             return 37;
         }
 
+        /// <summary>
+        /// Get percentage of project with ProductTAG data
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        public int GetPctProjectWithProductTAG(string partner, string fromDate, string toDate)
+        {
+            return 47;
+        }
+
+        /// <summary>
+        /// Get percentage of project with manufacturer data
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        public int GetPctProjectWithManufacturer(string partner, string fromDate, string toDate)
+        {
+            return 56;
+        }
+
         public UpdateProjectResponse UpdateProject(string projectId, ProjectDTO projectDTO)
         {
             UpdateProjectResponse projectResponse = new UpdateProjectResponse(false, projectId);

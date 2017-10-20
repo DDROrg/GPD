@@ -10,6 +10,34 @@
             </h1>
         </div>
         <div class="col-md-6">
+            <div class="row">
+                <div class="col-sm-2" style="text-align:right;">
+                    From:
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-group search-wrapper">
+                        <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.data.from.date"
+                               is-open="$ctrl.data.from.popupOpened" datepicker-options="$ctrl.data.from" show-button-bar="false" readonly="readonly"
+                               ng-change="$ctrl.fromDateSelected()" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" ng-click="$ctrl.fromDatePopupOpen()"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-2" style="text-align:right;">
+                    To:
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-group search-wrapper">
+                        <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.data.to.date"
+                               is-open="$ctrl.data.to.popupOpened" datepicker-options="$ctrl.data.to" show-button-bar="false" readonly="readonly"
+                               ng-change="$ctrl.toDateSelected()" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" ng-click="$ctrl.toDatePopupOpen()"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -96,8 +124,7 @@
                     <span class="icon icon-arrow-down-bold-round"></span>
                 </div>
                 <div class="c-wdiget-graph-actual">
-                    <div id="pctProjectManufacture" class="graph graph-epc graph-size-small" data-percent="89" data-graph-colors="#f14141,#6ec06e,#4596f1,#ffd040">
-                        <span class="percent">89</span>
+                    <div id="pctProjectManufacture" style="height:50px; width: 90px;">
                     </div>
                 </div>
                 <div class="c-wdiget-content-block">
@@ -116,8 +143,7 @@
                     <span class="icon icon-star"></span>
                 </div>
                 <div class="c-wdiget-graph-actual">
-                    <div id="pctProjectProductTAG" class="graph graph-epc graph-size-small" data-percent="38" data-graph-colors="#4596f1" style="width: 90px;">
-                        <span class="percent">38</span>
+                    <div id="pctProjectProductTAG" style="height:50px; width: 90px;">
                     </div>
                 </div>
                 <div class="c-wdiget-content-block">

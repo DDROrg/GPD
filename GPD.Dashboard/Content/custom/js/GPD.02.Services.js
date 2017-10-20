@@ -47,6 +47,16 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return $http.post(__RootUrl + "api/GetPartnerCount");
     };
 
+    var _GetPctProjectWithProductTAG = function (partner, fromDate, toDate) {
+        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+        return $http.post(__RootUrl + "api/GetPctProjectWithProductTAG?" + $httpParamSerializer(data));
+    };
+
+    var _GetPctProjectWithManufacturer = function (partner, fromDate, toDate) {
+        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+        return $http.post(__RootUrl + "api/GetPctProjectWithManufacturer?" + $httpParamSerializer(data));
+    };
+    
     this.SetDefaultData = function (myScope, myLocation) {
         myScope.data = {};
     };
@@ -183,6 +193,28 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return deferred.promise;
     };
 
+    this.GetPctProjectWithProductTAG = function (partner, fromDate, toDate) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _GetPctProjectWithProductTAG(partner, fromDate, toDate)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+
+    this.GetPctProjectWithManufacturer = function (partner, fromDate, toDate) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _GetPctProjectWithManufacturer(partner, fromDate, toDate)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+        
     this.GetAppChartData = function (partner, fromDate, toDate) {
         var deferred = $q.defer();
         var retVal = {};

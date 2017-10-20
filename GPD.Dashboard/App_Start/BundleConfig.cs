@@ -30,7 +30,7 @@ namespace GPD.Dashboard
                       "~/Content/angular/js/angular.js",
                       "~/Content/angular/js/angular-animate.js",
                       "~/Content/angular/js/angular-toastr.tpls.min.js",
-                      "~/Content/angular/js/angular-ui/ui-bootstrap-tpls.js",
+                      "~/Content/angular-ui/js/ui-bootstrap-tpls.js",
                       "~/Content/angular/js/angular-ui-router.min.js",
                       "~/Content/angular/js/angular-ui-router-title.js",
                       "~/Content/angular/js/loading-bar.min.js",
