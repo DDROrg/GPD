@@ -3,8 +3,21 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x- ng-cloak {
     display: none !important;
 }
-.table{margin:0px;}
+
+.table {
+    margin: 0px;
+}
 /*====== Bootstrap Override End ===================*/
+.recent-projects {    
+}
+.gpd-widget-content-sub-heading{
+    font-weight:bold;
+    color:#000;
+}
+
+
+
+
 @media only screen and (min-width : 321px) and (max-width : 480px) {
 }
 
@@ -24,11 +37,21 @@
     .modal-lg {
         width: 95%;
     }
+
+    .recent-projects {
+        overflow-y: auto;
+        height: 300px;
+    }
 }
 
 @media only screen and (min-width : 1201px) {
     .modal-lg {
         width: 95%;
+    }
+
+    .recent-projects {
+        overflow-y: auto;
+        height: 300px;
     }
 }
 /*====== Bootstrap Override End ===================*/

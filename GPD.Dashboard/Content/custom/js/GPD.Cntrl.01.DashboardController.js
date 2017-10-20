@@ -38,7 +38,11 @@ angular.module('GPD').controller("GPDPartnerCtrl", ['$scope', '$http', '$locatio
     };
 
     angular.element(document).ready(function () {
-        if (__UserId != "") { GetLogedinUserProfile(); }
+        if (__UserId != "") {
+            setTimeout(function () {
+                GetLogedinUserProfile();
+            }, 2500);
+        }
     });
 }]);
 
@@ -47,7 +51,7 @@ angular.module('GPD').controller("GPDPartnerCtrl", ['$scope', '$http', '$locatio
 angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', '$state', '$stateParams', '$filter', 'toastr', 'CommonServices',
     function ($scope, $rootScope, $http, $location, $uibModal, $log, $state, $stateParams, $filter, toastr, CommonServices) {
         var $ctrl = this;
-        var _projectChartObj, _categoriesChartObj;
+        var _projectChartObj, _topProductChart;
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         $ctrl.data.fromDate = "";
@@ -56,7 +60,6 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         $ctrl.data.ProjectCount = 0;
         $ctrl.data.BPMCount = 0;
         $ctrl.data.PartnerCount = 0;
-        $ctrl.data.TopCategories = [];
 
         var circloidLineChartFlot = function (placeholder, d) {
             var td = CommonServices.TransformChartData(d);
@@ -229,7 +232,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
                     columns: tempData.tempColumns,
                     type: 'spline'
                 },
-                point: { r: 2 },
+                point: { r: 3 },
                 axis: {
                     x: {
                         type: 'timeseries',
@@ -241,8 +244,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         };
 
         var RenderPieChartDataD3 = function (placeholder, d) {
-
-            _projectYOYChartObj = c3.generate({
+            var pieChart = c3.generate({
                 bindto: placeholder,
                 data: {
                     columns: d,
@@ -253,6 +255,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
                     label: { show: false }
                 }
             });
+            return pieChart;
         };
 
         /*============================================================
@@ -285,20 +288,20 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         };
 
         var GetCategoriesChartData = function () {
-            if (_categoriesChartObj) { _categoriesChartObj = _categoriesChartObj.destroy(); }
-            return CommonServices.GetCategoriesChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
-            .then(function (payload) {
-                var td = [];
-                angular.forEach(payload.lines, function (v1, k1) {
-                    var tempLine = { name: v1.name, value: 0 };
-                    angular.forEach(v1.values, function (v2, k2) {
-                        tempLine.value = tempLine.value + v2;
-                    });
-                    td.push(tempLine);
-                });
-
-                $ctrl.data.TopCategories = td;
-            });
+            //if (_categoriesChartObj) { _categoriesChartObj = _categoriesChartObj.destroy(); }
+            //return CommonServices.GetCategoriesChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            //.then(function (payload) {
+            //    var td = [];
+            //    angular.forEach(payload.lines, function (v1, k1) {
+            //        var tempLine = { name: v1.name, value: 0 };
+            //        angular.forEach(v1.values, function (v2, k2) {
+            //            tempLine.value = tempLine.value + v2;
+            //        });
+            //        td.push(tempLine);
+            //    });
+            //    debugger;
+            //    $ctrl.data.TopCategories = td;
+            //});
         };
 
         var GetUniqueUserCount = function () {
@@ -338,14 +341,16 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         };
 
         var GetTopProductChartData = function () {
-            var d = [
-                        ["Doors (" + $filter('number')(2300) + ")", 2300],
-                        ["Windows (" + $filter('number')(6000) + ")", 6000],
-                        ["Furniture (" + $filter('number')(4700) + ")", 4700],
-                        ["Plumbing (" + $filter('number')(2800) + ")", 2800],
-                        ["Lighting (" + $filter('number')(3900) + ")", 3900]
-            ];
-            RenderPieChartDataD3("#topProducts", d);
+            if (_topProductChart) { _topProductChart = _topProductChart.destroy(); }
+            return CommonServices.GetTopProductChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            .then(function (payload) {
+                var td = [];
+                angular.forEach(payload.lines, function (v1, k1) {
+                    var sum = v1.values.reduce(function (t, v) { return t + v; }, 0);
+                    td.push([v1.name + "(" + $filter('number')(sum) + ")", sum]);
+                });
+                _topProductChart = RenderPieChartDataD3("#topProducts", td);
+            });
         };
         var GetTopApplicationChartData = function () {
             var d = [
@@ -370,15 +375,15 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         //topCustomers
 
         $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) {
-            GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount(); GetPartnerCount();
+            GetProjectChartData(); GetTopProductChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount(); GetPartnerCount();
         });
         $rootScope.$on('EVENT-ChangePartner', function (event, data) {
-            GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount();
+            GetProjectChartData(); GetTopProductChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount();
         });
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             $ctrl.data.LogedinUserProfile.selectedMenu = "GPD.Dashboard";
             if (fromState.name != '') {
-                GetProjectChartData(); GetCategoriesChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount(); GetPartnerCount();
+                GetProjectChartData(); GetTopProductChartData(); GetUniqueUserCount(); GetProjectCount(); GetBPMCount(); GetPartnerCount();
             }
         });
 
@@ -387,7 +392,6 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             circloidDialChart("#pctProjectProductTAG");
             circloidDonutChartFlot("#pctAppProject", "small", false);
             GetProjectYOYChartData();
-            GetTopProductChartData();
             GetTopApplicationChartData();
             GetTopCustomerChartData();
         });

@@ -379,13 +379,11 @@ namespace GPD.Facade
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <returns></returns>
-        public ChartDTO GetCategoriesChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetTopProductChartData(string partner, string fromDate, string toDate)
         {
-
             ChartDTO retVal = new ChartDTO();
             retVal.Dates = new List<string>(new string[] { "2015-05-01", "2016-05-01", "2017-05-01"});
-
-
+            
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Doors",
@@ -395,6 +393,16 @@ namespace GPD.Facade
             {
                 Name = "Window",
                 Values = new List<int>(new int[] { 12, 12, 19})
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "Plumbing",
+                Values = new List<int>(new int[] { 35, 12, 19 })
+            });
+            retVal.Lines.Add(new LinesDTO()
+            {
+                Name = "Lighting",
+                Values = new List<int>(new int[] { 12, 56, 19 })
             });
             if (partner == "ALL")
             {

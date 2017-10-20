@@ -51,12 +51,12 @@ namespace GPD.Dashboard.Controllers
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <returns></returns>
-        [Route("api/GetCategoriesChartData")]
+        [Route("api/GetTopProductChartData")]
         [HttpPost]
         [Authorize]
-        public ChartDTO GetCategoriesChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetTopProductChartData(string partner, string fromDate, string toDate)
         {
-            return new Facade.ProjectFacade().GetCategoriesChartData(partner, fromDate, toDate);
+            return new Facade.ProjectFacade().GetTopProductChartData(partner, fromDate, toDate);
         }
 
         /// <summary>

@@ -13,9 +13,9 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return $http.post(__RootUrl + "api/GetProjectChartData?" + $httpParamSerializer(data));
     };
 
-    var _GetCategoriesChartData = function (partner, fromDate, toDate) {
+    var _GetTopProductChartData = function (partner, fromDate, toDate) {
         var data = { partner: partner, fromDate: fromDate, toDate: toDate };
-        return $http.post(__RootUrl + "api/GetCategoriesChartData?" + $httpParamSerializer(data));
+        return $http.post(__RootUrl + "api/GetTopProductChartData?" + $httpParamSerializer(data));
     };
 
     var _GetProjectCount = function (partner, fromDate, toDate) {
@@ -119,10 +119,10 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return deferred.promise;
     };
 
-    this.GetCategoriesChartData = function (partner, fromDate, toDate) {
+    this.GetTopProductChartData = function (partner, fromDate, toDate) {
         var deferred = $q.defer();
         var retVal = {};
-        _GetCategoriesChartData(partner, fromDate, toDate)
+        _GetTopProductChartData(partner, fromDate, toDate)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);
