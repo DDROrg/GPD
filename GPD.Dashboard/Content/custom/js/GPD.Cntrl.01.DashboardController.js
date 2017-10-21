@@ -56,9 +56,6 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         $ctrl.data.to = {};
         $ctrl.data.from = {};
-        $ctrl.data.fromDate = "";
-        $ctrl.data.toDate = "";
-
 
         var ResetDateRange = function (d) {
             if (d == "TO") {
@@ -285,11 +282,12 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
                 normalizeFunction: 'polynomial'
             });
         };
+        $ctrl.data.from.date, $ctrl.data.to.date
         ============================================================*/
 
         var GetProjectChartData = function () {
             if (_projectChartObj) { _projectChartObj = _projectChartObj.destroy(); }
-            return CommonServices.GetProjectChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            return CommonServices.GetProjectChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
             .then(function (payload) {
                 circloidLineChartFlot("#graphProjectChart", payload);
                 RenderProjectChartDataD3("#ProjectChartD3", payload);
@@ -299,7 +297,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         var GetAppChartData = function () {
             if (_pctAppChart) { _pctAppChart = _pctAppChart.destroy(); }
             if (_pctTopAppChart) { _pctTopAppChart = _pctTopAppChart.destroy(); }
-            return CommonServices.GetAppChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            return CommonServices.GetAppChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
             .then(function (payload) {
                 var td = [];
                 angular.forEach(payload.lines, function (v1, k1) {
@@ -320,14 +318,14 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         };
 
         var GetProjectCount = function () {
-            return CommonServices.GetProjectCount($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            return CommonServices.GetProjectCount($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
             .then(function (payload) {
                 $ctrl.data.ProjectCount = payload;
             });
         };
 
         var GetBPMCount = function () {
-            return CommonServices.GetBPMCount($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            return CommonServices.GetBPMCount($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
             .then(function (payload) {
                 $ctrl.data.BPMCount = payload;
             });
@@ -335,7 +333,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
 
         var GetPctProjectWithManufacture = function () {
             if (_pctProjectManufacture) { _pctProjectManufacture = _pctProjectManufacture.destroy(); }
-            return CommonServices.GetPctProjectWithManufacturer($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            return CommonServices.GetPctProjectWithManufacturer($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
             .then(function (payload) {
                 _pctProjectManufacture = RenderGaugeChartDataD3("#pctProjectManufacture", ["#63B2F7"], [["Manufacture", payload]])
             });
@@ -343,7 +341,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
 
         var GetPctProjectWithProductTAG = function () {
             if (_pctProjectProductTAG) { _pctProjectProductTAG = _pctProjectProductTAG.destroy(); }
-            return CommonServices.GetPctProjectWithProductTAG($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            return CommonServices.GetPctProjectWithProductTAG($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
             .then(function (payload) {
                 _pctProjectProductTAG = RenderGaugeChartDataD3("#pctProjectProductTAG", ["#65B465"], [["ProductTAG", payload]])
             });
@@ -366,7 +364,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
 
         var GetTopProductChartData = function () {
             if (_topProductChart) { _topProductChart = _topProductChart.destroy(); }
-            return CommonServices.GetTopProductChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            return CommonServices.GetTopProductChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
             .then(function (payload) {
                 var td = [];
                 angular.forEach(payload.lines, function (v1, k1) {
@@ -380,7 +378,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
 
         var GetTopCustomerChartData = function () {
             if (_topCustomers) { _topCustomers = _topCustomers.destroy(); }
-            return CommonServices.GetTopCustomerChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.fromDate, $ctrl.data.toDate)
+            return CommonServices.GetTopCustomerChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
             .then(function (payload) {
                 var td = [];
                 angular.forEach(payload.lines, function (v1, k1) {

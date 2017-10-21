@@ -8,18 +8,26 @@
     margin: 0px;
 }
 /*====== Bootstrap Override End ===================*/
-.recent-projects {    
-}
-.gpd-widget-content-sub-heading{
-    font-weight:bold;
-    color:#000;
+.recent-projects {
 }
 
-.c3-tooltip{}
-.c3-tooltip .name{white-space:nowrap;}
+.gpd-widget-content-sub-heading {
+    font-weight: bold;
+    color: #000;
+}
 
+.c3-tooltip {
+}
 
+    .c3-tooltip .name {
+        white-space: nowrap;
+    }
 
+.filter-caption {
+    text-align: right;
+    padding: 6px 5px;
+    font-weight: bold;
+}
 
 @media only screen and (min-width : 321px) and (max-width : 480px) {
 }
