@@ -1,11 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Web.Http.Description;
+﻿using System;
+using System.Collections.Generic;
+using System.Web;
 using System.Web.Http;
+using System.Linq;
+using System.Web.Security;
+using System.Web.Http.Description;
 
 namespace GPD.Dashboard.Controllers
 {
     using Facade.WebAppFacade;
     using ServiceEntities.BaseEntities;
+    using ServiceEntities.ResponseEntities;
+    using ServiceEntities.ResponseEntities.ProjectsList;
 
     /// <summary>
     /// 
@@ -27,6 +33,67 @@ namespace GPD.Dashboard.Controllers
         public SignInResponseDTO GetUserProfile(int userId)
         {
             return UserDetailsFacade.GetUserRole(userId);
+        }
+
+        /// <summary>
+        /// Get Projects List
+        /// </summary>
+        /// <param name="partnerName">Partner Name</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="pageIndex">Page Index</param>
+        /// <param name="searchTerm">Search Term</param>
+        /// <param name="fromDate">From Date as string in UTC format (2017-08-03T140:00:00.000Z)</param>
+        /// <param name="toDate">To Date as string in UTC format (2017-08-03T140:00:00.000Z)</param>
+        /// <param name="pIdentifier">Project Identifier</param>
+        /// <returns></returns>
+        [Route("api/{partnerName}/Project/List/{pageSize:int}/{pageIndex:int}/{searchTerm?}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public ProjectsListResponse GetProjectsList(
+            string partnerName,
+            int pageSize,
+            int pageIndex,
+            string fromDate,
+            string toDate,
+            string searchTerm = null,
+            string pIdentifier = null)
+        {
+            DateTime fromDateTime = DateTime.MinValue, toDateTime = DateTime.MinValue;
+            int userId = -1;
+
+            try
+            {
+                fromDateTime = Convert.ToDateTime(fromDate);
+                toDateTime = Convert.ToDateTime(toDate);
+
+                if (DateTime.Compare(fromDateTime.AddMonths(3), toDateTime) == -1)
+                    toDateTime = fromDateTime.AddMonths(3);
+            }
+            catch
+            {
+                toDateTime = DateTime.Now;
+                fromDateTime = DateTime.Now.AddMonths(-3);
+            }
+
+            try
+            {
+                pageIndex = (pageIndex < 1) ? 1 : pageIndex;
+                pageSize = (pageSize == -1 || pageSize > Utility.ConfigurationHelper.API_ProjectsListPageMaxSize) ?
+                    Utility.ConfigurationHelper.API_ProjectsListPageSize : pageSize;
+
+                string encryptedValue = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
+                userId = int.Parse(FormsAuthentication.Decrypt(encryptedValue).Name);
+
+                searchTerm = (string.IsNullOrWhiteSpace(searchTerm)) ? null : searchTerm.Trim();
+                pIdentifier = (string.IsNullOrWhiteSpace(pIdentifier)) ? null : pIdentifier.Trim();
+                return new Facade.ProjectFacade().GetProjectsList(partnerName, userId, pageSize, pageIndex,
+                    string.Format("{0:yyyy-MM-dd}", fromDateTime), string.Format("{0:yyyy-MM-dd}", toDateTime), searchTerm, pIdentifier);
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+                return new ProjectsListResponse();
+            }
         }
 
         /// <summary>

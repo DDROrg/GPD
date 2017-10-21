@@ -321,66 +321,12 @@
                         <div class="table-responsive recent-projects">
                             <table class="table table-striped table-hover">
                                 <tbody>
-                                    <tr>
-                                        <td>Roswell Math and Science Charter School</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tonny's Ware House</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>
-                                    <tr>
-                                        <td>NA</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>  
-                                    <tr>
-                                        <td>Roswell Math and Science Charter School</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tonny's Ware House</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>
-                                    <tr>
-                                        <td>NA</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>  
-                                    <tr>
-                                        <td>Roswell Math and Science Charter School</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tonny's Ware House</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>
-                                    <tr>
-                                        <td>NA</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>  
-                                    <tr>
-                                        <td>Roswell Math and Science Charter School</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tonny's Ware House</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>
-                                    <tr>
-                                        <td>NA</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>  
-                                    <tr>
-                                        <td>Roswell Math and Science Charter School</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tonny's Ware House</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>
-                                    <tr>
-                                        <td>NA</td>
-                                        <td>10/02/2017 02:56:03</td>
-                                    </tr>                                    
+                                    <tr  data-ng-repeat="d in $ctrl.data.projectListResponse.projects">
+                                        <td>
+                                            {{d.name}}<span class="empty" ng-show="!d.name">N/A</span>
+                                        </td>
+                                        <td>{{d["create-timestamp-formatted"] | date:'MM/dd/yyyy HH:mm:ss'}}</td>
+                                    </tr>                                   
                                 </tbody>
                             </table>
                         </div>

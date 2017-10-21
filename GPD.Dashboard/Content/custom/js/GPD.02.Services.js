@@ -8,6 +8,15 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return $http.post(__RootUrl + "api/GetUserProfile?userId=" + __UserId);
     };
 
+    var _GetProjects = function (PartnarName, GlobalSearchParam, FromDate, ToDate, ProjectIdentifier, PageIndex, PageSize) {
+        var data = {};
+        data.searchTerm = GlobalSearchParam;
+        data.pIdentifier = ProjectIdentifier;
+        data.fromDate = FromDate;
+        data.toDate = ToDate;
+        return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex + "?" + $httpParamSerializer(data));
+    };
+
     var _GetProjectChartData = function (partner, fromDate, toDate) {
         var data = { partner: partner, fromDate: fromDate, toDate: toDate };
         return $http.post(__RootUrl + "api/GetProjectChartData?" + $httpParamSerializer(data));
@@ -122,6 +131,22 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
             this.LogedinUserProfile.partnerNames = payload.data.partnerNames;
             this.LogedinUserProfile.selectedPartner = payload.data.selectedPartner;
             retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+
+    this.GetProjects = function (PartnarName, GlobalSearchParam, FromDate, ToDate, ProjectIdentifier, PageIndex, PageSize) {
+        var deferred = $q.defer();
+        var retVal = [];
+        _GetProjects(PartnarName, GlobalSearchParam, FromDate, ToDate, ProjectIdentifier, PageIndex, PageSize)
+        .then(function (payload) {
+            retVal = payload.data;
+            $.each(retVal.projects, function (k, v) {
+                v.isExpanded = false;
+                v.hasDetail = false;
+                v.isSelected = false;
+            });
             deferred.resolve(retVal);
         });
         return deferred.promise;
