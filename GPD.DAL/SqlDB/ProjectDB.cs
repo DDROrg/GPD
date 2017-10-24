@@ -651,5 +651,50 @@ END;
                 errorMsg = retVal["@P_Return_Message"].ToString();
             }
         }
+
+
+        #region For Reporting
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        public DataSet GetProjectCount(string partner, string fromDate, string toDate)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_PartnerName nvarchar(30),
+		@M_FromDate DATETIME,
+		@M_ToDate DATETIME;
+
+	SET @M_PartnerName = @P_PartnerName;
+	SET @M_FromDate = CONVERT(DATETIME, @P_FromDate, 102);
+	SET @M_ToDate = DATEADD(day, 1, CONVERT(DATETIME, @P_ToDate, 102));
+
+	SELECT COUNT(P.project_id) AS P_COUNT
+	FROM gpd_project P
+	WHERE P.deleted = 0
+		AND P.create_date BETWEEN @M_FromDate AND @M_ToDate
+		AND (@M_PartnerName = 'ALL' OR P.partner_name = @M_PartnerName);
+END;
+");
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_PartnerName", partner),
+                 new SqlParameter("@P_FromDate", fromDate),
+                 new SqlParameter("@P_ToDate", toDate)
+            };
+
+            return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
+        //GetProjectCount(partner, fromDate, toDate); 
+        #endregion
     }
 }

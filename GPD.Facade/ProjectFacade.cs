@@ -340,7 +340,7 @@ namespace GPD.Facade
         {
             //dynamic MyDynamic = new System.Dynamic.ExpandoObject();
             ChartDTO retVal = new ChartDTO();
-            
+
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Revit",
@@ -384,12 +384,12 @@ namespace GPD.Facade
         public ChartDTO GetTopProductChartData(string partner, string fromDate, string toDate)
         {
             ChartDTO retVal = new ChartDTO();
-            
+
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Doors",
                 Dates = new List<string>(new string[] { "2015-05-01" }),
-                Values = new List<int>(new int[] {4520 })
+                Values = new List<int>(new int[] { 4520 })
             });
             retVal.Lines.Add(new LinesDTO()
             {
@@ -424,7 +424,7 @@ namespace GPD.Facade
                 {
                     Name = "Floors",
                     Dates = new List<string>(new string[] { "2015-05-01" }),
-                    Values = new List<int>(new int[] { 710})
+                    Values = new List<int>(new int[] { 710 })
                 });
             }
             retVal.Lines.Add(new LinesDTO()
@@ -441,7 +441,7 @@ namespace GPD.Facade
             });
             return retVal;
         }
-        
+
 
         /// <summary>
         /// 
@@ -453,7 +453,7 @@ namespace GPD.Facade
         public ChartDTO GetAppChartData(string partner, string fromDate, string toDate)
         {
             ChartDTO retVal = new ChartDTO();
-           
+
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "UL SPOT Autodesk Revit",
@@ -467,9 +467,9 @@ namespace GPD.Facade
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "AEC Daily Autodesk AutoCAD",
-                Values = new List<int>(new int[] { 2450})
+                Values = new List<int>(new int[] { 2450 })
             });
-           
+
             if (partner == "ALL")
             {
                 retVal.Lines.Add(new LinesDTO()
@@ -510,7 +510,7 @@ namespace GPD.Facade
         public ChartDTO GetTopCustomerChartData(string partner, string fromDate, string toDate)
         {
             ChartDTO retVal = new ChartDTO();
-            
+
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Delta",
@@ -566,7 +566,20 @@ namespace GPD.Facade
         /// <returns></returns>
         public int GetProjectCount(string partner, string fromDate, string toDate)
         {
-            return 1243;
+            int retVal = 0;
+            try { 
+            DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectCount(partner, fromDate, toDate);
+                if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
+                {
+                    retVal = Convert.ToInt32(ds.Tables[0].Rows[0]["P_COUNT"].ToString());
+                }
+            }
+            catch (Exception exc)
+            {
+                log.Error("Unable to get project count. ERROR: " + exc.ToString());
+            }
+
+            return retVal;
         }
 
         /// <summary>

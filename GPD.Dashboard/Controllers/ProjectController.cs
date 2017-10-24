@@ -181,8 +181,11 @@ namespace GPD.Dashboard.Controllers
         [Authorize]
         public int GetProjectCount(string partner, string fromDate, string toDate)
         {
+            FormateDateRange(ref fromDate, ref toDate);
             return new Facade.ProjectFacade().GetProjectCount(partner, fromDate, toDate);
         }
+
+        
 
         /// <summary>
         /// 
@@ -241,7 +244,30 @@ namespace GPD.Dashboard.Controllers
             return new Facade.ProjectFacade().GetPctProjectWithManufacturer(partner, fromDate, toDate);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        private void FormateDateRange(ref string fromDate, ref string toDate)
+        {
+            DateTime fromDateTime = DateTime.MinValue, toDateTime = DateTime.MinValue;
+            try
+            {
+                fromDateTime = Convert.ToDateTime(fromDate);
+                toDateTime = Convert.ToDateTime(toDate);
 
+                if (DateTime.Compare(fromDateTime.AddMonths(3), toDateTime) == -1)
+                    toDateTime = fromDateTime.AddMonths(3);
+            }
+            catch
+            {
+                toDateTime = DateTime.Now;
+                fromDateTime = DateTime.Now.AddMonths(-3);
+            }
+            fromDate = string.Format("{0:yyyy-MM-dd}", fromDateTime);
+            toDate = string.Format("{0:yyyy-MM-dd}", toDateTime);
+        }
 
     }
 }
