@@ -555,8 +555,7 @@ namespace GPD.Facade
             });
             return retVal;
         }
-
-
+                
         /// <summary>
         /// 
         /// </summary>
@@ -589,7 +588,21 @@ namespace GPD.Facade
         /// <returns></returns>
         public int GetUniqueUserCount(string partner)
         {
-            return 231;
+            int retVal = 0;
+            try
+            {
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUniqueUserCount(partner);
+                if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
+                {
+                    retVal = Convert.ToInt32(ds.Tables[0].Rows[0]["U_COUNT"].ToString());
+                }
+            }
+            catch (Exception exc)
+            {
+                log.Error("Unable to get user count. ERROR: " + exc.ToString());
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -598,7 +611,21 @@ namespace GPD.Facade
         /// <returns></returns>
         public int GetPartnerCount()
         {
-            return 3;
+            int retVal = 0;
+            try
+            {
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetPartnerCount();
+                if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
+                {
+                    retVal = Convert.ToInt32(ds.Tables[0].Rows[0]["P_COUNT"].ToString());
+                }
+            }
+            catch (Exception exc)
+            {
+                log.Error("Unable to get partner count. ERROR: " + exc.ToString());
+            }
+
+            return retVal;
         }
 
         /// <summary>

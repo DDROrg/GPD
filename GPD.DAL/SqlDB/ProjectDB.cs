@@ -694,7 +694,69 @@ END;
 
             return base.GetDSBasedOnStatement(sb, parametersInList);
         }
-        //GetProjectCount(partner, fromDate, toDate); 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        public DataSet GetUniqueUserCount(string partner)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_PartnerName nvarchar(30);
+	SET @M_PartnerName = @P_PartnerName;
+
+	IF  @M_PartnerName = 'ALL' 
+	BEGIN
+		SELECT COUNT(DISTINCT u.user_id) U_COUNT 
+		FROM gpd_user_details u WHERE u.active =1;
+	END
+	ELSE
+	BEGIN
+		SELECT COUNT(DISTINCT u.user_id) AS U_COUNT
+		FROM gpd_user_details u 
+		JOIN gpd_partner_user_group_xref x 
+			ON u.user_id = x.user_id
+				AND u.active = 1
+				AND x.active = 1
+		JOIN gpd_partner_details p
+			ON x.partner_id = p.partner_id
+				AND p.active = 1
+		WHERE p.name = @M_PartnerName;
+	END;
+END;
+");
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>()
+            {
+                 new SqlParameter("@P_PartnerName", partner)
+            };
+
+            return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
+
+        public DataSet GetPartnerCount()
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	SELECT COUNT(P.partner_id) AS P_COUNT
+	FROM gpd_partner_details P
+	WHERE P.active = 1 AND P.name != 'ALL';
+END
+");
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>() { };
+
+            return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
+        //GetPartnerCount(partner, fromDate, toDate); 
         #endregion
     }
 }
