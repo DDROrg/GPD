@@ -70,24 +70,6 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         myScope.data = {};
     };
 
-    this.TransformChartData = function (d) {
-        var td = { lines: [], xaxis: [] };
-        angular.forEach(d.lines, function (v1, k1) {
-            var tempLine = {};
-            tempLine.label = v1.name;
-            tempLine.data = [];
-            angular.forEach(v1.values, function (v2, k2) {
-                tempLine.data.push([k2 + 1, v2]);
-            });
-            td.lines.push(tempLine);
-        });
-
-        angular.forEach(d.dates, function (v1, k1) {
-            td.xaxis.push([k1 + 1, v1]);
-        });
-        return td;
-    };
-
     this.TransformChartDataD3 = function (d) {
         var tempData = {};
         tempData.tempPattern = [];
@@ -97,10 +79,9 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
             var i = "x" + (k + 1);
             tempData.tempPattern.push(_chartColor[k]);
             tempData.tempXs[v.name] = i;
-            var dates = d.dates.slice();
-            dates.unshift(i);
+            v.dates.unshift(i);
             v.values.unshift(v.name)
-            tempData.tempColumns.push(dates);
+            tempData.tempColumns.push(v.dates);
             tempData.tempColumns.push(v.values);
         });
         return tempData;

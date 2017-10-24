@@ -340,17 +340,17 @@ namespace GPD.Facade
         {
             //dynamic MyDynamic = new System.Dynamic.ExpandoObject();
             ChartDTO retVal = new ChartDTO();
-            retVal.Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06", "2017-05-07", "2017-05-08", "2017-05-09", "2017-05-10", "2017-05-11", "2017-05-12", "2017-05-13", "2017-05-14", });
-
-
+            
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Revit",
+                Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06", "2017-05-07", "2017-05-08", "2017-05-09", "2017-05-10", "2017-05-11", "2017-05-12", "2017-05-13", "2017-05-14", }),
                 Values = new List<int>(new int[] { 10, 12, 9, 17, 20, 14, 10, 12, 9, 17, 20, 14, 30 })
             });
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "AutoCAD",
+                Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06", "2017-05-07", "2017-05-08", "2017-05-09", "2017-05-10", "2017-05-11", "2017-05-12", "2017-05-13", "2017-05-14", }),
                 Values = new List<int>(new int[] { 12, 12, 19, 21, 24, 4, 12, 12, 19, 21, 24, 4, 12 })
             });
             if (partner == "ALL")
@@ -358,6 +358,7 @@ namespace GPD.Facade
                 retVal.Lines.Add(new LinesDTO()
                 {
                     Name = "BIM",
+                    Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06", "2017-05-07", "2017-05-08", "2017-05-09", "2017-05-10", "2017-05-11", "2017-05-12", "2017-05-13", "2017-05-14", }),
                     Values = new List<int>(new int[] { 14, 10, 19, 27, 24, 4, 14, 10, 19, 27, 24, 4, 3 })
                 });
             }
@@ -366,6 +367,7 @@ namespace GPD.Facade
                 retVal.Lines.Add(new LinesDTO()
                 {
                     Name = "BIMX",
+                    Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06", "2017-05-07", "2017-05-08", "2017-05-09", "2017-05-10", "2017-05-11", "2017-05-12", "2017-05-13", "2017-05-14", }),
                     Values = new List<int>(new int[] { 13, 10, 18, 27, 24, 14, 14, 10, 19, 27, 24, 14, 13 })
                 });
             }
@@ -382,26 +384,29 @@ namespace GPD.Facade
         public ChartDTO GetTopProductChartData(string partner, string fromDate, string toDate)
         {
             ChartDTO retVal = new ChartDTO();
-            retVal.Dates = new List<string>(new string[] { "2015-05-01" });
-
+            
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Doors",
+                Dates = new List<string>(new string[] { "2015-05-01" }),
                 Values = new List<int>(new int[] {4520 })
             });
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Window",
+                Dates = new List<string>(new string[] { "2015-05-01" }),
                 Values = new List<int>(new int[] { 3421 })
             });
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Plumbing",
+                Dates = new List<string>(new string[] { "2015-05-01" }),
                 Values = new List<int>(new int[] { 7820 })
             });
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Lighting",
+                Dates = new List<string>(new string[] { "2015-05-01" }),
                 Values = new List<int>(new int[] { 300 })
             });
             if (partner == "ALL")
@@ -409,6 +414,7 @@ namespace GPD.Facade
                 retVal.Lines.Add(new LinesDTO()
                 {
                     Name = "Furniture",
+                    Dates = new List<string>(new string[] { "2015-05-01" }),
                     Values = new List<int>(new int[] { 950 })
                 });
             }
@@ -417,17 +423,20 @@ namespace GPD.Facade
                 retVal.Lines.Add(new LinesDTO()
                 {
                     Name = "Floors",
+                    Dates = new List<string>(new string[] { "2015-05-01" }),
                     Values = new List<int>(new int[] { 710})
                 });
             }
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Roof",
+                Dates = new List<string>(new string[] { "2015-05-01" }),
                 Values = new List<int>(new int[] { 7820 })
             });
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Glass Window",
+                Dates = new List<string>(new string[] { "2015-05-01" }),
                 Values = new List<int>(new int[] { 300 })
             });
             return retVal;
@@ -444,8 +453,7 @@ namespace GPD.Facade
         public ChartDTO GetAppChartData(string partner, string fromDate, string toDate)
         {
             ChartDTO retVal = new ChartDTO();
-            retVal.Dates = new List<string>(new string[] { "2015-05-01" });
-
+           
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "UL SPOT Autodesk Revit",
@@ -502,8 +510,7 @@ namespace GPD.Facade
         public ChartDTO GetTopCustomerChartData(string partner, string fromDate, string toDate)
         {
             ChartDTO retVal = new ChartDTO();
-            retVal.Dates = new List<string>(new string[] { "2015-05-01" });
-
+            
             retVal.Lines.Add(new LinesDTO()
             {
                 Name = "Delta",

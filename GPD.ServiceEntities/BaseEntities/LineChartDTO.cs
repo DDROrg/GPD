@@ -28,14 +28,12 @@ namespace GPD.ServiceEntities.BaseEntities
     {
         #region Constr
         public ChartDTO() : base()
-        {
-            Dates = new List<string>();
+        {            
             Lines = new List<LinesDTO>();
         }
         #endregion Constr
 
-        [DataMember(Name = "dates", Order = 1)]
-        public List<string> Dates;
+        
 
         [DataMember(Name = "lines", Order = 3)]
         public List<LinesDTO> Lines;
@@ -47,14 +45,18 @@ namespace GPD.ServiceEntities.BaseEntities
         #region Constr
         public LinesDTO() : base()
         {
+            Dates = new List<string>();
             Values = new List<int>();
         }
         #endregion Constr
 
         [DataMember(Name = "name", Order = 1)]
         public string Name;
-        
-        [DataMember(Name = "values", Order = 2)]
+
+        [DataMember(Name = "dates", Order = 2)]
+        public List<string> Dates;
+
+        [DataMember(Name = "values", Order = 3)]
         public List<int> Values;
     }
 }
