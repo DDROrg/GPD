@@ -341,35 +341,31 @@ namespace GPD.Facade
             //dynamic MyDynamic = new System.Dynamic.ExpandoObject();
             ChartDTO retVal = new ChartDTO();
 
-            retVal.Lines.Add(new LinesDTO()
+            try
             {
-                Name = "Revit",
-                Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06", "2017-05-07", "2017-05-08", "2017-05-09", "2017-05-10", "2017-05-11", "2017-05-12", "2017-05-13", "2017-05-14", }),
-                Values = new List<int>(new int[] { 10, 12, 9, 17, 20, 14, 10, 12, 9, 17, 20, 14, 30 })
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "AutoCAD",
-                Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06", "2017-05-07", "2017-05-08", "2017-05-09", "2017-05-10", "2017-05-11", "2017-05-12", "2017-05-13", "2017-05-14", }),
-                Values = new List<int>(new int[] { 12, 12, 19, 21, 24, 4, 12, 12, 19, 21, 24, 4, 12 })
-            });
-            if (partner == "ALL")
-            {
-                retVal.Lines.Add(new LinesDTO()
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectChartData(partner, fromDate, toDate);
+                if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
                 {
-                    Name = "BIM",
-                    Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06", "2017-05-07", "2017-05-08", "2017-05-09", "2017-05-10", "2017-05-11", "2017-05-12", "2017-05-13", "2017-05-14", }),
-                    Values = new List<int>(new int[] { 14, 10, 19, 27, 24, 4, 14, 10, 19, 27, 24, 4, 3 })
-                });
+                    string tempAppType = "";
+                    LinesDTO line = new LinesDTO();
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        string appType = dr["APP_TYPE"].ToString();
+                        if (appType.ToUpper() != tempAppType)
+                        {
+                            tempAppType = appType.ToUpper();
+                            line = new LinesDTO();
+                            line.Name = appType;
+                            retVal.Lines.Add(line);
+                        }
+                        line.Dates.Add(((DateTime)dr["C_DATE"]).ToString("yyyy-MM-dd"));
+                        line.Values.Add(Convert.ToInt32(dr["P_COUNT"].ToString()));
+                    }
+                }
             }
-            if (partner == "TEST")
+            catch (Exception exc)
             {
-                retVal.Lines.Add(new LinesDTO()
-                {
-                    Name = "BIMX",
-                    Dates = new List<string>(new string[] { "2017-05-01", "2017-05-02", "2017-05-03", "2017-05-04", "2017-05-05", "2017-05-06", "2017-05-07", "2017-05-08", "2017-05-09", "2017-05-10", "2017-05-11", "2017-05-12", "2017-05-13", "2017-05-14", }),
-                    Values = new List<int>(new int[] { 13, 10, 18, 27, 24, 14, 14, 10, 19, 27, 24, 14, 13 })
-                });
+                log.Error("Unable to get data for project-chart. ERROR: " + exc.ToString());
             }
             return retVal;
         }
@@ -378,67 +374,30 @@ namespace GPD.Facade
         /// 
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
-        public ChartDTO GetTopProductChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetTopProductChartData(string partner)
         {
             ChartDTO retVal = new ChartDTO();
-
-            retVal.Lines.Add(new LinesDTO()
+            try
             {
-                Name = "Doors",
-                Dates = new List<string>(new string[] { "2015-05-01" }),
-                Values = new List<int>(new int[] { 4520 })
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "Window",
-                Dates = new List<string>(new string[] { "2015-05-01" }),
-                Values = new List<int>(new int[] { 3421 })
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "Plumbing",
-                Dates = new List<string>(new string[] { "2015-05-01" }),
-                Values = new List<int>(new int[] { 7820 })
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "Lighting",
-                Dates = new List<string>(new string[] { "2015-05-01" }),
-                Values = new List<int>(new int[] { 300 })
-            });
-            if (partner == "ALL")
-            {
-                retVal.Lines.Add(new LinesDTO()
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetTopProductChartData(partner);
+                if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
                 {
-                    Name = "Furniture",
-                    Dates = new List<string>(new string[] { "2015-05-01" }),
-                    Values = new List<int>(new int[] { 950 })
-                });
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        retVal.Lines.Add(new LinesDTO()
+                        {
+                            Name = dr["P_NAME"].ToString(),
+                            Dates = new List<string>(new string[] { "" }),
+                            Values = new List<int>(new int[] { Convert.ToInt32(dr["P_COUNT"].ToString()) })
+                        });
+                    }
+                }
             }
-            if (partner == "TEST")
+            catch (Exception exc)
             {
-                retVal.Lines.Add(new LinesDTO()
-                {
-                    Name = "Floors",
-                    Dates = new List<string>(new string[] { "2015-05-01" }),
-                    Values = new List<int>(new int[] { 710 })
-                });
+                log.Error("Unable to get data for top product. ERROR: " + exc.ToString());
             }
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "Roof",
-                Dates = new List<string>(new string[] { "2015-05-01" }),
-                Values = new List<int>(new int[] { 7820 })
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "Glass Window",
-                Dates = new List<string>(new string[] { "2015-05-01" }),
-                Values = new List<int>(new int[] { 300 })
-            });
             return retVal;
         }
 
@@ -450,52 +409,29 @@ namespace GPD.Facade
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <returns></returns>
-        public ChartDTO GetAppChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetAppChartData(string partner)
         {
             ChartDTO retVal = new ChartDTO();
-
-            retVal.Lines.Add(new LinesDTO()
+            try
             {
-                Name = "UL SPOT Autodesk Revit",
-                Values = new List<int>(new int[] { 560 })
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "AEC Daily Autodesk Revit",
-                Values = new List<int>(new int[] { 1456 })
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "AEC Daily Autodesk AutoCAD",
-                Values = new List<int>(new int[] { 2450 })
-            });
-
-            if (partner == "ALL")
-            {
-                retVal.Lines.Add(new LinesDTO()
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetAppChartData(partner);
+                if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
                 {
-                    Name = "Autodesk Revit 2015",
-                    Values = new List<int>(new int[] { 970 })
-                });
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        retVal.Lines.Add(new LinesDTO()
+                        {
+                            Name = dr["A_NAME"].ToString(),
+                            Dates = new List<string>(new string[] { "" }),
+                            Values = new List<int>(new int[] { Convert.ToInt32(dr["P_COUNT"].ToString()) })
+                        });
+                    }
+                }
             }
-            if (partner == "TEST")
+            catch (Exception exc)
             {
-                retVal.Lines.Add(new LinesDTO()
-                {
-                    Name = "UL SPOT Sketchup",
-                    Values = new List<int>(new int[] { 430 })
-                });
+                log.Error("Unable to get data for top application. ERROR: " + exc.ToString());
             }
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "UL SPOT Autodesk AutoCAD",
-                Values = new List<int>(new int[] { 740 })
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "Autodesk Revit 2016",
-                Values = new List<int>(new int[] { 770 })
-            });
             return retVal;
         }
 
@@ -504,70 +440,49 @@ namespace GPD.Facade
         /// 
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
-        public ChartDTO GetTopCustomerChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetTopCustomerChartData(string partner)
         {
             ChartDTO retVal = new ChartDTO();
-
-            retVal.Lines.Add(new LinesDTO()
+            try
             {
-                Name = "Delta",
-                Values = new List<int>(new int[] { 560 })
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "Harman Miller",
-                Values = new List<int>(new int[] { 1456 })
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "Kawneer",
-                Values = new List<int>(new int[] { 2450 })
-            });
-
-            if (partner == "ALL")
-            {
-                retVal.Lines.Add(new LinesDTO()
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetTopCustomerChartData(partner);
+                if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
                 {
-                    Name = "Kimball",
-                    Values = new List<int>(new int[] { 970 })
-                });
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        retVal.Lines.Add(new LinesDTO()
+                        {
+                            Name = dr["M_NAME"].ToString(),
+                            Dates = new List<string>(new string[] { "" }),
+                            Values = new List<int>(new int[] { Convert.ToInt32(dr["P_COUNT"].ToString()) })
+                        });
+                    }
+                }
             }
-            if (partner == "TEST")
+            catch (Exception exc)
             {
-                retVal.Lines.Add(new LinesDTO()
-                {
-                    Name = "Peachtree Doors & Window",
-                    Values = new List<int>(new int[] { 430 })
-                });
+                log.Error("Unable to get data for top application. ERROR: " + exc.ToString());
             }
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "3M",
-                Values = new List<int>(new int[] { 740 })
-            });
-            retVal.Lines.Add(new LinesDTO()
-            {
-                Name = "Ruskin",
-                Values = new List<int>(new int[] { 770 })
-            });
+            //retVal.Lines.Add(new LinesDTO()
+            //{
+            //    Name = "Delta",
+            //    Values = new List<int>(new int[] { 560 })
+            //});           
             return retVal;
         }
-                
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
-        public int GetProjectCount(string partner, string fromDate, string toDate)
+        public int GetProjectCount(string partner)
         {
             int retVal = 0;
-            try { 
-            DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectCount(partner, fromDate, toDate);
+            try
+            {
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetProjectCount(partner);
                 if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
                 {
                     retVal = Convert.ToInt32(ds.Tables[0].Rows[0]["P_COUNT"].ToString());
@@ -632,12 +547,10 @@ namespace GPD.Facade
         /// 
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
-        public int GetBPMCount(string partner, string fromDate, string toDate)
+        public int GetBPMCount(string partner)
         {
-            return 37;
+            return 0;
         }
 
         /// <summary>
@@ -649,19 +562,33 @@ namespace GPD.Facade
         /// <returns></returns>
         public int GetPctProjectWithProductTAG(string partner, string fromDate, string toDate)
         {
-            return 47;
+            return 0;
         }
 
         /// <summary>
         /// Get percentage of project with manufacturer data
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
-        public int GetPctProjectWithManufacturer(string partner, string fromDate, string toDate)
+        public double GetPctProjectWithManufacturer(string partner)
         {
-            return 56;
+            double retVal = 0;
+            try
+            {
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetPctProjectWithManufacturer(partner);
+                if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
+                {
+                    int y = Convert.ToInt32(ds.Tables[0].Rows[0]["HAS_MFG"].ToString());
+                    int n = Convert.ToInt32(ds.Tables[0].Rows[0]["NO_MFG"].ToString());
+                    retVal = (double)(y * 100) / (y + n);
+                    retVal = Math.Round(retVal, 2);
+                }
+            }
+            catch (Exception exc)
+            {
+                log.Error("Unable to get percentage of project with manufacturer data. ERROR: " + exc.ToString());
+            }
+            return retVal;
         }
 
         public UpdateProjectResponse UpdateProject(string projectId, ProjectDTO projectDTO)

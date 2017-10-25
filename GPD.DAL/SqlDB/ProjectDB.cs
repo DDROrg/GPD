@@ -662,24 +662,19 @@ END;
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <returns></returns>
-        public DataSet GetProjectCount(string partner, string fromDate, string toDate)
+        public DataSet GetProjectCount(string partner)
         {
             StringBuilder sb = new StringBuilder("");
             #region SQL
             sb.AppendLine(@"
 BEGIN
-	DECLARE @M_PartnerName nvarchar(30),
-		@M_FromDate DATETIME,
-		@M_ToDate DATETIME;
+	DECLARE @M_PartnerName nvarchar(30);
 
 	SET @M_PartnerName = @P_PartnerName;
-	SET @M_FromDate = CONVERT(DATETIME, @P_FromDate, 102);
-	SET @M_ToDate = DATEADD(day, 1, CONVERT(DATETIME, @P_ToDate, 102));
 
 	SELECT COUNT(P.project_id) AS P_COUNT
 	FROM gpd_project P
 	WHERE P.deleted = 0
-		AND P.create_date BETWEEN @M_FromDate AND @M_ToDate
 		AND (@M_PartnerName = 'ALL' OR P.partner_name = @M_PartnerName);
 END;
 ");
@@ -687,9 +682,7 @@ END;
 
             List<SqlParameter> parametersInList = new List<SqlParameter>()
             {
-                 new SqlParameter("@P_PartnerName", partner),
-                 new SqlParameter("@P_FromDate", fromDate),
-                 new SqlParameter("@P_ToDate", toDate)
+                 new SqlParameter("@P_PartnerName", partner)
             };
 
             return base.GetDSBasedOnStatement(sb, parametersInList);
@@ -739,6 +732,10 @@ END;
             return base.GetDSBasedOnStatement(sb, parametersInList);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public DataSet GetPartnerCount()
         {
             StringBuilder sb = new StringBuilder("");
@@ -756,7 +753,216 @@ END
 
             return base.GetDSBasedOnStatement(sb, parametersInList);
         }
-        //GetPartnerCount(partner, fromDate, toDate); 
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        public DataSet GetProjectChartData(string partner, string fromDate, string toDate)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_PartnerName nvarchar(30),
+		@M_FromDate DATETIME,
+		@M_ToDate DATETIME;
+
+	SET @M_PartnerName = @P_PartnerName;
+	SET @M_FromDate = CONVERT(DATETIME, @P_FromDate, 102);
+	SET @M_ToDate = DATEADD(day, 1, CONVERT(DATETIME, @P_ToDate, 102));
+
+	SELECT  
+		T1.application_type AS APP_TYPE, 
+        T1.create_date AS C_DATE,
+		COUNT(T1.project_id) AS P_COUNT
+	FROM (
+		SELECT P.project_id, 
+			PS.application_type, 
+			CAST(p.create_date AS DATE) AS create_date
+		FROM gpd_project P
+		JOIN gpd_project_session PS
+			ON p.project_id = PS.project_id
+			AND P.deleted = 0
+			AND P.create_date BETWEEN @M_FromDate AND @M_ToDate
+			AND (@M_PartnerName = 'ALL' OR P.partner_name = @M_PartnerName)
+		) T1
+	GROUP BY T1.application_type, T1.create_date
+	ORDER BY APP_TYPE, C_DATE;
+END;
+");
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>() {
+                 new SqlParameter("@P_PartnerName", partner),
+                 new SqlParameter("@P_FromDate", fromDate),
+                 new SqlParameter("@P_ToDate", toDate),
+            };
+            
+            return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        public DataSet GetTopProductChartData(string partner)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_PartnerName nvarchar(30);
+	SET @M_PartnerName = @P_PartnerName;
+
+	SELECT TOP 5 
+		T1.product_name AS P_NAME, 
+		COUNT(T1.project_id) AS P_COUNT
+	FROM (
+		SELECT P.project_id, 
+			IM.product_name
+		FROM gpd_project P
+		JOIN gpd_project_item I
+			ON p.project_id = I.project_id
+			AND P.deleted = 0
+			AND (@M_PartnerName = 'ALL' OR P.partner_name = @M_PartnerName)
+		JOIN gpd_project_item_material IM
+			ON I.project_item_id = IM.project_item_id
+		) T1
+	GROUP BY T1.product_name
+	ORDER BY P_COUNT DESC;
+END;
+");
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>() {
+                 new SqlParameter("@P_PartnerName", partner)
+            };
+
+            return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        public DataSet GetAppChartData(string partner)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_PartnerName nvarchar(30);
+	SET @M_PartnerName = @P_PartnerName;
+
+	SELECT 
+		T1.application_name AS A_NAME, 
+		COUNT(T1.project_id) AS P_COUNT
+	FROM (
+		SELECT  DISTINCT
+			P.project_id, 
+			PS.application_name
+		FROM gpd_project P
+		JOIN gpd_project_session PS
+			ON p.project_id = PS.project_id
+			AND P.deleted = 0
+			AND (@M_PartnerName = 'ALL' OR P.partner_name = @M_PartnerName)
+		) T1
+	GROUP BY T1.application_name
+	ORDER BY P_COUNT DESC;
+END;
+");
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>() {
+                 new SqlParameter("@P_PartnerName", partner)
+            };
+
+            return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        public DataSet GetTopCustomerChartData(string partner)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_PartnerName nvarchar(30);
+	SET @M_PartnerName = @P_PartnerName;
+
+	SELECT TOP 5 
+		T1.product_manufacturer AS M_NAME, 
+		COUNT(T1.project_id) AS P_COUNT
+	FROM (
+		SELECT DISTINCT 
+			P.project_id, 
+			I.product_manufacturer
+		FROM gpd_project P
+		JOIN gpd_project_item I
+			ON p.project_id = I.project_id
+			AND P.deleted = 0
+			AND (@M_PartnerName = 'ALL' OR P.partner_name = @M_PartnerName)
+			AND ISNULL(I.product_manufacturer,'') != ''
+		) T1
+	GROUP BY T1.product_manufacturer
+	ORDER BY P_COUNT DESC;
+END;
+");
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>() {
+                 new SqlParameter("@P_PartnerName", partner)
+            };
+
+            return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        public DataSet GetPctProjectWithManufacturer(string partner)
+        {
+            StringBuilder sb = new StringBuilder("");
+            #region SQL
+            sb.AppendLine(@"
+BEGIN
+	DECLARE @M_PartnerName nvarchar(30);
+	SET @M_PartnerName = @P_PartnerName;
+
+	SELECT 
+	     SUM(IIF(T1.HAS_MFG = 'N', 0, 1)) AS HAS_MFG,
+		 SUM(IIF(T1.HAS_MFG = 'N', 1, 0)) AS NO_MFG
+	FROM (
+		SELECT P.project_id,
+			IIF ( ISNULL(P.organization_name,'') = '' , 'N', 'Y' ) AS HAS_MFG
+		FROM gpd_project P
+		WHERE P.deleted = 0 
+			AND (@M_PartnerName = 'ALL' OR P.partner_name = @M_PartnerName)
+		) T1;
+END;
+");
+            #endregion 
+
+            List<SqlParameter> parametersInList = new List<SqlParameter>() {
+                 new SqlParameter("@P_PartnerName", partner)
+            };
+
+            return base.GetDSBasedOnStatement(sb, parametersInList);
+        }
+        //GetPctProjectWithManufacturer(partner, fromDate, toDate); 
         #endregion
     }
 }

@@ -100,14 +100,17 @@ namespace GPD.Dashboard.Controllers
         /// 
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
         [Route("api/GetProjectChartData")]
         [HttpPost]
         [Authorize]
-        public ChartDTO GetProjectChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetProjectChartData(string partner)
         {
+            DateTime toDateTime = DateTime.Now;
+            DateTime fromDateTime = DateTime.Now.AddMonths(-3);
+            string fromDate = string.Format("{0:yyyy-MM-dd}", fromDateTime);
+            string toDate = string.Format("{0:yyyy-MM-dd}", toDateTime);
+
             return new Facade.ProjectFacade().GetProjectChartData(partner, fromDate, toDate);
         }
 
@@ -115,30 +118,26 @@ namespace GPD.Dashboard.Controllers
         /// 
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
         [Route("api/GetTopProductChartData")]
         [HttpPost]
         [Authorize]
-        public ChartDTO GetTopProductChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetTopProductChartData(string partner)
         {
-            return new Facade.ProjectFacade().GetTopProductChartData(partner, fromDate, toDate);
+            return new Facade.ProjectFacade().GetTopProductChartData(partner);
         }
 
         /// <summary>
         /// Get project count based on app name
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
         [Route("api/GetAppChartData")]
         [HttpPost]
         [Authorize]
-        public ChartDTO GetAppChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetAppChartData(string partner)
         {
-            return new Facade.ProjectFacade().GetAppChartData(partner, fromDate, toDate);
+            return new Facade.ProjectFacade().GetAppChartData(partner);
         }
 
         /// <summary>
@@ -151,9 +150,9 @@ namespace GPD.Dashboard.Controllers
         [Route("api/GetTopCustomerChartData")]
         [HttpPost]
         [Authorize]
-        public ChartDTO GetTopCustomerChartData(string partner, string fromDate, string toDate)
+        public ChartDTO GetTopCustomerChartData(string partner)
         {
-            return new Facade.ProjectFacade().GetTopCustomerChartData(partner, fromDate, toDate);
+            return new Facade.ProjectFacade().GetTopCustomerChartData(partner);
         }
 
         /// <summary>
@@ -173,16 +172,13 @@ namespace GPD.Dashboard.Controllers
         /// 
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
         [Route("api/GetProjectCount")]
         [HttpPost]
         [Authorize]
-        public int GetProjectCount(string partner, string fromDate, string toDate)
+        public int GetProjectCount(string partner)
         {
-            FormateDateRange(ref fromDate, ref toDate);
-            return new Facade.ProjectFacade().GetProjectCount(partner, fromDate, toDate);
+            return new Facade.ProjectFacade().GetProjectCount(partner);
         }
 
         
@@ -191,15 +187,13 @@ namespace GPD.Dashboard.Controllers
         /// 
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
         [Route("api/GetBPMCount")]
         [HttpPost]
         [Authorize]
-        public int GetBPMCount(string partner, string fromDate, string toDate)
+        public int GetBPMCount(string partner)
         {
-            return new Facade.ProjectFacade().GetBPMCount(partner, fromDate, toDate);
+            return new Facade.ProjectFacade().GetBPMCount(partner);
         }
 
         /// <summary>
@@ -233,15 +227,13 @@ namespace GPD.Dashboard.Controllers
         /// Get percentage of project with manufacturer data
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
         [Route("api/GetPctProjectWithManufacturer")]
         [HttpPost]
         [Authorize]
-        public int GetPctProjectWithManufacturer(string partner, string fromDate, string toDate)
+        public double GetPctProjectWithManufacturer(string partner)
         {
-            return new Facade.ProjectFacade().GetPctProjectWithManufacturer(partner, fromDate, toDate);
+            return new Facade.ProjectFacade().GetPctProjectWithManufacturer(partner);
         }
 
         /// <summary>
