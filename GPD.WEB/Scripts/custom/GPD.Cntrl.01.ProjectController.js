@@ -123,9 +123,11 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
         $ctrl.DeleteItemsColor = function (d) { return d['delete-status'] == "False" ? "color:#f00;" : "color:#CCC;"; };
         $ctrl.DeleteItemsTitle = function (d) { return d['delete-status'] == "False" ? "Delete" : "UnDelete"; };
         $ctrl.ActiveItemsColor = function (d) {
-            return (d.active == "True") ? "color:#f00;" : d['update-timestamp-formatted'] == "" ? "color:#228B22;" : "color:#CCC;";
+            return (d.active === "True") ? "color:#228B22;" : d['update-timestamp-formatted'] === "" ? "color:#f00;" : "color:#CCC;";
         };
-        $ctrl.ActiveItemsTitle = function (d) { return (d.active == "False") ? "Inactive" : "Active"; };
+        $ctrl.ActiveItemsTitle = function (d) {
+            return (d.active === "True") ? "Active" : "Inactive";
+        };
         $ctrl.IsShowDetail = function (d) { return d.isExpanded == true && d.hasDetail == true; };
         $ctrl.GlobalSearchButtonStyle = function () {
             return $ctrl.data.tempGlobalSearchParam.length > 2 ? "input-group-addon btn btn-primary" : "input-group-addon btn btn-primary disabled";
@@ -268,11 +270,11 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             }
         };
         var InactivateProject = function (activeFlag) {
-            var confirmMsg = (activeFlag) ? "Are you sure you want to inactivate this Project?" : "Are you sure you want to activate this Project?";
+            var confirmMsg = activeFlag ? "Are you sure you want to inactivate this Project?" : "Are you sure you want to activate this Project?";
             if ($ctrl.data.selectedProjects.length > 0) {
                 $ngConfirm({
                     title: 'Confirm!',
-                    content: 'Are you sure you want to inactivate this Project?',
+                    content: confirmMsg,
                     scope: $scope,
                     buttons: {
                         cancel: {
