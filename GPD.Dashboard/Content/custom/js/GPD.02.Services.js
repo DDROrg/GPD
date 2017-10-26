@@ -17,28 +17,28 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return $http.get(__RootUrl + "api/" + PartnarName + "/Project/List/" + PageSize + "/" + PageIndex + "?" + $httpParamSerializer(data));
     };
 
-    var _GetProjectChartData = function (partner, fromDate, toDate) {
-        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+    var _GetProjectChartData = function (partner) {
+        var data = { partner: partner };
         return $http.post(__RootUrl + "api/GetProjectChartData?" + $httpParamSerializer(data));
     };
 
-    var _GetTopProductChartData = function (partner, fromDate, toDate) {
-        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+    var _GetTopProductChartData = function (partner) {
+        var data = { partner: partner };
         return $http.post(__RootUrl + "api/GetTopProductChartData?" + $httpParamSerializer(data));
     };
 
-    var _GetAppChartData = function (partner, fromDate, toDate) {
-        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+    var _GetAppChartData = function (partner) {
+        var data = { partner: partner };
         return $http.post(__RootUrl + "api/GetAppChartData?" + $httpParamSerializer(data));
     };
 
-    var _GetTopCustomerChartData = function (partner, fromDate, toDate) {
-        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+    var _GetTopCustomerChartData = function (partner) {
+        var data = { partner: partner };
         return $http.post(__RootUrl + "api/GetTopCustomerChartData?" + $httpParamSerializer(data));
     };
 
-    var _GetProjectCount = function (partner, fromDate, toDate) {
-        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+    var _GetProjectCount = function (partner) {
+        var data = { partner: partner };
         return $http.post(__RootUrl + "api/GetProjectCount?" + $httpParamSerializer(data));
     };
 
@@ -47,8 +47,8 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return $http.post(__RootUrl + "api/GetUniqueUserCount?" + $httpParamSerializer(data));
     };
 
-    var _GetBPMCount = function (partner, fromDate, toDate) {
-        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+    var _GetBPMCount = function (partner) {
+        var data = { partner: partner };
         return $http.post(__RootUrl + "api/GetBPMCount?" + $httpParamSerializer(data));
     };
 
@@ -56,13 +56,13 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return $http.post(__RootUrl + "api/GetPartnerCount");
     };
 
-    var _GetPctProjectWithProductTAG = function (partner, fromDate, toDate) {
-        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+    var _GetPctProjectWithProductTAG = function (partner) {
+        var data = { partner: partner };
         return $http.post(__RootUrl + "api/GetPctProjectWithProductTAG?" + $httpParamSerializer(data));
     };
 
-    var _GetPctProjectWithManufacturer = function (partner, fromDate, toDate) {
-        var data = { partner: partner, fromDate: fromDate, toDate: toDate };
+    var _GetPctProjectWithManufacturer = function (partner) {
+        var data = { partner: partner };
         return $http.post(__RootUrl + "api/GetPctProjectWithManufacturer?" + $httpParamSerializer(data));
     };
     
@@ -133,10 +133,10 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return deferred.promise;
     };
 
-    this.GetProjectChartData = function (partner, fromDate, toDate) {
+    this.GetProjectChartData = function (partner) {
         var deferred = $q.defer();
         var retVal = {};
-        _GetProjectChartData(partner, fromDate, toDate)
+        _GetProjectChartData(partner)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);
@@ -144,10 +144,10 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return deferred.promise;
     };
 
-    this.GetTopProductChartData = function (partner, fromDate, toDate) {
+    this.GetTopProductChartData = function (partner) {
         var deferred = $q.defer();
         var retVal = {};
-        _GetTopProductChartData(partner, fromDate, toDate)
+        _GetTopProductChartData(partner)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);
@@ -155,10 +155,10 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return deferred.promise;
     };
 
-    this.GetProjectCount = function (partner, fromDate, toDate) {
+    this.GetProjectCount = function (partner) {
         var deferred = $q.defer();
         var retVal = {};
-        _GetProjectCount(partner, fromDate, toDate)
+        _GetProjectCount(partner)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);
@@ -177,10 +177,10 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return deferred.promise;
     };
 
-    this.GetBPMCount = function (partner, fromDate, toDate) {
+    this.GetBPMCount = function (partner) {
         var deferred = $q.defer();
         var retVal = {};
-        _GetBPMCount(partner, fromDate, toDate)
+        _GetBPMCount(partner)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);
@@ -199,10 +199,10 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return deferred.promise;
     };
 
-    this.GetPctProjectWithProductTAG = function (partner, fromDate, toDate) {
+    this.GetPctProjectWithProductTAG = function (partner) {
         var deferred = $q.defer();
         var retVal = {};
-        _GetPctProjectWithProductTAG(partner, fromDate, toDate)
+        _GetPctProjectWithProductTAG(partner)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);
@@ -210,10 +210,10 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return deferred.promise;
     };
 
-    this.GetPctProjectWithManufacturer = function (partner, fromDate, toDate) {
+    this.GetPctProjectWithManufacturer = function (partner) {
         var deferred = $q.defer();
         var retVal = {};
-        _GetPctProjectWithManufacturer(partner, fromDate, toDate)
+        _GetPctProjectWithManufacturer(partner)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);
@@ -221,10 +221,10 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return deferred.promise;
     };
         
-    this.GetAppChartData = function (partner, fromDate, toDate) {
+    this.GetAppChartData = function (partner) {
         var deferred = $q.defer();
         var retVal = {};
-        _GetAppChartData(partner, fromDate, toDate)
+        _GetAppChartData(partner)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);
@@ -232,10 +232,10 @@ var CommonServices = function ($http, $httpParamSerializer, $q, $log, BroadcastS
         return deferred.promise;
     };
 
-    this.GetTopCustomerChartData = function (partner, fromDate, toDate) {
+    this.GetTopCustomerChartData = function (partner) {
         var deferred = $q.defer();
         var retVal = {};
-        _GetTopCustomerChartData(partner, fromDate, toDate)
+        _GetTopCustomerChartData(partner)
         .then(function (payload) {
             retVal = payload.data;
             deferred.resolve(retVal);

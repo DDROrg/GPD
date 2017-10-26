@@ -56,20 +56,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         $ctrl.data.to = {};
         $ctrl.data.from = {};
-
-        var ResetDateRange = function (d) {
-            if (d == "TO") {
-                if ($ctrl.data.from.date > $ctrl.data.to.date) {
-                    $ctrl.data.from.date = new Date($ctrl.data.to.date);
-                }
-            }
-            else if (d == "FROM") {
-                if ($ctrl.data.from.date > $ctrl.data.to.date) {
-                    $ctrl.data.to.date = new Date($ctrl.data.from.date);
-                }
-            }
-        };
-
+        
         var ResetFilter = function () {
             $ctrl.data.projectListResponse = {};
             $ctrl.data.UniqueUserCount = 0;
@@ -88,6 +75,21 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             $ctrl.data.from.popupOpened = false;
         };
         ResetFilter();
+
+        /*=====================================
+        var ResetDateRange = function (d) {
+            if (d == "TO") {
+                if ($ctrl.data.from.date > $ctrl.data.to.date) {
+                    $ctrl.data.from.date = new Date($ctrl.data.to.date);
+                }
+            }
+            else if (d == "FROM") {
+                if ($ctrl.data.from.date > $ctrl.data.to.date) {
+                    $ctrl.data.to.date = new Date($ctrl.data.from.date);
+                }
+            }
+        };
+
         $ctrl.toDatePopupOpen = function () {
             $ctrl.data.to.popupOpened = true;
         };
@@ -102,6 +104,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             ResetDateRange("FROM");
             GetAllChartData();
         };
+        ====================================*/
 
         var RenderProjectChartDataD3 = function (placeholder, d) {
             var tempData = CommonServices.TransformChartDataD3(d);
@@ -186,7 +189,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
 
         var GetProjectChartData = function () {
             if (_projectChartObj) { _projectChartObj = _projectChartObj.destroy(); }
-            return CommonServices.GetProjectChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
+            return CommonServices.GetProjectChartData($ctrl.data.LogedinUserProfile.selectedPartner)
             .then(function (payload) {
                 RenderProjectChartDataD3("#ProjectChartD3", payload);
             });
@@ -195,7 +198,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         var GetAppChartData = function () {
             if (_pctAppChart) { _pctAppChart = _pctAppChart.destroy(); }
             if (_pctTopAppChart) { _pctTopAppChart = _pctTopAppChart.destroy(); }
-            return CommonServices.GetAppChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
+            return CommonServices.GetAppChartData($ctrl.data.LogedinUserProfile.selectedPartner)
             .then(function (payload) {
                 var td = [];
                 angular.forEach(payload.lines, function (v1, k1) {
@@ -216,14 +219,14 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
         };
 
         var GetProjectCount = function () {
-            return CommonServices.GetProjectCount($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
+            return CommonServices.GetProjectCount($ctrl.data.LogedinUserProfile.selectedPartner)
             .then(function (payload) {
                 $ctrl.data.ProjectCount = payload;
             });
         };
 
         var GetBPMCount = function () {
-            return CommonServices.GetBPMCount($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
+            return CommonServices.GetBPMCount($ctrl.data.LogedinUserProfile.selectedPartner)
             .then(function (payload) {
                 $ctrl.data.BPMCount = payload;
             });
@@ -231,7 +234,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
 
         var GetPctProjectWithManufacture = function () {
             if (_pctProjectManufacture) { _pctProjectManufacture = _pctProjectManufacture.destroy(); }
-            return CommonServices.GetPctProjectWithManufacturer($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
+            return CommonServices.GetPctProjectWithManufacturer($ctrl.data.LogedinUserProfile.selectedPartner)
             .then(function (payload) {
                 _pctProjectManufacture = RenderGaugeChartDataD3("#pctProjectManufacture", ["#63B2F7"], [["Manufacture", payload]])
             });
@@ -239,7 +242,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
 
         var GetPctProjectWithProductTAG = function () {
             if (_pctProjectProductTAG) { _pctProjectProductTAG = _pctProjectProductTAG.destroy(); }
-            return CommonServices.GetPctProjectWithProductTAG($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
+            return CommonServices.GetPctProjectWithProductTAG($ctrl.data.LogedinUserProfile.selectedPartner)
             .then(function (payload) {
                 _pctProjectProductTAG = RenderGaugeChartDataD3("#pctProjectProductTAG", ["#65B465"], [["ProductTAG", payload]])
             });
@@ -262,7 +265,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
 
         var GetTopProductChartData = function () {
             if (_topProductChart) { _topProductChart = _topProductChart.destroy(); }
-            return CommonServices.GetTopProductChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
+            return CommonServices.GetTopProductChartData($ctrl.data.LogedinUserProfile.selectedPartner)
             .then(function (payload) {
                 var td = [];
                 angular.forEach(payload.lines, function (v1, k1) {
@@ -276,7 +279,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
 
         var GetTopCustomerChartData = function () {
             if (_topCustomers) { _topCustomers = _topCustomers.destroy(); }
-            return CommonServices.GetTopCustomerChartData($ctrl.data.LogedinUserProfile.selectedPartner, $ctrl.data.from.date, $ctrl.data.to.date)
+            return CommonServices.GetTopCustomerChartData($ctrl.data.LogedinUserProfile.selectedPartner)
             .then(function (payload) {
                 var td = [];
                 angular.forEach(payload.lines, function (v1, k1) {
@@ -300,6 +303,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             GetTopProductChartData();
             GetTopCustomerChartData();
             GetProjects();
+            GetProjectYOYChartData();
         };
 
         $rootScope.$on('EVENT-LogedinUserProfileLoaded', function (event, data) { ResetFilter(); GetAllChartData(); });
@@ -309,8 +313,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             if (fromState.name != '') { GetAllChartData(); }
         });
 
-        angular.element(document).ready(function () {
-            GetProjectYOYChartData();
+        angular.element(document).ready(function () {            
         });
     }]);
 
