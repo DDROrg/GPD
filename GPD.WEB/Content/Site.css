@@ -51,9 +51,11 @@ tr.data-header-row {
 .header-logo
 {
     background: url(img/GPDLogo-small.png) center no-repeat ; 
+    background-size: contain;
     width:75px;
     display:inline-block;
-    border-radius:3px;
+    border-radius:3px;    
+    resize: both;
 }
 .data-container {
 }
