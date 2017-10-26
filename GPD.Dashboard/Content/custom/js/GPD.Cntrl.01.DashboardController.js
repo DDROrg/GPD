@@ -102,7 +102,7 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             ResetDateRange("FROM");
             GetAllChartData();
         };
-                
+
         var RenderProjectChartDataD3 = function (placeholder, d) {
             var tempData = CommonServices.TransformChartDataD3(d);
 
@@ -176,9 +176,9 @@ angular.module('GPD').controller('GPDDashboardCtrl', ['$scope', '$rootScope', '$
             });
             return donutChart;
         };
-                
+
         var GetProjects = function () {
-            return CommonServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, "", $ctrl.data.from.date, $ctrl.data.to.date, "", 1, 10)
+            return CommonServices.GetProjects($ctrl.data.LogedinUserProfile.selectedPartner, "", "", "", "", 1, 10)
             .then(function (payload) {
                 $ctrl.data.projectListResponse = payload;
             });

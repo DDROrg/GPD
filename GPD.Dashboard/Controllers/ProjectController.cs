@@ -61,6 +61,8 @@ namespace GPD.Dashboard.Controllers
             DateTime fromDateTime = DateTime.MinValue, toDateTime = DateTime.MinValue;
             int userId = -1;
 
+            fromDate = string.IsNullOrWhiteSpace(fromDate) ? "" : fromDate;
+            toDate = string.IsNullOrWhiteSpace(toDate) ? "" : toDate;
             try
             {
                 fromDateTime = Convert.ToDateTime(fromDate);
@@ -212,15 +214,13 @@ namespace GPD.Dashboard.Controllers
         /// Get percentage of project with ProductTAG data
         /// </summary>
         /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
         /// <returns></returns>
         [Route("api/GetPctProjectWithProductTAG")]
         [HttpPost]
         [Authorize]
-        public int GetPctProjectWithProductTAG(string partner, string fromDate, string toDate)
+        public double GetPctProjectWithProductTAG(string partner)
         {
-            return new Facade.ProjectFacade().GetPctProjectWithProductTAG(partner, fromDate, toDate);
+            return new Facade.ProjectFacade().GetPctProjectWithProductTAG(partner);
         }
 
         /// <summary>

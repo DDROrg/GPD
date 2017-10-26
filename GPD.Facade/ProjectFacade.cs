@@ -550,23 +550,25 @@ namespace GPD.Facade
         /// <returns></returns>
         public int GetBPMCount(string partner)
         {
-            return 0;
+            int retVal = 0;
+            try
+            {
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetBPMCount(partner);
+                if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
+                {
+                    retVal = Convert.ToInt32(ds.Tables[0].Rows[0]["U_COUNT"].ToString());
+                }
+            }
+            catch (Exception exc)
+            {
+                log.Error("Unable to get BPM count. ERROR: " + exc.ToString());
+            }
+
+            return retVal;
         }
 
         /// <summary>
         /// Get percentage of project with ProductTAG data
-        /// </summary>
-        /// <param name="partner"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
-        /// <returns></returns>
-        public int GetPctProjectWithProductTAG(string partner, string fromDate, string toDate)
-        {
-            return 0;
-        }
-
-        /// <summary>
-        /// Get percentage of project with manufacturer data
         /// </summary>
         /// <param name="partner"></param>
         /// <returns></returns>
@@ -580,6 +582,32 @@ namespace GPD.Facade
                 {
                     int y = Convert.ToInt32(ds.Tables[0].Rows[0]["HAS_MFG"].ToString());
                     int n = Convert.ToInt32(ds.Tables[0].Rows[0]["NO_MFG"].ToString());
+                    retVal = (double)(y * 100) / (y + n);
+                    retVal = Math.Round(retVal, 2);
+                }
+            }
+            catch (Exception exc)
+            {
+                log.Error("Unable to get percentage of project with manufacturer data. ERROR: " + exc.ToString());
+            }
+            return retVal;
+        }
+
+        /// <summary>
+        /// Get percentage of project with manufacturer data
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        public double GetPctProjectWithProductTAG(string partner)
+        {
+            double retVal = 0;
+            try
+            {
+                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetPctProjectWithProductTAG(partner);
+                if (ds != null && ds.Tables.Count == 1 && ds.Tables[0].Rows.Count > 0)
+                {
+                    int y = Convert.ToInt32(ds.Tables[0].Rows[0]["HAS_URL"].ToString());
+                    int n = Convert.ToInt32(ds.Tables[0].Rows[0]["NO_URL"].ToString());
                     retVal = (double)(y * 100) / (y + n);
                     retVal = Math.Round(retVal, 2);
                 }
