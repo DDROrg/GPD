@@ -20,7 +20,7 @@ namespace GPD.WEB.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            ViewBag.Title = "GPD - Home";
+            ViewBag.Title = "GPD";
             return View();
         }
 
