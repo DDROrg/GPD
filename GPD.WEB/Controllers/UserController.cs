@@ -16,6 +16,7 @@ namespace GPD.WEB.Controllers
     using Facade.WebAppFacade;
     using ServiceEntities;
     using ServiceEntities.BaseEntities;
+    using ServiceEntities.ResponseEntities;
     using Utility;
 
     /// <summary>
@@ -48,9 +49,10 @@ namespace GPD.WEB.Controllers
         [HttpPost]
         [Authorize]
         //[ApiExplorerSettings(IgnoreApi = true)]
-        public List<UserDTO> GetUsers(string searchTerm)
+        public UsersListResponse GetUsers(string searchTerm)
         {
             return UserDetailsFacade.GetUsers(searchTerm);
+
         }
 
         /// <summary>
@@ -407,6 +409,58 @@ namespace GPD.WEB.Controllers
             }
 
             return authenticateUser;
+        }
+
+        /// <summary>
+        /// Get User Details Profile based in user-id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>UserDetailsTDO</returns>
+        [Route("api/User/{userId:int}")]
+        [HttpGet]
+        [Authorize]
+        public UserDetailsTDO UserFullProfile(int userId)
+        {
+            try
+            {
+                return UserDetailsFacade.GetUserFullProfile(userId);
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+                return new UserDetailsTDO();
+            }
+        }
+
+        /// <summary>
+        /// Update User Details Profile based in user-id
+        /// </summary>
+        /// <returns>status</returns>
+        [Route("api/UpdateUser")]
+        [HttpPost]
+        [Authorize]
+        public ServiceEntities.ResponseEntities.UpdateUserResponse UpdateUser(UserDetailsTDO userDetails)
+        {
+            GPD.ServiceEntities.ResponseEntities.UpdateUserResponse retObj = new GPD.ServiceEntities.ResponseEntities.UpdateUserResponse(false, -1);
+
+            try
+            {
+                var request = HttpContext.Current.Request;
+                var userId = int.Parse(request.Headers["user-id"]);
+                retObj.UserId = userId;
+
+                // update user profile
+                string errorMsg;
+                retObj.Status = UserDetailsFacade.UpdatetUserProfile(userId, userDetails, out errorMsg);
+
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+                retObj = new GPD.ServiceEntities.ResponseEntities.UpdateUserResponse(false, -1);
+            }
+
+            return retObj;
         }
 
         /// <summary>

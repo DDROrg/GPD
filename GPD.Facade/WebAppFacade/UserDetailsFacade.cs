@@ -13,6 +13,7 @@ namespace GPD.Facade.WebAppFacade
     using DAL.SqlDB;
     using ServiceEntities;
     using ServiceEntities.BaseEntities;
+    using ServiceEntities.ResponseEntities;
     using Utility;
     using Utility.CommonUtils;
     using Utility.ConstantHelper;
@@ -181,26 +182,25 @@ namespace GPD.Facade.WebAppFacade
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <returns></returns>
-        public static List<UserDTO> GetUsers(string searchTerm)
+        public static UsersListResponse GetUsers(string searchTerm)
         {
-            List<UserDTO> retVal = new List<UserDTO>();
+            UsersListResponse retObj = new UsersListResponse();
             searchTerm = string.IsNullOrWhiteSpace(searchTerm) ? string.Empty : "%" + searchTerm.Trim() + "%";
 
             try
             {
-                DataSet ds = new ProjectDB(Utility.ConfigurationHelper.GPD_Connection).GetUsers(searchTerm);
+                DataSet ds = new ProjectDB(ConfigurationHelper.GPD_Connection).GetUsers(searchTerm);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        retVal.Add(new UserDTO()
+                        retObj.UserList.Add(new ServiceEntities.ResponseEntities.UserDTO()
                         {
                             UserId = int.Parse(dr["user_id"].ToString()),
                             FirstName = dr["first_name"].ToString(),
                             LastName = dr["last_name"].ToString(),
                             Email = dr["email"].ToString(),
-                            FirmId = DBNull.Value.Equals(dr["firm_id"]) ? -1 : int.Parse(dr["firm_id"].ToString()),
                             FirmName = DBNull.Value.Equals(dr["firmName"]) ? "" : dr["firmName"].ToString(),
                             IsActive = Convert.ToBoolean(dr["active"])
                         });
@@ -212,7 +212,7 @@ namespace GPD.Facade.WebAppFacade
                 log.Error("Unable to get users for search term: " + searchTerm, ex);
             }
 
-            return retVal;
+            return retObj;
         }
 
         /// <summary>
@@ -337,7 +337,12 @@ namespace GPD.Facade.WebAppFacade
             return retObj;
         }
 
-        public static bool SendEmail(string userEmail, string input)
+        /// <summary>
+        /// SendEmail
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <param name="bodyContent"></param>
+        public static bool SendEmail(string userEmail, string bodyContent)
         {
             MailMessage msg = new MailMessage();
             SmtpClient client = new SmtpClient();
@@ -347,7 +352,7 @@ namespace GPD.Facade.WebAppFacade
                 msg.From = new MailAddress(ConfigurationHelper.MailEmaillFrom);
                 msg.To.Add(userEmail);
                 msg.Subject = ConfigurationHelper.MailSubject;
-                msg.Body = input;
+                msg.Body = bodyContent;
                 msg.IsBodyHtml = true;
 
                 client.UseDefaultCredentials = true;

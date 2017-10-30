@@ -420,141 +420,256 @@ angular.module('Project').controller('ProjectEditController', ['$scope', '$rootS
     }]);
 
 //=================================================
-angular.module('ManageUser').controller('ManageUserController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices', function ($scope, $rootScope, $http, $location, $uibModal, $log, toastr, CommonServices, GpdManageServices) {
-    var $ctrl = this;
-    CommonServices.SetDefaultData($ctrl, $location);
-    $ctrl.data.users = [];
-    $ctrl.data.globalSearchParam = "";
-    $ctrl.data.sort = [{ column: 'firstName', descending: false }];
-    $ctrl.data.page = {};
-    $ctrl.data.page.currentPage = 1;
-    $ctrl.data.page.maxPage = 5;
-    $ctrl.data.page.itemPerPage = 10;
-    $ctrl.data.search = {};
-    $ctrl.data.search = { firstName: "", lastName: "", email: "", company: "" };
-
-    $ctrl.OnChangeSorting = function (column) {
-        var t = { column: column, descending: true };
-        if ($ctrl.data.sort.length > 0) {
-            if ($ctrl.data.sort[0].column == column) {
-                t.descending = !$ctrl.data.sort[0].descending;
-            } else {
-                t.descending = true;
-            }
-        }
-        $ctrl.data.sort = [t];
-    };
-    $ctrl.OnResetManageUser = function () {
-        $ctrl.data.page.currentPage = 1;
+angular.module('ManageUser').controller('ManageUserController', ['$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'filterFilter', 'toastr', 'CommonServices', 'GpdManageServices',
+    function ($scope, $rootScope, $http, $location, $uibModal, $log, filterFilter, toastr, CommonServices, GpdManageServices) {
+        var $ctrl = this;
+        CommonServices.SetDefaultData($ctrl, $location);
+        $ctrl.data.users = [];
         $ctrl.data.globalSearchParam = "";
-        $ctrl.data.search.firstName = "";
-        $ctrl.data.search.lastName = "";
-        $ctrl.data.search.email = "";
-        $ctrl.data.search.company = "";
-        GetUsers();
-    };
-    $ctrl.ColumnSortClass = function (column) {
-        var retVal = "fa fa-sort";
-        if ($ctrl.data.sort && $ctrl.data.sort[0].column && column == $ctrl.data.sort[0].column) {
-            if ($ctrl.data.sort[0].descending) { retVal = "fa fa-caret-down"; }
-            else { retVal = "fa fa-caret-up"; }
-        }
-        return retVal;
-    };
-    $ctrl.ColumnSortOrder = function () {
-        var retVal = [];
-        angular.forEach($ctrl.data.sort, function (v, k) {
-            retVal.push((v.descending ? "-" : "") + v.column);
-        });
-        return retVal;
-    };
-    $ctrl.OnPageChanged = function () { };
-    $ctrl.OnGlobalSearch = function () { GetUsers(); };
-    $ctrl.OnColExpRole = function (d) {
-        d.isRoleExpanded = !(d.isRoleExpanded);
-        if (d.hasRole == false) { GetUserRoles(d); }
-    };
-    $ctrl.IsShowRole = function (d) { return d.isRoleExpanded == true && d.hasRole == true; };
+        $ctrl.data.sort = [{ column: 'firstName', descending: false }];
+        $ctrl.data.page = {};
+        $ctrl.data.page.currentPage = 1;
+        $ctrl.data.page.maxPage = 5;
+        $ctrl.data.page.itemPerPage = 10;
+        $ctrl.data.search = {};
+        $ctrl.data.search = { firstName: "", lastName: "", email: "", company: "" };
 
-    $ctrl.OnActDeactItem = function (d) {
-        GpdManageServices.ActDactUser(d.userId, d.isActive)
-        .then(function (payload) {
-            if (payload == "SUCCESS") {
-                toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");
-            }
-        });
-    };
+        $ctrl.data.onEditing = false;
+        $ctrl.data.userProfile = {};
+        $ctrl.data.countries = [];
+        $ctrl.data.filteredState = [];
+        $ctrl.data.ACCompanies = [];
+        $ctrl.data.isACVisible = false;
+        $ctrl.data.profileImage = {};
 
-    $ctrl.OnDeleteRole = function (user, userRole) {
-        GpdManageServices.DeleteUserRole(userRole.userId, userRole.partnerId, userRole.groupId)
-        .then(function (payload) {
-            if (payload == "SUCCESS") {
-                toastr.success("User-Role deleted");
-                GetUserRoles(user);
-            } else {
-                toastr.error("Unable to delete User-Role");
-            }
-        });
-    };
-
-    $ctrl.OnAddRole = function (d) {
-        var parentElem = angular.element('div[data-id="divManageUser"]');
-        var modalInstance = $uibModal.open({
-            animation: true,
-            ariaLabelledBy: 'modal-title',
-            ariaDescribedBy: 'modal-body',
-            templateUrl: 'addUserRole.html',
-            controller: 'AddUserRoleCtrl',
-            controllerAs: '$ctrl',
-            size: 'md',
-            appendTo: parentElem,
-            resolve: {
-                data: function () {
-                    return { user: d, partners: $ctrl.data.partners, groups: $ctrl.data.groups };
+        $ctrl.OnChangeSorting = function (column) {
+            var t = { column: column, descending: true };
+            if ($ctrl.data.sort.length > 0) {
+                if ($ctrl.data.sort[0].column == column) {
+                    t.descending = !$ctrl.data.sort[0].descending;
+                } else {
+                    t.descending = true;
                 }
             }
-        });
+            $ctrl.data.sort = [t];
+        };
+        $ctrl.OnResetManageUser = function () {
+            $ctrl.data.page.currentPage = 1;
+            $ctrl.data.globalSearchParam = "";
+            $ctrl.data.search.firstName = "";
+            $ctrl.data.search.lastName = "";
+            $ctrl.data.search.email = "";
+            $ctrl.data.search.company = "";
+            GetUsers();
+        };
+        $ctrl.ColumnSortClass = function (column) {
+            var retVal = "fa fa-sort";
+            if ($ctrl.data.sort && $ctrl.data.sort[0].column && column == $ctrl.data.sort[0].column) {
+                if ($ctrl.data.sort[0].descending) { retVal = "fa fa-caret-down"; }
+                else { retVal = "fa fa-caret-up"; }
+            }
+            return retVal;
+        };
+        $ctrl.ColumnSortOrder = function () {
+            var retVal = [];
+            angular.forEach($ctrl.data.sort, function (v, k) {
+                retVal.push((v.descending ? "-" : "") + v.column);
+            });
+            return retVal;
+        };
+        $ctrl.OnPageChanged = function () { };
+        $ctrl.OnGlobalSearch = function () {
+            GetUsers();
+        };
+        $ctrl.OnColExpRole = function (d) {
+            d.isRoleExpanded = !(d.isRoleExpanded);
+            if (d.hasRole == false) {
+                GetUserRoles(d);
+            }
+        };
+        $ctrl.IsShowRole = function (d) {
+            return (d.isRoleExpanded && d.hasRole);
+        };
 
-        modalInstance.result.then(function (d) {
-            GetUserRoles(d);
-        }, function () {
-            //$log.info('Modal dismissed at: ' + new Date());
-        });
-    };
+        $ctrl.OnActDeactItem = function (d) {
+            GpdManageServices.ActDactUser(d.userId, d.isActive)
+            .then(function (payload) {
+                if (payload == "SUCCESS") {
+                    toastr.success(d.isActive ? "Activated Successfuly" : "Deactivated Successfuly");
+                }
+            });
+        };
+        $ctrl.OnDeleteRole = function (user, userRole) {
+            GpdManageServices.DeleteUserRole(userRole.userId, userRole.partnerId, userRole.groupId)
+            .then(function (payload) {
+                if (payload == "SUCCESS") {
+                    toastr.success("User-Role deleted");
+                    GetUserRoles(user);
+                } else {
+                    toastr.error("Unable to delete User-Role");
+                }
+            });
+        };
+        $ctrl.OnAddRole = function (d) {
+            var parentElem = angular.element('div[data-id="divManageUser"]');
+            var modalInstance = $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'addUserRole.html',
+                controller: 'AddUserRoleCtrl',
+                controllerAs: '$ctrl',
+                size: 'md',
+                appendTo: parentElem,
+                resolve: {
+                    data: function () {
+                        return { user: d, partners: $ctrl.data.partners, groups: $ctrl.data.groups };
+                    }
+                }
+            });
 
-    var GetUserRoles = function (d) {
-        GpdManageServices.GetUserRoles(d.userId)
-        .then(function (payload) {
-            d.hasRole = true;
-            d.roles = payload;
-        });
-    };
+            modalInstance.result.then(function (d) {
+                GetUserRoles(d);
+            }, function () {
+                //$log.info('Modal dismissed at: ' + new Date());
+            });
+        };
 
-    var GetUsers = function () {
-        return GpdManageServices.GetUsers($ctrl.data.globalSearchParam)
-        .then(function (payload) {
-            $ctrl.data.users = payload;
-        });
-    };
-    var GetPartners = function () {
-        return GpdManageServices.GetPartners()
-        .then(function (payload) {
-            $ctrl.data.partners = payload;
-        });
-    };
-    var GetGroups = function () {
-        return GpdManageServices.GetGroups()
-        .then(function (payload) {
-            $ctrl.data.groups = payload;
-        });
-    };
+        $ctrl.AnalyzePasswordStrength = function (type) {
+            var styleClass = "fa-li fa fa-minus-circle text-danger";
 
-    angular.element(document).ready(function () {
-        GetUsers();
-        GetPartners();
-        GetGroups();
-    });
-}]);
+            if (!$ctrl.data.userProfile.password)
+                return styleClass;
+
+            if (type == "length") {
+                if (/(?=.{8,})/.test($ctrl.data.userProfile.password)) { styleClass = "fa-li fa fa-check text-success"; }
+            } else if (type == "lowercase") {
+                if (/(?=.*[a-z])/.test($ctrl.data.userProfile.password)) { styleClass = "fa-li fa fa-check text-success"; }
+            } else if (type == "uppercase") {
+                if (/(?=.*[A-Z])/.test($ctrl.data.userProfile.password)) { styleClass = "fa-li fa fa-check text-success"; }
+            } else if (type == "number") {
+                if (/(?=.*[0-9])/.test($ctrl.data.userProfile.password)) { styleClass = "fa-li fa fa-check text-success"; }
+            } else if (type == "special") {
+                if (/(?=.*[!@#\$%\^&\*])/.test($ctrl.data.userProfile.password)) { styleClass = "fa-li fa fa-check text-success"; }
+            }
+
+            return styleClass;
+        };
+
+        var GetCountries = function () {
+            GpdManageServices.GetCountries().then(function (payload) {
+                $ctrl.data.countries = payload;
+            });
+        };
+        var ValidateUserDetail = function () {
+            var isValid = true;
+            var regexEmptyString = /^\s*$/;
+            var reValidEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            var rePassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+            var errMessage = "";
+            if (regexEmptyString.test($ctrl.data.userProfile.firstName)) {
+                errMessage = errMessage + "'First Name' is required.<br/>";
+                isValid = false;
+            }
+            if (regexEmptyString.test($ctrl.data.userProfile.lastName)) {
+                errMessage = errMessage + "'Last Name' is required.<br/>";
+                isValid = false;
+            }
+            if (!reValidEmail.test($ctrl.data.userProfile.email)) {
+                errMessage = errMessage + "'Email' is not valid.<br/>";
+                isValid = false;
+            }
+            if ($ctrl.data.userProfile.password === '' && !rePassword.test($ctrl.data.userProfile.password)) {
+                errMessage = errMessage + "'Password' does not meet require criteria.<br/>";
+                isValid = false;
+            }
+            if ($ctrl.data.userProfile.password != $ctrl.data.userProfile.confirmPassword) {
+                errMessage = errMessage + "'Re-enter Password' does not match with 'Password'.<br/>";
+                isValid = false;
+            }
+            if (!isValid) { toastr.error(errMessage, { allowHtml: true }); }
+            return isValid;
+        };
+
+        $ctrl.OnEditItem = function (d) {
+            $ctrl.data.onEditing = true;
+            $ctrl.data.userProfile = {};
+
+            // Get Countries
+            if ($ctrl.data.countries.length == 0)
+                GetCountries();
+
+            GpdManageServices.GetUserProfile(d.userId)
+                .then(function (payload) {
+                    $ctrl.data.userProfile = payload;
+                    $ctrl.data.userProfile.id = d.userId;
+                    $ctrl.data.userProfile.password = "";
+                    $ctrl.data.userProfile.confirmPassword = "";
+                    $ctrl.CountryChange();
+            });
+        };
+        $ctrl.OnCancelEditItem = function () {
+            $ctrl.data.onEditing = false;
+        };
+        $ctrl.CountryChange = function () {
+            $ctrl.data.filteredState = [];
+
+            if ($ctrl.data.countries.length > 0 && $ctrl.data.userProfile.company.country != '') {
+                var filteredCountries = filterFilter($ctrl.data.countries, { Name: $ctrl.data.userProfile.company.country }, true);
+                if (filteredCountries.length > 0) {
+                    var filteredCountry = filteredCountries[0];
+                    if (filteredCountry.States) {
+                        $ctrl.data.filteredState = filteredCountry.States;
+                    }
+                }
+            }
+        };
+        $ctrl.HasFilteredStates = function () {
+            return $ctrl.data.filteredState.length > 0 ? 1 : 0;
+        };
+        $ctrl.OnSave = function () {
+            if (ValidateUserDetail()) {
+                GpdManageServices.UpdateUserProfile($ctrl.data.userProfile)
+                .then(function (payload) {
+                    if (payload.status) {
+                        GetUsers();
+                        $ctrl.data.onEditing = false;
+                    }
+                });
+            }
+        };
+        var GetUserRoles = function (d) {
+            GpdManageServices.GetUserRoles(d.userId)
+            .then(function (payload) {
+                d.hasRole = true;
+                d.roles = payload;
+            });
+        };
+        var GetUsers = function () {
+            return GpdManageServices.GetUsers($ctrl.data.globalSearchParam)
+            .then(function (payload) {
+                $ctrl.data.users = payload.users;
+            });
+        };
+        var GetPartners = function () {
+            return GpdManageServices.GetPartners()
+            .then(function (payload) {
+                $ctrl.data.partners = payload;
+            });
+        };
+        var GetGroups = function () {
+            return GpdManageServices.GetGroups()
+            .then(function (payload) {
+                $ctrl.data.groups = payload;
+            });
+        };
+
+        angular.element(document).ready(function () {
+            GetUsers();
+            GetPartners();
+            GetGroups();
+        });    
+    }]);
 
 //=================================================
 angular.module('ManageUser').controller('AddUserRoleCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices', 'data',

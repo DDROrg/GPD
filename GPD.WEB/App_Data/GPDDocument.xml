@@ -862,6 +862,19 @@
             </summary>
             <returns>AuthenticateUserStatusDTO</returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.UserController.UserFullProfile(System.Int32)">
+            <summary>
+            Get User Details Profile based in user-id
+            </summary>
+            <param name="userId"></param>
+            <returns>UserDetailsTDO</returns>
+        </member>
+        <member name="M:GPD.WEB.Controllers.UserController.UpdateUser(GPD.ServiceEntities.UserDetailsTDO)">
+            <summary>
+            Update User Details Profile based in user-id
+            </summary>
+            <returns>status</returns>
+        </member>
         <member name="M:GPD.WEB.Controllers.UserController.GetUserFullProfile">
             <summary>
             

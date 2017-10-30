@@ -170,7 +170,17 @@ var GpdManageServices = function ($http, $q, $log) {
         };
         return $http.post(__RootUrl + "api/RegisterUser", user, config);
     };
-
+    var _GetUser = function (userId) {
+        return $http.get(__RootUrl + "api/User/" + userId);
+    };
+    var _UpdateUserProfile = function (user) {
+        var config = {
+            headers: {
+                'user-id': user.id
+            }
+        };
+        return $http.post(__RootUrl + "api/UpdateUser", user, config);
+    };
     var _UploadProfileImage = function (userId, file) {
         var config = {
             headers: {
@@ -183,7 +193,6 @@ var GpdManageServices = function ($http, $q, $log) {
         };
         return $http.post(__RootUrl + "api/UploadProfileImage?userId=" + userId, file, config);
     };
-
     var _GetCompanies = function (term) {
         return $http.post(__RootUrl + "api/GetCompanies?searchTerm=" + encodeURIComponent(term));
     };
@@ -193,6 +202,7 @@ var GpdManageServices = function ($http, $q, $log) {
     var _GetCompanyDetails = function (companyId) {
         return $http.post(__RootUrl + "api/GetCompanyDetails?countryId=" + encodeURIComponent(companyId));
     };
+
     this.GetPartners = function () {
         var deferred = $q.defer();
         var retVal = {};
@@ -203,6 +213,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.GetGroups = function () {
         var deferred = $q.defer();
         var retVal = {};
@@ -213,13 +224,14 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.GetUsers = function (searchTerm) {
         var deferred = $q.defer();
         var retVal = {};
         _GetUsers(searchTerm)
         .then(function (payload) {
             retVal = payload.data;
-            $.each(retVal, function (k, v) {
+            $.each(retVal.users, function (k, v) {
                 v.isRoleExpanded = false;
                 v.hasRole = false;
             });
@@ -227,6 +239,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.AddPartner = function (partner) {
         var deferred = $q.defer();
         var retVal = {};
@@ -237,6 +250,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.ActDactPartner = function (partnerId, isActive) {
         var deferred = $q.defer();
         var retVal = {};
@@ -247,6 +261,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.ActDactUser = function (userId, isActive) {
         var deferred = $q.defer();
         var retVal = {};
@@ -257,6 +272,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.GetUserRoles = function (userId) {
         var deferred = $q.defer();
         var retVal = {};
@@ -267,6 +283,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.DeleteUserRole = function (userId, partnerId, groupId) {
         var deferred = $q.defer();
         var retVal = {};
@@ -277,6 +294,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.AddUserRole = function (userId, partnerId, groupId) {
         var deferred = $q.defer();
         var retVal = {};
@@ -287,6 +305,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.RegisterUser = function (user) {
         var deferred = $q.defer();
         var retVal = {};
@@ -297,6 +316,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.UploadProfileImage = function (userId, file) {
         var deferred = $q.defer();
         var retVal = {};
@@ -307,6 +327,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.GetCompanies = function (term) {
         var deferred = $q.defer();
         var retVal = {};
@@ -317,6 +338,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.GetCountries = function () {
         var deferred = $q.defer();
         var retVal = {};
@@ -327,6 +349,7 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
     this.GetCompanyDetails = function (companyId) {
         var deferred = $q.defer();
         var retVal = {};
@@ -337,6 +360,28 @@ var GpdManageServices = function ($http, $q, $log) {
         });
         return deferred.promise;
     };
+
+    this.GetUserProfile = function (userId) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _GetUser(userId)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+    this.UpdateUserProfile = function (user) {
+        var deferred = $q.defer();
+        var retVal = {};
+        _UpdateUserProfile(user)
+        .then(function (payload) {
+            retVal = payload.data;
+            deferred.resolve(retVal);
+        });
+        return deferred.promise;
+    };
+
     return this;
 }
 //============================================
