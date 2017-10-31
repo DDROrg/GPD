@@ -119,6 +119,13 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             return retVal;
         };
         $ctrl.CheckEmpty = function (d) { return d && d != "" ? true : false; };
+        $ctrl.AddressLine = function (d) {
+            var addressLine = (!$ctrl.CheckEmpty(d.address1) ? "" : d.address1 + ", ") +
+                (!$ctrl.CheckEmpty(d.city) ? "" : d.city + ", ") +
+                (!$ctrl.CheckEmpty(d.state) ? "" : d.state + ", ");
+            if (addressLine.length > 1) { addressLine = addressLine.substr(0, addressLine.length - 2); }
+            return (($ctrl.CheckEmpty(d.zip)) ? addressLine + " " + d.zip : addressLine).trim();
+        };
         $ctrl.ColExpClass = function (d) { return d.isExpanded == true ? "fa fa-caret-down" : "fa fa-caret-right"; };
         $ctrl.DeleteItemsColor = function (d) { return d['delete-status'] == "False" ? "color:#f00;" : "color:#CCC;"; };
         $ctrl.DeleteItemsTitle = function (d) { return d['delete-status'] == "False" ? "Delete" : "UnDelete"; };

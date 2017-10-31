@@ -154,12 +154,7 @@
                             </td>
                             <td>{{d.client}}</td>
                             <td>{{d.status}}</td>
-                            <td>
-                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.address1)">{{d.location.address1}},&nbsp;</ng-container>
-                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.city)">{{d.location.city}},&nbsp;</ng-container>
-                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.state)">{{d.location.state}},&nbsp;</ng-container>
-                                <ng-container data-ng-if="$ctrl.CheckEmpty(d.location.zip)">zip - {{d.location.city}}</ng-container>
-                            </td>
+                            <td>{{ $ctrl.AddressLine(d.location) }}</td>
                             <td>{{d["create-timestamp-formatted"] | date:'MM/dd/yyyy HH:mm:ss'}}</td>
                             @if (isGPGAdmin)
                             {
