@@ -432,22 +432,59 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         var $ctrl = this;
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.users = [];
-        $ctrl.data.globalSearchParam = "";
-        $ctrl.data.sort = [{ column: 'firstName', descending: false }];
         $ctrl.data.page = {};
-        $ctrl.data.page.currentPage = 1;
         $ctrl.data.page.maxPage = 5;
-        $ctrl.data.page.itemPerPage = 10;
-        $ctrl.data.search = {};
-        $ctrl.data.search = { firstName: "", lastName: "", email: "", company: "" };
+        $ctrl.data.page.itemPerPage = 25;
+        $ctrl.data.search = {};       
+        $ctrl.data.to = {};
+        $ctrl.data.from = {};
 
         $ctrl.data.onEditing = false;
         $ctrl.data.userProfile = {};
         $ctrl.data.countries = [];
         $ctrl.data.filteredState = [];
-        $ctrl.data.ACCompanies = [];
-        $ctrl.data.isACVisible = false;
-        $ctrl.data.profileImage = {};
+        $ctrl.data.userTypes = [
+            { id: "100", name: "GPD Admin" },
+            { id: "101", name: "Partner Admin" },
+            { id: "102", name: "Firm User" },
+            { id: "103", name: "Individual User" }
+        ];
+        //$ctrl.data.ACCompanies = [];
+        //$ctrl.data.isACVisible = false;
+        //$ctrl.data.profileImage = {};
+
+
+        var ResetPagination = function () { $ctrl.data.page.currentPage = 1; };
+        var ResetDateRange = function (d) {
+            if (d == "TO") {
+                if ($ctrl.data.from.date > $ctrl.data.to.date) {
+                    $ctrl.data.from.date = new Date($ctrl.data.to.date);
+                }
+            }
+            else if (d == "FROM") {
+                if ($ctrl.data.from.date > $ctrl.data.to.date) {
+                    $ctrl.data.to.date = new Date($ctrl.data.from.date);
+                }
+            }
+        };
+        var ResetFilter = function () {
+            ResetPagination();
+            $ctrl.data.sort = [{ column: 'createdOn', descending: true }];
+            $ctrl.data.globalSearchParam = "";
+            $ctrl.data.search = { firstName: "", lastName: "", email: "", company: "" };
+            $ctrl.data.selectedUsertype = "";
+
+            $ctrl.data.to.date = new Date();
+            $ctrl.data.to.maxDate = new Date();
+            $ctrl.data.from.date = new Date();
+            $ctrl.data.from.date.setMonth(new Date().getMonth() - 1);
+            $ctrl.data.from.maxDate = new Date();
+            $ctrl.data.to.popupOpened = false;
+            $ctrl.data.from.popupOpened = false;
+            $ctrl.data.to.popupOpened = false;
+            $ctrl.data.from.popupOpened = false;
+        };
+        ResetFilter();
 
         $ctrl.OnChangeSorting = function (column) {
             var t = { column: column, descending: true };
@@ -461,12 +498,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             $ctrl.data.sort = [t];
         };
         $ctrl.OnResetManageUser = function () {
-            $ctrl.data.page.currentPage = 1;
-            $ctrl.data.globalSearchParam = "";
-            $ctrl.data.search.firstName = "";
-            $ctrl.data.search.lastName = "";
-            $ctrl.data.search.email = "";
-            $ctrl.data.search.company = "";
+            ResetFilter();
             GetUsers();
         };
         $ctrl.ColumnSortClass = function (column) {
@@ -486,8 +518,30 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         };
         $ctrl.OnPageChanged = function () { };
         $ctrl.OnGlobalSearch = function () {
+            ResetPagination();
             GetUsers();
         };
+        $ctrl.toDatePopupOpen = function () {
+            $ctrl.data.to.popupOpened = true;
+        };
+        $ctrl.fromDatePopupOpen = function () {
+            $ctrl.data.from.popupOpened = true;
+        };
+        $ctrl.toDateSelected = function () {
+            ResetPagination();
+            ResetDateRange("TO");
+            GetUsers();
+        };
+        $ctrl.fromDateSelected = function () {
+            ResetPagination();
+            ResetDateRange("FROM");
+            GetUsers();
+        };
+        $ctrl.OnUserTypeChange = function () {
+            ResetPagination();
+            GetUsers();
+        };
+        $ctrl.OnExport = function () { alert("TODO:Not Implemented"); };
         $ctrl.OnColExpRole = function (d) {
             d.isRoleExpanded = !(d.isRoleExpanded);
             if (d.hasRole == false) {
@@ -653,7 +707,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             });
         };
         var GetUsers = function () {
-            return GpdManageServices.GetUsers($ctrl.data.globalSearchParam)
+            return GpdManageServices.GetUsers($ctrl.data.globalSearchParam, $ctrl.data.from.date, $ctrl.data.to.date, $ctrl.data.selectedUsertype)
             .then(function (payload) {
                 $ctrl.data.users = payload.users;
             });

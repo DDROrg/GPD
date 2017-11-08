@@ -41,6 +41,9 @@ namespace GPD.ServiceEntities.ResponseEntities
 
         [DataMember(Name = "isActive", Order = 6)]
         public bool IsActive;
+
+        [DataMember(Name = "createdOn", Order = 7)]
+        public string CreatedOn;
     }
 
     [DataContract(Namespace = "http://www.gpd.com", Name = "update-user-response")]

@@ -9,7 +9,8 @@ BEGIN
 		U.email,
 		U.firm_id,
 		F.name as "firmName",
-		u.active      
+		u.active,
+		u.create_date AS CREATE_DATE      
 	FROM gpd_user_details U
 	LEFT JOIN gpd_firm_profile F ON U.firm_id = F.firm_id
 	WHERE (

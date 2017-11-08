@@ -8,31 +8,66 @@
     Response.Redirect("/");
 }
 <div data-ng-app="ManageUser">
-    <div data-id="divManageUser" data-ng-controller="ManageUserController as $ctrl" ng-cloak>        
+    <div data-id="divManageUser" data-ng-controller="ManageUserController as $ctrl" ng-cloak>
         <div class="data-container">
-
             <div data-ng-if="!$ctrl.data.onEditing" class="data-container">
                 <h3>@ViewBag.Title</h3>
                 <div class="row">
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-6">
-                        <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
-                            <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
-                                 ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.OnPageChanged()" previous-text="&lsaquo;"
-                                 next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
-                                 boundary-link-numbers="true">
+                    <div class="col-sm-7">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="input-group search-wrapper">
+                                    <input type="text" class="search-box" placeholder="Enter search term" data-ng-model="$ctrl.data.globalSearchParam" />
+                                    <a data-ng-href="" data-ng-click="$ctrl.OnGlobalSearch()" class="input-group-addon btn btn-primary"><i class="fa fa-arrow-circle-o-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group search-wrapper">
+                                    <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.data.from.date"
+                                           is-open="$ctrl.data.from.popupOpened" datepicker-options="$ctrl.data.from" show-button-bar="false" readonly="readonly"
+                                           ng-change="$ctrl.fromDateSelected()" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="$ctrl.fromDatePopupOpen()"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group search-wrapper">
+                                    <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.data.to.date"
+                                           is-open="$ctrl.data.to.popupOpened" datepicker-options="$ctrl.data.to" show-button-bar="false" readonly="readonly"
+                                           ng-change="$ctrl.toDateSelected()" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="$ctrl.toDatePopupOpen()"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="search-wrapper">
+                                    <select data-ng-model="$ctrl.data.selectedUsertype" ng-change="$ctrl.OnUserTypeChange()" class="form-control full-width">
+                                        <option value="">--User Type--</option>
+                                        <option data-ng-repeat="d in $ctrl.data.userTypes" value="{{d.id}}">{{d.name}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-3">
-                        <div class="input-group search-wrapper">
-                            <input type="text" class="search-box" placeholder="Enter search term" data-ng-model="$ctrl.data.globalSearchParam" />
-                            <a data-ng-href="" data-ng-click="$ctrl.OnGlobalSearch()" class="input-group-addon btn btn-primary"><i class="fa fa-arrow-circle-o-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-1">
-                        <div class="search-wrapper" style="text-align:right;">
-                            <a class="btn btn-warning" data-ng-href="" data-ng-click="$ctrl.OnResetManageUser()"><i class="fa fa-times-circle-o"></i>&nbsp;Reset</a>
+                    <div class="col-sm-5">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <div data-ng-if="filterData.length > $ctrl.data.page.itemPerPage" style="text-align: right;">
+                                    <div uib-pagination class="pagination-sm pagination" total-items="filterData.length"
+                                         ng-model="$ctrl.data.page.currentPage" ng-change="$ctrl.OnPageChanged()" previous-text="&lsaquo;"
+                                         next-text="&rsaquo;" items-per-page="$ctrl.data.page.itemPerPage" max-size="$ctrl.data.page.maxPage"
+                                         boundary-link-numbers="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="search-wrapper" style="text-align:right;">
+                                    <a class="btn btn-primary" data-ng-href="" data-ng-click="$ctrl.OnExport()"><i class="fa fa-floppy-o"></i>&nbsp;Export</a>
+                                    <a class="btn btn-warning" data-ng-href="" data-ng-click="$ctrl.OnResetManageUser()"><i class="fa fa-times-circle-o"></i>&nbsp;Reset</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -54,6 +89,10 @@
                                 </th>
                                 <th>
                                     <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('company')" class="header-data-link">Company&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('company')">
+                                    </i>
+                                </th>
+                                <th>
+                                    <a ng-href="" data-ng-click="$ctrl.OnChangeSorting('createdOn')" class="header-data-link">Registered On&nbsp;</a><i data-ng-class="$ctrl.ColumnSortClass('createdOn')">
                                     </i>
                                 </th>
                                 <th>
@@ -81,6 +120,7 @@
                                 </th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,6 +129,7 @@
                                 <td>{{d.lastName}}</td>
                                 <td>{{d.email}}</td>
                                 <td>{{d.company}}</td>
+                                <td>{{d.createdOn | date:'MM/dd/yyyy HH:mm:ss'}}</td>
                                 <td style="text-align:center;">
                                     <label title="Activat/Deactivate Partner"><input type="checkbox" data-ng-model="d.isActive" data-ng-click="$ctrl.OnActDeactItem(d)" /></label>
                                 </td>
@@ -99,7 +140,7 @@
                             </tr>
                             <tr data-ng-repeat-end data-ng-if="$ctrl.IsShowRole(d)">
                                 <td colspan="3"></td>
-                                <td colspan="3">
+                                <td colspan="4">
                                     <table class="table table-striped table-condensed table-hover">
                                         <thead style="background-color:#E9E9E9;">
                                             <tr>
@@ -289,8 +330,8 @@
                     <div class="col-md-4">
                     </div>
                 </div>
-            </div>           
-            
+            </div>
+
         </div>
     </div>
 
@@ -320,7 +361,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-4">Role<span class="mandatory">*</span></label>
                         <div class="col-md-8">
-                            <select data-ng-model="$ctrl.data.selectedGroup" class="form-control">                                
+                            <select data-ng-model="$ctrl.data.selectedGroup" class="form-control">
                                 <option data-ng-repeat="d in $ctrl.data.groups" value="{{d.groupId}}">{{d.name}}</option>
                             </select>
                         </div>

@@ -133,15 +133,21 @@ var ProjectServices = function ($http, $httpParamSerializer, $q, $log) {
     return this;
 }
 //============================================
-var GpdManageServices = function ($http, $q, $log) {
+var GpdManageServices = function ($http, $httpParamSerializer, $q, $log) {
     var _GetPartners = function () {
         return $http.post(__RootUrl + "api/GetPartners");
     };
     var _GetGroups = function () {
         return $http.post(__RootUrl + "api/GetGroups");
     };
-    var _GetUsers = function (searchTerm) {
-        return $http.post(__RootUrl + "api/GetUsers?searchTerm=" + encodeURI(searchTerm));
+    var _GetUsers = function (searchTerm, fromDate, toDate, selectedUserType) {
+        var data = {};
+        data.searchTerm = searchTerm;
+        data.fromDate = fromDate;
+        data.toDate = toDate;
+        data.userType = selectedUserType;
+        return $http.post(__RootUrl + "api/GetUsers?" + $httpParamSerializer(data));
+        //return $http.post(__RootUrl + "api/GetUsers?searchTerm=" + encodeURI(searchTerm) + "&fromDate=" + encodeURI(fromDate) + "&toDate=" + encodeURI(toDate) + "&selectedUserType=" + encodeURI(selectedUserType));
     };
     var _AddPartner = function (partner) {
         return $http.post(__RootUrl + "api/AddPartner", partner);
@@ -225,10 +231,10 @@ var GpdManageServices = function ($http, $q, $log) {
         return deferred.promise;
     };
 
-    this.GetUsers = function (searchTerm) {
+    this.GetUsers = function (searchTerm, fromDate, toDate, selectedUserType) {
         var deferred = $q.defer();
         var retVal = {};
-        _GetUsers(searchTerm)
+        _GetUsers(searchTerm, fromDate, toDate, selectedUserType)
         .then(function (payload) {
             retVal = payload.data;
             $.each(retVal.users, function (k, v) {
@@ -393,7 +399,7 @@ angular.module('Project')
 angular.module('ManageUser')
 .factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])
 .service('CommonServices', ['$http', '$q', '$log', 'BroadcastService', function ($http, $q, $log, BroadcastService) { return CommonServices($http, $q, $log, BroadcastService); }])
-.service('GpdManageServices', ['$http', '$q', '$log', function ($http, $q, $log) { return GpdManageServices($http, $q, $log); }]);
+.service('GpdManageServices', ['$http', '$httpParamSerializer', '$q', '$log', function ($http, $httpParamSerializer, $q, $log) { return GpdManageServices($http, $httpParamSerializer, $q, $log); }]);
 
 angular.module('ManagePartner')
 .factory('BroadcastService', ['$rootScope', '$log', function ($rootScope, $log) { return BroadcastService($rootScope, $log); }])

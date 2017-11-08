@@ -44,14 +44,30 @@ namespace GPD.WEB.Controllers
         /// Get All Users List
         /// </summary>
         /// <param name="searchTerm"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="selectedUserType"></param>
         /// <returns></returns>
         [Route("api/GetUsers")]
         [HttpPost]
         [Authorize]
         //[ApiExplorerSettings(IgnoreApi = true)]
-        public UsersListResponse GetUsers(string searchTerm)
+        public UsersListResponse GetUsers(string searchTerm, string fromDate, string toDate, string userType)
         {
-            return UserDetailsFacade.GetUsers(searchTerm);
+            DateTime fromDateTime = DateTime.MinValue, toDateTime = DateTime.MinValue;
+            try
+            {
+                fromDateTime = Convert.ToDateTime(fromDate);
+                toDateTime = Convert.ToDateTime(toDate);
+                //if (DateTime.Compare(fromDateTime.AddMonths(3), toDateTime) == -1)
+                //    toDateTime = fromDateTime.AddMonths(3);
+            }
+            catch
+            {
+                toDateTime = DateTime.Now;
+                fromDateTime = DateTime.Now.AddMonths(-3);
+            }
+            return UserDetailsFacade.GetUsers(searchTerm, string.Format("{0:yyyy-MM-dd}", fromDateTime), string.Format("{0:yyyy-MM-dd}", toDateTime), userType);
 
         }
 
@@ -216,7 +232,7 @@ namespace GPD.WEB.Controllers
         [AllowAnonymous]
         //[ApiExplorerSettings(IgnoreApi = true)]
         public UserRegistrationStatusDTO RegisterUser(UserDetailsTDO user)
-        {            
+        {
             UserRegistrationStatusDTO retVal = new UserRegistrationStatusDTO() { Status = false };
             XDocument xDoc = new XDocument();
             int errorCode;

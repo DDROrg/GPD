@@ -308,8 +308,11 @@ END;
         /// 
         /// </summary>
         /// <param name="searchTerm"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="userType"></param>
         /// <returns></returns>
-        public DataSet GetUsers(string searchTerm)
+        public DataSet GetUsers(string searchTerm, string fromDate, string toDate, string userType)
         {
             return base.GetDSBasedOnStoreProcedure("gpd_GetUsersList",
                 new List<SqlParameter>()

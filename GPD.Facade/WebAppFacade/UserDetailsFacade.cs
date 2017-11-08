@@ -181,15 +181,18 @@ namespace GPD.Facade.WebAppFacade
         /// 
         /// </summary>
         /// <param name="searchTerm"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="userType"></param>
         /// <returns></returns>
-        public static UsersListResponse GetUsers(string searchTerm)
+        public static UsersListResponse GetUsers(string searchTerm, string fromDate, string toDate, string userType)
         {
             UsersListResponse retObj = new UsersListResponse();
             searchTerm = string.IsNullOrWhiteSpace(searchTerm) ? string.Empty : "%" + searchTerm.Trim() + "%";
 
             try
             {
-                DataSet ds = new ProjectDB(ConfigurationHelper.GPD_Connection).GetUsers(searchTerm);
+                DataSet ds = new ProjectDB(ConfigurationHelper.GPD_Connection).GetUsers(searchTerm, fromDate, toDate, userType);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -202,7 +205,8 @@ namespace GPD.Facade.WebAppFacade
                             LastName = dr["last_name"].ToString(),
                             Email = dr["email"].ToString(),
                             FirmName = DBNull.Value.Equals(dr["firmName"]) ? "" : dr["firmName"].ToString(),
-                            IsActive = Convert.ToBoolean(dr["active"])
+                            IsActive = Convert.ToBoolean(dr["active"]),
+                            CreatedOn = ((DateTime)dr["CREATE_DATE"]).ToString("o"),
                         });
                     }
                 }
