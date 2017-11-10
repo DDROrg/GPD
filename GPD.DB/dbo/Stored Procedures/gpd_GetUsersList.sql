@@ -2,7 +2,7 @@
 	@P_SEARCH_VALUE VARCHAR(250)
 AS
 BEGIN
-	SELECT TOP (1000)
+	SELECT TOP (5000)
 		U.user_id,
 		U.first_name,
 		U.last_name,
