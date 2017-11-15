@@ -52,23 +52,42 @@ namespace GPD.WEB.Controllers
         [HttpPost]
         [Authorize]
         //[ApiExplorerSettings(IgnoreApi = true)]
-        public UsersListResponse GetUsers(string searchTerm, string fromDate, string toDate, string userType)
+        public UsersListResponse GetUsers(string fromDate, string toDate, string searchTerm, string userType,
+            int orderByColIndex, string sortingOrder, int userGroupId = 0, int pageSize = 25, int pageIndex = 1)
         {
-            DateTime fromDateTime = DateTime.MinValue, toDateTime = DateTime.MinValue;
+            UsersListResponse retObj = new UsersListResponse(pageSize < 1 ? 1 : pageSize, pageIndex < 1 ? 1 : pageIndex);
+
             try
             {
-                fromDateTime = Convert.ToDateTime(fromDate);
-                toDateTime = Convert.ToDateTime(toDate);
-                //if (DateTime.Compare(fromDateTime.AddMonths(3), toDateTime) == -1)
-                //    toDateTime = fromDateTime.AddMonths(3);
-            }
-            catch
-            {
-                toDateTime = DateTime.Now;
-                fromDateTime = DateTime.Now.AddMonths(-3);
-            }
-            return UserDetailsFacade.GetUsers(searchTerm, string.Format("{0:yyyy-MM-dd}", fromDateTime), string.Format("{0:yyyy-MM-dd}", toDateTime), userType);
+                // set default date range
+                DateTime fromDateTime = DateTime.Now.AddMonths(-3), toDateTime = DateTime.Now;
 
+                try { toDateTime = Convert.ToDateTime(toDate); }
+                catch { toDateTime = DateTime.Now; }
+
+                try { fromDateTime = Convert.ToDateTime(fromDate); }
+                catch { fromDateTime = DateTime.Now.AddMonths(-3); }
+
+                // order index
+                if (orderByColIndex < 1) { orderByColIndex = 1; }
+
+                Utility.EnumHelper.DBSortingOrder enSortingOrder =
+                    (sortingOrder != null && sortingOrder.Equals("asc", StringComparison.OrdinalIgnoreCase)) ?
+                    Utility.EnumHelper.DBSortingOrder.Asc : Utility.EnumHelper.DBSortingOrder.Desc; // DESC by default
+
+                int usersCount;
+                var userList = UserDetailsFacade.GetUsers(DateTime.Parse(fromDateTime.ToShortDateString()), DateTime.Parse(toDateTime.ToShortDateString()), searchTerm, 
+                    orderByColIndex, enSortingOrder, userGroupId, ((retObj.PageIndex * retObj.PageSize) - retObj.PageSize), retObj.PageSize, out usersCount);
+
+                retObj.UserList = userList;
+                retObj.TotalRecordCount = usersCount;
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+            }
+
+            return retObj;        
         }
 
         /// <summary>

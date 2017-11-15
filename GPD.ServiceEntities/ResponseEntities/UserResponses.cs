@@ -6,14 +6,26 @@ namespace GPD.ServiceEntities.ResponseEntities
     [DataContract(Namespace = "http://www.gpd.com", Name = "users-list-response")]
     public class UsersListResponse
     {
-        #region Constr
-        public UsersListResponse()
+        #region Constr 
+        public UsersListResponse(int pageSize, int pageIndex)
         {
+            this.PageSize = pageSize;
+            this.PageIndex = pageIndex;
+            this.TotalRecordCount = 0;
             this.UserList = new List<UserDTO>();
         }
         #endregion Constr
 
-        [DataMember(Name = "users", Order = 1)]
+        [DataMember(Name = "pageSize", Order = 1)]
+        public int PageSize;
+
+        [DataMember(Name = "pageIndex", Order = 2)]
+        public int PageIndex;
+
+        [DataMember(Name = "totalRecordCount", Order = 3)]
+        public int TotalRecordCount;
+
+        [DataMember(Name = "users", Order = 4)]
         public List<UserDTO> UserList { get; set; }
     }
 

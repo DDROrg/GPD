@@ -185,20 +185,22 @@ namespace GPD.Facade.WebAppFacade
         /// <param name="toDate"></param>
         /// <param name="userType"></param>
         /// <returns></returns>
-        public static UsersListResponse GetUsers(string searchTerm, string fromDate, string toDate, string userType)
+        public static List<ServiceEntities.ResponseEntities.UserDTO> GetUsers(DateTime fromDate, DateTime toDate, string searchTerm, 
+            int orderByColIndex, Utility.EnumHelper.DBSortingOrder sortingOrder, int userGroupId, int startRowIndex, int pageSize, out int usersCount)
         {
-            UsersListResponse retObj = new UsersListResponse();
-            searchTerm = string.IsNullOrWhiteSpace(searchTerm) ? string.Empty : "%" + searchTerm.Trim() + "%";
+            List<ServiceEntities.ResponseEntities.UserDTO> retObj = new List<ServiceEntities.ResponseEntities.UserDTO>();
+            usersCount = 0;
 
             try
             {
-                DataSet ds = new ProjectDB(ConfigurationHelper.GPD_Connection).GetUsers(searchTerm, fromDate, toDate, userType);
+                DataSet ds = new ProjectDB(ConfigurationHelper.GPD_Connection).GetUsers(fromDate, toDate, searchTerm,
+                    orderByColIndex, sortingOrder.ToString(), userGroupId, startRowIndex, pageSize);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        retObj.UserList.Add(new ServiceEntities.ResponseEntities.UserDTO()
+                        retObj.Add(new ServiceEntities.ResponseEntities.UserDTO()
                         {
                             UserId = int.Parse(dr["user_id"].ToString()),
                             FirstName = dr["first_name"].ToString(),
@@ -209,6 +211,11 @@ namespace GPD.Facade.WebAppFacade
                             CreatedOn = ((DateTime)dr["CREATE_DATE"]).ToString("o"),
                         });
                     }
+                }
+
+                if (ds != null && ds.Tables.Count > 1 && ds.Tables[1].Rows.Count == 1)
+                {
+                    int.TryParse(ds.Tables[1].Rows[0][0].ToString(), out usersCount);
                 }
             }
             catch (Exception ex)

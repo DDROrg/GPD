@@ -304,6 +304,22 @@ END;
             return base.GetDSBasedOnStatement(sb, parametersInList);
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -312,12 +328,42 @@ END;
         /// <param name="toDate"></param>
         /// <param name="userType"></param>
         /// <returns></returns>
-        public DataSet GetUsers(string searchTerm, string fromDate, string toDate, string userType)
+        public DataSet TODELETE_GetUsers(string searchTerm, string fromDate, string toDate, string userType)
         {
             return base.GetDSBasedOnStoreProcedure("gpd_GetUsersList",
                 new List<SqlParameter>()
                 {
                     new SqlParameter("@P_SEARCH_VALUE", searchTerm ?? string.Empty)
+                });
+        }
+
+        /// <summary>
+        /// Get dataset of users based on search criteria
+        /// </summary>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="orderByColIndex"></param>
+        /// <param name="sortingOrder"></param>
+        /// <param name="startRowIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public DataSet GetUsers(DateTime fromDate, DateTime toDate, string searchTerm, 
+            int orderByColIndex, string sortingOrder, int userGroupId, int startRowIndex, int pageSize)
+        {
+            return base.GetDSBasedOnStoreProcedure("gpd_GetUsersList_V2",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("@P_FromDate", fromDate),
+                    new SqlParameter("@P_ToDate", toDate),
+                    (string.IsNullOrWhiteSpace(searchTerm)) ?
+                    new SqlParameter("@P_SearchTerm", DBNull.Value) : new SqlParameter("@P_SearchTerm", searchTerm),
+                    new SqlParameter("@P_OrderByColIndex", orderByColIndex),
+                    new SqlParameter("@P_SortingOrder", sortingOrder),
+                    (userGroupId <= 0) ?
+                    new SqlParameter("@P_UserGroupId", DBNull.Value) : new SqlParameter("@P_UserGroupId", userGroupId),
+                    new SqlParameter("@P_StartRowIndex", startRowIndex),
+                    new SqlParameter("@P_PageSize", pageSize)
                 });
         }
 

@@ -146,6 +146,10 @@ var GpdManageServices = function ($http, $httpParamSerializer, $q, $log) {
         data.fromDate = fromDate;
         data.toDate = toDate;
         data.userType = selectedUserType;
+        // TODO
+        data.orderByColIndex = 5;
+        data.sortingOrder = "desc";
+
         return $http.post(__RootUrl + "api/GetUsers?" + $httpParamSerializer(data));
         //return $http.post(__RootUrl + "api/GetUsers?searchTerm=" + encodeURI(searchTerm) + "&fromDate=" + encodeURI(fromDate) + "&toDate=" + encodeURI(toDate) + "&selectedUserType=" + encodeURI(selectedUserType));
     };

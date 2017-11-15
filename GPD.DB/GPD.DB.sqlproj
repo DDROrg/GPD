@@ -100,5 +100,6 @@
     <Build Include="dbo\Stored Procedures\gpd_DeleteProjectList.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetProjectsList.sql" />
     <Build Include="dbo\Stored Procedures\gpd_UpdateUserPassword.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_GetUsersList_V2.sql" />
   </ItemGroup>
 </Project>

@@ -6,5 +6,9 @@ using System.Threading.Tasks;
 
 namespace GPD.Utility.EnumHelper
 {
-    
+    public enum DBSortingOrder {
+        Desc = 0,
+        Asc = 1
+    }
+
 }
