@@ -485,6 +485,17 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             $ctrl.data.from.popupOpened = false;
         };
         ResetFilter();
+        var ResetProfileImage = function () {
+            $ctrl.data.profileImage = {
+                isPresent: false,
+                url: '',
+                file: null
+            };
+            try {
+                $("#fileProfileImage").get(0).value = null;
+            }
+            catch (err) { }            
+        };
 
         $ctrl.OnChangeSorting = function (column) {
             var t = { column: column, descending: true };
@@ -655,6 +666,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         $ctrl.OnEditItem = function (d) {
             $ctrl.data.onEditing = true;
             $ctrl.data.userProfile = {};
+            ResetProfileImage();
 
             // Get Countries
             if ($ctrl.data.countries.length == 0)
@@ -669,6 +681,16 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
                     $ctrl.CountryChange();
             });
         };
+        $ctrl.SelectProfileImg = function () {
+            $("#fileProfileImage").click();
+        };
+        $ctrl.OnImageSelected = function (d) {
+            $scope.$apply(function () {
+                $ctrl.data.profileImage.isPresent = d.isPresent;
+                $ctrl.data.profileImage.url = d.url;
+                $ctrl.data.profileImage.file = d.file;
+            });
+        }
         $ctrl.OnCancelEditItem = function () {
             $ctrl.data.onEditing = false;
         };
@@ -688,13 +710,30 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         $ctrl.HasFilteredStates = function () {
             return $ctrl.data.filteredState.length > 0 ? 1 : 0;
         };
+        $ctrl.OnProfileImg = function () { ResetProfileImage(); };
         $ctrl.OnSave = function () {
             if (ValidateUserDetail()) {
                 GpdManageServices.UpdateUserProfile($ctrl.data.userProfile)
                 .then(function (payload) {
                     if (payload.status) {
-                        GetUsers();
-                        $ctrl.data.onEditing = false;
+                        if ($ctrl.data.profileImage.isPresent == true) {
+                            var data = new FormData();
+                            if ($ctrl.data.profileImage.file.length > 0) {
+                                data.append("file", $ctrl.data.profileImage.file[0]);
+                            }
+                            GpdManageServices.UploadProfileImage($ctrl.data.userProfile.id, data)
+                            .then(function (payload) {
+                                if (payload == "SUCCESS") {
+                                    GetUsers();
+                                    $ctrl.data.onEditing = false;
+                                } else {
+                                    toastr.error("ERROR : In File upload");
+                                }
+                            });
+                        } else {
+                            GetUsers();
+                            $ctrl.data.onEditing = false;
+                        }
                     }
                 });
             }
@@ -730,7 +769,26 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             GetPartners();
             GetGroups();
         });    
-    }]);
+    }])
+    .directive('filelistBind', function () {
+        return {
+            scope: { imageSelected: '&' },
+            link: function (scope, elm, attrs) {
+                elm.bind('change', function (evt) {
+                    scope.$apply(function () {
+                        scope[attrs.name] = evt.target.files;
+                        var reader = new FileReader();
+                        // inject an image with the src url
+                        reader.onload = function (event) {
+                            scope.imageSelected({ d: { isPresent: true, url: event.target.result, file: evt.target.files } });
+                        };
+                        // when the file is read it triggers the onload event above.
+                        reader.readAsDataURL(evt.target.files[0]);
+                    });
+                });
+            }
+        };
+    });
 
 //=================================================
 angular.module('ManageUser').controller('AddUserRoleCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$http', '$location', '$uibModal', '$log', 'toastr', 'CommonServices', 'GpdManageServices', 'data',
