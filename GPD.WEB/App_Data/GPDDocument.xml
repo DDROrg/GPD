@@ -767,14 +767,16 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:GPD.WEB.Controllers.UserController.GetUsers(System.String,System.String,System.String,System.String)">
+        <member name="M:GPD.WEB.Controllers.UserController.GetUsers(System.String,System.String,System.String,System.Int32,System.Int32,System.Int32)">
             <summary>
             Get All Users List
             </summary>
-            <param name="searchTerm"></param>
             <param name="fromDate"></param>
             <param name="toDate"></param>
-            <param name="selectedUserType"></param>
+            <param name="searchTerm"></param>
+            <param name="userGroupId"></param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
             <returns></returns>
         </member>
         <member name="M:GPD.WEB.Controllers.UserController.ResetUserPassword(System.String)">

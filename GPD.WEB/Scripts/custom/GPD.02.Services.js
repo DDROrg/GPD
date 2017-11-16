@@ -140,18 +140,15 @@ var GpdManageServices = function ($http, $httpParamSerializer, $q, $log) {
     var _GetGroups = function () {
         return $http.post(__RootUrl + "api/GetGroups");
     };
-    var _GetUsers = function (searchTerm, fromDate, toDate, selectedUserType) {
+    var _GetUsers = function (searchTerm, fromDate, toDate, selectedUserType, currentPage, itemPerPage) {
         var data = {};
         data.searchTerm = searchTerm;
         data.fromDate = fromDate;
         data.toDate = toDate;
-        data.userType = selectedUserType;
-        // TODO
-        data.orderByColIndex = 5;
-        data.sortingOrder = "desc";
-
+        data.userGroupId = selectedUserType;
+        data.pageSize = itemPerPage;
+        data.pageIndex = currentPage;
         return $http.post(__RootUrl + "api/GetUsers?" + $httpParamSerializer(data));
-        //return $http.post(__RootUrl + "api/GetUsers?searchTerm=" + encodeURI(searchTerm) + "&fromDate=" + encodeURI(fromDate) + "&toDate=" + encodeURI(toDate) + "&selectedUserType=" + encodeURI(selectedUserType));
     };
     var _AddPartner = function (partner) {
         return $http.post(__RootUrl + "api/AddPartner", partner);
@@ -235,10 +232,10 @@ var GpdManageServices = function ($http, $httpParamSerializer, $q, $log) {
         return deferred.promise;
     };
 
-    this.GetUsers = function (searchTerm, fromDate, toDate, selectedUserType) {
+    this.GetUsers = function (searchTerm, fromDate, toDate, selectedUserType, currentPage, itemPerPage) {
         var deferred = $q.defer();
         var retVal = {};
-        _GetUsers(searchTerm, fromDate, toDate, selectedUserType)
+        _GetUsers(searchTerm, fromDate, toDate, selectedUserType, currentPage, itemPerPage)
         .then(function (payload) {
             retVal = payload.data;
             $.each(retVal.users, function (k, v) {

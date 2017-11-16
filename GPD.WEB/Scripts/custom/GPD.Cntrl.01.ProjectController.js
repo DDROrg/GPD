@@ -431,7 +431,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
     function ($scope, $rootScope, $http, $location, $uibModal, $log, filterFilter, toastr, CommonServices, GpdManageServices) {
         var $ctrl = this;
         CommonServices.SetDefaultData($ctrl, $location);
-        $ctrl.data.users = [];
+        $ctrl.data.usersListResponse = {};
         $ctrl.data.page = {};
         $ctrl.data.page.maxPage = 5;
         $ctrl.data.page.itemPerPage = 25;
@@ -472,7 +472,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             $ctrl.data.sort = [{ column: 'createdOn', descending: true }];
             $ctrl.data.globalSearchParam = "";
             $ctrl.data.search = { firstName: "", lastName: "", email: "", company: "" };
-            $ctrl.data.selectedUsertype = "";
+            $ctrl.data.selectedUsertype = "0";
 
             $ctrl.data.to.date = new Date();
             $ctrl.data.to.maxDate = new Date();
@@ -516,7 +516,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             });
             return retVal;
         };
-        $ctrl.OnPageChanged = function () { };
+        $ctrl.OnPageChanged = function () { GetUsers(); };
         $ctrl.OnGlobalSearch = function () {
             ResetPagination();
             GetUsers();
@@ -707,9 +707,9 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             });
         };
         var GetUsers = function () {
-            return GpdManageServices.GetUsers($ctrl.data.globalSearchParam, $ctrl.data.from.date, $ctrl.data.to.date, $ctrl.data.selectedUsertype)
+            return GpdManageServices.GetUsers($ctrl.data.globalSearchParam, $ctrl.data.from.date, $ctrl.data.to.date, $ctrl.data.selectedUsertype, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage)
             .then(function (payload) {
-                $ctrl.data.users = payload.users;
+                $ctrl.data.usersListResponse = payload;
             });
         };
         var GetPartners = function () {

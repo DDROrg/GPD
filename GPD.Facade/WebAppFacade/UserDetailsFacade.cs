@@ -180,10 +180,15 @@ namespace GPD.Facade.WebAppFacade
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="searchTerm"></param>
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
-        /// <param name="userType"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="orderByColIndex"></param>
+        /// <param name="sortingOrder"></param>
+        /// <param name="userGroupId"></param>
+        /// <param name="startRowIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="usersCount"></param>
         /// <returns></returns>
         public static List<ServiceEntities.ResponseEntities.UserDTO> GetUsers(DateTime fromDate, DateTime toDate, string searchTerm, 
             int orderByColIndex, Utility.EnumHelper.DBSortingOrder sortingOrder, int userGroupId, int startRowIndex, int pageSize, out int usersCount)

@@ -43,17 +43,18 @@ namespace GPD.WEB.Controllers
         /// <summary>
         /// Get All Users List
         /// </summary>
-        /// <param name="searchTerm"></param>
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
-        /// <param name="selectedUserType"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="userGroupId"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
         /// <returns></returns>
         [Route("api/GetUsers")]
         [HttpPost]
         [Authorize]
         //[ApiExplorerSettings(IgnoreApi = true)]
-        public UsersListResponse GetUsers(string fromDate, string toDate, string searchTerm, string userType,
-            int orderByColIndex, string sortingOrder, int userGroupId = 0, int pageSize = 25, int pageIndex = 1)
+        public UsersListResponse GetUsers(string fromDate, string toDate, string searchTerm, int userGroupId = 0, int pageSize = 25, int pageIndex = 1)
         {
             UsersListResponse retObj = new UsersListResponse(pageSize < 1 ? 1 : pageSize, pageIndex < 1 ? 1 : pageIndex);
 
@@ -68,12 +69,8 @@ namespace GPD.WEB.Controllers
                 try { fromDateTime = Convert.ToDateTime(fromDate); }
                 catch { fromDateTime = DateTime.Now.AddMonths(-3); }
 
-                // order index
-                if (orderByColIndex < 1) { orderByColIndex = 1; }
-
-                Utility.EnumHelper.DBSortingOrder enSortingOrder =
-                    (sortingOrder != null && sortingOrder.Equals("asc", StringComparison.OrdinalIgnoreCase)) ?
-                    Utility.EnumHelper.DBSortingOrder.Asc : Utility.EnumHelper.DBSortingOrder.Desc; // DESC by default
+                int orderByColIndex = 5;
+                Utility.EnumHelper.DBSortingOrder enSortingOrder = Utility.EnumHelper.DBSortingOrder.Desc;
 
                 int usersCount;
                 var userList = UserDetailsFacade.GetUsers(DateTime.Parse(fromDateTime.ToShortDateString()), DateTime.Parse(toDateTime.ToShortDateString()), searchTerm, 
