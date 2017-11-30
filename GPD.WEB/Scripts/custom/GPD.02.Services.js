@@ -347,14 +347,9 @@ var GpdManageServices = function ($http, $httpParamSerializer, $q, $log) {
     };
 
     this.GetCountries = function () {
-        var deferred = $q.defer();
-        var retVal = {};
-        _GetCountries()
-        .then(function (payload) {
-            retVal = payload.data;
-            deferred.resolve(retVal);
+        return $http.get(__RootUrl + "Scripts/data/countries.json").then(function (response) {
+            return response.data;
         });
-        return deferred.promise;
     };
 
     this.GetCompanyDetails = function (companyId) {
