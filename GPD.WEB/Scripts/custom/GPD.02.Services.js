@@ -314,14 +314,25 @@ var GpdManageServices = function ($http, $httpParamSerializer, $q, $log) {
     };
 
     this.RegisterUser = function (user) {
-        var deferred = $q.defer();
-        var retVal = {};
-        _RegisterUser(user)
-        .then(function (payload) {
-            retVal = payload.data;
-            deferred.resolve(retVal);
+        var config = {
+            headers : {
+                'form-data-enewsletters-communication-flag': user.enewslettersCommunication,
+                'form-data-email-communication-flag': user.emailCommunication
+            }
+        };
+
+        return $http.post(__RootUrl + "api/RegisterUser", user, config).then(function (response) {
+            return response.data;
         });
-        return deferred.promise;
+
+        //var deferred = $q.defer();
+        //var retVal = {};
+        //_RegisterUser(user)
+        //.then(function (payload) {
+        //    retVal = payload.data;
+        //    deferred.resolve(retVal);
+        //});
+        //return deferred.promise;
     };
 
     this.UploadProfileImage = function (userId, file) {
