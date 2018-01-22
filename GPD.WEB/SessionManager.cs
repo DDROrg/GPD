@@ -109,6 +109,29 @@ namespace GPD.WEB
         }
 
         /// <summary>
+        /// Is User assigned to any Roles in the list
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool AnyFromRoles(string[] rolesList)
+        {
+            try
+            {
+                // get user profile
+                SignInResponseDTO userProfile = GetUserProfile();
+
+                if (userProfile != null)
+                    return userProfile.Roles.Any(T => rolesList.Contains(T.GroupName.ToUpper()));
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+            }
+
+            return false;
+        }
+
+
+        /// <summary>
         /// 
         /// </summary>
         public void ClearSession()

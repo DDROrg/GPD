@@ -5,6 +5,7 @@
         var up = SessionManager.GetInstance().GetUserProfile();
         var isAdmin = SessionManager.GetInstance().AdminRole();
         var isGPDAdmin = SessionManager.GetInstance().AdminGPDRole();
+        var isDeveloper = SessionManager.GetInstance().AnyFromRoles(new string[] { "DEVELOPER" });
         int pageSize = GPD.Utility.ConfigurationHelper.API_ProjectsListPageSize;
     }
     <meta charset="utf-8">
@@ -33,7 +34,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Project", "Project", "Home", new { area = "" }, null)</li>
-                    @if (Request.IsAuthenticated && isGPDAdmin)
+                    @if (Request.IsAuthenticated && (isGPDAdmin || isDeveloper))
                     {
                         <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
                     }

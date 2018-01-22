@@ -67,7 +67,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.to.date = new Date();
             $ctrl.data.to.maxDate = new Date();
             $ctrl.data.from.date = new Date();
-            $ctrl.data.from.date.setMonth(new Date().getMonth() - 1);
+            $ctrl.data.from.date.setMonth(new Date().getMonth() - 3);
             $ctrl.data.from.maxDate = new Date();
             $ctrl.data.to.popupOpened = false;
             $ctrl.data.from.popupOpened = false;
@@ -179,7 +179,20 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.projectIdentifier = "" + d + "";
             GetProjects();
         };
-        $ctrl.OnExport = function () { alert("TODO:Not Implemented"); };
+        $ctrl.OnExport = function () {
+            alert("TODO:Not Implemented");
+            //$ctrl.data.globalSearchParam, $ctrl.data.from.date, $ctrl.data.to.date, $ctrl.data.selectedUsertype, $ctrl.data.page.currentPage, $ctrl.data.page.itemPerPage
+            //alert("searchParam=" + $ctrl.data.globalSearchParam +
+            //    "&fromDate=" + $ctrl.data.from.date + 
+            //    "&toDate=" + $ctrl.data.to.date +
+            //    "&usertype=" + $ctrl.data.selectedUsertype +
+            //    "&currentPage=" + $ctrl.data.page.currentPage +
+            //    "&itemPerPage=" + $ctrl.data.page.itemPerPage);
+
+            //window.open('/favicon.ico');
+            //window.location = '/Reports/UsersReport?' + returnValue;
+            //http://abctutorial.com/Post/25/how-to-export-database-data-in-excel-file-using-aspnet-mvc
+        };
         $ctrl.OnDeleteProjects = function () {
             $ctrl.data.selectedProjects = [];
             $.each($ctrl.data.projectListResponse.projects, function (k, v) {
@@ -954,10 +967,19 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
     };
 
     var GetPartners = function () {
-        return GpdManageServices.GetPartners()
-        .then(function (payload) {
-            $ctrl.data.partners = payload;
-        });
+        $http.post(__RootUrl + 'api/GetPartners').then(function (response) {
+            if (response.data) {
+                $ctrl.data.partners = response.data;
+            }
+        }, function (response) {
+            //alert(response.status + response.statusText + response.headers());
+            alert("error");
+        });      
+
+        //return GpdManageServices.GetPartners()
+        //.then(function (payload) {
+        //    $ctrl.data.partners = payload;
+        //});
     };
 
     angular.element(document).ready(function () {

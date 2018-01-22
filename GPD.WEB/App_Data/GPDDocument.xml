@@ -944,6 +944,12 @@
             </summary>
             <returns>bool</returns>
         </member>
+        <member name="M:GPD.WEB.SessionManager.AnyFromRoles(System.String[])">
+            <summary>
+            Is User assigned to any Roles in the list
+            </summary>
+            <returns>bool</returns>
+        </member>
         <member name="M:GPD.WEB.SessionManager.ClearSession">
             <summary>
             

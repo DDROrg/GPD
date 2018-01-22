@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPD.ServiceEntities", "GPD.ServiceEntities\GPD.ServiceEntities.csproj", "{5FF2EF40-C386-49C4-AEAB-40510BDD36CB}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPD.Utility", "GPD.Utility\GPD.Utility.csproj", "{EB49DD74-DA00-4757-A937-583900692BAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPD.Dashboard", "GPD.Dashboard\GPD.Dashboard.csproj", "{AB13D1B0-9447-40D1-B6AD-F436C2D088B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPD.ProjectsInjectionProcess", "GPD.ProjectsInjectionProcess\GPD.ProjectsInjectionProcess.csproj", "{038BC182-263F-4501-BFA1-440C106A6361}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,9 +61,16 @@ Global
 		{AB13D1B0-9447-40D1-B6AD-F436C2D088B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB13D1B0-9447-40D1-B6AD-F436C2D088B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB13D1B0-9447-40D1-B6AD-F436C2D088B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{038BC182-263F-4501-BFA1-440C106A6361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{038BC182-263F-4501-BFA1-440C106A6361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{038BC182-263F-4501-BFA1-440C106A6361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{038BC182-263F-4501-BFA1-440C106A6361}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0AA0032-512C-4227-8320-030991E714A5}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
