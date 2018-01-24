@@ -67,7 +67,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             $ctrl.data.to.date = new Date();
             $ctrl.data.to.maxDate = new Date();
             $ctrl.data.from.date = new Date();
-            $ctrl.data.from.date.setMonth(new Date().getMonth() - 3);
+            $ctrl.data.from.date.setMonth(new Date().getMonth() - 12);
             $ctrl.data.from.maxDate = new Date();
             $ctrl.data.to.popupOpened = false;
             $ctrl.data.from.popupOpened = false;
