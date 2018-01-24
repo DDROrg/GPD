@@ -66,8 +66,8 @@ namespace GPD.WEB.Controllers
                 fromDateTime = Convert.ToDateTime(fromDate);
                 toDateTime = Convert.ToDateTime(toDate);
 
-                if (DateTime.Compare(fromDateTime.AddMonths(3), toDateTime) == -1)
-                    toDateTime = fromDateTime.AddMonths(3);
+                if (DateTime.Compare(fromDateTime.AddMonths(Utility.ConfigurationHelper.API_ProjectsList_MaxMonthsHistory), toDateTime) == -1)
+                    toDateTime = fromDateTime.AddMonths(Utility.ConfigurationHelper.API_ProjectsList_MaxMonthsHistory);
             }
             catch
             {
