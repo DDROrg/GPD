@@ -63,6 +63,7 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\Script" />
+    <Folder Include="Database Triggers\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\gpd_project.sql" />
@@ -90,7 +91,6 @@
     <Build Include="dbo\Tables\gpd_manufacture_profile.sql" />
     <Build Include="dbo\Tables\gpd_firm_profile.sql" />
     <Build Include="dbo\Stored Procedures\gpd_AddFirmProfile.sql" />
-    <Build Include="dbo\Stored Procedures\gpd_GetUsersList.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetFirmsListBasedOnTerm.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetFirmProfile.sql" />
     <Build Include="dbo\Stored Procedures\gpd_UpdateProject.sql" />
@@ -101,5 +101,11 @@
     <Build Include="dbo\Stored Procedures\gpd_GetProjectsList.sql" />
     <Build Include="dbo\Stored Procedures\gpd_UpdateUserPassword.sql" />
     <Build Include="dbo\Stored Procedures\gpd_GetUsersList_V2.sql" />
+    <Build Include="dbo\Tables\gpd_partner_api_access_2.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_GetProjectsList_v2.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_GetPartnerListAccessTo_1.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_GetUserRoles_20171001.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_AddProject_20171001.sql" />
+    <Build Include="Database Triggers\rds_deny_backups_trigger.sql" />
   </ItemGroup>
 </Project>

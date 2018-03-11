@@ -6,7 +6,6 @@ using System.Runtime.Serialization;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-
 namespace GPD.Facade
 {
     using DAL.SqlDB;

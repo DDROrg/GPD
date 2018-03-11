@@ -77,5 +77,54 @@ namespace GPD.DAL.SqlDB
             // call stored procedure
             return base.GetDSBasedOnStoreProcedure("gpd_UpdateUserPassword", parametersInList);
         }
+
+        /// <summary>
+        /// Get dataset of users based on search criteria
+        /// </summary>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="orderByColIndex"></param>
+        /// <param name="sortingOrder"></param>
+        /// <param name="startRowIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public DataSet GetUsers(DateTime fromDate, DateTime toDate, string searchTerm,
+            int orderByColIndex, string sortingOrder, int userGroupId, int startRowIndex, int pageSize)
+        {
+            return base.GetDSBasedOnStoreProcedure("gpd_GetUsersList_V2",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("@P_FromDate", fromDate),
+                    new SqlParameter("@P_ToDate", toDate),
+                    (string.IsNullOrWhiteSpace(searchTerm)) ?
+                    new SqlParameter("@P_SearchTerm", DBNull.Value) : new SqlParameter("@P_SearchTerm", searchTerm),
+                    new SqlParameter("@P_OrderByColIndex", orderByColIndex),
+                    new SqlParameter("@P_SortingOrder", sortingOrder),
+                    (userGroupId <= 0) ?
+                    new SqlParameter("@P_UserGroupId", DBNull.Value) : new SqlParameter("@P_UserGroupId", userGroupId),
+                    new SqlParameter("@P_StartRowIndex", startRowIndex),
+                    new SqlParameter("@P_PageSize", pageSize)
+                });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="apiKeyId"></param>
+        /// <param name="partnerName"></param>
+        /// <returns>DataSet</returns>
+        public DataSet GetPartnerListAccessTo(int userId, string apiKeyId, string partnerName)
+        {
+            return base.GetDSBasedOnStoreProcedure("gpd_GetPartnerListAccessTo",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("@P_UserId", userId),
+                    (string.IsNullOrEmpty(apiKeyId) ? new SqlParameter("@P_ApiKeyId", DBNull.Value) : new SqlParameter("@P_ApiKeyId", apiKeyId)),
+                    new SqlParameter("@P_PartnerName", partnerName ?? string.Empty)
+                });
+
+        }
     }
 }

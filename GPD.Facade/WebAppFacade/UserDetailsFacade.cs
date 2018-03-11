@@ -198,7 +198,7 @@ namespace GPD.Facade.WebAppFacade
 
             try
             {
-                DataSet ds = new ProjectDB(ConfigurationHelper.GPD_Connection).GetUsers(fromDate, toDate, searchTerm,
+                DataSet ds = new UserDB(ConfigurationHelper.GPD_Connection).GetUsers(fromDate, toDate, searchTerm,
                     orderByColIndex, sortingOrder.ToString(), userGroupId, startRowIndex, pageSize);
 
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -391,6 +391,38 @@ namespace GPD.Facade.WebAppFacade
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="apiKeyId"></param>
+        /// <param name="partnerName"></param>
+        /// <returns>XDocument</returns>
+        public static XDocument GetPartnerListAccessTo(int userId, string apiKeyId, string partnerName)
+        {
+            XDocument retVal = XDocument.Parse("<items-list />");
+
+            try
+            {
+                DataSet ds = new UserDB(Utility.ConfigurationHelper.GPD_Connection).GetPartnerListAccessTo(userId, apiKeyId, partnerName);
+
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    retVal = new XDocument(
+                        new XElement("items-list",
+                        from row in ds.Tables[0].AsEnumerable()
+                        select new XElement("parner", row["partner_name"])
+                        ));
+                }
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+            }
+
+            return retVal;
         }
     }
 }

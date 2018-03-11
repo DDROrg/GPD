@@ -156,9 +156,10 @@ namespace GPD.ProjectsInjectionProcess
             if (userId == -1 && errorMsg.Equals("the provided e-mail address is already registered"))
             {
                 //TODELETE_GetUsers
-                DataSet dataSet = new ProjectDB(this._db_conn).TODELETE_GetUsers(userEmail, null, null, null);
-                DataRow[] dataRow = dataSet.Tables[0].Select(string.Format("email = '{0}'", userEmail));
-                userId = (int)dataRow[0]["user_id"];
+                //DataSet dataSet = new ProjectDB(this._db_conn).TODELETE_GetUsers(userEmail, null, null, null);
+
+                //DataRow[] dataRow = dataSet.Tables[0].Select(string.Format("email = '{0}'", userEmail));
+                //userId = (int)dataRow[0]["user_id"];
             }
 
             return userId;

@@ -4,13 +4,15 @@ using System.Web;
 using System.Web.Http;
 using System.Linq;
 using System.Web.Security;
+using System.Xml.Linq;
+using System.Text;
 //using System.Web.Http.Description;
 
 namespace GPD.WEB.Controllers
 {
     using ServiceEntities.BaseEntities;
     using ServiceEntities.ResponseEntities;
-    using ServiceEntities.ResponseEntities.ProjectsList;   
+    using ServiceEntities.ResponseEntities.ProjectsList;
 
     /// <summary>
     /// 
@@ -19,21 +21,6 @@ namespace GPD.WEB.Controllers
     public class ProjectController : ApiController
     {
         private static log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        ///// <summary>
-        ///// Get Projects List
-        ///// </summary>
-        ///// <param name="partnerName">Partner Name</param>
-        ///// <returns></returns>
-        //[Route("api/{partnerName}/Project/List")]
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public ProjectsListResponse GetProjectsList(string partnerName)
-        //{
-        //    ProjectsListResponse responseDTO = new Facade.ProjectFacade().GetProjectsList(partnerName, Utility.ConfigurationHelper.API_ProjectsListPageMaxSize, 1, "", "");
-        //    log.Debug("ProjectsListResponse items-count: " + responseDTO.ProjectList.Count);
-        //    return responseDTO;
-        //}
 
         /// <summary>
         /// Get Projects List
@@ -60,6 +47,7 @@ namespace GPD.WEB.Controllers
         {
             DateTime fromDateTime = DateTime.MinValue, toDateTime = DateTime.MinValue;
             int userId = -1;
+            string apiKeyId = null;
 
             try
             {
@@ -81,13 +69,19 @@ namespace GPD.WEB.Controllers
                 pageSize = (pageSize == -1 || pageSize > Utility.ConfigurationHelper.API_ProjectsListPageMaxSize) ?
                     Utility.ConfigurationHelper.API_ProjectsListPageSize : pageSize;
 
-                string encryptedValue = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
-                userId = int.Parse(FormsAuthentication.Decrypt(encryptedValue).Name);
+                // Service Authentication logic
+                this.ServiceAuthentication(this.Request.Headers.Authorization, HttpContext.Current.Request.Cookies, out userId, out apiKeyId);
+
+                // get partners list based on user/partner-key value
+                XDocument partnersXDoc = Facade.WebAppFacade.UserDetailsFacade.GetPartnerListAccessTo(userId, apiKeyId, partnerName);
 
                 searchTerm = (string.IsNullOrWhiteSpace(searchTerm)) ? null : searchTerm.Trim();
                 pIdentifier = (string.IsNullOrWhiteSpace(pIdentifier)) ? null : pIdentifier.Trim();
-                return new Facade.ProjectFacade().GetProjectsList(partnerName, userId, pageSize, pageIndex, 
-                    string.Format("{0:yyyy-MM-dd}", fromDateTime), string.Format("{0:yyyy-MM-dd}", toDateTime), searchTerm, pIdentifier);
+
+
+                // projects list
+                return new Facade.ProjectFacade().GetProjectsList(partnerName, userId, pageSize, pageIndex,  string.Format("{0:yyyy-MM-dd}", fromDateTime), 
+                    string.Format("{0:yyyy-MM-dd}", toDateTime), partnersXDoc, searchTerm, pIdentifier);
             }
             catch (Exception exc)
             {
@@ -184,6 +178,34 @@ namespace GPD.WEB.Controllers
                 return new DeleteProjectListResponse() { Message = "Project List is Empty." };
 
             return new Facade.ProjectFacade().DeleteProjectList(projectList, deleteFlag);
+        }
+
+        private void ServiceAuthentication(System.Net.Http.Headers.AuthenticationHeaderValue auth, HttpCookieCollection cookieCollection, out int userId, out string apiKeyId)
+        {
+            userId = -1;
+            apiKeyId = null;
+
+            if (auth != null && (new string[] { "Basic", "Partner" }).Any(T => T.Equals(auth.Scheme, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                string authValue = UTF8Encoding.UTF8.GetString(Convert.FromBase64String(auth.Parameter));
+
+                if (string.Compare(auth.Scheme, "Partner", StringComparison.OrdinalIgnoreCase) == 0)
+                { 
+                    apiKeyId = authValue;
+                    return;
+                }
+
+                string userEmail = authValue.Substring(0, authValue.IndexOf(':'));
+                string userPassword = authValue.Substring(authValue.IndexOf(':') + 1);
+
+                // get user-id
+                Facade.WebAppFacade.UserDetailsFacade.AuthenticateUser(userEmail, userPassword, out userId);
+            }
+            else
+            {
+                string formsCookieName = cookieCollection[FormsAuthentication.FormsCookieName].Value;
+                userId = int.Parse(FormsAuthentication.Decrypt(formsCookieName).Name);
+            }
         }
     }
 }
