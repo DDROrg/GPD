@@ -21,6 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPD.Dashboard", "GPD.Dashbo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPD.ProjectsInjectionProcess", "GPD.ProjectsInjectionProcess\GPD.ProjectsInjectionProcess.csproj", "{038BC182-263F-4501-BFA1-440C106A6361}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assemblies", "Assemblies", "{64E666F6-986E-40C6-B29A-87B7A6830EA7}"
+	ProjectSection(SolutionItems) = preProject
+		Assemblies\EPPlus.dll = Assemblies\EPPlus.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

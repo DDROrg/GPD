@@ -26,7 +26,7 @@ namespace GPD.DAL.SqlDB
         }
         #endregion Constr
 
-        internal DataSet GetDSBasedOnStatement(StringBuilder sql, List<SqlParameter> parametersList)
+        internal DataSet GetDSBasedOnStatement(StringBuilder sql, List<SqlParameter> parametersList = null)
         {
             DataSet dataSet = new DataSet();
 

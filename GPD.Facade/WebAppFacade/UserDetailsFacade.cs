@@ -424,5 +424,21 @@ namespace GPD.Facade.WebAppFacade
 
             return retVal;
         }
+
+        public static DataTable GetUsersList(DateTime fromDate, DateTime toDate)
+        {
+            XDocument retVal = XDocument.Parse("<items-list />");
+
+            try
+            {
+                return new UserDB(Utility.ConfigurationHelper.GPD_Connection).GetUsersList(fromDate, toDate);
+            }
+            catch (Exception exc)
+            {
+                log.Error(exc);
+            }
+
+            return null;
+        }
     }
 }

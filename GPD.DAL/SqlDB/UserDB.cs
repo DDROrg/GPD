@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace GPD.DAL.SqlDB
 {
@@ -125,6 +126,43 @@ namespace GPD.DAL.SqlDB
                     new SqlParameter("@P_PartnerName", partnerName ?? string.Empty)
                 });
 
+        }
+
+        public DataTable GetUsersList(DateTime fromDate, DateTime toDate)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            #region sql query
+            sb.Append(@"
+select
+    user_id,
+    [first_name],
+    [last_name],
+    [email],
+    [job_title],
+    [business_phone],
+    f.name as 'Company Name',
+    f.url as 'Website',
+    f.country,
+    f.address_line_1,
+    f.address_line_2,
+    f.city,
+    f.state_province,
+    f.zip_postal_code,
+    p.value('.', 'nvarchar(250)') AS [DefaultIndustry],
+    u.[ip_address],
+    u.[create_date]
+    
+  from gpd_user_details u LEFT JOIN gpd_firm_profile f
+    CROSS APPLY f.xml_firm_metadata.nodes('/list/item[@name=""defaultIndustry""]') t(p)
+    ON f.firm_id = u.firm_id
+
+  where u.[active] = 1
+  order by u.create_date desc
+");
+            #endregion sql query
+
+            return base.GetDSBasedOnStatement(sb).Tables[0];
         }
     }
 }

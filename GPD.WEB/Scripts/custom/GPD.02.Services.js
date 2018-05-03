@@ -248,14 +248,18 @@ var GpdManageServices = function ($http, $httpParamSerializer, $q, $log) {
     };
 
     this.AddPartner = function (partner) {
-        var deferred = $q.defer();
-        var retVal = {};
-        _AddPartner(partner)
-        .then(function (payload) {
-            retVal = payload.data;
-            deferred.resolve(retVal);
+        //var deferred = $q.defer();
+        //var retVal = {};
+        //_AddPartner(partner)
+        //.then(function (payload) {
+        //    retVal = payload.data;
+        //    deferred.resolve(retVal);
+        //});
+        //return deferred.promise;
+
+        return $http.post(__RootUrl + "api/AddPartner", partner).then(function (response) {
+            return response.data;
         });
-        return deferred.promise;
     };
 
     this.ActDactPartner = function (partnerId, isActive) {

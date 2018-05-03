@@ -565,7 +565,9 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             ResetPagination();
             GetUsers();
         };
-        $ctrl.OnExport = function () { alert("TODO:Not Implemented"); };
+        $ctrl.OnExport = function () { 
+            window.location = "/WebPages/UsersListReport.aspx?fd=" + $ctrl.data.from.date + "&td=" + $ctrl.data.to.date;
+        };
         $ctrl.OnColExpRole = function (d) {
             d.isRoleExpanded = !(d.isRoleExpanded);
             if (d.hasRole == false) {
