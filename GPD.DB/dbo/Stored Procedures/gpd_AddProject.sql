@@ -118,7 +118,10 @@ BEGIN
 				application_plugin_name,
 				application_type,
 				application_username,
-				application_version,				
+				application_version,
+				user_info_email,
+				user_info_fname,
+				user_info_lname,
 				create_date,
 				update_date)
 			SELECT
@@ -134,6 +137,9 @@ BEGIN
 				M.value('(application/type)[1]', 'NVARCHAR(100)'),
 				M.value('(application/username)[1]', 'NVARCHAR(250)'),
 				M.value('(application/version)[1]', 'NVARCHAR(150)'),
+				M.value('(session-user-info/Email)[1]', 'NVARCHAR(250)'),
+				M.value('(session-user-info/FName)[1]', 'NVARCHAR(150)'),
+				M.value('(session-user-info/LName)[1]', 'NVARCHAR(150)'),
 				getdate(), null
 			FROM @P_XML.nodes('/project/session') M(M);
 			

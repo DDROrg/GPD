@@ -13,5 +13,8 @@ namespace GPD.ServiceEntities.BaseEntities
 
         [DataMember(Name = "platform", Order = 3)]
         public string Platform;
+
+        [DataMember(Name = "session-user-info", Order = 4)]
+        public SessionUserInfoDTO UserInfo;
     }
 }

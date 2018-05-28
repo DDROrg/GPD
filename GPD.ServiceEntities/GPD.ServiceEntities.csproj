@@ -56,6 +56,7 @@
     <Compile Include="BaseEntities\ProjectDTO.cs" />
     <Compile Include="BaseEntities\PartnerDTO.cs" />
     <Compile Include="BaseEntities\LineChartDTO.cs" />
+    <Compile Include="BaseEntities\SessionUserInfoDTO.cs" />
     <Compile Include="BaseEntities\UserDTO.cs" />
     <Compile Include="BaseEntities\SignInResponseDTO.cs" />
     <Compile Include="BaseEntities\SessionDTO.cs" />

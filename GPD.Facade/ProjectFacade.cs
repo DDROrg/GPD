@@ -122,6 +122,12 @@ namespace GPD.Facade
                                 Version = dr["APPLICATION_VERSION"].ToString(),
                                 Type = dr["APPLICATION_TYPE"].ToString(),
                                 ClientIP = dr["APPLICATION_CLIENT_IP"].ToString(),
+                            },
+                            UserInfo = new SessionUserInfoDTO()
+                            {
+                                Email = dr["USER_INFO_EMAIL"].ToString(),
+                                FirstName = dr["USER_INFO_FNAME"].ToString(),
+                                LastName = dr["USER_INFO_LNAME"].ToString()
                             }
                         };
                     }

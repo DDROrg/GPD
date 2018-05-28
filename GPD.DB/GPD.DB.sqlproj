@@ -107,5 +107,6 @@
     <Build Include="dbo\Stored Procedures\gpd_GetUserRoles_20171001.sql" />
     <Build Include="dbo\Stored Procedures\gpd_AddProject_20171001.sql" />
     <Build Include="Database Triggers\rds_deny_backups_trigger.sql" />
+    <Build Include="dbo\Stored Procedures\gpd_AddProject_20180527.sql" />
   </ItemGroup>
 </Project>

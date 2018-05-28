@@ -3,8 +3,6 @@ using System.Runtime.Serialization;
 
 namespace GPD.ServiceEntities.BaseEntities
 {
-
-
     [DataContract(Namespace = "http://www.gpd.com", Name = "partner")]
     public class PartnerDTO
     {
