@@ -86,9 +86,36 @@ namespace GPD.WEB.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            return View("~/Views/Account/Register.cshtml");
         }
-               
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            ForgotPasswordDTO model = new ForgotPasswordDTO();
+            return View("~/Views/Account/ForgotPassword.cshtml", model);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(ForgotPasswordDTO model)
+        {
+            model.FPStatusMessage = "An email has been sent to your registered email with new code";
+            model.FPStatus = true;
+            return View("~/Views/Account/ForgotPassword.cshtml", model);
+        }
+
 
         /// <summary>
         /// 

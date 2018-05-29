@@ -618,6 +618,19 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:GPD.WEB.Controllers.AccountController.ForgotPassword">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GPD.WEB.Controllers.AccountController.ForgotPassword(GPD.ServiceEntities.ForgotPasswordDTO)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:GPD.WEB.Controllers.AccountController.Logout">
             <summary>
             

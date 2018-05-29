@@ -252,7 +252,7 @@ namespace GPD.ProjectsInjectionProcess
                     File.WriteAllText(projectFile, jObject.ToString(), System.Text.Encoding.UTF8);
                 }
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 return false;
             }
@@ -325,7 +325,7 @@ namespace GPD.ProjectsInjectionProcess
                         }
                     }
                 }
-                catch (Exception exc)
+                catch (Exception)
                 {
                     return false;
                 }

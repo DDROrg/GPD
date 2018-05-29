@@ -26,6 +26,34 @@ namespace GPD.ServiceEntities
     /// <summary>
     /// 
     /// </summary>
+    public class ForgotPasswordDTO
+    {
+        #region Constr
+        public ForgotPasswordDTO()
+        {
+            this.Email = string.Empty;
+            this.FPStatusMessage = string.Empty;
+            this.FPStatus = false;
+        }
+        #endregion Constr
+
+        [Required]
+        [Display(Name = "Email")]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Display(Name = "Status")]
+        [EmailAddress]
+        public bool FPStatus { get; set; }
+
+        [Display(Name = "StatusMessage")]
+        [EmailAddress]
+        public string FPStatusMessage { get; set; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract(Namespace = "http://www.gpd.com", Name = "userRegistrationStatus")]
     public class UserRegistrationStatusDTO
     {

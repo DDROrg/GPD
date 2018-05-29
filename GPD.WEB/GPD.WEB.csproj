@@ -1094,6 +1094,7 @@
     <Content Include="Views\Home\_ProjectList.cshtml" />
     <Content Include="Views\Home\_ProjectEdit.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GPD.Facade\GPD.Facade.csproj">
