@@ -21,7 +21,7 @@ angular.module('Project').controller("PartnerCtrl", ['$scope', '$http', '$locati
         if (__UserId != "") {
             setTimeout(function () {
                 GetLogedinUserProfile();
-            }, 1500);            
+            }, 1500);
         }
     });
 }]);
@@ -422,7 +422,10 @@ angular.module('Project').controller('ProjectEditController', ['$scope', '$rootS
         };
 
 
-        $ctrl.OnBackToProjectList = function () { $state.go('project.list'); };
+        $ctrl.OnBackToProjectList = function () {
+            $state.go('project.list', { cachedData: $ctrl.cachedData });
+        };
+
         $ctrl.OnSaveProject = function () {
             return ProjectServices.UpdateProject($ctrl.data.id, $ctrl.data.project)
            .then(function (payload) {
@@ -444,7 +447,7 @@ angular.module('Project').controller('ProjectEditController', ['$scope', '$rootS
             if (fromState.name == "project.list") {
                 $ctrl.cachedData = toParams.cachedData;
             }
-            GetProjectDetail(); 
+            GetProjectDetail();
         });
     }]);
 
@@ -457,7 +460,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
         $ctrl.data.page = {};
         $ctrl.data.page.maxPage = 5;
         $ctrl.data.page.itemPerPage = 25;
-        $ctrl.data.search = {};       
+        $ctrl.data.search = {};
         $ctrl.data.to = {};
         $ctrl.data.from = {};
 
@@ -516,7 +519,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             try {
                 $("#fileProfileImage").get(0).value = null;
             }
-            catch (err) { }            
+            catch (err) { }
         };
 
         $ctrl.OnChangeSorting = function (column) {
@@ -574,7 +577,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             ResetPagination();
             GetUsers();
         };
-        $ctrl.OnExport = function () { 
+        $ctrl.OnExport = function () {
             window.location = "/WebPages/UsersListReport.aspx?fd=" + $ctrl.data.from.date + "&td=" + $ctrl.data.to.date;
         };
         $ctrl.OnColExpRole = function (d) {
@@ -703,7 +706,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
                     $ctrl.data.userProfile.password = "";
                     $ctrl.data.userProfile.confirmPassword = "";
                     $ctrl.CountryChange();
-            });
+                });
         };
         $ctrl.SelectProfileImg = function () {
             $("#fileProfileImage").click();
@@ -792,7 +795,7 @@ angular.module('ManageUser').controller('ManageUserController', ['$scope', '$roo
             GetUsers();
             GetPartners();
             GetGroups();
-        });    
+        });
     }])
     .directive('filelistBind', function () {
         return {
@@ -985,7 +988,7 @@ angular.module('ManagePartner').controller('ManagePartnerController', ['$scope',
         }, function (response) {
             //alert(response.status + response.statusText + response.headers());
             alert("error");
-        });      
+        });
 
         //return GpdManageServices.GetPartners()
         //.then(function (payload) {
