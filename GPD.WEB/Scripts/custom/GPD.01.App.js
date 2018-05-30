@@ -13,11 +13,12 @@
                 template: '<ui-view/>'                
             }).state('project.list', {
                 url: '/list',
-                templateUrl: __RootUrl + 'Home/ProjectList'
+                templateUrl: __RootUrl + 'Home/ProjectList',
+                params: { cachedData: null }
             }).state('project.edit', {
                 url: '/edit/{id}',
                 templateUrl: __RootUrl + 'Home/ProjectEdit',
-                params: { id: null, project: null }
+                params: { id: null, project: null, cachedData: null }
                 //,
                 //resolve: {
                 //    project: ['$stateParams', function ($stateParams) {

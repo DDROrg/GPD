@@ -167,7 +167,7 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             });
         };
         $ctrl.OnEditItem = function (d) {
-            $state.go('project.edit', { id: d.id, project: null });
+            $state.go('project.edit', { id: d.id, project: null, cachedData: $ctrl.data });
         };
         $ctrl.OnGlobalSearch = function () {
             $ctrl.data.globalSearchParam = $ctrl.data.tempGlobalSearchParam;
@@ -337,8 +337,13 @@ angular.module('Project').controller('ProjectController', ['$scope', '$rootScope
             GetProjects();
         });
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            //$log.log("==$stateChangeSuccess===")
-            if (fromState.name == "project.edit") { GetProjects(); };
+            //$log.log("==$stateChangeSuccess===")           
+            if (fromState.name == "project.edit") {
+                if (toParams.cachedData != null) {
+                    $ctrl.data = toParams.cachedData;
+                }
+                GetProjects();
+            };
         });
 
         angular.element(document).ready(function () {
@@ -406,7 +411,8 @@ angular.module('Project').controller('ProjectEditController', ['$scope', '$rootS
         CommonServices.SetDefaultData($ctrl, $location);
         $ctrl.data.LogedinUserProfile = CommonServices.LogedinUserProfile;
         //$ctrl.data.project = $stateParams.project
-        $ctrl.data.id = $stateParams.id
+        $ctrl.data.id = $stateParams.id;
+        $ctrl.cachedData = null;
 
         var GetProjectDetail = function (d) {
             return ProjectServices.GetProjectDetail($ctrl.data.id)
@@ -421,7 +427,7 @@ angular.module('Project').controller('ProjectEditController', ['$scope', '$rootS
             return ProjectServices.UpdateProject($ctrl.data.id, $ctrl.data.project)
            .then(function (payload) {
                if (payload.status) {
-                   $state.go('project.list');
+                   $state.go('project.list', { cachedData: $ctrl.cachedData });
                } else {
                    toastr.error(payload.message);
                }
@@ -435,7 +441,10 @@ angular.module('Project').controller('ProjectEditController', ['$scope', '$rootS
         //    GetProjectDetail();
         //});
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            GetProjectDetail();
+            if (fromState.name == "project.list") {
+                $ctrl.cachedData = toParams.cachedData;
+            }
+            GetProjectDetail(); 
         });
     }]);
 
