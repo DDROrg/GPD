@@ -46,11 +46,14 @@ BEGIN
 				[application_name] = m.value('(application[1]/name)[1]', 'NVARCHAR(150)'),
 				[application_build] = m.value('(application[1]/build)[1]', 'NVARCHAR(150)'),
 				[application_type] = m.value('(application[1]/type)[1]', 'NVARCHAR(150)'),
-				[application_version] = m.value('(application[1]/version)[1]', 'NVARCHAR(150)'),				
 				[application_plugin_build] = m.value('(application[1]/plugin-build)[1]', 'NVARCHAR(150)'),
 				[application_plugin_source] = m.value('(application[1]/plugin-source)[1]', 'NVARCHAR(150)'),
 				[application_plugin_name] = m.value('(application[1]/plugin-name)[1]', 'NVARCHAR(150)'),
 				[application_client_ip] = m.value('(application[1]/client-ip)[1]', 'NVARCHAR(150)'),
+				[application_version] = m.value('(application[1]/version)[1]', 'NVARCHAR(150)'),
+				[user_info_email] = m.value('(session-user-info/Email)[1]', 'NVARCHAR(250)'),
+				[user_info_fname] = m.value('(session-user-info/FName)[1]', 'NVARCHAR(150)'),
+				[user_info_lname] = m.value('(session-user-info/LName)[1]', 'NVARCHAR(150)'),
 				[update_date] = getdate()
 			FROM @P_XML.nodes('/project/session') M(m)
 			WHERE project_id = @P_ProjectId;
