@@ -205,6 +205,7 @@
     <Content Include="Content\img\GPDLogo-big.png" />
     <Content Include="Content\img\GPDLogo-small-v1.png" />
     <Content Include="Content\img\GPDLogo-small.png" />
+    <Content Include="Content\img\icon-ul.ico" />
     <Content Include="Content\img\icon.ico" />
     <Content Include="Content\img\main-logo-big.png" />
     <Content Include="Content\img\main-logo-small.png" />
@@ -220,6 +221,7 @@
     <Content Include="Content\PartnerImg\ULSpot\UL_Mark.svg.png" />
     <Content Include="Content\PartnerImg\GPDTools\unnamed.png" />
     <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="favicon-ul.ico" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
