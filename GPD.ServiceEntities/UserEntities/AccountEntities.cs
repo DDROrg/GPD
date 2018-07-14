@@ -43,11 +43,9 @@ namespace GPD.ServiceEntities
         public string Email { get; set; }
 
         [Display(Name = "Status")]
-        [EmailAddress]
         public bool FPStatus { get; set; }
 
         [Display(Name = "StatusMessage")]
-        [EmailAddress]
         public string FPStatusMessage { get; set; }
     }
 
