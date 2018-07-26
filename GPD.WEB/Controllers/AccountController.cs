@@ -111,11 +111,20 @@ namespace GPD.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(ForgotPasswordDTO model)
         {
-            model.FPStatusMessage = "An email has been sent to your registered email with new code";
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            string errorMsg = string.Empty;
+            bool resetUserPasswordStatus = UserDetailsFacade.ResetUserPassword(model.Email, out errorMsg);
+
+            model.FPStatusMessage = resetUserPasswordStatus ? 
+                "An email has been sent to your registered email with new code" : "The server encountered an error processing password reset. Please try again later.";
+
             model.FPStatus = true;
             return View("~/Views/Account/ForgotPassword.cshtml", model);
         }
-
 
         /// <summary>
         /// 
